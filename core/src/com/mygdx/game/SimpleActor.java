@@ -10,18 +10,19 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Shape2D;
+import com.badlogic.gdx.math.Vector3;
 
 public class SimpleActor {
     private MyGdxGame game;
     private Texture sprite;
     private Rectangle bounds;
-    private float horizontalVelocity = 100f;
-    private float gravity = 100f;
+    private float horizontalVelocity = 10f;
+    private float gravity = 10f;
 
     public SimpleActor(MyGdxGame game, float x, float y){
         this.game = game;
         sprite = game.getAssetManager().get("hero.png");
-        bounds = new Rectangle(x, y, 32, 48);
+        bounds = new Rectangle(x, y, 1, 1.5f);
     }
 
     public void render(){
@@ -41,7 +42,8 @@ public class SimpleActor {
             } else {
                 collider = ((PolygonMapObject)mapObject).getPolygon();
             }
-            if(collider.contains(bounds.getX(), bounds.getY())){
+            Vector3 projectedPos = game.getCamera().project(new Vector3(bounds.x, bounds.y, 0));
+            if(collider.contains(projectedPos.x, projectedPos.y)){
                 hasCollided = true;
                 break;
             }
@@ -49,7 +51,7 @@ public class SimpleActor {
         if(!hasCollided){
             bounds.setY(bounds.getY() - delta(gravity));
         }
-        game.getBatch().draw(sprite, bounds.getX(), bounds.getY());
+        game.getBatch().draw(sprite, bounds.getX(), bounds.getY(), bounds.width, bounds.height);
     }
 
     private float delta(float value){
