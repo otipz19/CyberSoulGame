@@ -7,19 +7,18 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.*;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.physics.box2d.Box2D;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Shape2D;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import org.w3c.dom.css.Rect;
 
 public class MyGdxGame implements ApplicationListener {
     private static final String TILEMAP_FILE_NAME = "first-level.tmx";
@@ -44,6 +43,9 @@ public class MyGdxGame implements ApplicationListener {
 
     @Override
     public void create() {
+        Box2D.init();
+        world = new World(new Vector2(0, -10), true);
+
         batch = new SpriteBatch();
         loadAssets();
         createMap();
@@ -52,30 +54,57 @@ public class MyGdxGame implements ApplicationListener {
 //		Vector3 pos = camera.unproject(new Vector3(400, 600, 0));
         simpleActor = new SimpleActor(this, 10, 10);
         debugTexture = assetManager.get("background-1.png");
-		colliders = new Array<>();
+//		colliders = new Array<>();
+//        for (MapObject mapObject : map.getLayers().get("colliders").getObjects()) {
+//            if (mapObject instanceof RectangleMapObject) {
+//                Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
+//                float x = rectangle.x / 32;
+//                float y = rectangle.y / 32;
+//                float width = rectangle.width / 32;
+//                float height = rectangle.height / 32;
+//                Rectangle collider = new Rectangle(x, y, width, height);
+//                colliders.add(collider);
+//            } else if (mapObject instanceof PolygonMapObject) {
+//                Polygon polygon = ((PolygonMapObject) mapObject).getPolygon();
+//                float[] screenVertices = polygon.getTransformedVertices();
+//                float[] worldVertices = new float[screenVertices.length];
+//                for (int i = 0; i < screenVertices.length; i += 2) {
+//					worldVertices[i] = screenVertices[i] / 32;
+//					worldVertices[i + 1] = screenVertices[i + 1] / 32;
+//                }
+//				Polygon collider = new Polygon(worldVertices);
+//				colliders.add(collider);
+//            }
+//        }
+
         for (MapObject mapObject : map.getLayers().get("colliders").getObjects()) {
             if (mapObject instanceof RectangleMapObject) {
                 Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
-                float x = rectangle.x / 32;
-                float y = rectangle.y / 32;
-                float width = rectangle.width / 32;
-                float height = rectangle.height / 32;
-                Rectangle collider = new Rectangle(x, y, width, height);
-                colliders.add(collider);
-            } else if (mapObject instanceof PolygonMapObject) {
+                BodyDef bodyDef = new BodyDef();
+//                Vector3 worldPos = camera.unproject(new Vector3(rectangle.x, rectangle.y, 0));
+                Vector2 worldPos = new Vector2(rectangle.x / 32, rectangle.y / 32);
+                Vector2 worldSize = new Vector2(rectangle.width / 32, rectangle.height / 32);
+                bodyDef.position.set(worldPos.x + worldSize.x / 2, worldPos.y - worldSize.y / 2);
+
+                Body body = world.createBody(bodyDef);
+
+                PolygonShape rectanglePolygonShape = new PolygonShape();
+                rectanglePolygonShape.setAsBox(worldSize.x / 2, worldSize.y / 2);
+
+                FixtureDef fixtureDef = new FixtureDef();
+                fixtureDef.shape = rectanglePolygonShape;
+                fixtureDef.friction = 1;
+                fixtureDef.density = 1;
+                fixtureDef.restitution = 0;
+
+                body.createFixture(fixtureDef);
+                rectanglePolygonShape.dispose();
+
+                body.setUserData(new TextureData(debugTexture, worldSize.x, worldSize.y));
+            } /*else if (mapObject instanceof PolygonMapObject) {
                 Polygon polygon = ((PolygonMapObject) mapObject).getPolygon();
-                float[] screenVertices = polygon.getTransformedVertices();
-                float[] worldVertices = new float[screenVertices.length];
-                for (int i = 0; i < screenVertices.length; i += 2) {
-					worldVertices[i] = screenVertices[i] / 32;
-					worldVertices[i + 1] = screenVertices[i + 1] / 32;
-                }
-				Polygon collider = new Polygon(worldVertices);
-				colliders.add(collider);
-            }
+            }*/
         }
-        Box2D.init();
-        world = new World(new Vector2(0, -10), true);
     }
 
     private void loadAssets() {
@@ -93,8 +122,7 @@ public class MyGdxGame implements ApplicationListener {
 
     private void createCamera() {
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 15, 10);
-//		camera.zoom = 0.5f;
+        camera.setToOrtho(false, 30, 20);
         camera.update();
     }
 
@@ -126,13 +154,25 @@ public class MyGdxGame implements ApplicationListener {
 ////				batch.draw(debugTexture, bounds.x, bounds.y, bounds.width, bounds.height);
 ////			}*/
 //        }
+
+
+//        Array<Body> bodies = new Array<>();
+//        world.getBodies(bodies);
+//        for (Body body : bodies) {
+//            if (body != null && body.getUserData() != null && body.getUserData() instanceof TextureData) {
+//                TextureData textureData = (TextureData) body.getUserData();
+//                batch.draw(textureData.texture, body.getPosition().x - textureData.width / 2,
+//                        body.getPosition().y + textureData.height / 2, textureData.width, textureData.height);
+//            }
+//        }
+
         batch.end();
-		camera.position.set(simpleActor.bounds.x, simpleActor.bounds.y, 0);
+        camera.position.set(simpleActor.body.getPosition().x, simpleActor.body.getPosition().y, 0);
         mapRenderer.setView(camera);
-		camera.update();
+        camera.update();
 
         accumulator += Gdx.graphics.getDeltaTime();
-        while(accumulator >= TIME_STEP){
+        while (accumulator >= TIME_STEP) {
             world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
             accumulator -= TIME_STEP;
         }
