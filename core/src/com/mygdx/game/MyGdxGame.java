@@ -33,8 +33,6 @@ public class MyGdxGame implements ApplicationListener {
 
     private Texture debugTexture;
 
-    public Array<Shape2D> colliders;
-
     public World world;
     private float accumulator;
     private static final float TIME_STEP = 1 / 60f;
@@ -51,31 +49,8 @@ public class MyGdxGame implements ApplicationListener {
         createMap();
         createCamera();
         createMapRenderer();
-//		Vector3 pos = camera.unproject(new Vector3(400, 600, 0));
         simpleActor = new SimpleActor(this, 10, 10);
         debugTexture = assetManager.get("background-1.png");
-//		colliders = new Array<>();
-//        for (MapObject mapObject : map.getLayers().get("colliders").getObjects()) {
-//            if (mapObject instanceof RectangleMapObject) {
-//                Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
-//                float x = rectangle.x / 32;
-//                float y = rectangle.y / 32;
-//                float width = rectangle.width / 32;
-//                float height = rectangle.height / 32;
-//                Rectangle collider = new Rectangle(x, y, width, height);
-//                colliders.add(collider);
-//            } else if (mapObject instanceof PolygonMapObject) {
-//                Polygon polygon = ((PolygonMapObject) mapObject).getPolygon();
-//                float[] screenVertices = polygon.getTransformedVertices();
-//                float[] worldVertices = new float[screenVertices.length];
-//                for (int i = 0; i < screenVertices.length; i += 2) {
-//					worldVertices[i] = screenVertices[i] / 32;
-//					worldVertices[i + 1] = screenVertices[i + 1] / 32;
-//                }
-//				Polygon collider = new Polygon(worldVertices);
-//				colliders.add(collider);
-//            }
-//        }
 
         for (MapObject mapObject : map.getLayers().get("colliders").getObjects()) {
             if (mapObject instanceof RectangleMapObject) {
@@ -142,19 +117,6 @@ public class MyGdxGame implements ApplicationListener {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         simpleActor.render();
-//        for (MapObject mapObject : map.getLayers().get("colliders").getObjects()) {
-//            if (mapObject instanceof RectangleMapObject) {
-//                Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
-//                Vector3 worldPos = new Vector3(rectangle.getX() / 32, rectangle.getY() / 32, 0);
-//                Vector3 worldSize = new Vector3(rectangle.width / 32, rectangle.height / 32, 0);
-//                batch.draw(debugTexture, worldPos.x, worldPos.y, worldSize.x, worldSize.y);
-//            } /*else if (mapObject instanceof PolygonMapObject){
-////				Polygon polygon = ((PolygonMapObject)mapObject).getPolygon();
-////				Rectangle bounds = polygon.getBoundingRectangle();
-////				batch.draw(debugTexture, bounds.x, bounds.y, bounds.width, bounds.height);
-////			}*/
-//        }
-
 
 //        Array<Body> bodies = new Array<>();
 //        world.getBodies(bodies);
