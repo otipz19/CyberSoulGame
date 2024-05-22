@@ -57,6 +57,9 @@ project(":core") {
 
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
-        
+        // https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-box2d
+//        implementation 'com.badlogicgames.gdx:gdx-box2d:1.12.1'
+        api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     }
 }
