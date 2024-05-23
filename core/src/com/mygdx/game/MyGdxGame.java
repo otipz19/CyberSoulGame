@@ -21,13 +21,15 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MyGdxGame implements ApplicationListener {
+    private static MyGdxGame instance;
+
     private static final String TILEMAP_FILE_NAME = "first-level.tmx";
 
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
 
-    private AssetManager assetManager;
+    public AssetManager assetManager;
     private SpriteBatch batch;
     private SimpleActor simpleActor;
 
@@ -39,8 +41,14 @@ public class MyGdxGame implements ApplicationListener {
     private static final int VELOCITY_ITERATIONS = 6;
     private static final int POSITION_ITERATIONS = 2;
 
+    public static MyGdxGame getInstance(){
+        return instance;
+    }
+
     @Override
     public void create() {
+        instance = this;
+
         Box2D.init();
         world = new World(new Vector2(0, -10), true);
 
@@ -52,35 +60,48 @@ public class MyGdxGame implements ApplicationListener {
         simpleActor = new SimpleActor(this, 10, 10);
         debugTexture = assetManager.get("background-1.png");
 
-        for (MapObject mapObject : map.getLayers().get("colliders").getObjects()) {
-            if (mapObject instanceof RectangleMapObject) {
-                Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
-                BodyDef bodyDef = new BodyDef();
-                bodyDef.type = BodyDef.BodyType.StaticBody;
-//                Vector3 worldPos = camera.unproject(new Vector3(rectangle.x, rectangle.y, 0));
-                Vector2 worldPos = new Vector2(rectangle.x / 32, rectangle.y / 32);
-                Vector2 worldSize = new Vector2(rectangle.width / 32, rectangle.height / 32);
-                bodyDef.position.set(worldPos.x + worldSize.x / 2, worldPos.y + worldSize.y / 2);
+//        for (MapObject mapObject : map.getLayers().get("colliders").getObjects()) {
+//            if (mapObject instanceof RectangleMapObject) {
+//                Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
+//                BodyDef bodyDef = new BodyDef();
+//                bodyDef.type = BodyDef.BodyType.StaticBody;
+////                Vector3 worldPos = camera.unproject(new Vector3(rectangle.x, rectangle.y, 0));
+//                Vector2 worldPos = new Vector2(rectangle.x / 32, rectangle.y / 32);
+//                Vector2 worldSize = new Vector2(rectangle.width / 32, rectangle.height / 32);
+//                bodyDef.position.set(worldPos.x + worldSize.x / 2, worldPos.y + worldSize.y / 2);
+//
+//                Body body = world.createBody(bodyDef);
+//
+//                PolygonShape rectanglePolygonShape = new PolygonShape();
+//                rectanglePolygonShape.setAsBox(worldSize.x / 2, worldSize.y / 2);
+//
+//                FixtureDef fixtureDef = new FixtureDef();
+//                fixtureDef.shape = rectanglePolygonShape;
+//                fixtureDef.friction = 1;
+//                fixtureDef.density = 1;
+//                fixtureDef.restitution = 0;
+//
+//                body.createFixture(fixtureDef);
+//                rectanglePolygonShape.dispose();
+//
+//                body.setUserData(new TextureData(debugTexture, worldSize.x, worldSize.y));
+//            } /*else if (mapObject instanceof PolygonMapObject) {
+//                Polygon polygon = ((PolygonMapObject) mapObject).getPolygon();
+//            }*/
+//        }
 
-                Body body = world.createBody(bodyDef);
-
-                PolygonShape rectanglePolygonShape = new PolygonShape();
-                rectanglePolygonShape.setAsBox(worldSize.x / 2, worldSize.y / 2);
-
-                FixtureDef fixtureDef = new FixtureDef();
-                fixtureDef.shape = rectanglePolygonShape;
-                fixtureDef.friction = 1;
-                fixtureDef.density = 1;
-                fixtureDef.restitution = 0;
-
-                body.createFixture(fixtureDef);
-                rectanglePolygonShape.dispose();
-
-                body.setUserData(new TextureData(debugTexture, worldSize.x, worldSize.y));
-            } /*else if (mapObject instanceof PolygonMapObject) {
-                Polygon polygon = ((PolygonMapObject) mapObject).getPolygon();
-            }*/
-        }
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(0, 0);
+        Body body = world.createBody(bodyDef);
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(50, 2);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1;
+        fixtureDef.friction = 1;
+        fixtureDef.restitution = 0;
+        body.createFixture(fixtureDef);
     }
 
     private void loadAssets() {
@@ -89,6 +110,9 @@ public class MyGdxGame implements ApplicationListener {
         assetManager.load(TILEMAP_FILE_NAME, TiledMap.class);
         assetManager.load("hero.png", Texture.class);
         assetManager.load("background-1.png", Texture.class);
+        assetManager.load("biker-run.png", Texture.class);
+        assetManager.load("biker-jump.png", Texture.class);
+        assetManager.load("biker-idle.png", Texture.class);
         assetManager.finishLoading();
     }
 
@@ -119,15 +143,15 @@ public class MyGdxGame implements ApplicationListener {
         batch.begin();
         simpleActor.render();
 
-        Array<Body> bodies = new Array<>();
-        world.getBodies(bodies);
-        for (Body body : bodies) {
-            if (body != null && body.getUserData() != null && body.getUserData() instanceof TextureData) {
-                TextureData textureData = (TextureData) body.getUserData();
-                batch.draw(textureData.texture, body.getPosition().x - textureData.width / 2,
-                        body.getPosition().y - textureData.height / 2, textureData.width, textureData.height);
-            }
-        }
+//        Array<Body> bodies = new Array<>();
+//        world.getBodies(bodies);
+//        for (Body body : bodies) {
+//            if (body != null && body.getUserData() != null && body.getUserData() instanceof TextureData) {
+//                TextureData textureData = (TextureData) body.getUserData();
+//                batch.draw(textureData.texture, body.getPosition().x - textureData.width / 2,
+//                        body.getPosition().y - textureData.height / 2, textureData.width, textureData.height);
+//            }
+//        }
 
         batch.end();
 //        camera.position.set(simpleActor.body.getPosition().x, simpleActor.body.getPosition().y, 0);
