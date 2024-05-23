@@ -6,14 +6,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.MyGdxGame;
 
 public class AnimationBuilder {
-    private static final int DEFAULT_SPRITE_WIDTH = 48;
-    private static final int DEFAULT_SPRITE_HEIGHT = 48;
+    private static final int DEFAULT_FRAME_WIDTH = 48;
+    private static final int DEFAULT_FRAME_HEIGHT = 48;
     private static final float DEFAULT_FRAME_DURATION = 1 / 10f;
 
     private String assetName;
     private Texture spriteSheet;
     private Integer rows;
     private Integer cols;
+    private int frameWidth = DEFAULT_FRAME_WIDTH;
+    private int frameHeight = DEFAULT_FRAME_HEIGHT;
     private float frameDuration = DEFAULT_FRAME_DURATION;
     private Animation.PlayMode playMode = Animation.PlayMode.NORMAL;
 
@@ -23,6 +25,16 @@ public class AnimationBuilder {
 
     public AnimationBuilder(Texture spriteSheet){
         this.spriteSheet = spriteSheet;
+    }
+
+    public AnimationBuilder frameWidth(int frameWidth){
+        this.frameWidth = frameWidth;
+        return this;
+    }
+
+    public AnimationBuilder frameHeight(int frameHeight){
+        this.frameHeight = frameHeight;
+        return this;
     }
 
     public AnimationBuilder rows(int rows){
@@ -50,10 +62,10 @@ public class AnimationBuilder {
             spriteSheet = MyGdxGame.getInstance().assetManager.get(assetName);
         }
         if(rows == null){
-            rows = spriteSheet.getHeight() / DEFAULT_SPRITE_HEIGHT;
+            rows = spriteSheet.getHeight() / frameWidth;
         }
         if(cols == null){
-            cols = spriteSheet.getWidth() / DEFAULT_SPRITE_WIDTH;
+            cols = spriteSheet.getWidth() / frameHeight;
         }
         return createAnimation(spriteSheet, rows, cols, frameDuration, playMode);
     }
