@@ -29,10 +29,11 @@ public class SimpleActor {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1;
-        fixtureDef.friction = 1;
+        fixtureDef.friction = 0.25f;
         fixtureDef.restitution = 0;
 
         fixture = body.createFixture(fixtureDef);
+        body.setFixedRotation(true);
 
         shape.dispose();
     }

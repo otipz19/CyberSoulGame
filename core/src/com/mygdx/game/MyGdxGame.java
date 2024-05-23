@@ -35,10 +35,12 @@ public class MyGdxGame implements ApplicationListener {
     private static final float TIME_STEP = 1 / 60f;
     private static final int VELOCITY_ITERATIONS = 6;
     private static final int POSITION_ITERATIONS = 2;
+    private Box2DDebugRenderer renderer;
 
     @Override
     public void create() {
         Box2D.init();
+
         world = new World(new Vector2(0, -10), true);
 
         batch = new SpriteBatch();
@@ -90,36 +92,40 @@ public class MyGdxGame implements ApplicationListener {
         for (Polygon polygon : parser.getPolygons()) {
             float screenX = polygon.getX();
             float screenY = polygon.getY();
+            Vector3 projectionVector = new Vector3(screenX, screenY, 0);
+            camera.unproject(projectionVector);
+            float worldX = projectionVector.x;
+            float worldY = projectionVector.y;
             float[] screenVertices = polygon.getVertices();
-            Vector3 screenCoordinates = new Vector3();
             float[] worldVertices = new float[Math.min(screenVertices.length, 16)];
             for (int i = 0; i < worldVertices.length; i+=2){
-                screenCoordinates.x = screenVertices[i]+screenX;
-                screenCoordinates.y = screenVertices[i+1]+screenY;
-                screenCoordinates.z = 0;
-                camera.unproject(screenCoordinates);
-                worldVertices[i] = screenCoordinates.x;
-                worldVertices[i+1] = screenCoordinates.y;
+                projectionVector.x = screenVertices[i]+screenX;
+                projectionVector.y = screenVertices[i+1]+screenY;
+                projectionVector.z = 0;
+                camera.unproject(projectionVector);
+                worldVertices[i] = projectionVector.x-worldX;
+                worldVertices[i+1] = projectionVector.y-worldY;
             }
 
             BodyDef bodyDef = new BodyDef();
             bodyDef.type = BodyDef.BodyType.StaticBody;
-            bodyDef.position.set(0, 0);
+            bodyDef.position.set(worldX, worldY);
             Body body = world.createBody(bodyDef);
 
-            PolygonShape polygonShape = new PolygonShape();
-            polygonShape.set(worldVertices);
+            ChainShape chainShape = new ChainShape();
+            chainShape.createLoop(worldVertices);
 
             FixtureDef fixtureDef = new FixtureDef();
-            fixtureDef.shape = polygonShape;
-            fixtureDef.friction = 1;
+            fixtureDef.shape = chainShape;
+            fixtureDef.friction = 1f;
             fixtureDef.density = 1;
             fixtureDef.restitution = 0;
 
             body.createFixture(fixtureDef);
-
-            polygonShape.dispose();
+            chainShape.dispose();
         }
+
+        renderer = new Box2DDebugRenderer(true, true, true, true, true, true);
     }
 
     private void loadAssets() {
@@ -170,6 +176,8 @@ public class MyGdxGame implements ApplicationListener {
         */
 
         batch.end();
+        renderer.render(world, camera.combined);
+
         camera.position.set(simpleActor.body.getPosition().x, simpleActor.body.getPosition().y, 0);
         mapRenderer.setView(camera);
         camera.update();
