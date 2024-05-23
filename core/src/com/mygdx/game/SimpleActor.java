@@ -9,9 +9,7 @@ import com.mygdx.game.animation.HeroAnimator;
 
 public class SimpleActor {
     private MyGdxGame game;
-    private Texture sprite;
     public Body body;
-    private Fixture fixture;
     private final static float MAX_VELOCITY = 5f;
 //    private final Vector2 worldSize = new Vector2(1f, 1.5f);
     private final Vector2 worldSize = new Vector2(1.5f, 1.5f);
@@ -20,7 +18,6 @@ public class SimpleActor {
 
     public SimpleActor(MyGdxGame game, float x, float y) {
         this.game = game;
-        sprite = game.getAssetManager().get("hero.png");
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -36,7 +33,7 @@ public class SimpleActor {
         fixtureDef.friction = 1;
         fixtureDef.restitution = 0;
 
-        fixture = body.createFixture(fixtureDef);
+        body.createFixture(fixtureDef);
 
         shape.dispose();
 

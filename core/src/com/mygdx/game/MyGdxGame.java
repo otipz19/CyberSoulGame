@@ -8,22 +8,16 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.game.utils.AssetNames;
 
 public class MyGdxGame implements ApplicationListener {
     private static MyGdxGame instance;
-
-    private static final String TILEMAP_FILE_NAME = "first-level.tmx";
 
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -58,7 +52,7 @@ public class MyGdxGame implements ApplicationListener {
         createCamera();
         createMapRenderer();
         simpleActor = new SimpleActor(this, 10, 10);
-        debugTexture = assetManager.get("background-1.png");
+        debugTexture = assetManager.get(AssetNames.GREENZONE_BACKGROUND_FULL);
 
 //        for (MapObject mapObject : map.getLayers().get("colliders").getObjects()) {
 //            if (mapObject instanceof RectangleMapObject) {
@@ -107,17 +101,16 @@ public class MyGdxGame implements ApplicationListener {
     private void loadAssets() {
         assetManager = new AssetManager();
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        assetManager.load(TILEMAP_FILE_NAME, TiledMap.class);
-        assetManager.load("hero.png", Texture.class);
-        assetManager.load("background-1.png", Texture.class);
-        assetManager.load("biker-run.png", Texture.class);
-        assetManager.load("biker-jump.png", Texture.class);
-        assetManager.load("biker-idle.png", Texture.class);
+        assetManager.load(AssetNames.TEST_LEVEL_TILEMAP, TiledMap.class);
+        assetManager.load(AssetNames.GREENZONE_BACKGROUND_FULL, Texture.class);
+        assetManager.load(AssetNames.BIKER_RUN_SHEET, Texture.class);
+        assetManager.load(AssetNames.BIKER_JUMP_SHEET, Texture.class);
+        assetManager.load(AssetNames.BIKER_IDLE_SHEET, Texture.class);
         assetManager.finishLoading();
     }
 
     private void createMap() {
-        map = assetManager.get(TILEMAP_FILE_NAME);
+        map = assetManager.get(AssetNames.TEST_LEVEL_TILEMAP);
     }
 
     private void createCamera() {
