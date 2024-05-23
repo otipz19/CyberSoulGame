@@ -1,28 +1,39 @@
 package com.mygdx.game.animation;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.mygdx.game.MyGdxGame;
 
 public abstract class Animator {
+    public interface State { }
+
     public enum Direction {
         RIGHT,
         LEFT
     }
 
-    private static final int DEFAULT_SPRITE_WIDTH = 48;
-    private static final int DEFAULT_SPRITE_HEIGHT = 48;
-    private static final float DEFAULT_FRAME_DURATION = 1 / 10f;
+    protected final AnimationsMap animations;
 
-    private Direction curDirection = Direction.RIGHT;
-    protected boolean animationChanged;
+    protected Animation<TextureRegion> curAnimation;
+    protected State curState;
+    protected Direction curDirection = Direction.RIGHT;
+    private boolean animationChanged;
     private float stateTime;
 
     private final Sprite flippingSprite = new Sprite();
+
+    public Animator(AnimationsMap animations){
+        this.animations = animations;
+        this.curAnimation = animations.startAnimation;
+    }
+
+    public void setState(State newState) {
+        animationChanged = newState != curState;
+        curState = newState;
+        curAnimation = animations.get(curState);
+    }
 
     public void setDirection(Direction newDirection) {
         animationChanged = newDirection != curDirection;
@@ -49,45 +60,6 @@ public abstract class Animator {
     }
 
     private TextureRegion getFrame() {
-        Animation<TextureRegion> animation = selectAnimation();
-        return animation.getKeyFrame(stateTime, false);
+        return curAnimation.getKeyFrame(stateTime, false);
     }
-
-    protected Animation<TextureRegion> createAnimation(String assetName, Animation.PlayMode playMode) {
-        return createAnimation(assetName, DEFAULT_FRAME_DURATION, playMode);
-    }
-
-    protected Animation<TextureRegion> createAnimation(String assetName, float frameDuration, Animation.PlayMode playMode) {
-        Texture spritesheet = MyGdxGame.getInstance().assetManager.get(assetName);
-        int rows = spritesheet.getHeight() / DEFAULT_SPRITE_HEIGHT;
-        int cols = spritesheet.getWidth() / DEFAULT_SPRITE_WIDTH;
-        Animation<TextureRegion> animation = createAnimation(spritesheet, rows, cols, frameDuration);
-        animation.setPlayMode(playMode);
-        return animation;
-    }
-
-    protected Animation<TextureRegion> createAnimation(String assetName, int rows, int cols, float frameDuration) {
-        Texture spritesheet = MyGdxGame.getInstance().assetManager.get(assetName);
-        return createAnimation(spritesheet, rows, cols, frameDuration);
-    }
-
-    protected Animation<TextureRegion> createAnimation(Texture spritesheet, int rows, int cols, float frameDuration) {
-        TextureRegion[] frames = splitSheetIntoFrames(spritesheet, rows, cols);
-        Animation<TextureRegion> animation = new Animation<>(frameDuration, frames);
-        return animation;
-    }
-
-    protected TextureRegion[] splitSheetIntoFrames(Texture spritesheet, int rows, int cols) {
-        TextureRegion[][] splittedSheet = TextureRegion
-                .split(spritesheet, spritesheet.getWidth() / cols, spritesheet.getHeight() / rows);
-        TextureRegion[] frames = new TextureRegion[cols * rows];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                frames[i * cols + j] = splittedSheet[i][j];
-            }
-        }
-        return frames;
-    }
-
-    protected abstract Animation<TextureRegion> selectAnimation();
 }
