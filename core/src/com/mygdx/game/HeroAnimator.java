@@ -8,17 +8,28 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class HeroAnimator {
+    public enum State {
+        IDLE,
+        RUNNING,
+        JUMPING,
+    }
+
+    public enum Direction {
+        RIGHT,
+        LEFT
+    }
+
     private Animation<TextureRegion> idleAnimation;
     private Animation<TextureRegion> runAnimation;
     private Animation<TextureRegion> jumpAnimation;
 
-    private HeroAnimationState curState = HeroAnimationState.IDLE;
-    private HeroAnimationDirection curDirection = HeroAnimationDirection.RIGHT;
+    private State curState = State.IDLE;
+    private Direction curDirection = Direction.RIGHT;
     private float stateTime;
-
+    private boolean animationChanged;
 
     private float idleTime;
-    private static final float MAX_IDLE_TIME = 2f;
+    private static final float MAX_IDLE_TIME = 0.2f;
 
     private final Sprite flippingSprite = new Sprite();
 
@@ -50,46 +61,49 @@ public class HeroAnimator {
     }
 
     private TextureRegion[] splitSheetIntoFrames(Texture spritesheet, int rows, int cols) {
-        TextureRegion[][] splitedSheet = TextureRegion
+        TextureRegion[][] splittedSheet = TextureRegion
                 .split(spritesheet, spritesheet.getWidth() / cols, spritesheet.getHeight() / rows);
         TextureRegion[] frames = new TextureRegion[cols * rows];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                frames[i * cols + j] = splitedSheet[i][j];
+                frames[i * cols + j] = splittedSheet[i][j];
             }
         }
         return frames;
     }
 
-    public void setAnimation(HeroAnimationState newState) {
-        setAnimation(newState, curDirection);
+    public void setState(State newState) {
+        if (newState == State.IDLE && curState != State.IDLE && idleTime < MAX_IDLE_TIME) {
+            idleTime += Gdx.graphics.getDeltaTime();
+        } else {
+            idleTime = 0;
+            animationChanged = newState != curState;
+            curState = newState;
+        }
     }
 
-    public void setAnimation(HeroAnimationState newState, HeroAnimationDirection newDirection) {
-        if (newState == HeroAnimationState.IDLE || curState != HeroAnimationState.IDLE) {
-            if (idleTime >= MAX_IDLE_TIME) {
-                idleTime = 0;
-            } else {
-                float deltaTime = Gdx.graphics.getDeltaTime();
-                idleTime += deltaTime;
-                stateTime += deltaTime;
-                return;
-            }
-        }
-
-        if (newState == curState && newDirection == curDirection) {
-            stateTime += Gdx.graphics.getDeltaTime();
-        } else {
-            stateTime = 0;
-        }
-        curState = newState;
+    public void setDirection(Direction newDirection) {
+        animationChanged = newDirection != curDirection;
         curDirection = newDirection;
     }
 
     public void animate(SpriteBatch batch, float x, float y, float width, float height) {
+        updateStateTime();
+        batch.draw(getDirectedSprite(), x, y, width, height);
+    }
+
+    private void updateStateTime() {
+        if (animationChanged) {
+            stateTime = 0;
+        } else {
+            stateTime += Gdx.graphics.getDeltaTime();
+        }
+    }
+
+    private Sprite getDirectedSprite(){
         flippingSprite.setRegion(getFrame());
-        flippingSprite.flip(curDirection == HeroAnimationDirection.LEFT, false);
-        batch.draw(flippingSprite, x, y, width, height);
+        flippingSprite.flip(curDirection == Direction.LEFT, false);
+        return flippingSprite;
     }
 
     private TextureRegion getFrame() {
@@ -106,16 +120,5 @@ public class HeroAnimator {
             default:
                 return idleAnimation;
         }
-    }
-
-    public enum HeroAnimationState {
-        IDLE,
-        RUNNING,
-        JUMPING,
-    }
-
-    public enum HeroAnimationDirection {
-        RIGHT,
-        LEFT
     }
 }

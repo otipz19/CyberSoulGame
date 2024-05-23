@@ -3,8 +3,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -48,39 +46,27 @@ public class SimpleActor {
         Vector2 velocity = body.getLinearVelocity();
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && velocity.x > -MAX_VELOCITY) {
             applyImpulse(-0.8f, 0);
-            animator.setAnimation(HeroAnimator.HeroAnimationState.RUNNING, HeroAnimator.HeroAnimationDirection.LEFT);
+            animator.setState(HeroAnimator.State.RUNNING);
+            animator.setDirection(HeroAnimator.Direction.LEFT);
         } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && velocity.x < MAX_VELOCITY) {
             applyImpulse(0.8f, 0);
-            animator.setAnimation(HeroAnimator.HeroAnimationState.RUNNING, HeroAnimator.HeroAnimationDirection.RIGHT);
+            animator.setState(HeroAnimator.State.RUNNING);
+            animator.setDirection(HeroAnimator.Direction.RIGHT);
         } else if (Gdx.input.isKeyPressed(Input.Keys.UP) && velocity.y < MAX_VELOCITY) {
             applyImpulse(0, 0.8f);
-            animator.setAnimation(HeroAnimator.HeroAnimationState.JUMPING);
+            animator.setState(HeroAnimator.State.JUMPING);
         } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && velocity.y > -MAX_VELOCITY) {
             applyImpulse(0, -0.8f);
-            animator.setAnimation(HeroAnimator.HeroAnimationState.IDLE);
+            animator.setState(HeroAnimator.State.IDLE);
         } else {
-            animator.setAnimation(HeroAnimator.HeroAnimationState.IDLE);
+            animator.setState(HeroAnimator.State.IDLE);
         }
 
-//        if (isRunning) {
-//            TextureRegion currentFrame = runAnimation.getKeyFrame(stateTime);
-//            game.getBatch().draw(currentFrame, body.getPosition().x - worldSize.x / 2,
-//                    body.getPosition().y - worldSize.y / 2, 1.5f, 1.5f);
-//        } else {
-//            game.getBatch().draw(sprite, body.getPosition().x - worldSize.x / 2,
-//                    body.getPosition().y - worldSize.y / 2, worldSize.x, worldSize.y);
-//        }
-//        game.getBatch().draw(animator.getFrame(), body.getPosition().x - worldSize.x / 2,
-//                    body.getPosition().y - worldSize.y / 2, 1.5f, 1.5f);
         animator.animate(game.getBatch(), body.getPosition().x - worldSize.x / 2,
                 body.getPosition().y - worldSize.y / 2, worldSize.x, worldSize.y);
     }
 
     private void applyImpulse(float x, float y) {
         body.applyLinearImpulse(x, y, body.getPosition().x, body.getPosition().y, true);
-    }
-
-    private float delta(float value) {
-        return value * Gdx.graphics.getDeltaTime();
     }
 }
