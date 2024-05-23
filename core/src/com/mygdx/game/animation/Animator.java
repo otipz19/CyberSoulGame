@@ -14,11 +14,11 @@ public abstract class Animator {
         LEFT
     }
 
-    protected final AnimationsMap animations;
+    private final AnimationsMap animations;
 
-    protected Animation<TextureRegion> curAnimation;
-    protected State curState;
-    protected Direction curDirection = Direction.RIGHT;
+    private Animation<TextureRegion> curAnimation;
+    private State curState;
+    private Direction curDirection = Direction.RIGHT;
     private boolean animationChanged;
     private float stateTime;
 
@@ -27,6 +27,10 @@ public abstract class Animator {
     public Animator(AnimationsMap animations){
         this.animations = animations;
         this.curAnimation = animations.startAnimation;
+    }
+
+    public State getState(){
+        return curState;
     }
 
     public void setState(State newState) {

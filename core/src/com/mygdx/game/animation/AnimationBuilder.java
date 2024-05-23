@@ -70,7 +70,7 @@ public class AnimationBuilder {
         return createAnimation(spriteSheet, rows, cols, frameDuration, playMode);
     }
 
-    protected Animation<TextureRegion> createAnimation(Texture spriteSheet,
+    private Animation<TextureRegion> createAnimation(Texture spriteSheet,
                                                        int rows,
                                                        int cols,
                                                        float frameDuration,
@@ -81,7 +81,7 @@ public class AnimationBuilder {
         return animation;
     }
 
-    protected TextureRegion[] splitSheetIntoFrames(Texture spritesheet, int rows, int cols) {
+    private TextureRegion[] splitSheetIntoFrames(Texture spritesheet, int rows, int cols) {
         TextureRegion[][] splittedSheet = TextureRegion
                 .split(spritesheet, spritesheet.getWidth() / cols, spritesheet.getHeight() / rows);
         TextureRegion[] frames = new TextureRegion[cols * rows];

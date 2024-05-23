@@ -29,7 +29,7 @@ public class HeroAnimator extends Animator {
 
     @Override
     public void setState(Animator.State newState){
-        if (newState == HeroAnimator.State.IDLE && curState != HeroAnimator.State.IDLE && idleTime < IDLE_THRESHOLD) {
+        if (newState == HeroAnimator.State.IDLE && super.getState() != HeroAnimator.State.IDLE && idleTime < IDLE_THRESHOLD) {
             idleTime += Gdx.graphics.getDeltaTime();
         } else {
             idleTime = 0;
