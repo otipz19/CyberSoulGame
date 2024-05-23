@@ -20,7 +20,7 @@ public class SimpleActor {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(x + worldSize.x / 2, y - worldSize.y / 2);
+        bodyDef.position.set(x + worldSize.x / 2, y + worldSize.y / 2);
         body = game.world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
@@ -49,7 +49,8 @@ public class SimpleActor {
             applyImpulse(0, -0.8f);
         }
 
-        game.getBatch().draw(sprite, body.getPosition().x, body.getPosition().y, 1f, 1.5f);
+        game.getBatch().draw(sprite, body.getPosition().x - worldSize.x / 2, body.getPosition().y - worldSize.y / 2, 1f, 1.5f);
+//        game.getBatch().draw(sprite, body.getPosition().x, body.getPosition().y, 1f, 1.5f);
     }
 
     private void applyImpulse(float x, float y){

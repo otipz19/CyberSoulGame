@@ -56,10 +56,11 @@ public class MyGdxGame implements ApplicationListener {
             if (mapObject instanceof RectangleMapObject) {
                 Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
                 BodyDef bodyDef = new BodyDef();
+                bodyDef.type = BodyDef.BodyType.StaticBody;
 //                Vector3 worldPos = camera.unproject(new Vector3(rectangle.x, rectangle.y, 0));
                 Vector2 worldPos = new Vector2(rectangle.x / 32, rectangle.y / 32);
                 Vector2 worldSize = new Vector2(rectangle.width / 32, rectangle.height / 32);
-                bodyDef.position.set(worldPos.x + worldSize.x / 2, worldPos.y - worldSize.y / 2);
+                bodyDef.position.set(worldPos.x + worldSize.x / 2, worldPos.y + worldSize.y / 2);
 
                 Body body = world.createBody(bodyDef);
 
@@ -118,20 +119,20 @@ public class MyGdxGame implements ApplicationListener {
         batch.begin();
         simpleActor.render();
 
-//        Array<Body> bodies = new Array<>();
-//        world.getBodies(bodies);
-//        for (Body body : bodies) {
-//            if (body != null && body.getUserData() != null && body.getUserData() instanceof TextureData) {
-//                TextureData textureData = (TextureData) body.getUserData();
-//                batch.draw(textureData.texture, body.getPosition().x - textureData.width / 2,
-//                        body.getPosition().y + textureData.height / 2, textureData.width, textureData.height);
-//            }
-//        }
+        Array<Body> bodies = new Array<>();
+        world.getBodies(bodies);
+        for (Body body : bodies) {
+            if (body != null && body.getUserData() != null && body.getUserData() instanceof TextureData) {
+                TextureData textureData = (TextureData) body.getUserData();
+                batch.draw(textureData.texture, body.getPosition().x - textureData.width / 2,
+                        body.getPosition().y - textureData.height / 2, textureData.width, textureData.height);
+            }
+        }
 
         batch.end();
-        camera.position.set(simpleActor.body.getPosition().x, simpleActor.body.getPosition().y, 0);
-        mapRenderer.setView(camera);
-        camera.update();
+//        camera.position.set(simpleActor.body.getPosition().x, simpleActor.body.getPosition().y, 0);
+//        mapRenderer.setView(camera);
+//        camera.update();
 
         accumulator += Gdx.graphics.getDeltaTime();
         while (accumulator >= TIME_STEP) {
