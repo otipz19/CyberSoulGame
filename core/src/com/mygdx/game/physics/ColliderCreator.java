@@ -1,10 +1,11 @@
-package com.mygdx.game;
+package com.mygdx.game.physics;
 
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.mygdx.game.utils.CoordinatesProjector;
 
 public class ColliderCreator {
     /**
@@ -22,26 +23,26 @@ public class ColliderCreator {
     /**
      *  It is expected that coordinates of rectangle are x and y of top-left corner in screen space
      */
-    public static Collider create(Rectangle rectangle, UnprojectionDelegate unprojectionDelegate) {
+    public static Collider create(Rectangle rectangle, CoordinatesProjector projector) {
         float x0 = rectangle.x;
         float x1 = rectangle.x + rectangle.width;
         float y0 = rectangle.y + rectangle.height;
         float y2 = rectangle.y;
 
-        Vector3 unprojectingVector = new Vector3();
+        Vector2 unprojectionVector = new Vector2();
 
-        unprojectingVector.set(x0, y0, 0);
-        unprojectionDelegate.unproject(unprojectingVector);
-        float worldX = unprojectingVector.x;
-        float worldY = unprojectingVector.y;
+        unprojectionVector.set(x0, y0);
+        projector.unproject(unprojectionVector);
+        float worldX = unprojectionVector.x;
+        float worldY = unprojectionVector.y;
 
-        unprojectingVector.set(x1, y0, 0);
-        unprojectionDelegate.unproject(unprojectingVector);
-        float worldWidth = unprojectingVector.x-worldX;
+        unprojectionVector.set(x1, y0);
+        projector.unproject(unprojectionVector);
+        float worldWidth = unprojectionVector.x-worldX;
 
-        unprojectingVector.set(x0, y2, 0);
-        unprojectionDelegate.unproject(unprojectingVector);
-        float worldHeight = unprojectingVector.y-worldY;
+        unprojectionVector.set(x0, y2);
+        projector.unproject(unprojectionVector);
+        float worldHeight = unprojectionVector.y-worldY;
 
         float[] vertices =  {0, 0, worldWidth, 0, worldWidth, worldHeight, 0, worldHeight };
 
@@ -61,16 +62,15 @@ public class ColliderCreator {
     /**
      *  It is expected that coordinates of polygon are in screen space
      */
-    public static Collider create(Polygon polygon, UnprojectionDelegate unprojectionDelegate) {
-        Vector3 projectionVector = new Vector3();
+    public static Collider create(Polygon polygon, CoordinatesProjector projector) {
+        Vector2 unprojectionVector = new Vector2();
         float[] vertices = polygon.getTransformedVertices();
         for (int i = 0; i < vertices.length; i+=2){
-            projectionVector.x = vertices[i];
-            projectionVector.y = vertices[i+1];
-            projectionVector.z = 0;
-            unprojectionDelegate.unproject(projectionVector);
-            vertices[i] = projectionVector.x;
-            vertices[i+1] = projectionVector.y;
+            unprojectionVector.x = vertices[i];
+            unprojectionVector.y = vertices[i+1];
+            projector.unproject(unprojectionVector);
+            vertices[i] = unprojectionVector.x;
+            vertices[i+1] = unprojectionVector.y;
         }
 
         return create(vertices);

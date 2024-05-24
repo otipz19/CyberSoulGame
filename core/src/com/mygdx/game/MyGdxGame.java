@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -15,7 +16,11 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.game.physics.Collider;
+import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.utils.AssetNames;
+import com.mygdx.game.utils.CoordinatesProjector;
+import com.mygdx.game.utils.LevelObjectsParser;
 
 public class MyGdxGame implements ApplicationListener {
     private static MyGdxGame instance;
@@ -71,7 +76,7 @@ public class MyGdxGame implements ApplicationListener {
 
     private void createCamera() {
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 30, 20);
+        camera.setToOrtho(false, 30, 15);
         camera.update();
     }
 
@@ -79,16 +84,23 @@ public class MyGdxGame implements ApplicationListener {
         world = new World(new Vector2(0, -10), true);
 
         map = assetManager.get(AssetNames.TEST_LEVEL_TILEMAP);
-        mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / 32f);
+        MapProperties mapProperties = map.getProperties();
+        int tileSize = (int) mapProperties.get("tileheight");
+        int heightInTiles = (int) mapProperties.get("height");
+        float unitScale = 1f/tileSize;
+        float mapHeight = tileSize*heightInTiles;
+
+        mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
         mapRenderer.setView(camera);
 
         LevelObjectsParser parser = new LevelObjectsParser(AssetNames.TEST_LEVEL_TILEMAP, "colliders");
+        CoordinatesProjector coordinatesProjector = new CoordinatesProjector(unitScale, mapHeight);
         for (Shape2D shape : parser.getShapes()) {
             Collider collider;
             if (shape instanceof Rectangle)
-                collider = ColliderCreator.create((Rectangle)shape, camera::unproject);
+                collider = ColliderCreator.create((Rectangle)shape, coordinatesProjector);
             else if (shape instanceof Polygon)
-                collider = ColliderCreator.create((Polygon)shape, camera::unproject);
+                collider = ColliderCreator.create((Polygon)shape, coordinatesProjector);
             else
                 throw new RuntimeException("Shape is not supported");
 
