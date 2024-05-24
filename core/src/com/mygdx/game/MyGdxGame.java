@@ -16,13 +16,15 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MyGdxGame implements ApplicationListener {
+    private static MyGdxGame instance;
+
     private static final String TILEMAP_FILE_NAME = "first-level.tmx";
 
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
 
-    private AssetManager assetManager;
+    public AssetManager assetManager;
     private SpriteBatch batch;
     private SimpleActor simpleActor;
 
@@ -35,8 +37,14 @@ public class MyGdxGame implements ApplicationListener {
     private static final int POSITION_ITERATIONS = 2;
     private Box2DDebugRenderer box2dRenderer;
 
+    public static MyGdxGame getInstance(){
+        return instance;
+    }
+
     @Override
     public void create() {
+        instance = this;
+
         Box2D.init();
         batch = new SpriteBatch();
 
@@ -56,6 +64,9 @@ public class MyGdxGame implements ApplicationListener {
         assetManager.load(TILEMAP_FILE_NAME, TiledMap.class);
         assetManager.load("hero.png", Texture.class);
         assetManager.load("background-1.png", Texture.class);
+        assetManager.load("biker-run.png", Texture.class);
+        assetManager.load("biker-jump.png", Texture.class);
+        assetManager.load("biker-idle.png", Texture.class);
         assetManager.finishLoading();
     }
 
