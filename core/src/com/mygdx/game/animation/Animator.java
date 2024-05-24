@@ -36,6 +36,9 @@ public abstract class Animator {
     public void setState(State newState) {
         animationChanged = newState != curState;
         curState = newState;
+        if(!animations.containsKey(curState)){
+            throw new RuntimeException("Animation state " + curState.toString() + " doesn't have registered animation!");
+        }
         curAnimation = animations.get(curState);
     }
 

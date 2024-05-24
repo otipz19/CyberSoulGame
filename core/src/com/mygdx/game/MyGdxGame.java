@@ -18,9 +18,11 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
-import com.mygdx.game.utils.AssetNames;
+import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.utils.CoordinatesProjector;
 import com.mygdx.game.utils.LevelObjectsParser;
+
+import java.util.stream.Stream;
 
 public class MyGdxGame implements ApplicationListener {
     private static MyGdxGame instance;
@@ -42,7 +44,7 @@ public class MyGdxGame implements ApplicationListener {
     private static final int POSITION_ITERATIONS = 2;
     private Box2DDebugRenderer box2dRenderer;
 
-    public static MyGdxGame getInstance(){
+    public static MyGdxGame getInstance() {
         return instance;
     }
 
@@ -59,18 +61,27 @@ public class MyGdxGame implements ApplicationListener {
 
         simpleActor = new SimpleActor(this, 17, 5);
 
-        debugTexture = assetManager.get(AssetNames.GREENZONE_BACKGROUND_FULL);
+        debugTexture = assetManager.get(AssetsNames.GREENZONE_BACKGROUND_FULL);
         box2dRenderer = new Box2DDebugRenderer(true, true, true, true, true, true);
     }
 
     private void loadAssets() {
         assetManager = new AssetManager();
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        assetManager.load(AssetNames.TEST_LEVEL_TILEMAP, TiledMap.class);
-        assetManager.load(AssetNames.GREENZONE_BACKGROUND_FULL, Texture.class);
-        assetManager.load(AssetNames.BIKER_RUN_SHEET, Texture.class);
-        assetManager.load(AssetNames.BIKER_JUMP_SHEET, Texture.class);
-        assetManager.load(AssetNames.BIKER_IDLE_SHEET, Texture.class);
+        assetManager.load(AssetsNames.TEST_LEVEL_TILEMAP, TiledMap.class);
+        assetManager.load(AssetsNames.GREENZONE_BACKGROUND_FULL, Texture.class);
+        Stream.of(AssetsNames.BIKER_RUN_SHEET,
+                        AssetsNames.BIKER_JUMP_SHEET,
+                        AssetsNames.BIKER_IDLE_SHEET,
+                        AssetsNames.BIKER_ATTACK1_SHEET,
+                        AssetsNames.BIKER_ATTACK2_SHEET,
+                        AssetsNames.BIKER_CLIMB_SHEET,
+                        AssetsNames.BIKER_DEATH_SHEET,
+                        AssetsNames.BIKER_DOUBLEJUMP_SHEET,
+                        AssetsNames.BIKER_HURT_SHEET,
+                        AssetsNames.BIKER_PUNCH_SHEET,
+                        AssetsNames.BIKER_RUN_ATTACK_SHEET)
+                .forEach(str -> assetManager.load(str, Texture.class));
         assetManager.finishLoading();
     }
 
@@ -83,24 +94,24 @@ public class MyGdxGame implements ApplicationListener {
     private void createMap() {
         world = new World(new Vector2(0, -10), true);
 
-        map = assetManager.get(AssetNames.TEST_LEVEL_TILEMAP);
+        map = assetManager.get(AssetsNames.TEST_LEVEL_TILEMAP);
         MapProperties mapProperties = map.getProperties();
         int tileSize = (int) mapProperties.get("tileheight");
         int heightInTiles = (int) mapProperties.get("height");
-        float unitScale = 1f/tileSize;
-        float mapHeight = tileSize*heightInTiles;
+        float unitScale = 1f / tileSize;
+        float mapHeight = tileSize * heightInTiles;
 
         mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
         mapRenderer.setView(camera);
 
-        LevelObjectsParser parser = new LevelObjectsParser(AssetNames.TEST_LEVEL_TILEMAP, "colliders");
+        LevelObjectsParser parser = new LevelObjectsParser(AssetsNames.TEST_LEVEL_TILEMAP, "colliders");
         CoordinatesProjector coordinatesProjector = new CoordinatesProjector(unitScale, mapHeight);
         for (Shape2D shape : parser.getShapes()) {
             Collider collider;
             if (shape instanceof Rectangle)
-                collider = ColliderCreator.create((Rectangle)shape, coordinatesProjector);
+                collider = ColliderCreator.create((Rectangle) shape, coordinatesProjector);
             else if (shape instanceof Polygon)
-                collider = ColliderCreator.create((Polygon)shape, coordinatesProjector);
+                collider = ColliderCreator.create((Polygon) shape, coordinatesProjector);
             else
                 throw new RuntimeException("Shape is not supported");
 

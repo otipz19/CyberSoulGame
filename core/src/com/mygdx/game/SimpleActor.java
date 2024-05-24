@@ -45,15 +45,15 @@ public class SimpleActor {
         Vector2 velocity = body.getLinearVelocity();
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && velocity.x > -MAX_VELOCITY) {
             applyImpulse(-0.8f, 0);
-            animator.setState(HeroAnimator.State.RUNNING);
+            animator.setState(HeroAnimator.State.RUN);
             animator.setDirection(HeroAnimator.Direction.LEFT);
         } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && velocity.x < MAX_VELOCITY) {
             applyImpulse(0.8f, 0);
-            animator.setState(HeroAnimator.State.RUNNING);
+            animator.setState(HeroAnimator.State.RUN);
             animator.setDirection(HeroAnimator.Direction.RIGHT);
         } else if (Gdx.input.isKeyPressed(Input.Keys.UP) && velocity.y < MAX_VELOCITY) {
             applyImpulse(0, 0.8f);
-            animator.setState(HeroAnimator.State.JUMPING);
+            animator.setState(HeroAnimator.State.JUMP);
         } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && velocity.y > -MAX_VELOCITY) {
             applyImpulse(0, -0.8f);
             animator.setState(HeroAnimator.State.IDLE);
