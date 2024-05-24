@@ -46,6 +46,9 @@ public class MyGdxGame implements ApplicationListener {
     private static final int POSITION_ITERATIONS = 2;
     private Box2DDebugRenderer box2dRenderer;
 
+    private static final int LEVEL_WIDTH = 30;
+    private static final int LEVEL_HEIGHT = 20;
+
     public static MyGdxGame getInstance() {
         return instance;
     }
@@ -65,6 +68,8 @@ public class MyGdxGame implements ApplicationListener {
 
         debugTexture = assetManager.get(AssetsNames.GREENZONE_BACKGROUND_FULL);
         box2dRenderer = new Box2DDebugRenderer(true, true, true, true, true, true);
+
+        camera.position.set(simpleActor.getCameraPosition());
     }
 
     private void loadAssets() {
@@ -105,7 +110,7 @@ public class MyGdxGame implements ApplicationListener {
         float unitScale = 1f / tileSize;
         float mapHeight = tileSize * heightInTiles;
 
-        viewport.setUnitsPerPixel(unitScale);
+        viewport.setUnitsPerPixel(unitScale / 2);
 
         mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
         mapRenderer.setView(camera);
@@ -151,7 +156,21 @@ public class MyGdxGame implements ApplicationListener {
         batch.end();
         box2dRenderer.render(world, camera.combined);
 
-        camera.position.set(simpleActor.getCameraPosition());
+        Vector3 heroPos = simpleActor.getCameraPosition();
+        Vector3 camPos = camera.position;
+        camPos.x = Interpolation.circle.apply(camPos.x, heroPos.x, 0.2f);
+        camPos.y = Interpolation.circle.apply(camPos.y, heroPos.y, 0.25f);
+        if(camPos.x < camera.viewportWidth / 2){
+            camPos.x = camera.viewportWidth / 2;
+        } else if(camPos.x > LEVEL_WIDTH - camera.viewportWidth / 2){
+            camPos.x = LEVEL_WIDTH - camera.viewportWidth / 2;
+        }
+        if(camPos.y < camera.viewportHeight / 2){
+            camPos.y = camera.viewportHeight / 2;
+        } else if(camPos.y > LEVEL_HEIGHT - camera.viewportHeight / 2){
+            camPos.y = LEVEL_HEIGHT - camera.viewportHeight / 2;
+        }
+
         camera.update();
         mapRenderer.setView(camera);
 
