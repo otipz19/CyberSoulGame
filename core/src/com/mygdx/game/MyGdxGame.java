@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.*;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.utils.AssetNames;
@@ -28,6 +29,7 @@ public class MyGdxGame implements ApplicationListener {
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
+    private ScreenViewport viewport;
 
     public AssetManager assetManager;
     private SpriteBatch batch;
@@ -76,7 +78,9 @@ public class MyGdxGame implements ApplicationListener {
 
     private void createCamera() {
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 30, 15);
+        viewport = new ScreenViewport(camera);
+        viewport.setWorldWidth(30);
+        viewport.setWorldHeight(20);
         camera.update();
     }
 
@@ -89,6 +93,8 @@ public class MyGdxGame implements ApplicationListener {
         int heightInTiles = (int) mapProperties.get("height");
         float unitScale = 1f/tileSize;
         float mapHeight = tileSize*heightInTiles;
+
+        viewport.setUnitsPerPixel(unitScale);
 
         mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
         mapRenderer.setView(camera);
@@ -134,7 +140,7 @@ public class MyGdxGame implements ApplicationListener {
         batch.end();
         box2dRenderer.render(world, camera.combined);
 
-        camera.position.set(simpleActor.body.getPosition().x, simpleActor.body.getPosition().y, 0);
+        camera.position.set(simpleActor.getCameraPosition());
         camera.update();
         mapRenderer.setView(camera);
 
@@ -157,7 +163,7 @@ public class MyGdxGame implements ApplicationListener {
 
     @Override
     public void resize(int width, int height) {
-
+        viewport.update(width, height);
     }
 
     @Override
