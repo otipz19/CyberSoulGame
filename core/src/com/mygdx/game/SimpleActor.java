@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.animation.HeroAnimator;
 import com.mygdx.game.physics.Collider;
@@ -64,6 +65,9 @@ public class SimpleActor {
         animator.animate(game.getBatch(), body.getPosition().x, body.getPosition().y, worldSize.x, worldSize.y);
     }
 
+    public Vector3 getCameraPosition(){
+        return new Vector3(body.getPosition().x+worldSize.x/2, body.getPosition().y+worldSize.y/2, 0);
+    }
 
     private void applyImpulse(float x, float y){
         Vector2 center = body.getWorldCenter();
