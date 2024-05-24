@@ -6,12 +6,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.animation.HeroAnimator;
 
 public class SimpleActor {
     private MyGdxGame game;
-    private Texture sprite;
     public Body body;
-    private Fixture fixture;
     private final static float MAX_VELOCITY = 5f;
     private final Vector2 worldSize = new Vector2(1.5f, 1.5f);
 
@@ -19,7 +18,6 @@ public class SimpleActor {
 
     public SimpleActor(MyGdxGame game, float x, float y) {
         this.game = game;
-        sprite = game.getAssetManager().get("hero.png");
         animator = new HeroAnimator();
 
         Collider collider = ColliderCreator.create(new Rectangle(x, y, worldSize.x, worldSize.y));
@@ -35,7 +33,7 @@ public class SimpleActor {
         fixtureDef.restitution = 0;
 
         body = game.world.createBody(bodyDef);
-        fixture = body.createFixture(fixtureDef);
+        body.createFixture(fixtureDef);
         body.setFixedRotation(true);
 
         collider.dispose();
