@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.utils.Array;
 
 import java.io.IOException;
@@ -19,7 +20,6 @@ public class LevelObjectsParser {
     private Array<Polygon> polygons;
     private String objectGroup;
 
-
     public LevelObjectsParser(String filePath, String layerName) {
         this.filePath = Path.of(filePath);
         this.layerName = layerName;
@@ -31,6 +31,16 @@ public class LevelObjectsParser {
 
     public String getLayerName() {
         return layerName;
+    }
+
+    public Array<Shape2D> getShapes(){
+        if (!isParsed)
+            parse();
+
+        Array<Shape2D> shapes = new Array<>(rectangles.size+polygons.size);
+        shapes.addAll(rectangles);
+        shapes.addAll(polygons);
+        return shapes;
     }
 
     public Array<Rectangle> getRectangles() {
