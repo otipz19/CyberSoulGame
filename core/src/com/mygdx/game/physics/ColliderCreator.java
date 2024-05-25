@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.mygdx.game.utils.CoordinatesProjector;
+import com.mygdx.game.camera.CoordinatesProjector;
 
 public class ColliderCreator {
     /**

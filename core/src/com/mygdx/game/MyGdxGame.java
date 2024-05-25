@@ -17,10 +17,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.*;
+import com.mygdx.game.camera.LevelCamera;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.utils.AssetsNames;
-import com.mygdx.game.utils.CoordinatesProjector;
+import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.utils.LevelObjectsParser;
 
 import java.util.stream.Stream;
@@ -30,7 +31,7 @@ public class MyGdxGame implements ApplicationListener {
 
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
-    private OrthographicCamera camera;
+    private LevelCamera camera;
     private ScreenViewport viewport;
 
     public AssetManager assetManager;
@@ -46,8 +47,9 @@ public class MyGdxGame implements ApplicationListener {
     private static final int POSITION_ITERATIONS = 2;
     private Box2DDebugRenderer box2dRenderer;
 
-    private static final int LEVEL_WIDTH = 30;
-    private static final int LEVEL_HEIGHT = 20;
+    private int levelWidth;
+    private int levelHeight;
+    private float unitScale;
 
     public static MyGdxGame getInstance() {
         return instance;
@@ -61,15 +63,14 @@ public class MyGdxGame implements ApplicationListener {
         batch = new SpriteBatch();
 
         loadAssets();
-        createCamera();
         createMap();
+        createCamera();
 
         simpleActor = new SimpleActor(this, 17, 5);
+        camera.setPositionSharply(simpleActor.getCameraPosition());
 
         debugTexture = assetManager.get(AssetsNames.GREENZONE_BACKGROUND_FULL);
         box2dRenderer = new Box2DDebugRenderer(true, true, true, true, true, true);
-
-        camera.position.set(simpleActor.getCameraPosition());
     }
 
     private void loadAssets() {
@@ -92,28 +93,19 @@ public class MyGdxGame implements ApplicationListener {
         assetManager.finishLoading();
     }
 
-    private void createCamera() {
-        camera = new OrthographicCamera();
-        viewport = new ScreenViewport(camera);
-        viewport.setWorldWidth(30);
-        viewport.setWorldHeight(20);
-        camera.update();
-    }
-
     private void createMap() {
         world = new World(new Vector2(0, -10), true);
 
         map = assetManager.get(AssetsNames.TEST_LEVEL_TILEMAP);
-        MapProperties mapProperties = map.getProperties();
-        int tileSize = (int) mapProperties.get("tileheight");
-        int heightInTiles = (int) mapProperties.get("height");
-        float unitScale = 1f / tileSize;
-        float mapHeight = tileSize * heightInTiles;
 
-        viewport.setUnitsPerPixel(unitScale / 2);
+        MapProperties mapProperties = map.getProperties();
+        levelWidth = (int) mapProperties.get("width");
+        levelHeight = (int) mapProperties.get("height");
+        int tileSize = (int) mapProperties.get("tileheight");
+        unitScale = 1f / tileSize;
+        float mapHeight = tileSize * levelHeight;
 
         mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
-        mapRenderer.setView(camera);
 
         LevelObjectsParser parser = new LevelObjectsParser(AssetsNames.TEST_LEVEL_TILEMAP, "colliders");
         CoordinatesProjector coordinatesProjector = new CoordinatesProjector(unitScale, mapHeight);
@@ -143,9 +135,23 @@ public class MyGdxGame implements ApplicationListener {
         }
     }
 
+
+    private void createCamera() {
+        camera = new LevelCamera(levelWidth, levelHeight);
+        camera.adjustZoomForViewportSize(levelWidth/2f, levelHeight/2f);
+
+        viewport = new ScreenViewport(camera);
+        viewport.setUnitsPerPixel(unitScale);
+    }
+
     @Override
     public void render() {
         ScreenUtils.clear(Color.WHITE);
+
+        camera.setPositionSmoothly(simpleActor.getCameraPosition());
+        camera.update();
+        mapRenderer.setView(camera);
+
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(debugTexture, 0, 0, 30, 20);
@@ -155,24 +161,6 @@ public class MyGdxGame implements ApplicationListener {
         simpleActor.render();
         batch.end();
         box2dRenderer.render(world, camera.combined);
-
-        Vector3 heroPos = simpleActor.getCameraPosition();
-        Vector3 camPos = camera.position;
-        camPos.x = Interpolation.circle.apply(camPos.x, heroPos.x, 0.2f);
-        camPos.y = Interpolation.circle.apply(camPos.y, heroPos.y, 0.25f);
-        if(camPos.x < camera.viewportWidth / 2){
-            camPos.x = camera.viewportWidth / 2;
-        } else if(camPos.x > LEVEL_WIDTH - camera.viewportWidth / 2){
-            camPos.x = LEVEL_WIDTH - camera.viewportWidth / 2;
-        }
-        if(camPos.y < camera.viewportHeight / 2){
-            camPos.y = camera.viewportHeight / 2;
-        } else if(camPos.y > LEVEL_HEIGHT - camera.viewportHeight / 2){
-            camPos.y = LEVEL_HEIGHT - camera.viewportHeight / 2;
-        }
-
-        camera.update();
-        mapRenderer.setView(camera);
 
         accumulator += Gdx.graphics.getDeltaTime();
         while (accumulator >= TIME_STEP) {

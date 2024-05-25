@@ -65,8 +65,8 @@ public class SimpleActor {
         animator.animate(game.getBatch(), body.getPosition().x, body.getPosition().y, worldSize.x, worldSize.y);
     }
 
-    public Vector3 getCameraPosition(){
-        return new Vector3(body.getPosition().x+worldSize.x/2, body.getPosition().y+worldSize.y/2, 0);
+    public Vector2 getCameraPosition(){
+        return new Vector2(body.getPosition().x+worldSize.x/2, body.getPosition().y+worldSize.y/2);
     }
 
     private void applyImpulse(float x, float y){

@@ -1,4 +1,4 @@
-package com.mygdx.game.utils;
+package com.mygdx.game.camera;
 
 import com.badlogic.gdx.math.Vector2;
 
