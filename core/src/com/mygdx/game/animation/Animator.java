@@ -34,7 +34,7 @@ public abstract class Animator {
     }
 
     public void setState(State newState) {
-        animationChanged = newState != curState;
+        animationChanged |= newState != curState;
         curState = newState;
         if(!animations.containsKey(curState)){
             throw new RuntimeException("Animation state " + curState.toString() + " doesn't have registered animation!");
@@ -42,13 +42,18 @@ public abstract class Animator {
         curAnimation = animations.get(curState);
     }
 
+    public Direction getDirection() {
+        return curDirection;
+    }
+
     public void setDirection(Direction newDirection) {
-        animationChanged = newDirection != curDirection;
+        animationChanged |= newDirection != curDirection;
         curDirection = newDirection;
     }
 
     public void animate(SpriteBatch batch, float x, float y, float width, float height) {
         updateStateTime();
+        animationChanged = false;
         batch.draw(getDirectedSprite(), x, y, width, height);
     }
 
