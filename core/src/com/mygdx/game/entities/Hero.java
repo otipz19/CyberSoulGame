@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.animation.Animator;
 import com.mygdx.game.animation.HeroAnimator;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
@@ -79,21 +76,21 @@ public class Hero extends Entity {
             animator.setDirection(HeroAnimator.Direction.RIGHT);
         }else if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && (dashCooldown <= 0)) {
             if(animator.getDirection()==HeroAnimator.Direction.RIGHT) {
-                applyImpulse(13f, 0);
+                applyImpulse(6.5f, 0);
             }
             else {
-                applyImpulse(-13f, 0);
+                applyImpulse(-6.5f, 0);
             }
             animator.setState(HeroAnimator.State.RUN);
             dashCooldown = DASH_COOLDOWN_TIME;
         }  else if (Gdx.input.isKeyPressed(Input.Keys.UP) && (isOnGround()||(canDoubleJump && jumpCooldown <= 0))) {
             if (isOnGround()) {
-                applyImpulse(0, 10f);
+                applyImpulse(0, 5f);
                 canDoubleJump = true;
                 animator.setState(HeroAnimator.State.JUMP);
             } else if (canDoubleJump) {
                 body.setLinearVelocity(body.getLinearVelocity().x,0);
-                applyImpulse(0, 18f);
+                applyImpulse(0, 9f);
                 canDoubleJump = false;
                 animator.setState(HeroAnimator.State.DOUBLE_JUMP);
             }
@@ -122,7 +119,7 @@ public class Hero extends Entity {
     }
 
     private boolean isOnGround() {
-        for (Contact contact : game.world.getContactList()) {
+        for (Contact contact : level.world.getContactList()) {
             if (contact.isTouching()) {
                 Fixture a = contact.getFixtureA();
                 Fixture b = contact.getFixtureB();
