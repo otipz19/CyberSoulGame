@@ -41,7 +41,9 @@ public abstract class Animator {
         }
         curAnimation = animations.get(curState);
     }
-
+    public Direction getDirection() {
+        return curDirection;
+    }
     public void setDirection(Direction newDirection) {
         animationChanged = newDirection != curDirection;
         curDirection = newDirection;
