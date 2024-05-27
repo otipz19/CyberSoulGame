@@ -15,10 +15,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
-import com.mygdx.game.entities.Hero;
-import com.mygdx.game.entities.HeroData;
+import com.mygdx.game.entities.*;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
+import com.mygdx.game.physics.ContactListener;
 import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.utils.LevelObjectsParser;
 
@@ -28,14 +28,14 @@ public class TestLevel extends Level {
     public TestLevel(MyGdxGame game){
         this.game = game;
         createMap();
-        hero = new Hero(this, new HeroData(), 17, 5);
-        hero.setPosition(17, 5);
+        hero = new Hero(this, new HeroData(), 17, 5, 1, 1);
         createCamera();
         background = game.assetManager.get(AssetsNames.GREENZONE_BACKGROUND_FULL);
     }
 
     private void createMap() {
         world = new World(new Vector2(0, -10), true);
+        world.setContactListener(new ContactListener());
 
         map = game.assetManager.get(AssetsNames.TEST_LEVEL_TILEMAP);
 

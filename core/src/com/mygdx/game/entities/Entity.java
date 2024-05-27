@@ -3,10 +3,13 @@ package com.mygdx.game.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.game.animation.Animator;
+import com.mygdx.game.levels.Level;
 
 public abstract class Entity {
     protected Animator animator;
     protected Body body;
+    protected Level level;
+
     protected float width;
     protected float height;
 
@@ -28,19 +31,47 @@ public abstract class Entity {
         this.height = height;
     }
 
-    private Vector2 getPosition(){
+    public Vector2 getPosition(){
         return body.getPosition();
     }
 
-    private void setX(float x){
+    public void setPosition(float x, float y){
+        body.getPosition().set(x, y);
+    }
+
+    public void setX(float x){
         Vector2 position = getPosition();
         position.x = x;
         body.setTransform(position, body.getAngle());
     }
 
-    private void setY(float y){
+    public void setY(float y){
         Vector2 position = getPosition();
         position.y = y;
         body.setTransform(position, body.getAngle());
+    }
+
+    public Animator getAnimator() {
+        return animator;
+    }
+
+    public void setAnimator(Animator animator) {
+        this.animator = animator;
+    }
+
+    public Body getBody() {
+        return body;
+    }
+
+    public void setBody(Body body) {
+        this.body = body;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
     }
 }
