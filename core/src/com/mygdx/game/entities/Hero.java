@@ -1,25 +1,30 @@
-package com.mygdx.game;
+package com.mygdx.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.HeroAnimator;
+import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 
-public class SimpleActor {
-    private MyGdxGame game;
+public class Hero {
+    private Level level;
+
+    private HeroData heroData;
+
     public Body body;
     private final static float MAX_VELOCITY = 5f;
     private final Vector2 worldSize = new Vector2(1.5f, 1.5f);
 
     private HeroAnimator animator;
 
-    public SimpleActor(MyGdxGame game, float x, float y) {
-        this.game = game;
+    public Hero(Level level, HeroData heroData, float x, float y) {
+        this.level = level;
+        this.heroData = heroData;
         animator = new HeroAnimator();
 
         Collider collider = ColliderCreator.create(new Rectangle(x, y, worldSize.x, worldSize.y));
@@ -34,12 +39,11 @@ public class SimpleActor {
         fixtureDef.friction = 0.25f;
         fixtureDef.restitution = 0;
 
-        body = game.world.createBody(bodyDef);
+        body = level.world.createBody(bodyDef);
         body.createFixture(fixtureDef);
         body.setFixedRotation(true);
 
         collider.dispose();
-
     }
 
     public void render() {
@@ -62,7 +66,7 @@ public class SimpleActor {
             animator.setState(HeroAnimator.State.IDLE);
         }
 
-        animator.animate(game.getBatch(), body.getPosition().x, body.getPosition().y, worldSize.x, worldSize.y);
+        animator.animate(level.game.batch, body.getPosition().x, body.getPosition().y, worldSize.x, worldSize.y);
     }
 
     public Vector2 getCameraPosition(){
@@ -72,5 +76,9 @@ public class SimpleActor {
     private void applyImpulse(float x, float y){
         Vector2 center = body.getWorldCenter();
         body.applyLinearImpulse(x, y, center.x, center.y, true);
+    }
+
+    public void setPosition(float x, float y){
+        body.getPosition().set(x, y);
     }
 }
