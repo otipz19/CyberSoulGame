@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.game.entities.Hero;
 import com.mygdx.game.levels.TestLevel;
 import com.mygdx.game.utils.AssetsNames;
 

@@ -13,12 +13,8 @@ import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 
-public class Hero {
-    private Level level;
-
+public class Hero extends Entity {
     private HeroData heroData;
-
-    public Body body;
     private final static float MAX_VELOCITY = 5f;
     private final Vector2 worldSize = new Vector2(1.5f, 1.5f);
     private boolean canDoubleJump;
@@ -27,14 +23,14 @@ public class Hero {
     private float dashCooldown=0;
     private final static float DASH_COOLDOWN_TIME = 1f;
 
-    private HeroAnimator animator;
-
-    public Hero(Level level, HeroData heroData, float x, float y) {
+    public Hero(Level level, HeroData heroData, float x, float y, float width, float height) {
         this.level = level;
         this.heroData = heroData;
-        animator = new HeroAnimator();
+        this.animator = new HeroAnimator();
+        this.width = width;
+        this.height = height;
 
-        Collider collider = ColliderCreator.create(new Rectangle(x, y, worldSize.x, worldSize.y));
+        Collider collider = ColliderCreator.create(new Rectangle(x, y, width, height));
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -49,6 +45,8 @@ public class Hero {
         body = level.world.createBody(bodyDef);
         body.createFixture(fixtureDef);
         body.setFixedRotation(true);
+
+        body.setUserData(this);
 
         collider.dispose();
 
@@ -111,14 +109,14 @@ public class Hero {
             body.getFixtureList().forEach(b->b.setFriction(1));
         }
 
-        animator.animate(level.game.batch, body.getPosition().x, body.getPosition().y, worldSize.x, worldSize.y);
+        animator.animate(level.game.batch, body.getPosition().x, body.getPosition().y, width, height);
     }
 
     public Vector2 getCameraPosition() {
         return new Vector2(body.getPosition().x + worldSize.x / 2, body.getPosition().y + worldSize.y / 2);
     }
 
-    private void applyImpulse(float x, float y) {
+    private void applyImpulse(float x, float y){
         Vector2 center = body.getWorldCenter();
         body.applyLinearImpulse(new Vector2(x, y), center, true);
     }
@@ -140,9 +138,5 @@ public class Hero {
             }
         }
         return false;
-    }
-
-    public void setPosition(float x, float y){
-        body.getPosition().set(x, y);
     }
 }
