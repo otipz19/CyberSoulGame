@@ -1,15 +1,10 @@
 package com.mygdx.game.entities;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.game.animation.Animator;
-import com.mygdx.game.levels.Level;
 
-public abstract class Entity {
+public abstract class Entity extends GameObject {
     protected Animator animator;
-    protected Body body;
-    protected Level level;
-
     protected float width;
     protected float height;
 
@@ -57,21 +52,5 @@ public abstract class Entity {
 
     public void setAnimator(Animator animator) {
         this.animator = animator;
-    }
-
-    public Body getBody() {
-        return body;
-    }
-
-    public void setBody(Body body) {
-        this.body = body;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public void setLevel(Level level) {
-        this.level = level;
     }
 }

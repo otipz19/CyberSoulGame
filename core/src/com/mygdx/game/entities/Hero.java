@@ -11,9 +11,9 @@ import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 
 public class Hero extends Entity {
-    private HeroData heroData;
     private final static float MAX_VELOCITY = 5f;
-    private final Vector2 worldSize = new Vector2(1.5f, 1.5f);
+    private HeroData heroData;
+    private final GroundTouchListener groundTouchListener;
     private boolean canDoubleJump;
     private float jumpCooldown=0;
     private final static float JUMP_COOLDOWN_TIME = 0.5f;
@@ -40,12 +40,14 @@ public class Hero extends Entity {
         fixtureDef.restitution = 0;
 
         body = level.world.createBody(bodyDef);
-        body.createFixture(fixtureDef);
+        Fixture fixture = body.createFixture(fixtureDef);
         body.setFixedRotation(true);
 
-        body.setUserData(this);
+        fixture.setUserData(this);
 
         collider.dispose();
+
+        groundTouchListener = new GroundTouchListener(this);
 
         canDoubleJump = true;
         jumpCooldown = 0f;
@@ -63,7 +65,7 @@ public class Hero extends Entity {
             if(velocity.x > -MAX_VELOCITY) {
                 applyImpulse(-0.8f, 0);
             }
-            if(isOnGround())
+            if(groundTouchListener.isOnGround())
                 animator.setState(HeroAnimator.State.RUN);
             animator.setDirection(HeroAnimator.Direction.LEFT);
         } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
@@ -71,7 +73,7 @@ public class Hero extends Entity {
             if(velocity.x < MAX_VELOCITY) {
                 applyImpulse(0.8f, 0);
             }
-            if(isOnGround())
+            if(groundTouchListener.isOnGround())
                 animator.setState(HeroAnimator.State.RUN);
             animator.setDirection(HeroAnimator.Direction.RIGHT);
         }else if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && (dashCooldown <= 0)) {
@@ -83,8 +85,8 @@ public class Hero extends Entity {
             }
             animator.setState(HeroAnimator.State.RUN);
             dashCooldown = DASH_COOLDOWN_TIME;
-        }  else if (Gdx.input.isKeyPressed(Input.Keys.UP) && (isOnGround()||(canDoubleJump && jumpCooldown <= 0))) {
-            if (isOnGround()) {
+        }  else if (Gdx.input.isKeyPressed(Input.Keys.UP) && (groundTouchListener.isOnGround()||(canDoubleJump && jumpCooldown <= 0))) {
+            if (groundTouchListener.isOnGround()) {
                 applyImpulse(0, 5f);
                 canDoubleJump = true;
                 animator.setState(HeroAnimator.State.JUMP);
@@ -99,7 +101,7 @@ public class Hero extends Entity {
             applyImpulse(0, -0.8f);
             animator.setState(HeroAnimator.State.IDLE);
         } else {
-            if (isOnGround()) {
+            if (groundTouchListener.isOnGround()) {
                 animator.setState(HeroAnimator.State.IDLE);
                 canDoubleJump = true;
             }
@@ -109,31 +111,13 @@ public class Hero extends Entity {
         animator.animate(level.game.batch, body.getPosition().x, body.getPosition().y, width, height);
     }
 
-    public Vector2 getCameraPosition() {
-        return new Vector2(body.getPosition().x + worldSize.x / 2, body.getPosition().y + worldSize.y / 2);
-    }
 
     private void applyImpulse(float x, float y){
         Vector2 center = body.getWorldCenter();
         body.applyLinearImpulse(new Vector2(x, y), center, true);
     }
 
-    private boolean isOnGround() {
-        for (Contact contact : level.world.getContactList()) {
-            if (contact.isTouching()) {
-                Fixture a = contact.getFixtureA();
-                Fixture b = contact.getFixtureB();
-                if ((a.getBody() == body || b.getBody() == body)) {
-                    WorldManifold worldManifold = contact.getWorldManifold();
-                    for (int i = 0; i < worldManifold.getNumberOfContactPoints(); i++) {
-                        Vector2 normal = worldManifold.getNormal();
-                        if (normal.y > 0.5f) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
+    public Vector2 getCameraPosition() {
+        return new Vector2(body.getPosition().x + width / 2, body.getPosition().y + height / 2);
     }
 }

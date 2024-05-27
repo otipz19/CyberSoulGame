@@ -4,39 +4,40 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.mygdx.game.entities.Entity;
+import com.mygdx.game.entities.GameObject;
 import com.mygdx.game.entities.ICollisionListener;
 import com.mygdx.game.entities.ITriggerListener;
 
 public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactListener {
     @Override
     public void beginContact(Contact contact) {
-        Object a = contact.getFixtureA().getBody().getUserData();
-        Object b = contact.getFixtureB().getBody().getUserData();
-        if (a instanceof Entity aEntity && b instanceof Entity bEntity){
-            if (aEntity instanceof ICollisionListener aListener)
-                aListener.onCollisionEnter(bEntity);
-            if (aEntity instanceof ITriggerListener aListener)
-                aListener.onTriggerEnter(bEntity);
-            if (bEntity instanceof ICollisionListener bListener)
-                bListener.onCollisionEnter(aEntity);
-            if (bEntity instanceof ITriggerListener bListener)
-                bListener.onTriggerEnter(aEntity);
+        Object a = contact.getFixtureA().getUserData();
+        Object b = contact.getFixtureB().getUserData();
+        if (a instanceof GameObject aObject && b instanceof GameObject bObject){
+            if (aObject instanceof ICollisionListener aListener)
+                aListener.onCollisionEnter(bObject);
+            if (aObject instanceof ITriggerListener aListener)
+                aListener.onTriggerEnter(bObject);
+            if (bObject instanceof ICollisionListener bListener)
+                bListener.onCollisionEnter(aObject);
+            if (bObject instanceof ITriggerListener bListener)
+                bListener.onTriggerEnter(aObject);
         }
     }
 
     @Override
     public void endContact(Contact contact) {
-        Object a = contact.getFixtureA().getBody().getUserData();
-        Object b = contact.getFixtureB().getBody().getUserData();
-        if (a instanceof Entity aEntity && b instanceof Entity bEntity){
+        Object a = contact.getFixtureA().getUserData();
+        Object b = contact.getFixtureB().getUserData();
+        if (a instanceof GameObject aObject && b instanceof GameObject bObject){
             if (a instanceof ICollisionListener aListener)
-                aListener.onCollisionExit(bEntity);
+                aListener.onCollisionExit(bObject);
             if (a instanceof ITriggerListener aListener)
-                aListener.onTriggerExit(bEntity);
+                aListener.onTriggerExit(bObject);
             if (b instanceof ICollisionListener bListener)
-                bListener.onCollisionExit(aEntity);
+                bListener.onCollisionExit(aObject);
             if (b instanceof ITriggerListener bListener)
-                bListener.onTriggerExit(aEntity);
+                bListener.onTriggerExit(aObject);
         }
     }
 

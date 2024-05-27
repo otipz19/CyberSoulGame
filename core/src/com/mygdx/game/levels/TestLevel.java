@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
+import com.mygdx.game.entities.Ground;
 import com.mygdx.game.entities.Hero;
 import com.mygdx.game.entities.HeroData;
 import com.mygdx.game.physics.Collider;
@@ -63,18 +64,7 @@ public class TestLevel extends Level {
             else
                 throw new RuntimeException("Shape is not supported");
 
-            BodyDef bodyDef = new BodyDef();
-            bodyDef.type = BodyDef.BodyType.StaticBody;
-            bodyDef.position.set(collider.getX(), collider.getY());
-
-            FixtureDef fixtureDef = new FixtureDef();
-            fixtureDef.shape = collider.getShape();
-            fixtureDef.friction = 1;
-            fixtureDef.density = 1;
-            fixtureDef.restitution = 0;
-
-            Body body = world.createBody(bodyDef);
-            body.createFixture(fixtureDef);
+            new Ground(this, collider);
 
             collider.dispose();
         }
