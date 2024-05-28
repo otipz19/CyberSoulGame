@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="16">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="18">
  <tileset firstgid="1" source="../tileset/green-zone.tsx"/>
+ <imagelayer id="10" name="background" offsetx="5.33333" offsety="159.667" repeatx="1">
+  <image source="../background/background-full.png" width="576" height="324"/>
+ </imagelayer>
  <layer id="4" name="Tile Layer 0" width="30" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -98,17 +101,21 @@
 </data>
  </layer>
  <objectgroup id="9" name="colliders">
-  <object id="10" x="512" y="416">
-   <polygon points="0,0 -128,0 -160,32 -512,32 -512,224 0,224"/>
+  <object id="10" x="511.333" y="416.667">
+   <polygon points="0,0 -127.333,-0.666667 -158.667,32.6667 -511.333,32.6667 -510.667,222 -1.33333,224"/>
   </object>
-  <object id="11" x="512" y="608">
-   <polygon points="0,0 128,0 128,32 0,32"/>
+  <object id="11" x="511.333" y="609.333">
+   <polygon points="0,0 129.333,0 129.333,-191.333 130.667,-194 254,-192.667 255.333,-130 448.667,-129.333 448.667,29.3333 0,30"/>
   </object>
-  <object id="12" x="640" y="640">
-   <polygon points="0,0 0,-222 2,-224 126,-224 128,-222 128,-160 320,-160 320,0"/>
+  <object id="12" x="384" y="288" width="128" height="32"/>
+  <object id="13" x="641.333" y="320.667" width="94.6667" height="32"/>
+  <object id="14" x="800" y="320.667" width="128" height="31.3333"/>
+ </objectgroup>
+ <objectgroup id="11" name="obstacles">
+  <object id="17" x="192" y="352" width="64" height="96">
+   <properties>
+    <property name="name" value="entry"/>
+   </properties>
   </object>
-  <object id="13" x="384" y="288" width="128" height="32"/>
-  <object id="14" x="640" y="320" width="96" height="32"/>
-  <object id="15" x="800" y="320" width="128" height="32"/>
  </objectgroup>
 </map>

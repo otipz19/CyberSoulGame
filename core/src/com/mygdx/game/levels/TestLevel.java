@@ -3,6 +3,7 @@ package com.mygdx.game.levels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Polygon;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
@@ -20,21 +22,34 @@ import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
 import com.mygdx.game.entities.Hero;
 import com.mygdx.game.entities.HeroData;
+import com.mygdx.game.entities.Obstacle;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
 import com.mygdx.game.utils.AssetsNames;
+import com.mygdx.game.utils.BodyCreator;
 import com.mygdx.game.utils.LevelObjectsParser;
 
 public class TestLevel extends Level {
     private Texture background;
+    private Array<Obstacle> obstacles = new Array<>();
 
-    public TestLevel(MyGdxGame game){
+    public TestLevel(MyGdxGame game) {
         this.game = game;
         createMap();
         hero = new Hero(this, new HeroData(), 17, 5, 1, 1);
         createCamera();
         background = game.assetManager.get(AssetsNames.GREENZONE_BACKGROUND_FULL);
+        createObstacles();
+    }
+
+    private void createObstacles() {
+        var levelParser = new LevelObjectsParser(AssetsNames.TEST_LEVEL_TILEMAP, "obstacles");
+        for (var rectangle : levelParser.getRectanglesWithProperties()) {
+            var collider = ColliderCreator.create(rectangle, coordinatesProjector);
+            Body body = BodyCreator.createStaticBody(world, collider, 1, 1, 0);
+            obstacles.add(new Obstacle(this, body));
+        }
     }
 
     private void createMap() {
@@ -53,7 +68,7 @@ public class TestLevel extends Level {
         mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
 
         LevelObjectsParser parser = new LevelObjectsParser(AssetsNames.TEST_LEVEL_TILEMAP, "colliders");
-        CoordinatesProjector coordinatesProjector = new CoordinatesProjector(unitScale, mapHeight);
+        coordinatesProjector = new CoordinatesProjector(unitScale, mapHeight);
         for (Shape2D shape : parser.getShapes()) {
             Collider collider;
             if (shape instanceof Rectangle)
@@ -63,26 +78,13 @@ public class TestLevel extends Level {
             else
                 throw new RuntimeException("Shape is not supported");
 
-            BodyDef bodyDef = new BodyDef();
-            bodyDef.type = BodyDef.BodyType.StaticBody;
-            bodyDef.position.set(collider.getX(), collider.getY());
-
-            FixtureDef fixtureDef = new FixtureDef();
-            fixtureDef.shape = collider.getShape();
-            fixtureDef.friction = 1;
-            fixtureDef.density = 1;
-            fixtureDef.restitution = 0;
-
-            Body body = world.createBody(bodyDef);
-            body.createFixture(fixtureDef);
-
-            collider.dispose();
+            BodyCreator.createStaticBody(world, collider, 1, 1, 0);
         }
     }
 
     private void createCamera() {
         camera = new LevelCamera(levelWidth, levelHeight);
-        camera.adjustZoomForViewportSize(levelWidth/2f, levelHeight/2f);
+        camera.adjustZoomForViewportSize(levelWidth / 2f, levelHeight / 2f);
 
         viewport = new ScreenViewport(camera);
         viewport.setUnitsPerPixel(unitScale);
@@ -105,6 +107,9 @@ public class TestLevel extends Level {
         mapRenderer.render();
         game.batch.begin();
         hero.render();
+        for (var obstacle : obstacles) {
+            obstacle.render();
+        }
         game.batch.end();
         box2dRenderer.render(world, camera.combined);
 

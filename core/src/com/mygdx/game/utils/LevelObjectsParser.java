@@ -20,6 +20,9 @@ public class LevelObjectsParser {
     private Array<Polygon> polygons;
     private String objectGroup;
 
+    //Should be changed for special type to actually save properties
+    private Array<Rectangle> rectanglesWithProperties;
+
     public LevelObjectsParser(String filePath, String layerName) {
         this.filePath = Path.of(filePath);
         this.layerName = layerName;
@@ -57,10 +60,18 @@ public class LevelObjectsParser {
         return polygons;
     }
 
+    public Array<Rectangle> getRectanglesWithProperties(){
+        if(!isParsed)
+            parse();
+
+        return rectanglesWithProperties;
+    }
+
     private void parse(){
         objectGroup = getObjectsGroup();
         parseRectangles();
         parsePolygons();
+        parseRectanglesWithProperties();
         isParsed = true;
     }
 
@@ -91,6 +102,15 @@ public class LevelObjectsParser {
         Matcher matcher = rectanglePattern.matcher(objectGroup);
         while (matcher.find()) {
             rectangles.add(createRectangle(matcher));
+        }
+    }
+
+    private void parseRectanglesWithProperties() {
+        rectanglesWithProperties = new Array<>();
+        Pattern rectanglePattern = Pattern.compile("<object.*?x=\"(?<x>[0-9.]+)\" y=\"(?<y>[0-9.]+)\" width=\"(?<width>[0-9.]+)\" height=\"(?<height>[0-9.]+)\">");
+        Matcher matcher = rectanglePattern.matcher(objectGroup);
+        while (matcher.find()) {
+            rectanglesWithProperties.add(createRectangle(matcher));
         }
     }
 

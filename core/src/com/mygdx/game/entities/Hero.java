@@ -50,7 +50,6 @@ public class Hero extends Entity {
         canDoubleJump = true;
         jumpCooldown = 0f;
         dashCooldown = 0f;
-
     }
 
     public void render() {

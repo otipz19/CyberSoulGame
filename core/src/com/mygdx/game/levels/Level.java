@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.entities.Hero;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.LevelCamera;
@@ -19,6 +20,7 @@ public abstract class Level implements Screen {
     protected OrthogonalTiledMapRenderer mapRenderer;
     protected LevelCamera camera;
     protected ScreenViewport viewport;
+    protected CoordinatesProjector coordinatesProjector;
 
     protected float accumulator;
     protected static final float TIME_STEP = 1 / 60f;

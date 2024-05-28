@@ -16,4 +16,6 @@ public class AssetsNames {
     public static final String GREENZONE_BACKGROUND_FULL = "zones/greenzone/background/background-full.png";
 
     public static final String TEST_LEVEL_TILEMAP = "zones/greenzone/levels/test-level.tmx";
+
+    public static final String ENTRY_OBSTACLE = "obstacles/Entry.png";
 }
