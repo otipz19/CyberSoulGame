@@ -3,16 +3,12 @@ package com.mygdx.game.levels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -22,20 +18,23 @@ import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
 import com.mygdx.game.entities.Hero;
 import com.mygdx.game.entities.HeroData;
-import com.mygdx.game.entities.Obstacle;
+import com.mygdx.game.entities.EntryObstacle;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
 import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.utils.BodyCreator;
-import com.mygdx.game.utils.LevelObjectsParser;
+import com.mygdx.game.utils.ObstacleData;
+import com.mygdx.game.utils.XMLLevelObjectsParser;
 
 public class TestLevel extends Level {
     private Texture background;
-    private Array<Obstacle> obstacles = new Array<>();
+    private Array<EntryObstacle> obstacles = new Array<>();
+    private XMLLevelObjectsParser objectsParser;
 
     public TestLevel(MyGdxGame game) {
         this.game = game;
+        objectsParser = new XMLLevelObjectsParser(AssetsNames.TEST_LEVEL_TILEMAP);
         createMap();
         hero = new Hero(this, new HeroData(), 17, 5, 1, 1);
         createCamera();
@@ -44,12 +43,13 @@ public class TestLevel extends Level {
     }
 
     private void createObstacles() {
-        var levelParser = new LevelObjectsParser(AssetsNames.TEST_LEVEL_TILEMAP, "obstacles");
-        for (var rectangle : levelParser.getRectanglesWithProperties()) {
-            var collider = ColliderCreator.create(rectangle, coordinatesProjector);
-            Body body = BodyCreator.createStaticBody(world, collider, 1, 1, 0);
-            obstacles.add(new Obstacle(this, body));
-        }
+        objectsParser.getObstaclesData().forEach(obstacleData -> {
+            if (obstacleData.getType().equals(ObstacleData.Type.ENTRY)) {
+                var collider = ColliderCreator.create(obstacleData.getBounds(), coordinatesProjector);
+                Body body = BodyCreator.createStaticBody(world, collider, 1, 1, 0);
+                obstacles.add(new EntryObstacle(this, body));
+            }
+        });
     }
 
     private void createMap() {
@@ -66,10 +66,9 @@ public class TestLevel extends Level {
         float mapHeight = tileSize * levelHeight;
 
         mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
-
-        LevelObjectsParser parser = new LevelObjectsParser(AssetsNames.TEST_LEVEL_TILEMAP, "colliders");
         coordinatesProjector = new CoordinatesProjector(unitScale, mapHeight);
-        for (Shape2D shape : parser.getShapes()) {
+
+        objectsParser.getColliders().forEach(shape -> {
             Collider collider;
             if (shape instanceof Rectangle)
                 collider = ColliderCreator.create((Rectangle) shape, coordinatesProjector);
@@ -79,7 +78,7 @@ public class TestLevel extends Level {
                 throw new RuntimeException("Shape is not supported");
 
             BodyCreator.createStaticBody(world, collider, 1, 1, 0);
-        }
+        });
     }
 
     private void createCamera() {

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="18">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="19" nextobjectid="27">
  <tileset firstgid="1" source="../tileset/green-zone.tsx"/>
- <imagelayer id="10" name="background" offsetx="5.33333" offsety="159.667" repeatx="1">
-  <image source="../background/background-full.png" width="576" height="324"/>
- </imagelayer>
- <layer id="4" name="Tile Layer 0" width="30" height="20">
-  <data encoding="csv">
+ <group id="18" name="default">
+  <layer id="4" name="Tile Layer 0" width="30" height="20">
+   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -27,9 +25,9 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,73,73,73,73,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
- </layer>
- <layer id="1" name="Tile Layer 1" width="30" height="20">
-  <data encoding="csv">
+  </layer>
+  <layer id="1" name="Tile Layer 1" width="30" height="20">
+   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -51,9 +49,9 @@
 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,62,0,0,0,0,61,4,4,4,4,4,4,4,4,4,
 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
 </data>
- </layer>
- <layer id="2" name="Tile Layer 2" width="30" height="20">
-  <data encoding="csv">
+  </layer>
+  <layer id="2" name="Tile Layer 2" width="30" height="20">
+   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -75,9 +73,9 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,44,46,10,0,0,0,0,0,0,0,0,0,0
 </data>
- </layer>
- <layer id="8" name="platforms" width="30" height="20">
-  <data encoding="csv">
+  </layer>
+  <layer id="8" name="platforms" width="30" height="20">
+   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -99,23 +97,41 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
- </layer>
- <objectgroup id="9" name="colliders">
-  <object id="10" x="511.333" y="416.667">
-   <polygon points="0,0 -127.333,-0.666667 -158.667,32.6667 -511.333,32.6667 -510.667,222 -1.33333,224"/>
-  </object>
-  <object id="11" x="511.333" y="609.333">
-   <polygon points="0,0 129.333,0 129.333,-191.333 130.667,-194 254,-192.667 255.333,-130 448.667,-129.333 448.667,29.3333 0,30"/>
-  </object>
-  <object id="12" x="384" y="288" width="128" height="32"/>
-  <object id="13" x="641.333" y="320.667" width="94.6667" height="32"/>
-  <object id="14" x="800" y="320.667" width="128" height="31.3333"/>
- </objectgroup>
- <objectgroup id="11" name="obstacles">
-  <object id="17" x="192" y="352" width="64" height="96">
+  </layer>
+  <objectgroup id="9" name="colliders">
+   <object id="10" x="511.333" y="416.667">
+    <polygon points="0,0 -127.333,-0.666667 -158.667,32.6667 -511.333,32.6667 -510.667,222 -1.33333,224"/>
+   </object>
+   <object id="11" x="511.333" y="609.333">
+    <polygon points="0,0 129.333,0 129.333,-191.333 130.667,-194 254,-192.667 255.333,-130 448.667,-129.333 448.667,29.3333 0,30"/>
+   </object>
+   <object id="12" x="384" y="288" width="128" height="32"/>
+   <object id="13" x="641.333" y="320.667" width="94.6667" height="32"/>
+   <object id="14" x="800" y="320.667" width="128" height="31.3333"/>
+  </objectgroup>
+  <objectgroup id="11" name="obstacles">
+   <object id="17" x="192" y="352" width="64" height="96">
+    <properties>
+     <property name="type" value="entry"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </group>
+ <group id="14" name="enemies">
+  <objectgroup id="17" name="first-enemy">
    <properties>
-    <property name="name" value="entry"/>
+    <property name="type" value="default"/>
    </properties>
-  </object>
- </objectgroup>
+   <object id="18" x="768" y="416" width="192" height="64">
+    <properties>
+     <property name="class" value="travelArea"/>
+    </properties>
+   </object>
+   <object id="25" x="832" y="416" width="64" height="64">
+    <properties>
+     <property name="class" value="spawnPoint"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </group>
 </map>
