@@ -23,7 +23,9 @@ public class XMLLevelObjectsParser {
 
     private final List<Rectangle> rectangleColliders = new ArrayList<>();
     private final List<Polygon> polygonColliders = new ArrayList<>();
+
     private final List<ObstacleData> obstaclesData = new ArrayList<>();
+    private final List<EnemyData> enemiesData = new ArrayList<>();
 
     public XMLLevelObjectsParser(String levelFileName) {
         document = loadDocument(levelFileName);
@@ -53,6 +55,8 @@ public class XMLLevelObjectsParser {
                     String groupName = element.getAttribute("name");
                     if (groupName.equals("default")) {
                         parseDefaultObjectGroups(element);
+                    } else if (groupName.equals("enemies")) {
+                        parseEnemiesObjectGroups(element);
                     }
                 }
             }
@@ -129,9 +133,47 @@ public class XMLLevelObjectsParser {
 
     private ObstacleData parseObstacle(Element object) {
         Rectangle bounds = parseRectangle(object);
-        Element typeProperty = (Element) ((Element) object.getElementsByTagName("properties").item(0))
-                .getElementsByTagName("property").item(0);
-        return new ObstacleData(bounds, typeProperty.getAttribute("value"));
+        return new ObstacleData(bounds, getProperty(object, "type"));
+    }
+
+    private void parseEnemiesObjectGroups(Element group) {
+        NodeList objectGroups = group.getElementsByTagName("objectgroup");
+        for (int i = 0; i < objectGroups.getLength(); i++) {
+            Element objectGroup = (Element) objectGroups.item(0);
+            enemiesData.add(parseEnemy(objectGroup));
+        }
+    }
+
+    private EnemyData parseEnemy(Element objectGroup) {
+        String type = getProperty(objectGroup, "type");
+        Rectangle spawnPoint = null;
+        Rectangle travelArea = null;
+        NodeList objects = objectGroup.getElementsByTagName("object");
+        for (int i = 0; i < objects.getLength(); i++) {
+            Element object = (Element) objects.item(i);
+            String classProperty = getProperty(object, "class");
+            if (classProperty.equals("travelArea")) {
+                travelArea = parseRectangle(object);
+            } else if (classProperty.equals("spawnPoint")) {
+                spawnPoint = parseRectangle(object);
+            }
+        }
+        if(spawnPoint == null || travelArea == null) {
+            throw  new RuntimeException("Invalid enemy object format!");
+        }
+        return new EnemyData(spawnPoint, travelArea, type);
+    }
+
+    private String getProperty(Element element, String propertyName) {
+        NodeList properties = ((Element) element.getElementsByTagName("properties").item(0))
+                .getElementsByTagName("property");
+        for (int i = 0; i < properties.getLength(); i++) {
+            Element property = (Element) properties.item(i);
+            if (property.hasAttribute("name") && property.getAttribute("name").equals(propertyName)) {
+                return property.getAttribute("value");
+            }
+        }
+        throw new RuntimeException("Property " + propertyName + " not found!");
     }
 
     private float getFloatAttribute(Element element, String attribute) {
@@ -152,5 +194,9 @@ public class XMLLevelObjectsParser {
 
     public Stream<ObstacleData> getObstaclesData() {
         return obstaclesData.stream();
+    }
+
+    public Stream<EnemyData> getEnemiesData() {
+        return enemiesData.stream();
     }
 }
