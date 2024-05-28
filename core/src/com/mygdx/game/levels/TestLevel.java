@@ -98,7 +98,8 @@ public class TestLevel extends Level {
         game.batch.end();
         box2dRenderer.render(world, camera.combined);
 
-        accumulator += Gdx.graphics.getDeltaTime();
+        float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
+        accumulator += frameTime;
         while (accumulator >= TIME_STEP) {
             world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
             accumulator -= TIME_STEP;
