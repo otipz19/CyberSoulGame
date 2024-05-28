@@ -7,11 +7,8 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -19,7 +16,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
-import com.mygdx.game.entities.Ground;
+import com.mygdx.game.entities.Surface;
 import com.mygdx.game.entities.Hero;
 import com.mygdx.game.entities.HeroData;
 import com.mygdx.game.entities.EntryObstacle;
@@ -27,7 +24,6 @@ import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
 import com.mygdx.game.utils.AssetsNames;
-import com.mygdx.game.utils.BodyCreator;
 import com.mygdx.game.utils.ObstacleData;
 import com.mygdx.game.utils.XMLLevelObjectsParser;
 
@@ -50,7 +46,7 @@ public class TestLevel extends Level {
         objectsParser.getObstaclesData().forEach(obstacleData -> {
             if (obstacleData.getType().equals(ObstacleData.Type.ENTRY)) {
                 var collider = ColliderCreator.create(obstacleData.getBounds(), coordinatesProjector);
-                Body body = BodyCreator.createStaticBody(world, collider, 1, 1, 0);
+                Body body = new Surface(this, collider).getBody();
                 obstacles.add(new EntryObstacle(this, body));
             }
         });
@@ -81,12 +77,8 @@ public class TestLevel extends Level {
             else
                 throw new RuntimeException("Shape is not supported");
 
-            BodyCreator.createStaticBody(world, collider, 1, 1, 0);
+            new Surface(this, collider);
         });
-            new Ground(this, collider);
-
-            collider.dispose();
-        }
     }
 
     private void createCamera() {

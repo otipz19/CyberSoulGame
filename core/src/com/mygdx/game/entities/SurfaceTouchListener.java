@@ -31,13 +31,13 @@ public class SurfaceTouchListener extends GameObject implements ITriggerListener
 
     @Override
     public void onTriggerEnter(GameObject other) {
-        if (other instanceof Ground)
+        if (other instanceof Surface)
             surfaceTouchesNumber++;
     }
 
     @Override
     public void onTriggerExit(GameObject other) {
-        if (other instanceof Ground)
+        if (other instanceof Surface)
             surfaceTouchesNumber--;
     }
 
