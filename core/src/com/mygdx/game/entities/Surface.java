@@ -2,7 +2,7 @@ package com.mygdx.game.entities;
 
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
-import com.mygdx.game.utils.BodyCreator;
+import com.mygdx.game.physics.BodyCreator;
 
 public class Surface extends GameObject {
     public Surface(Level level, Collider collider) {

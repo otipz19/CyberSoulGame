@@ -1,6 +1,5 @@
-package com.mygdx.game.utils;
+package com.mygdx.game.map;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Shape2D;

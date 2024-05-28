@@ -24,8 +24,8 @@ import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
 import com.mygdx.game.utils.AssetsNames;
-import com.mygdx.game.utils.ObstacleData;
-import com.mygdx.game.utils.XMLLevelObjectsParser;
+import com.mygdx.game.map.ObstacleData;
+import com.mygdx.game.map.XMLLevelObjectsParser;
 
 public class TestLevel extends Level {
     private Texture background;

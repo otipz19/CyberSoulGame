@@ -1,4 +1,4 @@
-package com.mygdx.game.utils;
+package com.mygdx.game.map;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
