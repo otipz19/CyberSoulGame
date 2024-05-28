@@ -17,5 +17,7 @@ public class AssetsNames {
 
     public static final String TEST_LEVEL_TILEMAP = "zones/greenzone/levels/test-level.tmx";
 
-    public static final String ENTRY_OBSTACLE = "obstacles/Entry.png";
+    public static final String ENTRY_OBSTACLE_OPENING = "obstacles/entry/opening.png";
+    public static final String ENTRY_OBSTACLE_CLOSING = "obstacles/entry/closing.png";
+    public static final String ENTRY_OBSTACLE_CLOSED = "obstacles/entry/closed.png";
 }

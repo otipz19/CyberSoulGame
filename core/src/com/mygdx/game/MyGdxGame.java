@@ -38,17 +38,19 @@ public class MyGdxGame extends Game {
         assetManager.load(AssetsNames.TEST_LEVEL_TILEMAP, TiledMap.class);
         assetManager.load(AssetsNames.GREENZONE_BACKGROUND_FULL, Texture.class);
         Stream.of(AssetsNames.BIKER_RUN_SHEET,
-                AssetsNames.BIKER_JUMP_SHEET,
-                AssetsNames.BIKER_IDLE_SHEET,
-                AssetsNames.BIKER_ATTACK1_SHEET,
-                AssetsNames.BIKER_ATTACK2_SHEET,
-                AssetsNames.BIKER_CLIMB_SHEET,
-                AssetsNames.BIKER_DEATH_SHEET,
-                AssetsNames.BIKER_DOUBLEJUMP_SHEET,
-                AssetsNames.BIKER_HURT_SHEET,
-                AssetsNames.BIKER_PUNCH_SHEET,
-                AssetsNames.BIKER_RUN_ATTACK_SHEET,
-                AssetsNames.ENTRY_OBSTACLE)
+                        AssetsNames.BIKER_JUMP_SHEET,
+                        AssetsNames.BIKER_IDLE_SHEET,
+                        AssetsNames.BIKER_ATTACK1_SHEET,
+                        AssetsNames.BIKER_ATTACK2_SHEET,
+                        AssetsNames.BIKER_CLIMB_SHEET,
+                        AssetsNames.BIKER_DEATH_SHEET,
+                        AssetsNames.BIKER_DOUBLEJUMP_SHEET,
+                        AssetsNames.BIKER_HURT_SHEET,
+                        AssetsNames.BIKER_PUNCH_SHEET,
+                        AssetsNames.BIKER_RUN_ATTACK_SHEET,
+                        AssetsNames.ENTRY_OBSTACLE_CLOSED,
+                        AssetsNames.ENTRY_OBSTACLE_CLOSING,
+                        AssetsNames.ENTRY_OBSTACLE_OPENING)
                 .forEach(str -> assetManager.load(str, Texture.class));
         assetManager.finishLoading();
     }
