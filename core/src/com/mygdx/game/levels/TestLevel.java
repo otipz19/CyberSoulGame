@@ -23,36 +23,28 @@ import com.mygdx.game.entities.EntryObstacle;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
+import com.mygdx.game.ui.LevelUI;
 import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.map.ObstacleData;
 import com.mygdx.game.map.XMLLevelObjectsParser;
 
 public class TestLevel extends Level {
+    XMLLevelObjectsParser objectsParser;
     private Texture background;
-    private Array<EntryObstacle> obstacles = new Array<>();
-    private XMLLevelObjectsParser objectsParser;
+    private Array<EntryObstacle> obstacles;
 
     public TestLevel(MyGdxGame game) {
-        this.game = game;
+        super(game);
+    }
+
+    @Override
+    protected void initResources(){
         objectsParser = new XMLLevelObjectsParser(AssetsNames.TEST_LEVEL_TILEMAP);
-        createMap();
-        hero = new Hero(this, new HeroData(), 17, 5, 1, 1);
-        createCamera();
-        background = game.assetManager.get(AssetsNames.GREENZONE_BACKGROUND_FULL);
-        createObstacles();
+        obstacles = new Array<>();
     }
 
-    private void createObstacles() {
-        objectsParser.getObstaclesData().forEach(obstacleData -> {
-            if (obstacleData.getType().equals(ObstacleData.Type.ENTRY)) {
-                var collider = ColliderCreator.create(obstacleData.getBounds(), coordinatesProjector);
-                Body body = new Surface(this, collider).getBody();
-                obstacles.add(new EntryObstacle(this, body));
-            }
-        });
-    }
-
-    private void createMap() {
+    @Override
+    protected void createMap(){
         world = new World(new Vector2(0, -10), true);
         world.setContactListener(new ContactListener());
 
@@ -81,38 +73,82 @@ public class TestLevel extends Level {
         });
     }
 
-    private void createCamera() {
+    @Override
+    protected void createCamera() {
         camera = new LevelCamera(levelWidth, levelHeight);
         camera.adjustZoomForViewportSize(levelWidth / 2f, levelHeight / 2f);
 
         viewport = new ScreenViewport(camera);
         viewport.setUnitsPerPixel(unitScale);
+    }
 
+    @Override
+    protected void createHero() {
+        hero = new Hero(this, new HeroData(), 17, 5, 1, 1);
         camera.setPositionSharply(hero.getCameraPosition());
     }
 
     @Override
-    public void render(float delta) {
-        ScreenUtils.clear(Color.WHITE);
+    protected void createEntities() {
+        objectsParser.getObstaclesData().forEach(obstacleData -> {
+            if (obstacleData.getType().equals(ObstacleData.Type.ENTRY)) {
+                var collider = ColliderCreator.create(obstacleData.getBounds(), coordinatesProjector);
+                Body body = new Surface(this, collider).getBody();
+                obstacles.add(new EntryObstacle(this, body));
+            }
+        });
+    }
 
+    @Override
+    protected void createBackground(){
+        background = game.assetManager.get(AssetsNames.GREENZONE_BACKGROUND_FULL);
+    }
+
+    protected void createUI() {
+
+    }
+
+    @Override
+    protected void updateCamera(float delta) {
         camera.setPositionSmoothly(hero.getCameraPosition());
         camera.update();
-        mapRenderer.setView(camera);
+    }
 
+    @Override
+    protected void renderBackground(float delta)
+    {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         game.batch.draw(background, 0, 0, 30, 20);
         game.batch.end();
+    }
+
+    @Override
+    protected void renderMap(float delta) {
+        mapRenderer.setView(camera);
         mapRenderer.render();
+    }
+
+    @Override
+    protected void renderEntities(float delta)
+    {
+        game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         hero.render();
         for (var obstacle : obstacles) {
             obstacle.render();
         }
         game.batch.end();
-        box2dRenderer.render(world, camera.combined);
+    }
 
-        float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
+    @Override
+    protected void renderUI(float delta) {
+
+    }
+
+    @Override
+    protected void doPhysicsStep(float delta){
+        float frameTime = Math.min(delta, 0.25f);
         accumulator += frameTime;
         while (accumulator >= TIME_STEP) {
             world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
@@ -123,5 +159,6 @@ public class TestLevel extends Level {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
+
     }
 }
