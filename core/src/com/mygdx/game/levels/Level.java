@@ -36,6 +36,8 @@ public abstract class Level implements Screen {
     protected int levelHeight;
     protected float unitScale;
 
+    private boolean isPaused;
+
     public Level(MyGdxGame game){
         this.game = game;
         initResources();
@@ -58,6 +60,8 @@ public abstract class Level implements Screen {
 
     @Override
     public final void render(float delta) {
+        if (isPaused)
+            delta = 0;
         ScreenUtils.clear(Color.WHITE);
         updateCamera(delta);
         renderBackground(delta);
@@ -74,6 +78,18 @@ public abstract class Level implements Screen {
     protected abstract void renderEntities(float delta);
     protected abstract void renderUI(float delta);
     protected abstract void doPhysicsStep(float delta);
+
+    public boolean getPaused(){
+        return isPaused;
+    }
+
+    public void setPaused(boolean value){
+        isPaused = value;
+    }
+
+    public void togglePause(){
+        isPaused = !isPaused;
+    }
 
     @Override
     public void resize(int width, int height) {

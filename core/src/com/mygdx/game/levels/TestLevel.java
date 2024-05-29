@@ -110,12 +110,13 @@ public class TestLevel extends Level {
     }
 
     protected void createUI() {
-        ui = new LevelUI();
+        ui = new LevelUI(this);
     }
 
     @Override
     protected void updateCamera(float delta) {
-        camera.setPositionSmoothly(hero.getCameraPosition());
+        if (delta != 0)
+            camera.setPositionSmoothly(hero.getCameraPosition());
         camera.update();
     }
 

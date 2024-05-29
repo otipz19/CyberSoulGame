@@ -64,7 +64,7 @@ public class EntryObstacle extends Entity implements ICollisionListener {
                 entitiesToDamage.forEach(e -> e.addResourcesEffect(new InstantDamageEffect(50)));
             }
         }
-        animator.animate(level.game.batch, body.getPosition().x, body.getPosition().y, width, height);
+        animator.animate(level.game.batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
     }
 
     private State getCurrentState() {

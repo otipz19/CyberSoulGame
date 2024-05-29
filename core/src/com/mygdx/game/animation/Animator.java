@@ -51,17 +51,17 @@ public abstract class Animator {
         curDirection = newDirection;
     }
 
-    public void animate(SpriteBatch batch, float x, float y, float width, float height) {
-        updateStateTime();
+    public void animate(SpriteBatch batch, float x, float y, float width, float height, float deltaTime) {
+        updateStateTime(deltaTime);
         animationChanged = false;
         batch.draw(getDirectedSprite(), x, y, width, height);
     }
 
-    private void updateStateTime() {
+    private void updateStateTime(float deltaTime) {
         if (animationChanged) {
             stateTime = 0;
         } else {
-            stateTime += Gdx.graphics.getDeltaTime();
+            stateTime += deltaTime;
         }
     }
 

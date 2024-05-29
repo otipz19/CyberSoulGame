@@ -63,16 +63,18 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
     }
 
     public void render(float deltaTime) {
-        jumpCooldown -= deltaTime;
-        dashCooldown -= deltaTime;
-        updateDirection();
-        handeRunning();
-        handleJumping();
-        handleFalling();
-        handleDashing();
-        handleIdle();
-        updateResourcesManager(deltaTime);
-        animator.animate(level.game.batch, body.getPosition().x, body.getPosition().y, width, height);
+        if (deltaTime != 0) {
+            jumpCooldown -= deltaTime;
+            dashCooldown -= deltaTime;
+            updateDirection();
+            handeRunning();
+            handleJumping();
+            handleFalling();
+            handleDashing();
+            handleIdle();
+            updateResourcesManager(deltaTime);
+        }
+        animator.animate(level.game.batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
     }
 
     private void updateDirection(){

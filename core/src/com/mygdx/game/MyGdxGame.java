@@ -2,23 +2,22 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.mygdx.game.levels.Level;
 import com.mygdx.game.levels.TestLevel;
 import com.mygdx.game.utils.AssetsNames;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.stream.Stream;
 
 public class MyGdxGame extends Game {
     private static MyGdxGame instance;
-
+    private Level currentLevel;
     public AssetManager assetManager;
     public SpriteBatch batch;
 
@@ -32,7 +31,7 @@ public class MyGdxGame extends Game {
         loadAssets();
         Box2D.init();
         batch = new SpriteBatch();
-        setScreen(new TestLevel(this));
+        changeLevel(new TestLevel(this));
     }
 
     private void loadAssets() {
@@ -59,6 +58,24 @@ public class MyGdxGame extends Game {
                         AssetsNames.ENTRY_OBSTACLE_OPENING)
                 .forEach(str -> assetManager.load(str, Texture.class));
         assetManager.finishLoading();
+    }
+
+    public void changeLevel(Level level){
+        currentLevel = level;
+        setScreen(level);
+    }
+
+    public void restartCurrentLevel() {
+        try {
+            var levelConstructor = currentLevel.getClass().getDeclaredConstructor(MyGdxGame.class);
+            changeLevel(levelConstructor.newInstance(this));
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void exit(){
+        System.exit(0);
     }
 
     @Override
