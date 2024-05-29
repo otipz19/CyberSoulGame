@@ -23,7 +23,7 @@ public class EntryObstacle extends Entity implements ICollisionListener {
     private static final State[] STATES = {State.CLOSED, State.OPENING, State.OPENED, State.CLOSING};
     private int stateIndex;
 
-    private static final float PERIOD = 0.5f;
+    private static final float PERIOD = 0.75f;
     private float elapsedTime;
 
     private Fixture fixture;
@@ -40,10 +40,8 @@ public class EntryObstacle extends Entity implements ICollisionListener {
         height = 3;
         fixture = body.getFixtureList().first();
 
-        Collider damageSensor = ColliderCreator.create(new Rectangle(0, 0, 2f, 3f));
-
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = damageSensor.getShape();
+        fixtureDef.shape = SensorPosition.SLIM_INSIDE.getColliderShape(width, height);
         fixtureDef.isSensor = true;
 
         Fixture damageFixture = body.createFixture(fixtureDef);

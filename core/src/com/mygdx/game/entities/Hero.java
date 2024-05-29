@@ -17,9 +17,9 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
     private final static float DASH_COOLDOWN_TIME = 2f;
     private final static float DOUBLEJUMP_DELAY = 0.5f;
     private HeroData heroData;
-    private final SurfaceTouchListener groundTouchListener;
-    private final SurfaceTouchListener leftWallTouchListener;
-    private final SurfaceTouchListener rightWallTouchListener;
+    private final SurfaceTouchSensor groundTouchListener;
+    private final SurfaceTouchSensor leftWallTouchListener;
+    private final SurfaceTouchSensor rightWallTouchListener;
     private boolean canDoubleJump;
     private float jumpCooldown;
     private float dashCooldown;
@@ -51,9 +51,9 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
 
         collider.dispose();
 
-        groundTouchListener = new SurfaceTouchListener(this, SurfaceTouchListener.ListenerPosition.BOTTOM);
-        leftWallTouchListener = new SurfaceTouchListener(this, SurfaceTouchListener.ListenerPosition.LEFT);
-        rightWallTouchListener = new SurfaceTouchListener(this, SurfaceTouchListener.ListenerPosition.RIGHT);
+        groundTouchListener = new SurfaceTouchSensor(this, SensorPosition.BOTTOM);
+        leftWallTouchListener = new SurfaceTouchSensor(this, SensorPosition.LEFT);
+        rightWallTouchListener = new SurfaceTouchSensor(this, SensorPosition.RIGHT);
 
         resourcesManager = new HeroResourcesManager(heroData);
     }
@@ -111,6 +111,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
                 applyImpulse(0, 8f);
                 canDoubleJump = false;
                 animator.setState(HeroAnimator.State.DOUBLE_JUMP);
+                jumpCooldown = DOUBLEJUMP_DELAY;
             }
         }
     }
