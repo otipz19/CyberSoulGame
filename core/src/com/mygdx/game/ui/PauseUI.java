@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.levels.Level;
 
 import static com.mygdx.game.ui.UIConstants.BACKGROUND;
@@ -44,7 +45,7 @@ public class PauseUI extends Table implements InputProcessor {
         restartButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                level.game.restartCurrentLevel();
+                MyGdxGame.getInstance().restartCurrentLevel();
             }
         });
 
@@ -52,7 +53,7 @@ public class PauseUI extends Table implements InputProcessor {
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                level.game.exit();
+                MyGdxGame.getInstance().exit();
             }
         });
 

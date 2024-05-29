@@ -1,9 +1,9 @@
 package com.mygdx.game.entities.obstacles;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.EntryObstacleAnimator;
 import com.mygdx.game.entities.*;
 import com.mygdx.game.entities.resources.InstantDamageEffect;
@@ -64,7 +64,7 @@ public class EntryObstacle extends Entity implements ICollisionListener {
                 entitiesToDamage.forEach(e -> e.addResourcesEffect(new InstantDamageEffect(50)));
             }
         }
-        animator.animate(level.game.batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
+        animator.animate(MyGdxGame.getInstance().batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
     }
 
     private State getCurrentState() {

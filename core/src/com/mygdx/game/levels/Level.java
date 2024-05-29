@@ -15,11 +15,11 @@ import com.mygdx.game.camera.LevelCamera;
 import com.mygdx.game.ui.LevelUI;
 
 public abstract class Level implements Screen {
-    public MyGdxGame game;
     public Hero hero;
     public World world;
     public LevelUI ui;
 
+    protected MyGdxGame game;
     protected TiledMap map;
     protected OrthogonalTiledMapRenderer mapRenderer;
     protected LevelCamera camera;
@@ -38,8 +38,8 @@ public abstract class Level implements Screen {
 
     private boolean isPaused;
 
-    public Level(MyGdxGame game){
-        this.game = game;
+    public Level(){
+        this.game = MyGdxGame.getInstance();
         initResources();
         createMap();
         createCamera();
@@ -118,7 +118,7 @@ public abstract class Level implements Screen {
 
     @Override
     public void dispose() {
-
+        box2dRenderer.dispose();
     }
 
 }

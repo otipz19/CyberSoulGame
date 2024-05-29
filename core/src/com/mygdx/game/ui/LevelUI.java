@@ -15,7 +15,7 @@ public class LevelUI extends Stage {
     private Counter soulsCounter;
 
     public LevelUI(Level level) {
-        Gdx.input.setInputProcessor(new InputMultiplexer(this));
+        ((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(this);
 
         setViewport(new ScreenViewport());
 

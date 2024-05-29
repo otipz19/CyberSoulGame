@@ -27,13 +27,9 @@ import com.mygdx.game.map.ObstacleData;
 import com.mygdx.game.map.XMLLevelObjectsParser;
 
 public class TestLevel extends Level {
-    XMLLevelObjectsParser objectsParser;
+    private XMLLevelObjectsParser objectsParser;
     private Texture background;
     private Array<EntryObstacle> obstacles;
-
-    public TestLevel(MyGdxGame game) {
-        super(game);
-    }
 
     @Override
     protected void initResources(){
@@ -169,5 +165,13 @@ public class TestLevel extends Level {
     public void resize(int width, int height) {
         viewport.update(width, height);
         ui.getViewport().update(width, height, true);
+    }
+
+    @Override
+    public void dispose(){
+        world.dispose();
+        ui.dispose();
+        mapRenderer.dispose();
+        super.dispose();
     }
 }

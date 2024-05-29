@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.Animator;
 import com.mygdx.game.animation.HeroAnimator;
 import com.mygdx.game.entities.MortalEntity;
@@ -74,7 +75,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
             handleIdle();
             updateResourcesManager(deltaTime);
         }
-        animator.animate(level.game.batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
+        animator.animate(MyGdxGame.getInstance().batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
     }
 
     private void updateDirection(){

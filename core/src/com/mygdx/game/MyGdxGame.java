@@ -1,6 +1,8 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,6 +19,7 @@ import java.util.stream.Stream;
 
 public class MyGdxGame extends Game {
     private static MyGdxGame instance;
+    private InputMultiplexer inputMultiplexer;
     private Level currentLevel;
     public AssetManager assetManager;
     public SpriteBatch batch;
@@ -28,10 +31,12 @@ public class MyGdxGame extends Game {
     @Override
     public void create() {
         instance = this;
+        inputMultiplexer = new InputMultiplexer();
+        Gdx.input.setInputProcessor(inputMultiplexer);
         loadAssets();
         Box2D.init();
         batch = new SpriteBatch();
-        changeLevel(new TestLevel(this));
+        changeLevel(Levels.FIRST);
     }
 
     private void loadAssets() {
@@ -60,22 +65,28 @@ public class MyGdxGame extends Game {
         assetManager.finishLoading();
     }
 
-    public void changeLevel(Level level){
-        currentLevel = level;
-        setScreen(level);
+    public void changeLevel(Levels level){
+        if (currentLevel != null)
+            currentLevel.dispose();
+        inputMultiplexer.clear();
+        currentLevel = level.create();
+        setScreen(currentLevel);
     }
 
     public void restartCurrentLevel() {
         try {
-            var levelConstructor = currentLevel.getClass().getDeclaredConstructor(MyGdxGame.class);
-            changeLevel(levelConstructor.newInstance(this));
+            var levelConstructor = currentLevel.getClass().getDeclaredConstructor();
+            currentLevel.dispose();
+            inputMultiplexer.clear();
+            currentLevel = levelConstructor.newInstance();
+            setScreen(currentLevel);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void exit(){
-        System.exit(0);
+        Gdx.app.exit();
     }
 
     @Override
@@ -85,6 +96,33 @@ public class MyGdxGame extends Game {
 
     @Override
     public void dispose() {
+        currentLevel.dispose();
         assetManager.dispose();
+        batch.dispose();
+    }
+
+    public enum Levels {
+        SAFE {
+            public Level create(){
+                return new TestLevel();
+            }
+        },
+        FIRST {
+            public Level create(){
+                return new TestLevel();
+            }
+        },
+        SECOND {
+            public Level create(){
+                return new TestLevel();
+            }
+        },
+        THIRD {
+            public Level create(){
+                return new TestLevel();
+            }
+        };
+
+        public abstract Level create();
     }
 }
