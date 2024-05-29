@@ -105,7 +105,7 @@ public class TestLevel extends Level {
     }
 
     protected void createUI() {
-
+        ui = new LevelUI();
     }
 
     @Override
@@ -143,7 +143,9 @@ public class TestLevel extends Level {
 
     @Override
     protected void renderUI(float delta) {
-
+        ui.updateStatistics(0.7f, 1f, 123);
+        ui.act(delta);
+        ui.draw();
     }
 
     @Override
@@ -159,6 +161,6 @@ public class TestLevel extends Level {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
-
+        ui.getViewport().update(width, height, true);
     }
 }

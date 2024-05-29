@@ -20,4 +20,7 @@ public class AssetsNames {
     public static final String ENTRY_OBSTACLE_OPENING = "obstacles/entry/opening.png";
     public static final String ENTRY_OBSTACLE_CLOSING = "obstacles/entry/closing.png";
     public static final String ENTRY_OBSTACLE_CLOSED = "obstacles/entry/closed.png";
+    public static final String UI_HEART = "ui/heart.png";
+    public static final String UI_SHIELD = "ui/shield.png";
+    public static final String UI_SOUL = "ui/soul.png";
 }

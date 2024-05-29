@@ -18,7 +18,7 @@ public abstract class Level implements Screen {
     public MyGdxGame game;
     public Hero hero;
     public World world;
-
+    public LevelUI ui;
 
     protected TiledMap map;
     protected OrthogonalTiledMapRenderer mapRenderer;

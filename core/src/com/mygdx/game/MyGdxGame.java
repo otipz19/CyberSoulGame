@@ -2,12 +2,15 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.game.levels.TestLevel;
 import com.mygdx.game.utils.AssetsNames;
 
@@ -37,6 +40,9 @@ public class MyGdxGame extends Game {
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         assetManager.load(AssetsNames.TEST_LEVEL_TILEMAP, TiledMap.class);
         assetManager.load(AssetsNames.GREENZONE_BACKGROUND_FULL, Texture.class);
+        assetManager.load(AssetsNames.UI_HEART, Texture.class);
+        assetManager.load(AssetsNames.UI_SHIELD, Texture.class);
+        assetManager.load(AssetsNames.UI_SOUL, Texture.class);
         Stream.of(AssetsNames.BIKER_RUN_SHEET,
                         AssetsNames.BIKER_JUMP_SHEET,
                         AssetsNames.BIKER_IDLE_SHEET,
