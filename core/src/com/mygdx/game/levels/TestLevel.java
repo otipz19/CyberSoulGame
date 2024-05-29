@@ -16,10 +16,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
-import com.mygdx.game.entities.Surface;
-import com.mygdx.game.entities.Hero;
-import com.mygdx.game.entities.HeroData;
-import com.mygdx.game.entities.EntryObstacle;
+import com.mygdx.game.entities.*;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
@@ -84,7 +81,14 @@ public class TestLevel extends Level {
 
     @Override
     protected void createHero() {
-        hero = new Hero(this, new HeroData(), 17, 5, 1, 1);
+        HeroData heroData = new HeroData();
+        heroData.health = 100;
+        heroData.maxHealth = 100;
+        heroData.shield = 50;
+        heroData.maxShield = 50;
+        heroData.souls = 0;
+        heroData.shieldRestoreUnit = 2;
+        hero = new Hero(this, heroData, 17, 5, 1, 1);
         camera.setPositionSharply(hero.getCameraPosition());
     }
 
@@ -93,8 +97,8 @@ public class TestLevel extends Level {
         objectsParser.getObstaclesData().forEach(obstacleData -> {
             if (obstacleData.getType().equals(ObstacleData.Type.ENTRY)) {
                 var collider = ColliderCreator.create(obstacleData.getBounds(), coordinatesProjector);
-                Body body = new Surface(this, collider).getBody();
-                obstacles.add(new EntryObstacle(this, body));
+                obstacles.add(new EntryObstacle(this, collider));
+                collider.dispose();
             }
         });
     }
@@ -143,7 +147,8 @@ public class TestLevel extends Level {
 
     @Override
     protected void renderUI(float delta) {
-        ui.updateStatistics(0.7f, 1f, 123);
+        HeroResourcesManager resourcesManager = hero.getResourcesManager();
+        ui.updateStatistics(resourcesManager.getHealthPercent(), resourcesManager.getShieldPercent(), resourcesManager.getSouls());
         ui.act(delta);
         ui.draw();
     }

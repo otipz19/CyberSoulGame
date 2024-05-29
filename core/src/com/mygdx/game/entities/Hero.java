@@ -11,7 +11,7 @@ import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 
-public class Hero extends Entity {
+public class Hero extends MortalEntity<HeroResourcesManager> {
     private final static float MAX_VELOCITY = 5f;
     private final static float MIN_NOT_IDLE_VELOCITY = MAX_VELOCITY*0.6f;
     private final static float DASH_COOLDOWN_TIME = 2f;
@@ -54,6 +54,8 @@ public class Hero extends Entity {
         groundTouchListener = new SurfaceTouchListener(this, SurfaceTouchListener.ListenerPosition.BOTTOM);
         leftWallTouchListener = new SurfaceTouchListener(this, SurfaceTouchListener.ListenerPosition.LEFT);
         rightWallTouchListener = new SurfaceTouchListener(this, SurfaceTouchListener.ListenerPosition.RIGHT);
+
+        resourcesManager = new HeroResourcesManager(heroData);
     }
 
     public void render() {
@@ -66,6 +68,7 @@ public class Hero extends Entity {
         handleFalling();
         handleDashing();
         handleIdle();
+        updateResourcesManager(deltaTime);
         animator.animate(level.game.batch, body.getPosition().x, body.getPosition().y, width, height);
     }
 
