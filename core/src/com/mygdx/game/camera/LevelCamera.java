@@ -39,11 +39,17 @@ public class LevelCamera extends OrthographicCamera {
     }
 
     public float getMinZoom() {
-        return Math.min(1/viewportWidth, 1/viewportHeight);
+        if (viewportWidth == 0 || viewportHeight == 0)
+            return -Float.MAX_VALUE;
+        else
+            return Math.min(1/viewportWidth, 1/viewportHeight);
     }
 
     public float getMaxZoom() {
-        return Math.min(levelWidth/viewportWidth, levelHeight/viewportHeight);
+        if (viewportWidth == 0 || viewportHeight == 0)
+            return Float.MAX_VALUE;
+        else
+            return Math.min(levelWidth/viewportWidth, levelHeight/viewportHeight);
     }
 
     public void adjustZoomForViewportSize(float width, float height){
