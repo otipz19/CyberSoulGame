@@ -23,4 +23,5 @@ public class AssetsNames {
     public static final String UI_HEART = "ui/heart.png";
     public static final String UI_SHIELD = "ui/shield.png";
     public static final String UI_SOUL = "ui/soul.png";
+    public static final String UI_MENU_BACKGROUND = "ui/menu_background.png";
 }

@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.levels.TestLevel;
+import com.mygdx.game.ui.MainMenu;
 import com.mygdx.game.utils.AssetsNames;
 
 import java.lang.reflect.InvocationTargetException;
@@ -36,7 +37,7 @@ public class MyGdxGame extends Game {
         loadAssets();
         Box2D.init();
         batch = new SpriteBatch();
-        changeLevel(Levels.FIRST);
+        setScreen(new MainMenu());
     }
 
     private void loadAssets() {
@@ -47,6 +48,7 @@ public class MyGdxGame extends Game {
         assetManager.load(AssetsNames.UI_HEART, Texture.class);
         assetManager.load(AssetsNames.UI_SHIELD, Texture.class);
         assetManager.load(AssetsNames.UI_SOUL, Texture.class);
+        assetManager.load(AssetsNames.UI_MENU_BACKGROUND, Texture.class);
         Stream.of(AssetsNames.BIKER_RUN_SHEET,
                         AssetsNames.BIKER_JUMP_SHEET,
                         AssetsNames.BIKER_IDLE_SHEET,
@@ -66,8 +68,7 @@ public class MyGdxGame extends Game {
     }
 
     public void changeLevel(Levels level){
-        if (currentLevel != null)
-            currentLevel.dispose();
+        getScreen().dispose();
         inputMultiplexer.clear();
         currentLevel = level.create();
         setScreen(currentLevel);
