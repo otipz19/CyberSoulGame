@@ -1,5 +1,6 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.obstacles;
 
+import com.mygdx.game.entities.GameObject;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.BodyCreator;

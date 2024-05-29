@@ -1,4 +1,4 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.heroes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,6 +7,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.animation.Animator;
 import com.mygdx.game.animation.HeroAnimator;
+import com.mygdx.game.entities.MortalEntity;
+import com.mygdx.game.entities.sensors.SensorPosition;
+import com.mygdx.game.entities.sensors.SurfaceTouchSensor;
+import com.mygdx.game.entities.resources.HeroResourcesManager;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
@@ -58,8 +62,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
         resourcesManager = new HeroResourcesManager(heroData);
     }
 
-    public void render() {
-        float deltaTime = Gdx.graphics.getDeltaTime();
+    public void render(float deltaTime) {
         jumpCooldown -= deltaTime;
         dashCooldown -= deltaTime;
         updateDirection();

@@ -1,22 +1,23 @@
 package com.mygdx.game.levels;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
-import com.mygdx.game.entities.*;
+import com.mygdx.game.entities.heroes.Hero;
+import com.mygdx.game.entities.heroes.HeroData;
+import com.mygdx.game.entities.obstacles.EntryObstacle;
+import com.mygdx.game.entities.obstacles.Surface;
+import com.mygdx.game.entities.resources.HeroResourcesManager;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
@@ -138,9 +139,9 @@ public class TestLevel extends Level {
     {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        hero.render();
+        hero.render(delta);
         for (var obstacle : obstacles) {
-            obstacle.render();
+            obstacle.render(delta);
         }
         game.batch.end();
     }

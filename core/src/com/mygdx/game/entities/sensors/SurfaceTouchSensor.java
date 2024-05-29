@@ -1,17 +1,21 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.sensors;
 
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.mygdx.game.entities.Entity;
+import com.mygdx.game.entities.GameObject;
+import com.mygdx.game.entities.ITriggerListener;
+import com.mygdx.game.entities.obstacles.Surface;
 
-public class SurfaceTouchSensor extends GameObject implements ITriggerListener{
+public class SurfaceTouchSensor extends GameObject implements ITriggerListener {
     private int surfaceTouchesNumber;
 
     public SurfaceTouchSensor(Entity parent, SensorPosition position){
-        this.level = parent.level;
-        this.body = parent.body;
+        this.level = parent.getLevel();
+        this.body = parent.getBody();
 
-        Shape colliderShape = position.getColliderShape(parent.width, parent.height);
+        Shape colliderShape = position.getColliderShape(parent.getWidth(), parent.getHeight());
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = colliderShape;

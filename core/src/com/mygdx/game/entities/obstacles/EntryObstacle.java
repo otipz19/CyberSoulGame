@@ -1,16 +1,16 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.obstacles;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.animation.EntryObstacleAnimator;
+import com.mygdx.game.entities.*;
+import com.mygdx.game.entities.resources.InstantDamageEffect;
+import com.mygdx.game.entities.resources.ResourcesManager;
+import com.mygdx.game.entities.sensors.SensorPosition;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
-import com.mygdx.game.physics.ColliderCreator;
 
 public class EntryObstacle extends Entity implements ICollisionListener {
     private enum State {
@@ -49,8 +49,8 @@ public class EntryObstacle extends Entity implements ICollisionListener {
     }
 
     @Override
-    public void render() {
-        elapsedTime += Gdx.graphics.getDeltaTime();
+    public void render(float deltaTime) {
+        elapsedTime += deltaTime;
         if (elapsedTime > PERIOD) {
             elapsedTime = 0;
             stateIndex++;

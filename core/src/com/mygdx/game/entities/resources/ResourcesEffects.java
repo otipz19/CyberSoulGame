@@ -1,4 +1,4 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.resources;
 
 public interface ResourcesEffects<T extends ResourcesManager> {
     void apply(T resourcesManager, float deltaTime);

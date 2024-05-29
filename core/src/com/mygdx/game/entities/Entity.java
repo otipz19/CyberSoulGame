@@ -8,7 +8,7 @@ public abstract class Entity extends GameObject {
     protected float width;
     protected float height;
 
-    public abstract void render();
+    public abstract void render(float deltaTime);
 
     public float getWidth() {
         return width;

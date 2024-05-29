@@ -1,6 +1,8 @@
 package com.mygdx.game.entities;
 
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.entities.resources.ResourcesEffects;
+import com.mygdx.game.entities.resources.ResourcesManager;
 
 public abstract class MortalEntity<T extends ResourcesManager> extends Entity{
     protected T resourcesManager;

@@ -1,4 +1,4 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.heroes;
 
 public class HeroData {
     public float health;

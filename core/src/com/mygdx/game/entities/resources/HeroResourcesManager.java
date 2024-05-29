@@ -1,6 +1,7 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.resources;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.mygdx.game.entities.heroes.HeroData;
 
 public class HeroResourcesManager extends ResourcesManager {
 

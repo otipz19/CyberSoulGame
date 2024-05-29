@@ -1,4 +1,4 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.resources;
 
 public class InstantHealEffect implements ResourcesEffects<ResourcesManager> {
     private boolean isCompleted;
