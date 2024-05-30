@@ -53,8 +53,8 @@ public class LevelCamera extends OrthographicCamera {
     }
 
     public void adjustZoomForViewportSize(float width, float height){
-        float zoomX = width / levelWidth;
-        float zoomY = height / levelHeight;
+        float zoomX = viewportWidth != 0 ? width / viewportWidth : 1;
+        float zoomY = viewportHeight != 0 ? height / viewportHeight : 1;
         zoom = (zoomX+zoomY)/2;
     }
 }

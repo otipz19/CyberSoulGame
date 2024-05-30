@@ -76,7 +76,7 @@ public class TestLevel extends Level {
     @Override
     protected void createCamera() {
         camera = new LevelCamera(levelWidth, levelHeight);
-        camera.adjustZoomForViewportSize(levelWidth / 2f, levelHeight / 2f);
+        camera.zoom = 0.5f;
 
         viewport = new ScreenViewport(camera);
         viewport.setUnitsPerPixel(unitScale);
