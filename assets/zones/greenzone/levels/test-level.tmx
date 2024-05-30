@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="19" nextobjectid="27">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="20" nextobjectid="27">
  <tileset firstgid="1" source="../tileset/green-zone.tsx"/>
+   <imagelayer id="19" name="Fountain" offsetx="37.3333" offsety="377.333">
+    <image source="../objects/fountain.png" width="72" height="72"/>
+   </imagelayer>
  <group id="18" name="default">
   <layer id="4" name="Tile Layer 0" width="30" height="20">
    <data encoding="csv">

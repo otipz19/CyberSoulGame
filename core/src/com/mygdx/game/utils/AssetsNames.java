@@ -13,9 +13,12 @@ public class AssetsNames {
     public static final String BIKER_PUNCH_SHEET = "heroes/biker/Biker_punch.png";
     public static final String BIKER_RUN_ATTACK_SHEET = "heroes/biker/Biker_run_attack.png";
 
-    public static final String GREENZONE_BACKGROUND_FULL = "zones/greenzone/background/background-full.png";
+    public static final String GREENZONE_BACKGROUND_FULL = "zones/greenzone/resources/green-zone-tileset/2 Background/Day/Background.png";
 
     public static final String TEST_LEVEL_TILEMAP = "zones/greenzone/levels/test-level.tmx";
+    public static final String GREENZONE_LEVEL_TILEMAP = "zones/greenzone/greenzone.tmx";
+    public static final String POWERSTATION_LEVEL_TILEMAP = "zones/powerstation/powerstation.tmx";
+    public static final String INDUSTRIALZONE_LEVEL_TILEMAP = "zones/industrialzone/industrialzone.tmx";
 
     public static final String ENTRY_OBSTACLE_OPENING = "obstacles/entry/opening.png";
     public static final String ENTRY_OBSTACLE_CLOSING = "obstacles/entry/closing.png";
@@ -24,4 +27,7 @@ public class AssetsNames {
     public static final String UI_SHIELD = "ui/shield.png";
     public static final String UI_SOUL = "ui/soul.png";
     public static final String UI_MENU_BACKGROUND = "ui/menu_background.png";
+
+    public static final String STONE_6 = "zones/greenzone/resources/green-zone-tileset/3 Objects/Stones/6.png";
+    public static final String FENCE_6 = "zones/greenzone/resources/green-zone-tileset/3 Objects/Fence/6.png";
 }

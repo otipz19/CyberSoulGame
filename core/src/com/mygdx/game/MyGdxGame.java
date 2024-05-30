@@ -42,8 +42,6 @@ public class MyGdxGame extends Game {
 
     private void loadAssets() {
         assetManager = new AssetManager();
-        assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        assetManager.load(AssetsNames.TEST_LEVEL_TILEMAP, TiledMap.class);
         assetManager.load(AssetsNames.GREENZONE_BACKGROUND_FULL, Texture.class);
         assetManager.load(AssetsNames.UI_HEART, Texture.class);
         assetManager.load(AssetsNames.UI_SHIELD, Texture.class);
@@ -62,8 +60,16 @@ public class MyGdxGame extends Game {
                         AssetsNames.BIKER_RUN_ATTACK_SHEET,
                         AssetsNames.ENTRY_OBSTACLE_CLOSED,
                         AssetsNames.ENTRY_OBSTACLE_CLOSING,
-                        AssetsNames.ENTRY_OBSTACLE_OPENING)
+                        AssetsNames.ENTRY_OBSTACLE_OPENING,
+                        AssetsNames.STONE_6,
+                        AssetsNames.FENCE_6)
                 .forEach(str -> assetManager.load(str, Texture.class));
+        assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+//        assetManager.load(AssetsNames.TEST_LEVEL_TILEMAP, TiledMap.class);
+        Stream.of(AssetsNames.GREENZONE_LEVEL_TILEMAP,
+                AssetsNames.POWERSTATION_LEVEL_TILEMAP,
+                AssetsNames.INDUSTRIALZONE_LEVEL_TILEMAP)
+                        .forEach(str -> assetManager.load(str, TiledMap.class));
         assetManager.finishLoading();
     }
 

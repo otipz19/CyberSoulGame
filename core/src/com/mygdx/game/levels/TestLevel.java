@@ -33,7 +33,10 @@ public class TestLevel extends Level {
 
     @Override
     protected void initResources(){
-        objectsParser = new XMLLevelObjectsParser(AssetsNames.TEST_LEVEL_TILEMAP);
+//        objectsParser = new XMLLevelObjectsParser(AssetsNames.TEST_LEVEL_TILEMAP);
+//        objectsParser = new XMLLevelObjectsParser(AssetsNames.GREENZONE_LEVEL_TILEMAP);
+//        objectsParser = new XMLLevelObjectsParser(AssetsNames.POWERSTATION_LEVEL_TILEMAP);
+        objectsParser = new XMLLevelObjectsParser(AssetsNames.INDUSTRIALZONE_LEVEL_TILEMAP);
         obstacles = new Array<>();
     }
 
@@ -42,7 +45,10 @@ public class TestLevel extends Level {
         world = new World(new Vector2(0, -10), true);
         world.setContactListener(new ContactListener());
 
-        map = game.assetManager.get(AssetsNames.TEST_LEVEL_TILEMAP);
+//        map = game.assetManager.get(AssetsNames.TEST_LEVEL_TILEMAP);
+//        map = game.assetManager.get(AssetsNames.GREENZONE_LEVEL_TILEMAP);
+//        map = game.assetManager.get(AssetsNames.POWERSTATION_LEVEL_TILEMAP);
+        map = game.assetManager.get(AssetsNames.INDUSTRIALZONE_LEVEL_TILEMAP);
 
         MapProperties mapProperties = map.getProperties();
         levelWidth = (int) mapProperties.get("width");
@@ -85,7 +91,7 @@ public class TestLevel extends Level {
         heroData.maxShield = 50;
         heroData.souls = 0;
         heroData.shieldRestoreUnit = 2;
-        hero = new Hero(this, heroData, 17, 5, 1, 1);
+        hero = new Hero(this, heroData, 0, 60, 0.95f, 0.95f);
         camera.setPositionSharply(hero.getCameraPosition());
     }
 
@@ -121,7 +127,7 @@ public class TestLevel extends Level {
     {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.batch.draw(background, 0, 0, 30, 20);
+        game.batch.draw(background, 0, 0, 90, 34);
         game.batch.end();
     }
 
