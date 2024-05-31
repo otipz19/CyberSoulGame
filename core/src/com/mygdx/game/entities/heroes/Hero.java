@@ -15,13 +15,13 @@ import com.mygdx.game.entities.resources.HeroResourcesManager;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
+import com.mygdx.game.utils.PlayerDataManager;
 
 public class Hero extends MortalEntity<HeroResourcesManager> {
     private final static float MAX_VELOCITY = 5f;
     private final static float MIN_NOT_IDLE_VELOCITY = MAX_VELOCITY*0.6f;
     private final static float DASH_COOLDOWN_TIME = 2f;
     private final static float DOUBLEJUMP_DELAY = 0.5f;
-    private HeroData heroData;
     private final SurfaceTouchSensor groundTouchListener;
     private final SurfaceTouchSensor leftWallTouchListener;
     private final SurfaceTouchSensor rightWallTouchListener;
@@ -31,7 +31,6 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
 
     public Hero(Level level, HeroData heroData, float x, float y, float width, float height) {
         this.level = level;
-        this.heroData = heroData;
         this.animator = new HeroAnimator();
         this.width = width;
         this.height = height;
@@ -181,5 +180,9 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
 
     public Vector2 getCameraPosition() {
         return new Vector2(body.getPosition().x + width / 2, body.getPosition().y + height / 2);
+    }
+
+    public HeroData getData(){
+        return resourcesManager.getHeroData();
     }
 }

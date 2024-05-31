@@ -1,6 +1,5 @@
 package com.mygdx.game.levels;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -10,11 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
 import com.mygdx.game.entities.heroes.Hero;
-import com.mygdx.game.entities.heroes.HeroData;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
 import com.mygdx.game.entities.obstacles.Surface;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
@@ -25,6 +22,7 @@ import com.mygdx.game.ui.LevelUI;
 import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.map.ObstacleData;
 import com.mygdx.game.map.XMLLevelObjectsParser;
+import com.mygdx.game.utils.PlayerDataManager;
 
 public class TestLevel extends Level {
     private XMLLevelObjectsParser objectsParser;
@@ -84,14 +82,7 @@ public class TestLevel extends Level {
 
     @Override
     protected void createHero() {
-        HeroData heroData = new HeroData();
-        heroData.health = 100;
-        heroData.maxHealth = 100;
-        heroData.shield = 50;
-        heroData.maxShield = 50;
-        heroData.souls = 0;
-        heroData.shieldRestoreUnit = 2;
-        hero = new Hero(this, heroData, 0, 60, 0.95f, 0.95f);
+        hero = new Hero(this, PlayerDataManager.getInstance().getHeroData(), 0, 60, 0.95f, 0.95f);
         camera.setPositionSharply(hero.getCameraPosition());
     }
 

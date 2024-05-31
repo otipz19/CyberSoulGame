@@ -10,10 +10,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.entities.heroes.HeroData;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.levels.TestLevel;
 import com.mygdx.game.ui.MainMenu;
 import com.mygdx.game.utils.AssetsNames;
+import com.mygdx.game.utils.PlayerDataManager;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.stream.Stream;
@@ -37,7 +39,7 @@ public class MyGdxGame extends Game {
         loadAssets();
         Box2D.init();
         batch = new SpriteBatch();
-        setScreen(new MainMenu());
+        showMainMenu();
     }
 
     private void loadAssets() {
@@ -73,23 +75,35 @@ public class MyGdxGame extends Game {
         assetManager.finishLoading();
     }
 
+    public void showMainMenu() {
+        if (getScreen() != null)
+            getScreen().dispose();
+        inputMultiplexer.clear();
+        currentLevel = null;
+        boolean hasAlreadyPlayed = PlayerDataManager.getInstance().getMaxLevel() != Levels.SAFE;
+        setScreen(new MainMenu(hasAlreadyPlayed));
+    }
+
     public void changeLevel(Levels level){
         getScreen().dispose();
         inputMultiplexer.clear();
         currentLevel = level.create();
+        PlayerDataManager.getInstance().setCurrentLevel(level);
         setScreen(currentLevel);
     }
 
+    public void levelCompleted(HeroData heroData){
+        PlayerDataManager.getInstance().setHeroData(heroData);
+        changeLevel(Levels.SAFE);
+    }
+
+    public void levelFailed(){
+        PlayerDataManager.getInstance().resetData();
+        showMainMenu();
+    }
+
     public void restartCurrentLevel() {
-        try {
-            var levelConstructor = currentLevel.getClass().getDeclaredConstructor();
-            currentLevel.dispose();
-            inputMultiplexer.clear();
-            currentLevel = levelConstructor.newInstance();
-            setScreen(currentLevel);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
+        changeLevel(PlayerDataManager.getInstance().getCurrentLevel());
     }
 
     public void exit(){
@@ -103,6 +117,7 @@ public class MyGdxGame extends Game {
 
     @Override
     public void dispose() {
+        PlayerDataManager.getInstance().saveData();
         currentLevel.dispose();
         assetManager.dispose();
         batch.dispose();

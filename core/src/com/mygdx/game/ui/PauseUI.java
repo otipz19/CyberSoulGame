@@ -49,6 +49,14 @@ public class PauseUI extends Table implements InputProcessor {
             }
         });
 
+        TextButton mainMenuButton = new TextButton("Main menu", buttonStyle);
+        mainMenuButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                MyGdxGame.getInstance().showMainMenu();
+            }
+        });
+
         TextButton exitButton = new TextButton("Exit", buttonStyle);
         exitButton.addListener(new ChangeListener() {
             @Override
@@ -63,6 +71,10 @@ public class PauseUI extends Table implements InputProcessor {
         row();
         add().expandX();
         add(restartButton).growX().pad(5);
+        add().expandX();
+        row();
+        add().expandX();
+        add(mainMenuButton).growX().pad(5);
         add().expandX();
         row();
         add().expandX();

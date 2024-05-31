@@ -17,12 +17,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.*;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.utils.AssetsNames;
+import com.mygdx.game.utils.PlayerDataManager;
 
 import static com.mygdx.game.ui.UIConstants.BASE_TEXTURE;
 
 public class MainMenu implements Screen { private Stage ui;
 
-    public MainMenu() {
+    public MainMenu(boolean hasAlreadyPlayed) {
         ui = new Stage(new ScreenViewport());
         ((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(ui);
 
@@ -39,45 +40,60 @@ public class MainMenu implements Screen { private Stage ui;
         buttonStyle.up = BASE_TEXTURE.tint(new Color(0.2f, 0.2f, 0.2f, 0.9f));
         buttonStyle.over = BASE_TEXTURE.tint(new Color(0.1f, 0.1f, 0.1f, 0.9f));
 
-        TextButton start = new TextButton("Start", buttonStyle);
-        start.addListener(new ChangeListener() {
+        if (hasAlreadyPlayed) {
+            TextButton continueButton = new TextButton("Continue", buttonStyle);
+            continueButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent changeEvent, Actor actor) {
+                    MyGdxGame.getInstance().restartCurrentLevel();
+                }
+            });
+
+            table.add(continueButton).width(Value.percentWidth(0.33f, table)).pad(5, 50, 5, 0);
+            table.row();
+        }
+
+
+        TextButton startButton = new TextButton("New game", buttonStyle);
+        startButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
+                PlayerDataManager.getInstance().resetData();
                 MyGdxGame.getInstance().changeLevel(MyGdxGame.Levels.SAFE);
             }
         });
 
-        TextButton options = new TextButton("Options", buttonStyle);
-        options.addListener(new ChangeListener() {
+        TextButton optionsButton = new TextButton("Options", buttonStyle);
+        optionsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 throw new RuntimeException("Not implemented :(");
             }
         });
 
-        TextButton credits = new TextButton("Credits", buttonStyle);
-        credits.addListener(new ChangeListener() {
+        TextButton creditsButton = new TextButton("Credits", buttonStyle);
+        creditsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 throw new RuntimeException("Not implemented :(");
             }
         });
 
-        TextButton exit = new TextButton("Exit", buttonStyle);
-        exit.addListener(new ChangeListener() {
+        TextButton exitButton = new TextButton("Exit", buttonStyle);
+        exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 MyGdxGame.getInstance().exit();
             }
         });
 
-        table.add(start).width(Value.percentWidth(0.33f, table)).pad(5, 50, 5, 0);
+        table.add(startButton).width(Value.percentWidth(0.33f, table)).pad(5, 50, 5, 0);
         table.row();
-        table.add(options).width(Value.percentWidth(0.33f, table)).pad(5, 50, 5, 0);
+        table.add(optionsButton).width(Value.percentWidth(0.33f, table)).pad(5, 50, 5, 0);
         table.row();
-        table.add(credits).width(Value.percentWidth(0.33f, table)).pad(5, 50, 5, 0);
+        table.add(creditsButton).width(Value.percentWidth(0.33f, table)).pad(5, 50, 5, 0);
         table.row();
-        table.add(exit).width(Value.percentWidth(0.33f, table)).pad(5, 50, 50, 0);
+        table.add(exitButton).width(Value.percentWidth(0.33f, table)).pad(5, 50, 50, 0);
 
         ui.addActor(table);
     }

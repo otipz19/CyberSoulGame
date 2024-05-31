@@ -14,7 +14,7 @@ public class HeroResourcesManager extends ResourcesManager {
 
     public HeroResourcesManager(HeroData heroData) {
         super(heroData.health, heroData.maxHealth);
-        this.shield = heroData.shield;
+        this.shield = heroData.maxShield;
         this.maxShield = heroData.maxShield;
         this.shieldRestoreUnit = heroData.shieldRestoreUnit;
         this.souls = heroData.souls;
@@ -82,5 +82,15 @@ public class HeroResourcesManager extends ResourcesManager {
 
     public void setShieldRestoreUnit(float shieldRestoreUnit) {
         this.shieldRestoreUnit = shieldRestoreUnit;
+    }
+
+    public HeroData getHeroData(){
+        HeroData heroData = new HeroData();
+        heroData.health = health;
+        heroData.maxHealth = maxHealth;
+        heroData.souls = souls;
+        heroData.maxShield = maxShield;
+        heroData.shieldRestoreUnit = shieldRestoreUnit;
+        return heroData;
     }
 }
