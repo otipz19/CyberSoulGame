@@ -1,0 +1,84 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	main-medium: {
+		file: main-medium.fnt
+		scaledSize: -1
+		markupEnabled: true
+		flip: false
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	background: {
+		r: 0.15686275
+		g: 0.15686275
+		b: 0.15686275
+		a: 0.8764048
+	}
+	background-menu: {
+		r: 0.49019608
+		g: 0.49019608
+		b: 0.49019608
+		a: 0.60784316
+	}
+	background-over: {
+		r: 0.03137255
+		g: 0.03137255
+		b: 0.03137255
+		a: 0.8745098
+	}
+	text: {
+		r: 0.9019608
+		g: 0.2509804
+		b: 0.6509804
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+	background: {
+		name: white-pixel
+		color: background
+	}
+	background-over: {
+		name: white-pixel
+		color: background-over
+	}
+	background-menu: {
+		name: white-pixel
+		color: background-menu
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: main-medium
+		fontColor: text
+		background: background
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
+	health: {
+		background: healthbar-background
+		knobBefore: health
+	}
+	shield: {
+		background: shieldbar-background
+		knobBefore: shield
+	}
+	energy: {
+		background: energybar-background
+		knobBefore: energy
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: main-medium
+		fontColor: text
+		up: background
+		over: background-over
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
+	}
+}
+}

@@ -1,32 +1,28 @@
 package com.mygdx.game.ui;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.MyGdxGame;
-import static com.mygdx.game.ui.UIConstants.*;
+import com.mygdx.game.utils.AssetsNames;
 
 public class Counter extends Table {
     private final Label label;
 
-    public Counter(String icon, Color textColor, float textHeight) {
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.background = BASE_TEXTURE.tint(BACKGROUND);
-        labelStyle.background.setMinHeight(textHeight*1.25f);
-        labelStyle.font = FONT;
-        label = new Label(" 0 ", labelStyle);
-        label.setColor(textColor);
-        label.setHeight(textHeight);
-        label.setAlignment(Align.right);
-        add(label).pad(0, 5, 0,0);
+    public Counter(String icon, float iconSize) {
+        Skin skin = MyGdxGame.getInstance().assetManager.get(AssetsNames.UI_SKIN, Skin.class);
 
-        add(new Image(new TextureRegionDrawable(MyGdxGame.getInstance().assetManager.get(icon, Texture.class))))
-                .size(textHeight*1.5f)
-                .pad(5)
+        label = new Label(" 0 ", skin);
+        label.setAlignment(Align.right);
+        add(label);
+
+        add(new Image(skin.getDrawable(icon)))
+                .size(iconSize)
+                .pad(5, 0,0,0)
                 .right();
     }
 

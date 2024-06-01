@@ -23,9 +23,8 @@ public class AssetsNames {
     public static final String ENTRY_OBSTACLE_OPENING = "obstacles/entry/opening.png";
     public static final String ENTRY_OBSTACLE_CLOSING = "obstacles/entry/closing.png";
     public static final String ENTRY_OBSTACLE_CLOSED = "obstacles/entry/closed.png";
-    public static final String UI_HEART = "ui/heart.png";
-    public static final String UI_SHIELD = "ui/shield.png";
-    public static final String UI_SOUL = "ui/soul.png";
+    public static final String UI_ATLAS = "ui/uiskin.atlas";
+    public static final String UI_SKIN = "ui/uiskin.json";
     public static final String UI_MENU_BACKGROUND = "ui/menu_background.png";
 
     public static final String STONE_6 = "zones/greenzone/resources/green-zone-tileset/3 Objects/Stones/6.png";

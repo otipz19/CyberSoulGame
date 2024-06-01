@@ -143,7 +143,7 @@ public class TestLevel extends Level {
     @Override
     protected void renderUI(float delta) {
         HeroResourcesManager resourcesManager = hero.getResourcesManager();
-        ui.updateStatistics(resourcesManager.getHealthPercent(), resourcesManager.getShieldPercent(), resourcesManager.getSouls());
+        ui.updateStatistics(resourcesManager.getHealthPercent(), resourcesManager.getShieldPercent(), 1, resourcesManager.getSouls());
         ui.act(delta);
         ui.draw();
     }

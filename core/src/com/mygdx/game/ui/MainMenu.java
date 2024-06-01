@@ -3,14 +3,10 @@ package com.mygdx.game.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -19,9 +15,8 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.utils.PlayerDataManager;
 
-import static com.mygdx.game.ui.UIConstants.BASE_TEXTURE;
-
-public class MainMenu implements Screen { private Stage ui;
+public class MainMenu implements Screen {
+    private final Stage ui;
 
     public MainMenu(boolean hasAlreadyPlayed) {
         ui = new Stage(new ScreenViewport());
@@ -35,13 +30,10 @@ public class MainMenu implements Screen { private Stage ui;
         table.setFillParent(true);
         table.left().bottom();
 
-        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = UIConstants.FONT;
-        buttonStyle.up = BASE_TEXTURE.tint(new Color(0.2f, 0.2f, 0.2f, 0.9f));
-        buttonStyle.over = BASE_TEXTURE.tint(new Color(0.1f, 0.1f, 0.1f, 0.9f));
+        Skin skin = MyGdxGame.getInstance().assetManager.get(AssetsNames.UI_SKIN, Skin.class);
 
         if (hasAlreadyPlayed) {
-            TextButton continueButton = new TextButton("Continue", buttonStyle);
+            TextButton continueButton = new TextButton("Continue", skin);
             continueButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -49,12 +41,13 @@ public class MainMenu implements Screen { private Stage ui;
                 }
             });
 
-            table.add(continueButton).width(Value.percentWidth(0.33f, table)).pad(5, 50, 5, 0);
+            table.add(continueButton).minWidth(200).growX().pad(5, 50, 5, 0);
+            table.add().colspan(3).growX();
             table.row();
         }
 
 
-        TextButton startButton = new TextButton("New game", buttonStyle);
+        TextButton startButton = new TextButton("New game", skin);
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -63,7 +56,7 @@ public class MainMenu implements Screen { private Stage ui;
             }
         });
 
-        TextButton optionsButton = new TextButton("Options", buttonStyle);
+        TextButton optionsButton = new TextButton("Options", skin);
         optionsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -71,7 +64,7 @@ public class MainMenu implements Screen { private Stage ui;
             }
         });
 
-        TextButton creditsButton = new TextButton("Credits", buttonStyle);
+        TextButton creditsButton = new TextButton("Credits", skin);
         creditsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -79,7 +72,7 @@ public class MainMenu implements Screen { private Stage ui;
             }
         });
 
-        TextButton exitButton = new TextButton("Exit", buttonStyle);
+        TextButton exitButton = new TextButton("Exit", skin);
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -87,13 +80,17 @@ public class MainMenu implements Screen { private Stage ui;
             }
         });
 
-        table.add(startButton).width(Value.percentWidth(0.33f, table)).pad(5, 50, 5, 0);
+        table.add(startButton).minWidth(200).growX().pad(5, 50, 5, 0);
+        table.add().colspan(3).growX();
         table.row();
-        table.add(optionsButton).width(Value.percentWidth(0.33f, table)).pad(5, 50, 5, 0);
+        table.add(optionsButton).minWidth(200).growX().pad(5, 50, 5, 0);
+        table.add().colspan(3).growX();
         table.row();
-        table.add(creditsButton).width(Value.percentWidth(0.33f, table)).pad(5, 50, 5, 0);
+        table.add(creditsButton).minWidth(200).growX().pad(5, 50, 5, 0);
+        table.add().colspan(3).growX();
         table.row();
-        table.add(exitButton).width(Value.percentWidth(0.33f, table)).pad(5, 50, 50, 0);
+        table.add(exitButton).minWidth(200).growX().pad(5, 50, 50, 0);
+        table.add().colspan(3).growX();
 
         ui.addActor(table);
     }

@@ -12,6 +12,7 @@ import com.mygdx.game.utils.AssetsNames;
 public class LevelUI extends Stage {
     private StatusBar healthBar;
     private StatusBar shieldBar;
+    private StatusBar energyBar;
     private Counter soulsCounter;
 
     public LevelUI(Level level) {
@@ -24,26 +25,30 @@ public class LevelUI extends Stage {
     }
 
     private void createStatusUI() {
-        healthBar = new StatusBar(AssetsNames.UI_HEART, new Color(1f, 0.15f, 0.45f, 0.7f), 25);
-        shieldBar = new StatusBar(AssetsNames.UI_SHIELD, new Color(0.35f, 0.2f, 0.85f, 0.7f), 25);
-        soulsCounter = new Counter(AssetsNames.UI_SOUL, new Color(1,1,1,1), 25);
+        healthBar = new StatusBar("health");
+        shieldBar = new StatusBar("shield");
+        energyBar = new StatusBar("energy");
+        soulsCounter = new Counter("soul-icon", 40);
 
         Table status = new Table();
         status.setFillParent(true);
 
         status.left().top();
-        status.add(healthBar).left();
+        status.add(healthBar).left().width(Value.percentWidth(0.3f, status)).pad(5, 5, 0, 0);
         status.add().expandX();
         status.add(soulsCounter);
         status.row();
-        status.add(shieldBar).left();
+        status.add(shieldBar).left().width(Value.percentWidth(0.3f, status)).pad(5, 5, 0, 0);
+        status.row();
+        status.add(energyBar).left().width(Value.percentWidth(0.3f, status)).pad(5, 5, 0, 0);
 
         addActor(status);
     }
 
-    public void updateStatistics(float hpPercent, float shieldPercent, int souls) {
+    public void updateStatistics(float hpPercent, float shieldPercent, float energyPercent, int souls) {
         healthBar.setValuePercent(hpPercent);
         shieldBar.setValuePercent(shieldPercent);
+        energyBar.setValuePercent(energyPercent);
         soulsCounter.setValue(souls);
     }
 }

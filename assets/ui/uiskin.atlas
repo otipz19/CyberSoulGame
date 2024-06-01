@@ -1,0 +1,78 @@
+
+uiskin.png
+size: 2048, 2048
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+white-pixel
+  rotate: false
+  xy: 2017, 2015
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+energy
+  rotate: false
+  xy: 1, 1860
+  size: 985, 27
+  split: 0, 0, 0, 0
+  orig: 985, 27
+  offset: 0, 0
+  index: -1
+energybar-background
+  rotate: false
+  xy: 1, 1932
+  size: 1027, 41
+  split: 41, 5, 8, 8
+  pad: 40, 2, 7, 7
+  orig: 1027, 41
+  offset: 0, 0
+  index: -1
+health
+  rotate: false
+  xy: 1030, 1989
+  size: 985, 27
+  split: 0, 0, 0, 0
+  orig: 985, 27
+  offset: 0, 0
+  index: -1
+healthbar-background
+  rotate: false
+  xy: 1, 1975
+  size: 1027, 41
+  split: 41, 5, 8, 8
+  pad: 40, 2, 7, 7
+  orig: 1027, 41
+  offset: 0, 0
+  index: -1
+main-medium
+  rotate: false
+  xy: 1, 519
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+shield
+  rotate: false
+  xy: 1030, 1960
+  size: 985, 27
+  split: 0, 0, 0, 0
+  orig: 985, 27
+  offset: 0, 0
+  index: -1
+shieldbar-background
+  rotate: false
+  xy: 1, 1889
+  size: 1027, 41
+  split: 41, 5, 8, 8
+  pad: 40, 2, 7, 7
+  orig: 1027, 41
+  offset: 0, 0
+  index: -1
+soul-icon
+  rotate: false
+  xy: 1, 1033
+  size: 825, 825
+  orig: 825, 825
+  offset: 0, 0
+  index: -1

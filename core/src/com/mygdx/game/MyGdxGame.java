@@ -4,12 +4,15 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.game.entities.heroes.HeroData;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.levels.TestLevel;
@@ -44,11 +47,10 @@ public class MyGdxGame extends Game {
 
     private void loadAssets() {
         assetManager = new AssetManager();
-        assetManager.load(AssetsNames.GREENZONE_BACKGROUND_FULL, Texture.class);
-        assetManager.load(AssetsNames.UI_HEART, Texture.class);
-        assetManager.load(AssetsNames.UI_SHIELD, Texture.class);
-        assetManager.load(AssetsNames.UI_SOUL, Texture.class);
         assetManager.load(AssetsNames.UI_MENU_BACKGROUND, Texture.class);
+        assetManager.load(AssetsNames.GREENZONE_BACKGROUND_FULL, Texture.class);
+        assetManager.load(AssetsNames.UI_ATLAS, TextureAtlas.class);
+        assetManager.load(AssetsNames.UI_SKIN, Skin.class, new SkinLoader.SkinParameter(AssetsNames.UI_ATLAS));
         Stream.of(AssetsNames.BIKER_RUN_SHEET,
                         AssetsNames.BIKER_JUMP_SHEET,
                         AssetsNames.BIKER_IDLE_SHEET,

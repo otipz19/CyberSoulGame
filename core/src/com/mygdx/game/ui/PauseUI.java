@@ -4,36 +4,33 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.levels.Level;
-
-import static com.mygdx.game.ui.UIConstants.BACKGROUND;
-import static com.mygdx.game.ui.UIConstants.BASE_TEXTURE;
+import com.mygdx.game.utils.AssetsNames;
 
 public class PauseUI extends Table implements InputProcessor {
-    private Stage stage;
-    private Level level;
+    private final Stage stage;
+    private final Level level;
+
     public PauseUI(Stage stage, Level level) {
         this.stage = stage;
         this.level = level;
 
         ((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(this);
 
+        Skin skin = MyGdxGame.getInstance().assetManager.get(AssetsNames.UI_SKIN, Skin.class);
+
+        setSkin(skin);
         setFillParent(true);
-        setBackground(BASE_TEXTURE.tint(BACKGROUND));
+        setBackground("background-menu");
 
-        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = UIConstants.FONT;
-        buttonStyle.up = BASE_TEXTURE.tint(new Color(0.2f, 0.2f, 0.2f, 0.9f));
-        buttonStyle.over = BASE_TEXTURE.tint(new Color(0.1f, 0.1f, 0.1f, 0.9f));
-
-        TextButton resumeButton = new TextButton("Resume", buttonStyle);
+        TextButton resumeButton = new TextButton("Resume", skin);
         resumeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -41,7 +38,7 @@ public class PauseUI extends Table implements InputProcessor {
             }
         });
 
-        TextButton restartButton = new TextButton("Restart", buttonStyle);
+        TextButton restartButton = new TextButton("Restart", skin);
         restartButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -49,7 +46,7 @@ public class PauseUI extends Table implements InputProcessor {
             }
         });
 
-        TextButton mainMenuButton = new TextButton("Main menu", buttonStyle);
+        TextButton mainMenuButton = new TextButton("Main menu", skin);
         mainMenuButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -57,7 +54,7 @@ public class PauseUI extends Table implements InputProcessor {
             }
         });
 
-        TextButton exitButton = new TextButton("Exit", buttonStyle);
+        TextButton exitButton = new TextButton("Exit", skin);
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
