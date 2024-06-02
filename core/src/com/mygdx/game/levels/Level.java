@@ -13,7 +13,6 @@ import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.LevelCamera;
 import com.mygdx.game.ui.LevelUI;
-import com.mygdx.game.utils.PlayerDataManager;
 
 public abstract class Level implements Screen {
     public Hero hero;
@@ -80,7 +79,7 @@ public abstract class Level implements Screen {
     protected abstract void renderUI(float delta);
     protected abstract void doPhysicsStep(float delta);
 
-    public boolean getPaused(){
+    public boolean isPaused(){
         return isPaused;
     }
 

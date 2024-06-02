@@ -34,13 +34,22 @@ public class LevelUI extends Stage {
         status.setFillParent(true);
 
         status.left().top();
-        status.add(healthBar).left().width(Value.percentWidth(0.3f, status)).pad(5, 5, 0, 0);
+        status.add(healthBar)
+                .left()
+                .width(Value.percentWidth(0.3f, status))
+                .pad(5, 5, 0, 0);
         status.add().expandX();
         status.add(soulsCounter);
         status.row();
-        status.add(shieldBar).left().width(Value.percentWidth(0.3f, status)).pad(5, 5, 0, 0);
+        status.add(shieldBar)
+                .left()
+                .width(Value.percentWidth(0.3f, status))
+                .pad(5, 5, 0, 0);
         status.row();
-        status.add(energyBar).left().width(Value.percentWidth(0.3f, status)).pad(5, 5, 0, 0);
+        status.add(energyBar)
+                .left()
+                .width(Value.percentWidth(0.3f, status))
+                .pad(5, 5, 0, 0);
 
         addActor(status);
     }

@@ -47,6 +47,13 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 		color: background-menu
 	}
 }
+com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+	preferences: {
+		checkboxOn: checkbox-on
+		checkboxOff: checkbox-off
+		font: main-medium
+	}
+}
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
 		font: main-medium
@@ -66,6 +73,13 @@ com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
 	energy: {
 		background: energybar-background
 		knobBefore: energy
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
+	preferences: {
+		background: slider-background
+		knob: slider-knob
+		knobBefore: slider-beforeknob
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {

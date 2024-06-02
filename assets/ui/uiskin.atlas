@@ -6,14 +6,30 @@ filter: Linear, Linear
 repeat: none
 white-pixel
   rotate: false
-  xy: 2017, 2015
+  xy: 2019, 2017
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
+checkbox-off
+  rotate: false
+  xy: 828, 1745
+  size: 34, 34
+  split: 0, 0, 0, 0
+  orig: 34, 34
+  offset: 0, 0
+  index: -1
+checkbox-on
+  rotate: false
+  xy: 988, 1825
+  size: 34, 34
+  split: 0, 0, 0, 0
+  orig: 34, 34
+  offset: 0, 0
+  index: -1
 energy
   rotate: false
-  xy: 1, 1860
+  xy: 1, 1832
   size: 985, 27
   split: 0, 0, 0, 0
   orig: 985, 27
@@ -21,7 +37,7 @@ energy
   index: -1
 energybar-background
   rotate: false
-  xy: 1, 1932
+  xy: 1, 1904
   size: 1027, 41
   split: 41, 5, 8, 8
   pad: 40, 2, 7, 7
@@ -30,7 +46,7 @@ energybar-background
   index: -1
 health
   rotate: false
-  xy: 1030, 1989
+  xy: 1032, 1991
   size: 985, 27
   split: 0, 0, 0, 0
   orig: 985, 27
@@ -38,7 +54,7 @@ health
   index: -1
 healthbar-background
   rotate: false
-  xy: 1, 1975
+  xy: 1, 1947
   size: 1027, 41
   split: 41, 5, 8, 8
   pad: 40, 2, 7, 7
@@ -47,14 +63,14 @@ healthbar-background
   index: -1
 main-medium
   rotate: false
-  xy: 1, 519
+  xy: 1, 440
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 shield
   rotate: false
-  xy: 1030, 1960
+  xy: 1, 1803
   size: 985, 27
   split: 0, 0, 0, 0
   orig: 985, 27
@@ -62,16 +78,41 @@ shield
   index: -1
 shieldbar-background
   rotate: false
-  xy: 1, 1889
+  xy: 1, 1861
   size: 1027, 41
   split: 41, 5, 8, 8
   pad: 40, 2, 7, 7
   orig: 1027, 41
   offset: 0, 0
   index: -1
+slider-background
+  rotate: false
+  xy: 1, 1990
+  size: 1029, 28
+  split: 23, 23, 5, 5
+  pad: 22, 20, 4, 4
+  orig: 1029, 28
+  offset: 0, 0
+  index: -1
+slider-beforeknob
+  rotate: false
+  xy: 1, 1781
+  size: 985, 20
+  split: 0, 0, 0, 0
+  orig: 985, 20
+  offset: 0, 0
+  index: -1
+slider-knob
+  rotate: false
+  xy: 1, 404
+  size: 22, 34
+  split: 0, 0, 0, 0
+  orig: 22, 34
+  offset: 0, 0
+  index: -1
 soul-icon
   rotate: false
-  xy: 1, 1033
+  xy: 1, 954
   size: 825, 825
   orig: 825, 825
   offset: 0, 0

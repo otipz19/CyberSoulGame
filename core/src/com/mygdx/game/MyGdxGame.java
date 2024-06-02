@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
@@ -19,6 +20,7 @@ import com.mygdx.game.levels.TestLevel;
 import com.mygdx.game.ui.MainMenu;
 import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.utils.PlayerDataManager;
+import com.mygdx.game.utils.PlayerPreferencesManager;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.stream.Stream;
@@ -37,6 +39,7 @@ public class MyGdxGame extends Game {
     @Override
     public void create() {
         instance = this;
+        changeDisplayMode();
         inputMultiplexer = new InputMultiplexer();
         Gdx.input.setInputProcessor(inputMultiplexer);
         loadAssets();
@@ -108,6 +111,17 @@ public class MyGdxGame extends Game {
         changeLevel(PlayerDataManager.getInstance().getCurrentLevel());
     }
 
+    public void changeDisplayMode() {
+        if (PlayerPreferencesManager.getInstance().isFullScreen()){
+            Graphics.Monitor currMonitor = Gdx.graphics.getMonitor();
+            Graphics.DisplayMode displayMode = Gdx.graphics.getDisplayMode(currMonitor);
+            Gdx.graphics.setFullscreenMode(displayMode);
+        }
+        else {
+            Gdx.graphics.setWindowedMode(960, 640);
+        }
+    }
+
     public void exit(){
         Gdx.app.exit();
     }
@@ -120,6 +134,7 @@ public class MyGdxGame extends Game {
     @Override
     public void dispose() {
         PlayerDataManager.getInstance().saveData();
+        PlayerPreferencesManager.getInstance().savePreferences();
         currentLevel.dispose();
         assetManager.dispose();
         batch.dispose();
