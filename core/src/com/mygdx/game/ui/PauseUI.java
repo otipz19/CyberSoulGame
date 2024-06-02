@@ -21,6 +21,7 @@ public class PauseUI extends UILayer {
         this.level = level;
 
         Skin skin = MyGdxGame.getInstance().assetManager.get(AssetsNames.UI_SKIN, Skin.class);
+        registerAsInputProcessor();
 
         setSkin(skin);
         setFillParent(true);
@@ -41,11 +42,11 @@ public class PauseUI extends UILayer {
         add().expandX();
         row();
         add().expandX();
-        add(mainMenuButton).growX().pad(5);
+        add(optionsButton).growX().pad(5);
         add().expandX();
         row();
         add().expandX();
-        add(optionsButton).growX().pad(5);
+        add(mainMenuButton).growX().pad(5);
         add().expandX();
         row();
         add().expandX();
@@ -53,7 +54,7 @@ public class PauseUI extends UILayer {
         add().expandX();
 
         settingsUI = new SettingsUI(stage);
-        settingsUI.addOnHideAction(() -> {((InputMultiplexer)Gdx.input.getInputProcessor()).addProcessor(this); stage.addActor(this);});
+        settingsUI.addOnHideAction(() -> {registerAsInputProcessor(); stage.addActor(this);});
     }
 
     private TextButton getResumeButton(Skin skin) {
@@ -90,12 +91,12 @@ public class PauseUI extends UILayer {
     }
 
     private TextButton getOptionsButton(Skin skin) {
-        TextButton optionsButton = new TextButton("Options", skin);
+        TextButton optionsButton = new TextButton("Settings", skin);
         optionsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 PauseUI.super.hideLayer();
-                ((InputMultiplexer)Gdx.input.getInputProcessor()).removeProcessor(PauseUI.this);
+                unregisterAsInputProcessor();
                 stage.addActor(settingsUI);
             }
         });

@@ -14,7 +14,14 @@ public abstract class UILayer extends Table implements InputProcessor {
     public UILayer(Stage stage){
         this.stage = stage;
         onHideActions = new Array<>();
+    }
+
+    public void registerAsInputProcessor() {
         ((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(this);
+    }
+
+    public void unregisterAsInputProcessor() {
+        ((InputMultiplexer) Gdx.input.getInputProcessor()).removeProcessor(this);
     }
 
     public void addOnHideAction(Runnable action){

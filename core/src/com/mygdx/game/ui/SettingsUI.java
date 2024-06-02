@@ -12,6 +12,7 @@ import com.mygdx.game.utils.PlayerPreferencesManager;
 public class SettingsUI extends UILayer {
     public SettingsUI(Stage stage) {
         super(stage);
+        registerAsInputProcessor();
 
         Skin skin = MyGdxGame.getInstance().assetManager.get(AssetsNames.UI_SKIN, Skin.class);
 

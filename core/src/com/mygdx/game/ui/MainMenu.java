@@ -19,6 +19,7 @@ public class MainMenu implements Screen {
     private final Stage stage;
     private final Table menuButtons;
     private final SettingsUI settingsUI;
+    private final CreditsUI creditsUI;
 
     public MainMenu(boolean hasAlreadyPlayed) {
         stage = new Stage(new ScreenViewport());
@@ -86,6 +87,9 @@ public class MainMenu implements Screen {
 
         settingsUI = new SettingsUI(stage);
         settingsUI.addOnHideAction(() -> stage.addActor(menuButtons));
+
+        creditsUI = new CreditsUI(stage);
+        creditsUI.addOnHideAction(() -> stage.addActor(menuButtons));
     }
 
     private TextButton getContinueButton(Skin skin) {
@@ -112,7 +116,7 @@ public class MainMenu implements Screen {
     }
 
     private TextButton getOptionsButton(Skin skin) {
-        TextButton optionsButton = new TextButton("Options", skin);
+        TextButton optionsButton = new TextButton("Settings", skin);
         optionsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -128,7 +132,10 @@ public class MainMenu implements Screen {
         creditsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                throw new RuntimeException("Not implemented :(");
+                menuButtons.remove();
+                creditsUI.registerAsInputProcessor();
+                creditsUI.reset();
+                stage.addActor(creditsUI);
             }
         });
         return creditsButton;

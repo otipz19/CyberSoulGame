@@ -302,6 +302,26 @@ atlasData: {
 			type: NINE_PATCH
 			hidden: false
 		}
+		{
+			file: null
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: transparent
+			name: transparent
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: PIXEL
+			hidden: false
+		}
 	]
 	fontDrawables: [
 		{
@@ -367,6 +387,16 @@ jsonData: {
 				a: 1
 			}
 			name: text
+		}
+		{
+			class: com.ray3k.skincomposer.data.ColorData
+			color: {
+				r: 0
+				g: 0
+				b: 0
+				a: 0
+			}
+			name: transparent
 		}
 	]
 	fonts: [
@@ -1212,6 +1242,51 @@ jsonData: {
 				deletable: false
 				parent: null
 			}
+			{
+				class: com.ray3k.skincomposer.data.StyleData
+				name: credits
+				clazz: com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
+				properties: {
+					background: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: background
+						optional: true
+						value: null
+					}
+					corner: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: corner
+						optional: true
+						value: null
+					}
+					hScroll: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: hScroll
+						optional: true
+						value: transparent
+					}
+					hScrollKnob: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: hScrollKnob
+						optional: true
+						value: transparent
+					}
+					vScroll: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: vScroll
+						optional: true
+						value: transparent
+					}
+					vScrollKnob: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: vScrollKnob
+						optional: true
+						value: transparent
+					}
+				}
+				deletable: true
+				parent: null
+			}
 		]
 		com.badlogic.gdx.scenes.scene2d.ui.SplitPane: [
 			{
@@ -1717,6 +1792,33 @@ jsonData: {
 					}
 				}
 				deletable: false
+				parent: null
+			}
+			{
+				class: com.ray3k.skincomposer.data.StyleData
+				name: credits
+				clazz: com.badlogic.gdx.scenes.scene2d.ui.Label
+				properties: {
+					font: {
+						type: com.badlogic.gdx.graphics.g2d.BitmapFont
+						name: font
+						optional: false
+						value: main-medium
+					}
+					fontColor: {
+						type: com.badlogic.gdx.graphics.Color
+						name: fontColor
+						optional: true
+						value: text
+					}
+					background: {
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: background
+						optional: true
+						value: null
+					}
+				}
+				deletable: true
 				parent: null
 			}
 		]
