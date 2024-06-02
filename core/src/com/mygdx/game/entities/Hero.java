@@ -74,16 +74,7 @@ public class Hero extends Entity {
             if(isOnGround())
                 animator.setState(HeroAnimator.State.RUN);
             animator.setDirection(HeroAnimator.Direction.RIGHT);
-        }else if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && (dashCooldown <= 0)) {
-            if(animator.getDirection()==HeroAnimator.Direction.RIGHT) {
-                applyImpulse(6.5f, 0);
-            }
-            else {
-                applyImpulse(-6.5f, 0);
-            }
-            animator.setState(HeroAnimator.State.RUN);
-            dashCooldown = DASH_COOLDOWN_TIME;
-        }  else if (Gdx.input.isKeyPressed(Input.Keys.UP) && (isOnGround()||(canDoubleJump && jumpCooldown <= 0))) {
+        }else if (Gdx.input.isKeyPressed(Input.Keys.UP) && (isOnGround()||(canDoubleJump && jumpCooldown <= 0))) {
             if (isOnGround()) {
                 applyImpulse(0, 5f);
                 canDoubleJump = true;
@@ -94,6 +85,7 @@ public class Hero extends Entity {
                 canDoubleJump = false;
                 animator.setState(HeroAnimator.State.DOUBLE_JUMP);
             }
+            body.getFixtureList().forEach(b->b.setFriction(1));
             jumpCooldown = JUMP_COOLDOWN_TIME;
         } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && velocity.y > -MAX_VELOCITY) {
             applyImpulse(0, -0.8f);
@@ -104,6 +96,15 @@ public class Hero extends Entity {
                 canDoubleJump = true;
             }
             body.getFixtureList().forEach(b->b.setFriction(1));
+        }if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && (dashCooldown <= 0)) {
+            if(animator.getDirection()==HeroAnimator.Direction.RIGHT) {
+                applyImpulse(13f, 0);
+            }
+            else {
+                applyImpulse(-13f, 0);
+            }
+            animator.setState(HeroAnimator.State.RUN);
+            dashCooldown = DASH_COOLDOWN_TIME;
         }
 
         animator.animate(level.game.batch, body.getPosition().x, body.getPosition().y, width, height);

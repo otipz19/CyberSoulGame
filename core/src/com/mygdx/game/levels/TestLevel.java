@@ -18,8 +18,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
+import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.entities.Hero;
 import com.mygdx.game.entities.HeroData;
+import com.mygdx.game.entities.EnemyData;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
@@ -33,6 +35,7 @@ public class TestLevel extends Level {
         this.game = game;
         createMap();
         hero = new Hero(this, new HeroData(), 17, 5, 1, 1);
+        enemy = new Enemy(this, new EnemyData(),6,5.5f,1,1,4,9,5f,6.5f,hero);
         createCamera();
         background = game.assetManager.get(AssetsNames.GREENZONE_BACKGROUND_FULL);
     }
@@ -105,6 +108,7 @@ public class TestLevel extends Level {
         mapRenderer.render();
         game.batch.begin();
         hero.render();
+        enemy.render();
         game.batch.end();
         box2dRenderer.render(world, camera.combined);
 

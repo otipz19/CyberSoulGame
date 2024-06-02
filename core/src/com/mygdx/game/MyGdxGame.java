@@ -47,7 +47,13 @@ public class MyGdxGame extends Game {
                         AssetsNames.BIKER_DOUBLEJUMP_SHEET,
                         AssetsNames.BIKER_HURT_SHEET,
                         AssetsNames.BIKER_PUNCH_SHEET,
-                        AssetsNames.BIKER_RUN_ATTACK_SHEET)
+                        AssetsNames.BIKER_RUN_ATTACK_SHEET,
+                        AssetsNames.MONSTER_ATTACK1_SHEET,
+                        AssetsNames.MONSTER_ATTACK2_SHEET,
+                        AssetsNames.MONSTER_DEATH_SHEET,
+                        AssetsNames.MONSTER_HURT_SHEET,
+                        AssetsNames.MONSTER_WALK_SHEET,
+                        AssetsNames.MONSTER_IDLE_SHEET)
                 .forEach(str -> assetManager.load(str, Texture.class));
         assetManager.finishLoading();
     }
