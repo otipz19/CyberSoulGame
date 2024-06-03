@@ -14,15 +14,12 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.mygdx.game.entities.heroes.HeroData;
-import com.mygdx.game.levels.Level;
-import com.mygdx.game.levels.TestLevel;
+import com.mygdx.game.levels.*;
 import com.mygdx.game.ui.MainMenu;
 import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.utils.PlayerDataManager;
 import com.mygdx.game.utils.PlayerPreferencesManager;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.stream.Stream;
 
 public class MyGdxGame extends Game {
@@ -166,22 +163,22 @@ public class MyGdxGame extends Game {
     public enum Levels {
         SAFE {
             public Level create() {
-                return new TestLevel();
+                return new SafeZoneLevel();
             }
         },
         FIRST {
             public Level create() {
-                return new TestLevel();
+                return new GreenZoneLevel();
             }
         },
         SECOND {
             public Level create() {
-                return new TestLevel();
+                return new PowerStationZone();
             }
         },
         THIRD {
             public Level create() {
-                return new TestLevel();
+                return new IndustrialZoneLevel();
             }
         };
 

@@ -42,6 +42,9 @@ public abstract class Level implements Screen {
 
     public Level(){
         this.game = MyGdxGame.getInstance();
+    }
+
+    protected void init() {
         initResources();
         createMap();
         createCamera();

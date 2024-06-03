@@ -22,7 +22,6 @@ import com.mygdx.game.entities.portals.ThirdPortal;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.entities.EnemyData;
-import com.mygdx.game.map.PortalData;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
@@ -32,18 +31,23 @@ import com.mygdx.game.map.ObstacleData;
 import com.mygdx.game.map.XMLLevelObjectsParser;
 import com.mygdx.game.utils.PlayerDataManager;
 
-public class TestLevel extends Level {
+public abstract class AbstractLevel extends Level {
     private XMLLevelObjectsParser objectsParser;
     private Texture background;
     private Array<Entity> entities;
 
+    private final String tileMapName;
+    private final Vector2 heroStartPos;
+
+    public AbstractLevel(String tileMapName, Vector2 heroStartPos) {
+        this.tileMapName = tileMapName;
+        this.heroStartPos = heroStartPos;
+        init();
+    }
+
     @Override
     protected void initResources() {
-//        objectsParser = new XMLLevelObjectsParser(AssetsNames.TEST_LEVEL_TILEMAP);
-//        objectsParser = new XMLLevelObjectsParser(AssetsNames.GREENZONE_LEVEL_TILEMAP);
-//        objectsParser = new XMLLevelObjectsParser(AssetsNames.POWERSTATION_LEVEL_TILEMAP);
-//        objectsParser = new XMLLevelObjectsParser(AssetsNames.INDUSTRIALZONE_LEVEL_TILEMAP);
-        objectsParser = new XMLLevelObjectsParser(AssetsNames.SAFEZONE_LEVEL_TILEMAP);
+        objectsParser = new XMLLevelObjectsParser(tileMapName);
         entities = new Array<>();
     }
 
@@ -52,11 +56,7 @@ public class TestLevel extends Level {
         world = new World(new Vector2(0, -10), true);
         world.setContactListener(new ContactListener());
 
-//        map = game.assetManager.get(AssetsNames.TEST_LEVEL_TILEMAP);
-//        map = game.assetManager.get(AssetsNames.GREENZONE_LEVEL_TILEMAP);
-//        map = game.assetManager.get(AssetsNames.POWERSTATION_LEVEL_TILEMAP);
-//        map = game.assetManager.get(AssetsNames.INDUSTRIALZONE_LEVEL_TILEMAP);
-        map = game.assetManager.get(AssetsNames.SAFEZONE_LEVEL_TILEMAP);
+        map = game.assetManager.get(tileMapName);
 
         MapProperties mapProperties = map.getProperties();
         levelWidth = (int) mapProperties.get("width");
@@ -92,7 +92,7 @@ public class TestLevel extends Level {
 
     @Override
     protected void createHero() {
-        hero = new Hero(this, PlayerDataManager.getInstance().getHeroData(), 20, 60, 0.95f, 0.95f);
+        hero = new Hero(this, PlayerDataManager.getInstance().getHeroData(), heroStartPos.x, heroStartPos.y, 0.95f, 0.95f);
         camera.setPositionSharply(hero.getCameraPosition());
     }
 
