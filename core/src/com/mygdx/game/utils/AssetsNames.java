@@ -42,4 +42,10 @@ public class AssetsNames {
     public static final String PORTAL_FIRST_ACTIVATING_SPRITESHEET = "zones/safezone/resources/portals/1-activating.png";
     public static final String PORTAL_SECOND_ACTIVATING_SPRITESHEET = "zones/safezone/resources/portals/2-activating.png";
     public static final String PORTAL_THIRD_ACTIVATING_SPRITESHEET = "zones/safezone/resources/portals/3-activating.png";
+
+    public static final String GREENZONE_PARALLAX_1 = "zones/greenzone/resources/green-zone-tileset/2 Background/Day/1.png";
+    public static final String GREENZONE_PARALLAX_2 = "zones/greenzone/resources/green-zone-tileset/2 Background/Day/2.png";
+    public static final String GREENZONE_PARALLAX_3 = "zones/greenzone/resources/green-zone-tileset/2 Background/Day/3.png";
+    public static final String GREENZONE_PARALLAX_4 = "zones/greenzone/resources/green-zone-tileset/2 Background/Day/4.png";
+    public static final String GREENZONE_PARALLAX_5 = "zones/greenzone/resources/green-zone-tileset/2 Background/Day/5.png";
 }

@@ -28,6 +28,7 @@ import com.mygdx.game.entities.resources.HeroResourcesManager;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.entities.EnemyData;
 import com.mygdx.game.map.PlayerSpawnData;
+import com.mygdx.game.parallax.ParallaxBackground;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
@@ -49,6 +50,8 @@ public abstract class Level implements Screen {
     protected LevelCamera camera;
     protected ScreenViewport viewport;
     protected CoordinatesProjector coordinatesProjector;
+
+    private ParallaxBackground parallaxBackground;
 
     protected float accumulator;
     protected static final float TIME_STEP = 1 / 60f;
@@ -88,7 +91,7 @@ public abstract class Level implements Screen {
         createCamera();
         createHero();
         createEntities();
-//        createBackground();
+        createBackground();
         createUI();
         box2dRenderer = new Box2DDebugRenderer(true, true, true, true, true, true);
     }
@@ -132,6 +135,8 @@ public abstract class Level implements Screen {
 
         viewport = new ScreenViewport(camera);
         viewport.setUnitsPerPixel(unitScale);
+
+        camera.update();
     }
 
     protected void createHero() {
@@ -168,9 +173,9 @@ public abstract class Level implements Screen {
         });
     }
 
-//    protected void createBackground() {
-//        background = game.assetManager.get(AssetsNames.GREENZONE_BACKGROUND_FULL);
-//    }
+    protected void createBackground() {
+        parallaxBackground = new ParallaxBackground(camera);
+    }
 
     protected void createUI() {
         ui = new LevelUI(this);
@@ -181,7 +186,7 @@ public abstract class Level implements Screen {
             delta = 0;
         ScreenUtils.clear(Color.WHITE);
         updateCamera(delta);
-//        renderBackground(delta);
+        renderBackground(delta);
         renderMap(delta);
         renderEntities(delta);
         box2dRenderer.render(world, camera.combined);
@@ -195,13 +200,12 @@ public abstract class Level implements Screen {
         camera.update();
     }
 
-//    protected void renderBackground(float delta) {
-//        game.batch.setProjectionMatrix(camera.combined);
-//        game.batch.begin();
-//        game.batch.draw(background, 0, 0, 90, 34);
-//        game.batch.end();
-//    }
-
+    protected void renderBackground(float delta) {
+        game.batch.setProjectionMatrix(camera.combined);
+        game.batch.begin();
+        parallaxBackground.render();
+        game.batch.end();
+    }
 
     protected void renderMap(float delta) {
         mapRenderer.setView(camera);
