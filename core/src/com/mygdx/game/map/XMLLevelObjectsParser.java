@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class XMLLevelObjectsParser {
@@ -27,6 +28,7 @@ public class XMLLevelObjectsParser {
     private final List<ObstacleData> obstaclesData = new ArrayList<>();
     private final List<EnemyData> enemiesData = new ArrayList<>();
     private final List<PortalData> portalsData = new ArrayList<>();
+    private final List<PlayerSpawnData> playerSpawnsData = new ArrayList<>();
 
     public XMLLevelObjectsParser(String levelFileName) {
         document = loadDocument(levelFileName);
@@ -76,15 +78,15 @@ public class XMLLevelObjectsParser {
                     parseObstacles(objectGroup);
                 } else if (groupName.equals("portals")) {
                     parsePortals(objectGroup);
+                } else if(groupName.equals("playerSpawns")) {
+                    parsePlayerSpawns(objectGroup);
                 }
             }
         }
     }
 
     private void parseColliders(Element objectGroup) {
-        NodeList objects = objectGroup.getElementsByTagName("object");
-        for (int i = 0; i < objects.getLength(); i++) {
-            Element object = (Element) objects.item(i);
+        forEachObjectInGroup(objectGroup, (object) -> {
             if (!object.hasChildNodes()) {
                 rectangleColliders.add(parseRectangle(object));
             } else {
@@ -94,7 +96,7 @@ public class XMLLevelObjectsParser {
                     polygonColliders.add(parsePolygon(object, polygonElement));
                 }
             }
-        }
+        });
     }
 
     private Rectangle parseRectangle(Element object) {
@@ -127,11 +129,7 @@ public class XMLLevelObjectsParser {
     }
 
     private void parseObstacles(Element objectGroup) {
-        NodeList objects = objectGroup.getElementsByTagName("object");
-        for (int i = 0; i < objects.getLength(); i++) {
-            Element object = (Element) objects.item(i);
-            obstaclesData.add(parseObstacle(object));
-        }
+        forEachObjectInGroup(objectGroup, (object) -> obstaclesData.add(parseObstacle(object)));
     }
 
     private ObstacleData parseObstacle(Element object) {
@@ -140,11 +138,7 @@ public class XMLLevelObjectsParser {
     }
 
     private void parsePortals(Element objectGroup) {
-        NodeList objects = objectGroup.getElementsByTagName("object");
-        for (int i = 0; i < objects.getLength(); i++) {
-            Element object = (Element) objects.item(i);
-            portalsData.add(parsePortal(object));
-        }
+        forEachObjectInGroup(objectGroup, object -> portalsData.add(parsePortal(object)));
     }
 
     private PortalData parsePortal(Element object) {
@@ -153,6 +147,15 @@ public class XMLLevelObjectsParser {
                 getProperty(object, "type"),
                 getProperty(object, "destination"),
                 getProperty(object, "isEnabled"));
+    }
+
+    private void parsePlayerSpawns(Element objectGroup) {
+        forEachObjectInGroup(objectGroup, object -> playerSpawnsData.add(parsePlayerSpawn(object)));
+    }
+
+    private PlayerSpawnData parsePlayerSpawn(Element object) {
+        Rectangle bounds = parseRectangle(object);
+        return new PlayerSpawnData(bounds, getProperty(object, "fromLevel"));
     }
 
     private void parseEnemiesObjectGroups(Element group) {
@@ -181,6 +184,14 @@ public class XMLLevelObjectsParser {
             throw new RuntimeException("Invalid enemy object format!");
         }
         return new EnemyData(spawnPoint, travelArea, type);
+    }
+
+    private void forEachObjectInGroup(Element objectGroup, Consumer<Element> action) {
+        NodeList objects = objectGroup.getElementsByTagName("object");
+        for(int i = 0; i < objects.getLength(); i++) {
+            Element object = (Element) objects.item(i);
+            action.accept(object);
+        }
     }
 
     private String getProperty(Element element, String propertyName) {
@@ -221,5 +232,9 @@ public class XMLLevelObjectsParser {
 
     public Stream<PortalData> getPortalsData() {
         return portalsData.stream();
+    }
+
+    public Stream<PlayerSpawnData> getPlayerSpawns() {
+        return playerSpawnsData.stream();
     }
 }

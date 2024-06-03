@@ -27,6 +27,7 @@ import com.mygdx.game.entities.portals.ThirdPortal;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.entities.EnemyData;
+import com.mygdx.game.map.PlayerSpawnData;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
@@ -61,12 +62,11 @@ public abstract class Level implements Screen {
 
     private boolean isPaused;
 
-    private XMLLevelObjectsParser objectsParser;
+    protected XMLLevelObjectsParser objectsParser;
     protected final Array<EntryObstacle> obstacles = new Array<>();
     protected final Array<Portal> portals = new Array<>();
 
     private final String tileMapName;
-    private final Vector2 heroStartPos;
 
     public boolean isPaused(){
         return isPaused;
@@ -83,7 +83,6 @@ public abstract class Level implements Screen {
     public Level(String tileMapName, Vector2 heroStartPos) {
         this.game = MyGdxGame.getInstance();
         this.tileMapName = tileMapName;
-        this.heroStartPos = heroStartPos;
         initResources();
         createMap();
         createCamera();
@@ -136,8 +135,17 @@ public abstract class Level implements Screen {
     }
 
     protected void createHero() {
-        hero = new Hero(this, PlayerDataManager.getInstance().getHeroData(), heroStartPos.x, heroStartPos.y, 0.95f, 0.95f);
+        Vector2 spawn = coordinatesProjector.unproject(getPlayerSpawn());
+        hero = new Hero(this, PlayerDataManager.getInstance().getHeroData(), spawn.x, spawn.y, 0.95f, 0.95f);
         camera.setPositionSharply(hero.getCameraPosition());
+    }
+
+    protected Vector2 getPlayerSpawn() {
+        Rectangle bounds = objectsParser.getPlayerSpawns()
+                .filter(spawn -> spawn.getFromLevel().equals(MyGdxGame.getInstance().getPreviousLevelType()))
+                .findFirst().get()
+                .getBounds();
+        return new Vector2(bounds.x, bounds.y + bounds.height);
     }
 
     protected void createEntities() {
