@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.entities.heroes.Hero;
-import com.mygdx.game.entities.Enemy;
+import com.mygdx.game.entities.enemies.Enemy;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.LevelCamera;
 import com.mygdx.game.ui.LevelUI;

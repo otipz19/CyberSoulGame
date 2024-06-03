@@ -13,32 +13,28 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
     public void beginContact(Contact contact) {
         Object a = contact.getFixtureA().getUserData();
         Object b = contact.getFixtureB().getUserData();
-        if (a instanceof GameObject aObject && b instanceof GameObject bObject){
-            if (aObject instanceof ICollisionListener aListener)
-                aListener.onCollisionEnter(bObject);
-            if (aObject instanceof ITriggerListener aListener)
-                aListener.onTriggerEnter(bObject);
-            if (bObject instanceof ICollisionListener bListener)
-                bListener.onCollisionEnter(aObject);
-            if (bObject instanceof ITriggerListener bListener)
-                bListener.onTriggerEnter(aObject);
-        }
+        if (a instanceof ITriggerListener aListener && b instanceof GameObject bObject)
+            aListener.onTriggerEnter(bObject);
+        if (a instanceof ICollisionListener aListener && b instanceof Entity bEntity)
+            aListener.onCollisionEnter(bEntity);
+        if (b instanceof ITriggerListener bListener && a instanceof GameObject aObject)
+            bListener.onTriggerEnter(aObject);
+        if (b instanceof ICollisionListener bListener && a instanceof Entity aEntity)
+            bListener.onCollisionEnter(aEntity);
     }
 
     @Override
     public void endContact(Contact contact) {
         Object a = contact.getFixtureA().getUserData();
         Object b = contact.getFixtureB().getUserData();
-        if (a instanceof GameObject aObject && b instanceof GameObject bObject){
-            if (a instanceof ICollisionListener aListener)
-                aListener.onCollisionExit(bObject);
-            if (a instanceof ITriggerListener aListener)
-                aListener.onTriggerExit(bObject);
-            if (b instanceof ICollisionListener bListener)
-                bListener.onCollisionExit(aObject);
-            if (b instanceof ITriggerListener bListener)
-                bListener.onTriggerExit(aObject);
-        }
+        if (a instanceof ITriggerListener aListener && b instanceof GameObject bObject)
+            aListener.onTriggerExit(bObject);
+        if (a instanceof ICollisionListener aListener && b instanceof Entity bEntity)
+            aListener.onCollisionExit(bEntity);
+        if (b instanceof ITriggerListener bListener && a instanceof GameObject aObject)
+            bListener.onTriggerExit(aObject);
+        if (b instanceof ICollisionListener bListener && a instanceof Entity aEntity)
+            bListener.onCollisionExit(aEntity);
     }
 
     @Override

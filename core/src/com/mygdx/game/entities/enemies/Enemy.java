@@ -1,11 +1,11 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.enemies;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.EnemyAnimator;
+import com.mygdx.game.entities.MortalEntity;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
@@ -35,6 +35,8 @@ public class Enemy extends MortalEntity {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
+        body = level.world.createBody(bodyDef);
+        body.setFixedRotation(true);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = collider.getShape();
@@ -42,11 +44,9 @@ public class Enemy extends MortalEntity {
         fixtureDef.friction = 0;
         fixtureDef.restitution = 0;
 
-        body = level.world.createBody(bodyDef);
-        body.createFixture(fixtureDef);
-        body.setFixedRotation(true);
+        Fixture fixture = body.createFixture(fixtureDef);
 
-        body.setUserData(this);
+        fixture.setUserData(this);
         collider.dispose();
     }
 

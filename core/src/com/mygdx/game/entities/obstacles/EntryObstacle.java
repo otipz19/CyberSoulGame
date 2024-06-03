@@ -1,7 +1,9 @@
 package com.mygdx.game.entities.obstacles;
 
+import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.EntryObstacleAnimator;
@@ -40,12 +42,16 @@ public class EntryObstacle extends Entity implements ICollisionListener {
         height = 3;
         fixture = body.getFixtureList().first();
 
+        Shape colliderShape = SensorPosition.SLIM_INSIDE.getColliderShape(width, height);
+
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = SensorPosition.SLIM_INSIDE.getColliderShape(width, height);
         fixtureDef.isSensor = true;
 
         Fixture damageFixture = body.createFixture(fixtureDef);
         damageFixture.setUserData(this);
+
+        colliderShape.dispose();
     }
 
     @Override
@@ -72,7 +78,7 @@ public class EntryObstacle extends Entity implements ICollisionListener {
     }
 
     @Override
-    public void onCollisionEnter(GameObject other) {
+    public void onCollisionEnter(Entity other) {
         if (other instanceof MortalEntity) {
             try {
                 // can't replace with instanceof check for some reason
@@ -86,7 +92,7 @@ public class EntryObstacle extends Entity implements ICollisionListener {
     }
 
     @Override
-    public void onCollisionExit(GameObject other) {
+    public void onCollisionExit(Entity other) {
         if (other instanceof MortalEntity) {
             try {
                 // can't replace with instanceof check for some reason

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.Animator;
 import com.mygdx.game.animation.HeroAnimator;
@@ -16,15 +17,15 @@ import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 
-public class Hero extends MortalEntity<HeroResourcesManager> {
+public class Hero extends MortalEntity<HeroResourcesManager> implements Disposable {
     private final static float MAX_VELOCITY = 5f;
     private final static float MIN_NOT_IDLE_VELOCITY = MAX_VELOCITY*0.6f;
     private final static float DASH_COOLDOWN_TIME = 2f;
     private final static float JUMP_DELAY = 0.5f;
-    private final static float ATTACK_TIME_1 = 0.6f;
-    private final static float ATTACK_TIME_2 = 0.8f;
-    private final static float ATTACK_TIME_3 = 0.6f;
-    private final static float ATTACK_TIME_4 = 0.5f;
+    private final HeroAttack1 attack1;
+    private final HeroAttack2 attack2;
+    private final HeroAttack3 attack3;
+    private final HeroAttack4 attack4;
     private final SurfaceTouchSensor groundTouchListener;
     private final SurfaceTouchSensor leftWallTouchListener;
     private final SurfaceTouchSensor rightWallTouchListener;
@@ -63,6 +64,11 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
         leftWallTouchListener = new SurfaceTouchSensor(this, SensorPosition.LEFT);
         rightWallTouchListener = new SurfaceTouchSensor(this, SensorPosition.RIGHT);
 
+        attack1 = new HeroAttack1(this);
+        attack2 = new HeroAttack2(this);
+        attack3 = new HeroAttack3(this);
+        attack4 = new HeroAttack4(this);
+
         resourcesManager = new HeroResourcesManager(heroData);
     }
 
@@ -87,19 +93,25 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
 
     private void handleAttack() {
         if (attackDelay == 0 && groundTouchListener.isOnSurface()) {
-            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
-                animator.setState(HeroAnimator.State.PUNCH);
-                attackDelay = ATTACK_TIME_3;
-                clearVelocityX();
-            }
-            else if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 animator.setState(HeroAnimator.State.ATTACK_1);
-                attackDelay = ATTACK_TIME_1;
+                attackDelay = attack1.getAttackTime();
+                attack1.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
+                attack1.execute();
                 clearVelocityX();
             }
             else if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
                 animator.setState(HeroAnimator.State.ATTACK_2);
-                attackDelay = ATTACK_TIME_2;
+                attackDelay = attack2.getAttackTime();
+                attack2.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
+                attack2.execute();
+                clearVelocityX();
+            }
+            else if (Gdx.input.isButtonJustPressed(Input.Buttons.MIDDLE)) {
+                animator.setState(HeroAnimator.State.PUNCH);
+                attackDelay = attack3.getAttackTime();
+                attack3.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
+                attack3.execute();
                 clearVelocityX();
             }
         }
@@ -146,16 +158,6 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
         }
     }
 
-    private void clearVelocityX(){
-        Vector2 oldVelocity = body.getLinearVelocity();
-        body.setLinearVelocity(0, oldVelocity.y);
-    }
-
-    private void clearVelocityY(){
-        Vector2 oldVelocity = body.getLinearVelocity();
-        body.setLinearVelocity(oldVelocity.x, Math.max(0, oldVelocity.y));
-    }
-
     private void handleFalling() {
         if (!groundTouchListener.isOnSurface()){
             if (Gdx.input.isKeyPressed(Input.Keys.S)){
@@ -187,7 +189,9 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
                 applyImpulse(4f, 0);
             }
             animator.setState(HeroAnimator.State.RUN_ATTACK);
-            attackDelay = ATTACK_TIME_4;
+            attackDelay = attack4.getAttackTime();
+            attack4.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
+            attack4.execute();
             dashCooldown = DASH_COOLDOWN_TIME;
         }
     }
@@ -207,6 +211,16 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
                 !Gdx.input.isKeyPressed(Input.Keys.SPACE);
     }
 
+    private void clearVelocityX(){
+        Vector2 oldVelocity = body.getLinearVelocity();
+        body.setLinearVelocity(0, oldVelocity.y);
+    }
+
+    private void clearVelocityY(){
+        Vector2 oldVelocity = body.getLinearVelocity();
+        body.setLinearVelocity(oldVelocity.x, Math.max(0, oldVelocity.y));
+    }
+
     private void applyImpulse(float x, float y){
         Vector2 center = body.getWorldCenter();
         body.applyLinearImpulse(x, y, center.x, center.y, true);
@@ -218,5 +232,13 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
 
     public HeroData getData(){
         return resourcesManager.getHeroData();
+    }
+
+    @Override
+    public void dispose() {
+        attack1.dispose();
+        attack2.dispose();
+        attack3.dispose();
+        attack4.dispose();
     }
 }
