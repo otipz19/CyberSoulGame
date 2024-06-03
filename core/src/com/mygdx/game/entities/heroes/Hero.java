@@ -67,6 +67,10 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
     }
 
     public void render(float deltaTime) {
+        if(Gdx.input.isKeyPressed(Input.Keys.C)) {
+            animator.setState(HeroAnimator.State.DEATH);
+            animator.blockAnimationReset();
+        }
         if (deltaTime != 0) {
             jumpDelay = Math.max(0, jumpDelay - deltaTime);
             dashCooldown = Math.max(0, dashCooldown - deltaTime);

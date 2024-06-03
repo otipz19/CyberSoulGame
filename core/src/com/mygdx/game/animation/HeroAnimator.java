@@ -90,14 +90,4 @@ public class HeroAnimator extends Animator {
         animations.startAnimation = animations.get(State.IDLE);
         return animations;
     }
-
-    @Override
-    public void setState(Animator.State newState) {
-        if (newState == HeroAnimator.State.IDLE && super.getState() != HeroAnimator.State.IDLE && idleTime < IDLE_THRESHOLD) {
-            idleTime += Gdx.graphics.getDeltaTime();
-        } else {
-            idleTime = 0;
-            super.setState(newState);
-        }
-    }
 }
