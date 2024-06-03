@@ -26,10 +26,12 @@ public abstract class Animator {
 
     private boolean isAnimationResetBlocked;
 
-    public Animator(AnimationsMap animations) {
-        this.animations = animations;
+    public Animator() {
+        this.animations = createAnimationsMap();
         this.curAnimation = animations.startAnimation;
     }
+
+    protected abstract AnimationsMap createAnimationsMap();
 
     /**
      * Forces animator to ignore all calls of setState() and setDirection(),

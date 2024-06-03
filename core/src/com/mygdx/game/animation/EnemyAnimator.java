@@ -18,11 +18,7 @@ public class EnemyAnimator extends Animator {
     private float idleTime;
     private static final float IDLE_THRESHOLD = 0.2f;
 
-    public EnemyAnimator() {
-        super(createAnimationsMap());
-    }
-
-    private static AnimationsMap createAnimationsMap() {
+    protected AnimationsMap createAnimationsMap() {
         AnimationsMap animations = new AnimationsMap();
         animations.put(State.IDLE, new AnimationBuilder(AssetsNames.MONSTER_IDLE_SHEET)
                 .cols(4)
@@ -65,13 +61,13 @@ public class EnemyAnimator extends Animator {
         return animations;
     }
 
-    @Override
-    public void setState(Animator.State newState) {
-        if (newState == EnemyAnimator.State.IDLE && super.getState() != EnemyAnimator.State.IDLE && idleTime < IDLE_THRESHOLD) {
-            idleTime += Gdx.graphics.getDeltaTime();
-        } else {
-            idleTime = 0;
-            super.setState(newState);
-        }
-    }
+//    @Override
+//    public void setState(Animator.State newState) {
+//        if (newState == EnemyAnimator.State.IDLE && super.getState() != EnemyAnimator.State.IDLE && idleTime < IDLE_THRESHOLD) {
+//            idleTime += Gdx.graphics.getDeltaTime();
+//        } else {
+//            idleTime = 0;
+//            super.setState(newState);
+//        }
+//    }
 }

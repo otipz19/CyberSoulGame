@@ -10,11 +10,7 @@ public class EntryObstacleAnimator extends Animator {
         OPENING,
     }
 
-    public EntryObstacleAnimator() {
-        super(createAnimationsMap());
-    }
-
-    private static AnimationsMap createAnimationsMap(){
+    protected AnimationsMap createAnimationsMap(){
         var animations = new AnimationsMap();
         animations.put(State.CLOSED, new AnimationBuilder(AssetsNames.ENTRY_OBSTACLE_CLOSED)
                 .rows(1)

@@ -76,14 +76,21 @@ public class MyGdxGame extends Game {
                         AssetsNames.MONSTER_DEATH_SHEET,
                         AssetsNames.MONSTER_HURT_SHEET,
                         AssetsNames.MONSTER_WALK_SHEET,
-                        AssetsNames.MONSTER_IDLE_SHEET)
+                        AssetsNames.MONSTER_IDLE_SHEET,
+                        AssetsNames.PORTAL_FIRST_INACTIVE_SPRITESHEET,
+                        AssetsNames.PORTAL_SECOND_INACTIVE_SPRITESHEET,
+                        AssetsNames.PORTAL_THIRD_INACTIVE_SPRITESHEET,
+                        AssetsNames.PORTAL_FIRST_ACTIVATING_SPRITESHEET,
+                        AssetsNames.PORTAL_SECOND_ACTIVATING_SPRITESHEET,
+                        AssetsNames.PORTAL_THIRD_ACTIVATING_SPRITESHEET)
                 .forEach(str -> assetManager.load(str, Texture.class));
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 //        assetManager.load(AssetsNames.TEST_LEVEL_TILEMAP, TiledMap.class);
         Stream.of(AssetsNames.GREENZONE_LEVEL_TILEMAP,
-                AssetsNames.POWERSTATION_LEVEL_TILEMAP,
-                AssetsNames.INDUSTRIALZONE_LEVEL_TILEMAP)
-                        .forEach(str -> assetManager.load(str, TiledMap.class));
+                        AssetsNames.POWERSTATION_LEVEL_TILEMAP,
+                        AssetsNames.INDUSTRIALZONE_LEVEL_TILEMAP,
+                        AssetsNames.SAFEZONE_LEVEL_TILEMAP)
+                .forEach(str -> assetManager.load(str, TiledMap.class));
         assetManager.finishLoading();
     }
 
@@ -96,7 +103,7 @@ public class MyGdxGame extends Game {
         setScreen(new MainMenu(hasAlreadyPlayed));
     }
 
-    public void changeLevel(Levels level){
+    public void changeLevel(Levels level) {
         getScreen().dispose();
         inputMultiplexer.clear();
         currentLevel = level.create();
@@ -104,12 +111,12 @@ public class MyGdxGame extends Game {
         setScreen(currentLevel);
     }
 
-    public void levelCompleted(HeroData heroData){
+    public void levelCompleted(HeroData heroData) {
         PlayerDataManager.getInstance().setHeroData(heroData);
         changeLevel(Levels.SAFE);
     }
 
-    public void levelFailed(){
+    public void levelFailed() {
         PlayerDataManager.getInstance().resetData();
         showMainMenu();
     }
@@ -119,17 +126,16 @@ public class MyGdxGame extends Game {
     }
 
     public void changeDisplayMode() {
-        if (PlayerPreferencesManager.getInstance().isFullScreen()){
+        if (PlayerPreferencesManager.getInstance().isFullScreen()) {
             Graphics.Monitor currMonitor = Gdx.graphics.getMonitor();
             Graphics.DisplayMode displayMode = Gdx.graphics.getDisplayMode(currMonitor);
             Gdx.graphics.setFullscreenMode(displayMode);
-        }
-        else {
+        } else {
             Gdx.graphics.setWindowedMode(960, 640);
         }
     }
 
-    public void exit(){
+    public void exit() {
         Gdx.app.exit();
     }
 
@@ -149,22 +155,22 @@ public class MyGdxGame extends Game {
 
     public enum Levels {
         SAFE {
-            public Level create(){
+            public Level create() {
                 return new TestLevel();
             }
         },
         FIRST {
-            public Level create(){
+            public Level create() {
                 return new TestLevel();
             }
         },
         SECOND {
-            public Level create(){
+            public Level create() {
                 return new TestLevel();
             }
         },
         THIRD {
-            public Level create(){
+            public Level create() {
                 return new TestLevel();
             }
         };

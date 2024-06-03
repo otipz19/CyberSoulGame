@@ -11,12 +11,15 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
+import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
 import com.mygdx.game.entities.obstacles.Surface;
+import com.mygdx.game.entities.portals.Portal;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.entities.EnemyData;
+import com.mygdx.game.map.PortalData;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
@@ -29,15 +32,16 @@ import com.mygdx.game.utils.PlayerDataManager;
 public class TestLevel extends Level {
     private XMLLevelObjectsParser objectsParser;
     private Texture background;
-    private Array<EntryObstacle> obstacles;
+    private Array<Entity> entities;
 
     @Override
     protected void initResources(){
 //        objectsParser = new XMLLevelObjectsParser(AssetsNames.TEST_LEVEL_TILEMAP);
 //        objectsParser = new XMLLevelObjectsParser(AssetsNames.GREENZONE_LEVEL_TILEMAP);
 //        objectsParser = new XMLLevelObjectsParser(AssetsNames.POWERSTATION_LEVEL_TILEMAP);
-        objectsParser = new XMLLevelObjectsParser(AssetsNames.INDUSTRIALZONE_LEVEL_TILEMAP);
-        obstacles = new Array<>();
+//        objectsParser = new XMLLevelObjectsParser(AssetsNames.INDUSTRIALZONE_LEVEL_TILEMAP);
+        objectsParser = new XMLLevelObjectsParser(AssetsNames.SAFEZONE_LEVEL_TILEMAP);
+        entities = new Array<>();
     }
 
     @Override
@@ -48,7 +52,8 @@ public class TestLevel extends Level {
 //        map = game.assetManager.get(AssetsNames.TEST_LEVEL_TILEMAP);
 //        map = game.assetManager.get(AssetsNames.GREENZONE_LEVEL_TILEMAP);
 //        map = game.assetManager.get(AssetsNames.POWERSTATION_LEVEL_TILEMAP);
-        map = game.assetManager.get(AssetsNames.INDUSTRIALZONE_LEVEL_TILEMAP);
+//        map = game.assetManager.get(AssetsNames.INDUSTRIALZONE_LEVEL_TILEMAP);
+        map = game.assetManager.get(AssetsNames.SAFEZONE_LEVEL_TILEMAP);
 
         MapProperties mapProperties = map.getProperties();
         levelWidth = (int) mapProperties.get("width");
@@ -84,7 +89,7 @@ public class TestLevel extends Level {
 
     @Override
     protected void createHero() {
-        hero = new Hero(this, PlayerDataManager.getInstance().getHeroData(), 0, 60, 0.95f, 0.95f);
+        hero = new Hero(this, PlayerDataManager.getInstance().getHeroData(), 20, 60, 0.95f, 0.95f);
         camera.setPositionSharply(hero.getCameraPosition());
     }
 
@@ -93,11 +98,16 @@ public class TestLevel extends Level {
         objectsParser.getObstaclesData().forEach(obstacleData -> {
             if (obstacleData.getType().equals(ObstacleData.Type.ENTRY)) {
                 var collider = ColliderCreator.create(obstacleData.getBounds(), coordinatesProjector);
-                obstacles.add(new EntryObstacle(this, collider));
+                entities.add(new EntryObstacle(this, collider, obstacleData));
                 collider.dispose();
             }
         });
         enemy = new Enemy(this, new EnemyData(),6,60f,1,1,4,9,hero);
+        objectsParser.getPortalsData().forEach(portalData -> {
+            if(portalData.getType() == PortalData.Type.FIRST){
+                entities.add(new Portal(this, portalData, coordinatesProjector));
+            }
+        });
     }
 
     @Override
@@ -137,11 +147,11 @@ public class TestLevel extends Level {
     {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        hero.render(delta);
         enemy.render(delta);
-        for (var obstacle : obstacles) {
+        for (var obstacle : entities) {
             obstacle.render(delta);
         }
+        hero.render(delta);
         game.batch.end();
     }
 

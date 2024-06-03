@@ -26,6 +26,7 @@ public class XMLLevelObjectsParser {
 
     private final List<ObstacleData> obstaclesData = new ArrayList<>();
     private final List<EnemyData> enemiesData = new ArrayList<>();
+    private final List<PortalData> portalsData = new ArrayList<>();
 
     public XMLLevelObjectsParser(String levelFileName) {
         document = loadDocument(levelFileName);
@@ -73,6 +74,8 @@ public class XMLLevelObjectsParser {
                     parseColliders(objectGroup);
                 } else if (groupName.equals("obstacles")) {
                     parseObstacles(objectGroup);
+                } else if (groupName.equals("portals")) {
+                    parsePortals(objectGroup);
                 }
             }
         }
@@ -136,6 +139,19 @@ public class XMLLevelObjectsParser {
         return new ObstacleData(bounds, getProperty(object, "type"));
     }
 
+    private void parsePortals(Element objectGroup) {
+        NodeList objects = objectGroup.getElementsByTagName("object");
+        for (int i = 0; i < objects.getLength(); i++) {
+            Element object = (Element) objects.item(i);
+            portalsData.add(parsePortal(object));
+        }
+    }
+
+    private PortalData parsePortal(Element object) {
+        Rectangle bounds = parseRectangle(object);
+        return new PortalData(bounds, getProperty(object, "type"));
+    }
+
     private void parseEnemiesObjectGroups(Element group) {
         NodeList objectGroups = group.getElementsByTagName("objectgroup");
         for (int i = 0; i < objectGroups.getLength(); i++) {
@@ -158,8 +174,8 @@ public class XMLLevelObjectsParser {
                 spawnPoint = parseRectangle(object);
             }
         }
-        if(spawnPoint == null || travelArea == null) {
-            throw  new RuntimeException("Invalid enemy object format!");
+        if (spawnPoint == null || travelArea == null) {
+            throw new RuntimeException("Invalid enemy object format!");
         }
         return new EnemyData(spawnPoint, travelArea, type);
     }
@@ -198,5 +214,9 @@ public class XMLLevelObjectsParser {
 
     public Stream<EnemyData> getEnemiesData() {
         return enemiesData.stream();
+    }
+
+    public Stream<PortalData> getPortalsData() {
+        return portalsData.stream();
     }
 }

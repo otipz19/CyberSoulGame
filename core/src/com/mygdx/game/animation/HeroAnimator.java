@@ -22,11 +22,7 @@ public class HeroAnimator extends Animator {
     private float idleTime;
     private static final float IDLE_THRESHOLD = 0.2f;
 
-    public HeroAnimator() {
-        super(createAnimationsMap());
-    }
-
-    private static AnimationsMap createAnimationsMap() {
+    protected AnimationsMap createAnimationsMap() {
         AnimationsMap animations = new AnimationsMap();
         animations.put(State.IDLE, new AnimationBuilder(AssetsNames.BIKER_IDLE_SHEET)
                 .cols(4)
