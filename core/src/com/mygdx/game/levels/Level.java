@@ -17,7 +17,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
-import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
 import com.mygdx.game.entities.obstacles.Surface;
@@ -63,8 +62,8 @@ public abstract class Level implements Screen {
     private boolean isPaused;
 
     private XMLLevelObjectsParser objectsParser;
-    private Texture background;
-    private Array<Entity> entities;
+    protected final Array<EntryObstacle> obstacles = new Array<>();
+    protected final Array<Portal> portals = new Array<>();
 
     private final String tileMapName;
     private final Vector2 heroStartPos;
@@ -90,14 +89,13 @@ public abstract class Level implements Screen {
         createCamera();
         createHero();
         createEntities();
-        createBackground();
+//        createBackground();
         createUI();
         box2dRenderer = new Box2DDebugRenderer(true, true, true, true, true, true);
     }
 
     protected void initResources() {
         objectsParser = new XMLLevelObjectsParser(tileMapName);
-        entities = new Array<>();
     }
 
     protected void createMap() {
@@ -146,7 +144,7 @@ public abstract class Level implements Screen {
         objectsParser.getObstaclesData().forEach(obstacleData -> {
             if (obstacleData.getType().equals(ObstacleData.Type.ENTRY)) {
                 var collider = ColliderCreator.create(obstacleData.getBounds(), coordinatesProjector);
-                entities.add(new EntryObstacle(this, collider, obstacleData));
+                obstacles.add(new EntryObstacle(this, collider, obstacleData));
                 collider.dispose();
             }
         });
@@ -158,13 +156,13 @@ public abstract class Level implements Screen {
                 case SECOND -> portal = new SecondPortal(this, portalData, coordinatesProjector);
                 default -> portal = new ThirdPortal(this, portalData, coordinatesProjector);
             }
-            entities.add(portal);
+            portals.add(portal);
         });
     }
 
-    protected void createBackground() {
-        background = game.assetManager.get(AssetsNames.GREENZONE_BACKGROUND_FULL);
-    }
+//    protected void createBackground() {
+//        background = game.assetManager.get(AssetsNames.GREENZONE_BACKGROUND_FULL);
+//    }
 
     protected void createUI() {
         ui = new LevelUI(this);
@@ -175,7 +173,7 @@ public abstract class Level implements Screen {
             delta = 0;
         ScreenUtils.clear(Color.WHITE);
         updateCamera(delta);
-        renderBackground(delta);
+//        renderBackground(delta);
         renderMap(delta);
         renderEntities(delta);
         box2dRenderer.render(world, camera.combined);
@@ -189,12 +187,12 @@ public abstract class Level implements Screen {
         camera.update();
     }
 
-    protected void renderBackground(float delta) {
-        game.batch.setProjectionMatrix(camera.combined);
-        game.batch.begin();
-        game.batch.draw(background, 0, 0, 90, 34);
-        game.batch.end();
-    }
+//    protected void renderBackground(float delta) {
+//        game.batch.setProjectionMatrix(camera.combined);
+//        game.batch.begin();
+//        game.batch.draw(background, 0, 0, 90, 34);
+//        game.batch.end();
+//    }
 
 
     protected void renderMap(float delta) {
@@ -206,8 +204,11 @@ public abstract class Level implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         enemy.render(delta);
-        for (var obstacle : entities) {
+        for (var obstacle : obstacles) {
             obstacle.render(delta);
+        }
+        for (var portal: portals) {
+            portal.render(delta);
         }
         hero.render(delta);
         game.batch.end();
