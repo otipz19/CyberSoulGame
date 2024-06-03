@@ -9,6 +9,7 @@ public class EnemyAnimator extends Animator {
         IDLE,
         ATTACK_1,
         ATTACK_2,
+        ATTACK_3,
         DEATH,
         HURT,
         WALK
@@ -35,9 +36,14 @@ public class EnemyAnimator extends Animator {
                 .playMode(Animation.PlayMode.LOOP)
                 .build());
         animations.put(State.ATTACK_2, new AnimationBuilder(AssetsNames.MONSTER_ATTACK2_SHEET)
-                .cols(8)
+                .cols(6)
                 .rows(1)
-                .playMode(Animation.PlayMode.NORMAL)
+                .playMode(Animation.PlayMode.LOOP)
+                .build());
+        animations.put(State.ATTACK_3, new AnimationBuilder(AssetsNames.MONSTER_ATTACK3_SHEET)
+                .cols(5)
+                .rows(1)
+                .playMode(Animation.PlayMode.LOOP)
                 .build());
         animations.put(State.HURT, new AnimationBuilder(AssetsNames.MONSTER_HURT_SHEET)
                 .cols(3)

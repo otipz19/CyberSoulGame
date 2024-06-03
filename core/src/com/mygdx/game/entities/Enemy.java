@@ -13,14 +13,14 @@ import com.mygdx.game.physics.ColliderCreator;
 
 public class Enemy extends Entity {
     private EnemyData enemyData;
-    private float minX, maxX, minY, maxY;
+    private float minX, maxX;
     private float attackRange = 1.5f;
     private Hero player;
     private float patrolSpeed = 2.0f;
     private float attackSpeed = 3.0f;
     private float detectionRange = 4f;
     private boolean movingRight = true;
-    public Enemy(Level level, EnemyData enemyData, float x, float y, float width, float height, float minX, float maxX, float minY, float maxY, Hero player) {
+    public Enemy(Level level, EnemyData enemyData, float x, float y, float width, float height, float minX, float maxX, Hero player) {
         this.level = level;
         this.enemyData = enemyData;
         this.animator = new EnemyAnimator();
@@ -28,8 +28,6 @@ public class Enemy extends Entity {
         this.height = height;
         this.minX = minX;
         this.maxX = maxX;
-        this.minY = minY;
-        this.maxY = maxY;
         this.player = player;
 
         Collider collider = ColliderCreator.create(new Rectangle(x, y, width, height));
@@ -49,7 +47,6 @@ public class Enemy extends Entity {
         body.setFixedRotation(true);
 
         body.setUserData(this);
-
         collider.dispose();
     }
 
@@ -69,6 +66,11 @@ public class Enemy extends Entity {
         if (distanceToPlayer <= detectionRange) {
             attemptAttack(playerPosition,enemyPosition);
         } else {
+            if(body.getLinearVelocity().x>0)
+                animator.setDirection(EnemyAnimator.Direction.RIGHT);
+            else
+                animator.setDirection(EnemyAnimator.Direction.LEFT);
+
             animator.setState(EnemyAnimator.State.WALK);
             if (movingRight) {
                 body.setLinearVelocity(patrolSpeed, 0);
@@ -90,13 +92,14 @@ public class Enemy extends Entity {
     }
 
     private void attemptAttack(Vector2 playerPosition,Vector2 enemyPosition) {
-        animator.setState(EnemyAnimator.State.ATTACK_1);
         Vector2 direction = new Vector2((playerPosition.x - enemyPosition.x)/2, 0).nor();
         float distanceToPlayer = playerPosition.dst(enemyPosition);
         if(distanceToPlayer>1.1f)
             body.setLinearVelocity(direction.scl(attackSpeed));
-        else
-            body.setLinearVelocity(0,0);
+        else {
+            body.setLinearVelocity(0, 0);
+            animator.setState(EnemyAnimator.State.ATTACK_2);
+        }
         if(direction.x>0)
             animator.setDirection(EnemyAnimator.Direction.RIGHT);
         else

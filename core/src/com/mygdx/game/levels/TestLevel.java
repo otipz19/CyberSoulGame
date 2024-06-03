@@ -35,7 +35,7 @@ public class TestLevel extends Level {
         this.game = game;
         createMap();
         hero = new Hero(this, new HeroData(), 17, 5, 1, 1);
-        enemy = new Enemy(this, new EnemyData(),6,5.5f,1,1,4,9,5f,6.5f,hero);
+        enemy = new Enemy(this, new EnemyData(),6,5.5f,1,1,4,9,hero);
         createCamera();
         background = game.assetManager.get(AssetsNames.GREENZONE_BACKGROUND_FULL);
     }

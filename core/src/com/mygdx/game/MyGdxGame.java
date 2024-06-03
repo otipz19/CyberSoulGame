@@ -50,6 +50,7 @@ public class MyGdxGame extends Game {
                         AssetsNames.BIKER_RUN_ATTACK_SHEET,
                         AssetsNames.MONSTER_ATTACK1_SHEET,
                         AssetsNames.MONSTER_ATTACK2_SHEET,
+                        AssetsNames.MONSTER_ATTACK3_SHEET,
                         AssetsNames.MONSTER_DEATH_SHEET,
                         AssetsNames.MONSTER_HURT_SHEET,
                         AssetsNames.MONSTER_WALK_SHEET,

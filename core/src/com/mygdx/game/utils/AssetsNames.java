@@ -16,6 +16,7 @@ public class AssetsNames {
     public static final String MONSTER_IDLE_SHEET = "enemies/monster/Idle.png";
     public static final String MONSTER_ATTACK1_SHEET = "enemies/monster/Attack1.png";
     public static final String MONSTER_ATTACK2_SHEET = "enemies/monster/Attack2.png";
+    public static final String MONSTER_ATTACK3_SHEET = "enemies/monster/Attack3.png";
     public static final String MONSTER_DEATH_SHEET = "enemies/monster/Death.png";
     public static final String MONSTER_WALK_SHEET = "enemies/monster/Walk.png";
     public static final String MONSTER_HURT_SHEET = "enemies/monster/Hurt.png";
