@@ -2,12 +2,10 @@ package com.mygdx.game.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.levels.Level;
-import com.mygdx.game.utils.AssetsNames;
 
 public class LevelUI extends Stage {
     private StatusBar healthBar;
