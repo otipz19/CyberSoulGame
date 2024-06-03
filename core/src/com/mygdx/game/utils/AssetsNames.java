@@ -12,9 +12,14 @@ public class AssetsNames {
     public static final String BIKER_HURT_SHEET = "heroes/biker/Biker_hurt.png";
     public static final String BIKER_PUNCH_SHEET = "heroes/biker/Biker_punch.png";
     public static final String BIKER_RUN_ATTACK_SHEET = "heroes/biker/Biker_run_attack.png";
-
     public static final String GREENZONE_BACKGROUND_FULL = "zones/greenzone/resources/green-zone-tileset/2 Background/Day/Background.png";
-
+    public static final String MONSTER_IDLE_SHEET = "enemies/monster/Idle.png";
+    public static final String MONSTER_ATTACK1_SHEET = "enemies/monster/Attack1.png";
+    public static final String MONSTER_ATTACK2_SHEET = "enemies/monster/Attack2.png";
+    public static final String MONSTER_ATTACK3_SHEET = "enemies/monster/Attack3.png";
+    public static final String MONSTER_DEATH_SHEET = "enemies/monster/Death.png";
+    public static final String MONSTER_WALK_SHEET = "enemies/monster/Walk.png";
+    public static final String MONSTER_HURT_SHEET = "enemies/monster/Hurt.png";
     public static final String TEST_LEVEL_TILEMAP = "zones/greenzone/levels/test-level.tmx";
     public static final String GREENZONE_LEVEL_TILEMAP = "zones/greenzone/greenzone.tmx";
     public static final String POWERSTATION_LEVEL_TILEMAP = "zones/powerstation/powerstation.tmx";

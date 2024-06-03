@@ -86,7 +86,7 @@ public class LevelObjectsParser {
     }
 
     private String getFileContent() {
-        try (Stream<String> fileLines = Files.lines(filePath)) {
+        try (Stream<String> fileLines = Files.lines(Path.of("C:\\Users\\Win10\\Documents\\GitHub\\CyberSoulGame\\assets\\zones\\greenzone\\levels\\test-level.tmx"))) {
             StringBuilder fileContent = new StringBuilder();
             fileLines.forEach(fileContent::append);
             return fileContent.toString();

@@ -69,7 +69,14 @@ public class MyGdxGame extends Game {
                         AssetsNames.ENTRY_OBSTACLE_CLOSING,
                         AssetsNames.ENTRY_OBSTACLE_OPENING,
                         AssetsNames.STONE_6,
-                        AssetsNames.FENCE_6)
+                        AssetsNames.FENCE_6,
+                        AssetsNames.MONSTER_ATTACK1_SHEET,
+                        AssetsNames.MONSTER_ATTACK2_SHEET,
+                        AssetsNames.MONSTER_ATTACK3_SHEET,
+                        AssetsNames.MONSTER_DEATH_SHEET,
+                        AssetsNames.MONSTER_HURT_SHEET,
+                        AssetsNames.MONSTER_WALK_SHEET,
+                        AssetsNames.MONSTER_IDLE_SHEET)
                 .forEach(str -> assetManager.load(str, Texture.class));
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 //        assetManager.load(AssetsNames.TEST_LEVEL_TILEMAP, TiledMap.class);

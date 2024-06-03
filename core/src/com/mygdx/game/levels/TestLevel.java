@@ -15,6 +15,8 @@ import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
 import com.mygdx.game.entities.obstacles.Surface;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
+import com.mygdx.game.entities.Enemy;
+import com.mygdx.game.entities.EnemyData;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
@@ -95,6 +97,7 @@ public class TestLevel extends Level {
                 collider.dispose();
             }
         });
+        enemy = new Enemy(this, new EnemyData(),6,60f,1,1,4,9,hero);
     }
 
     @Override
@@ -122,6 +125,7 @@ public class TestLevel extends Level {
         game.batch.end();
     }
 
+
     @Override
     protected void renderMap(float delta) {
         mapRenderer.setView(camera);
@@ -134,6 +138,7 @@ public class TestLevel extends Level {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         hero.render(delta);
+        enemy.render(delta);
         for (var obstacle : obstacles) {
             obstacle.render(delta);
         }
