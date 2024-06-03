@@ -15,7 +15,10 @@ import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
 import com.mygdx.game.entities.obstacles.Surface;
+import com.mygdx.game.entities.portals.FirstPortal;
 import com.mygdx.game.entities.portals.Portal;
+import com.mygdx.game.entities.portals.SecondPortal;
+import com.mygdx.game.entities.portals.ThirdPortal;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.entities.EnemyData;
@@ -35,7 +38,7 @@ public class TestLevel extends Level {
     private Array<Entity> entities;
 
     @Override
-    protected void initResources(){
+    protected void initResources() {
 //        objectsParser = new XMLLevelObjectsParser(AssetsNames.TEST_LEVEL_TILEMAP);
 //        objectsParser = new XMLLevelObjectsParser(AssetsNames.GREENZONE_LEVEL_TILEMAP);
 //        objectsParser = new XMLLevelObjectsParser(AssetsNames.POWERSTATION_LEVEL_TILEMAP);
@@ -45,7 +48,7 @@ public class TestLevel extends Level {
     }
 
     @Override
-    protected void createMap(){
+    protected void createMap() {
         world = new World(new Vector2(0, -10), true);
         world.setContactListener(new ContactListener());
 
@@ -102,16 +105,20 @@ public class TestLevel extends Level {
                 collider.dispose();
             }
         });
-        enemy = new Enemy(this, new EnemyData(),6,60f,1,1,4,9,hero);
+        enemy = new Enemy(this, new EnemyData(), 6, 60f, 1, 1, 4, 9, hero);
         objectsParser.getPortalsData().forEach(portalData -> {
-            if(portalData.getType() == PortalData.Type.FIRST){
-                entities.add(new Portal(this, portalData, coordinatesProjector));
+            Portal portal;
+            switch (portalData.getType()) {
+                case FIRST -> portal = new FirstPortal(this, portalData, coordinatesProjector);
+                case SECOND -> portal = new SecondPortal(this, portalData, coordinatesProjector);
+                default -> portal = new ThirdPortal(this, portalData, coordinatesProjector);
             }
+            entities.add(portal);
         });
     }
 
     @Override
-    protected void createBackground(){
+    protected void createBackground() {
         background = game.assetManager.get(AssetsNames.GREENZONE_BACKGROUND_FULL);
     }
 
@@ -127,8 +134,7 @@ public class TestLevel extends Level {
     }
 
     @Override
-    protected void renderBackground(float delta)
-    {
+    protected void renderBackground(float delta) {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         game.batch.draw(background, 0, 0, 90, 34);
@@ -143,8 +149,7 @@ public class TestLevel extends Level {
     }
 
     @Override
-    protected void renderEntities(float delta)
-    {
+    protected void renderEntities(float delta) {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         enemy.render(delta);
@@ -164,7 +169,7 @@ public class TestLevel extends Level {
     }
 
     @Override
-    protected void doPhysicsStep(float delta){
+    protected void doPhysicsStep(float delta) {
         float frameTime = Math.min(delta, 0.25f);
         accumulator += frameTime;
         while (accumulator >= TIME_STEP) {
@@ -180,7 +185,7 @@ public class TestLevel extends Level {
     }
 
     @Override
-    public void dispose(){
+    public void dispose() {
         world.dispose();
         ui.dispose();
         mapRenderer.dispose();

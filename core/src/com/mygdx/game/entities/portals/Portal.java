@@ -12,13 +12,13 @@ import com.mygdx.game.physics.BodyCreator;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 
-public class Portal extends InteractableEntity {
+public abstract class Portal extends InteractableEntity {
     private final PortalData portalData;
     private boolean isEnabled;
 
     private boolean hasActivated;
 
-    public Portal(Level level, PortalData portalData, CoordinatesProjector projector) {
+    public Portal(Level level, PortalData portalData, CoordinatesProjector projector, PortalAnimator animator) {
         this.level = level;
         this.portalData = portalData;
         this.isEnabled = portalData.isEnabled();
@@ -30,7 +30,7 @@ public class Portal extends InteractableEntity {
         Vector2 projectedSize = projector.toWorldSize(portalData.getBounds());
         this.width = projectedSize.x;
         this.height = projectedSize.y;
-        animator = new PortalAnimator();
+        this.animator = animator;
     }
 
     @Override
