@@ -75,7 +75,7 @@ public abstract class Animator {
     public void animate(SpriteBatch batch, float x, float y, float width, float height, float deltaTime) {
         updateStateTime(deltaTime);
         animationChanged = false;
-        if (curAnimation.isAnimationFinished(stateTime)) {
+        if (isAnimationResetBlocked && curAnimation.isAnimationFinished(stateTime)) {
             unblockAnimationReset();
         }
         batch.draw(getDirectedSprite(), x, y, width, height);
