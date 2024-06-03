@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="90" height="34" tilewidth="32" tileheight="32" infinite="0" nextlayerid="94" nextobjectid="49">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="90" height="34" tilewidth="32" tileheight="32" infinite="0" nextlayerid="101" nextobjectid="53">
  <tileset firstgid="1" source="main.tsx"/>
  <layer id="3" name="background" width="90" height="34">
   <data encoding="csv">
@@ -8,10 +8,10 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,73,73,73,73,73,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,73,83,73,73,73,73,73,80,83,79,73,84,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+73,84,0,82,73,73,73,83,84,0,82,84,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+84,0,0,0,82,83,84,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -81,12 +81,6 @@
  <imagelayer id="27" name="ramp" offsetx="1440.67" offsety="601.667">
   <image source="resources/green-zone-tileset/3 Objects/Other/Rapm3.png" width="144" height="39"/>
  </imagelayer>
- <imagelayer id="44" name="bush" offsetx="258.75" offsety="171">
-  <image source="resources/green-zone-tileset/3 Objects/Bushes/19.png" width="43" height="22"/>
- </imagelayer>
- <imagelayer id="45" name="bench" offsetx="201.167" offsety="183.167">
-  <image source="resources/green-zone-tileset/3 Objects/Benches/3.png" width="45" height="10"/>
- </imagelayer>
  <imagelayer id="57" name="bush" offsetx="2194.33" offsety="39.6667">
   <image source="resources/green-zone-tileset/3 Objects/Bushes/17.png" width="50" height="25"/>
  </imagelayer>
@@ -106,6 +100,9 @@
   <image source="resources/green-zone-tileset/3 Objects/Bushes/19.png" width="43" height="22"/>
  </imagelayer>
  <imagelayer id="70" name="tree" offsetx="2203" offsety="511.5">
+  <image source="resources/green-zone-tileset/3 Objects/Other/Tree2.png" width="124" height="129"/>
+ </imagelayer>
+ <imagelayer id="94" name="Copy of tree" offsetx="21.9394" offsety="-0.439394">
   <image source="resources/green-zone-tileset/3 Objects/Other/Tree2.png" width="124" height="129"/>
  </imagelayer>
  <imagelayer id="46" name="bush" offsetx="561.333" offsety="181.667">
@@ -171,9 +168,6 @@
  <imagelayer id="79" name="Copy of box" offsetx="637.167" offsety="743.5">
   <image source="resources/green-zone-tileset/3 Objects/Other/Box.png" width="32" height="25"/>
  </imagelayer>
- <imagelayer id="43" name="bush" offsetx="155.75" offsety="170.25">
-  <image source="resources/green-zone-tileset/3 Objects/Bushes/18.png" width="41" height="24"/>
- </imagelayer>
  <imagelayer id="53" name="bench" offsetx="1522" offsety="138.5">
   <image source="resources/green-zone-tileset/3 Objects/Benches/1.png" width="45" height="22"/>
  </imagelayer>
@@ -189,29 +183,32 @@
  <imagelayer id="36" name="Copy of bush" offsetx="149" offsety="616.5">
   <image source="resources/green-zone-tileset/3 Objects/Bushes/18.png" width="41" height="24"/>
  </imagelayer>
+ <imagelayer id="96" name="Copy of Copy of bush" offsetx="-11.947" offsety="106.076">
+  <image source="resources/green-zone-tileset/3 Objects/Bushes/18.png" width="41" height="24"/>
+ </imagelayer>
+ <imagelayer id="97" name="Copy of Copy of Copy of bush" offsetx="40.053" offsety="104.576">
+  <image source="resources/green-zone-tileset/3 Objects/Bushes/18.png" width="41" height="24"/>
+ </imagelayer>
  <imagelayer id="71" name="stone" offsetx="2299" offsety="624.333">
   <image source="resources/green-zone-tileset/3 Objects/Stones/4.png" width="39" height="17"/>
  </imagelayer>
  <imagelayer id="72" name="Copy of stone" offsetx="2358.33" offsety="620.333">
   <image source="resources/green-zone-tileset/3 Objects/Stones/5.png" width="46" height="22"/>
  </imagelayer>
+ <imagelayer id="98" name="Copy of Copy of stone" offsetx="190.83" offsety="108.333">
+  <image source="resources/green-zone-tileset/3 Objects/Stones/5.png" width="46" height="22"/>
+ </imagelayer>
  <imagelayer id="73" name="bush" offsetx="2416.33" offsety="617">
   <image source="resources/green-zone-tileset/3 Objects/Bushes/17.png" width="50" height="25"/>
- </imagelayer>
- <imagelayer id="42" name="Copy of Copy of bench" offsetx="2783.92" offsety="202.917">
-  <image source="resources/green-zone-tileset/3 Objects/Benches/1.png" width="45" height="22"/>
- </imagelayer>
- <imagelayer id="41" name="Copy of bench" offsetx="2830.25" offsety="202.583">
-  <image source="resources/green-zone-tileset/3 Objects/Benches/2.png" width="48" height="22"/>
- </imagelayer>
- <imagelayer id="40" name="fountain" offsetx="2796" offsety="153">
-  <image source="resources/green-zone-tileset/3 Objects/Fountain/2.png" width="72" height="72"/>
  </imagelayer>
  <imagelayer id="34" name="Copy of Copy of box" offsetx="1186.83" offsety="615.083">
   <image source="resources/green-zone-tileset/3 Objects/Other/Box.png" width="32" height="25"/>
  </imagelayer>
  <imagelayer id="35" name="bench" offsetx="1710.75" offsety="618.75">
   <image source="resources/green-zone-tileset/3 Objects/Benches/2.png" width="48" height="22"/>
+ </imagelayer>
+ <imagelayer id="95" name="Copy of bench" offsetx="12" offsety="106.667">
+  <image source="resources/green-zone-tileset/3 Objects/Benches/1.png" width="45" height="22"/>
  </imagelayer>
  <imagelayer id="32" name="box" offsetx="1157.58" offsety="615.333">
   <image source="resources/green-zone-tileset/3 Objects/Other/Box.png" width="32" height="25"/>
@@ -264,10 +261,10 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,7,7,7,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,7,7,7,7,7,7,7,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,6,7,7,7,7,7,7,8,0,0,0,0,0,0,6,7,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,7,8,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,43,2,2,2,
+2,2,2,2,2,2,34,10,10,10,10,10,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+15,14,14,14,14,14,4,40,57,4,57,38,62,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,7,7,7,7,7,7,7,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+4,57,57,57,4,39,4,58,0,59,0,56,58,0,0,0,0,6,7,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,7,8,0,0,0,0,0,0,0,0,0,0,0,0,
+58,0,0,0,56,57,58,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,43,2,2,2,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,7,8,0,0,0,0,0,0,0,0,0,0,6,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,55,15,14,14,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,7,8,0,0,63,4,4,4,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,61,4,4,40,
@@ -297,6 +294,22 @@
 </data>
  </layer>
  <group id="2" name="default">
+  <objectgroup id="100" name="portals">
+   <object id="50" x="2784" y="128" width="96" height="96">
+    <properties>
+     <property name="destination" value="safe"/>
+     <property name="isEnabled" value="true"/>
+     <property name="type" value="first"/>
+    </properties>
+   </object>
+   <object id="52" x="32" y="544" width="96" height="96">
+    <properties>
+     <property name="destination" value="safe"/>
+     <property name="isEnabled" value="false"/>
+     <property name="type" value="first"/>
+    </properties>
+   </object>
+  </objectgroup>
   <objectgroup id="84" name="colliders">
    <object id="5" x="2880" y="224">
     <polygon points="0,0 -96,0 -128,32 -128,416 -192,416 -192,576 -160,576 -160,608 -32,608 -32,800 -640,800 -640,512 -608,512 -608,480 -544,480 -544,512 -448,512 -448,480 -352,480 -352,416 -704,416 -704,224 -768,224 -768,416 -832,416 -832,448 -768,448 -768,672 -832,672 -832,704 -768,704 -768,864 0,864"/>
@@ -314,7 +327,6 @@
    <object id="22" x="1248" y="256" width="96" height="32"/>
    <object id="23" x="832" y="256" width="96" height="32"/>
    <object id="24" x="544" y="192" width="128" height="32"/>
-   <object id="25" x="96" y="192" width="256" height="32"/>
    <object id="26" x="448" y="768" width="448" height="32"/>
    <object id="27" x="1088" y="928" width="32" height="32"/>
    <object id="28" x="1248" y="992" width="32" height="32"/>
@@ -336,6 +348,9 @@
    <object id="46" x="2528" y="768" width="96" height="32"/>
    <object id="47" x="-32" y="-160" width="32" height="864"/>
    <object id="48" x="2880" y="-256" width="32" height="544"/>
+   <object id="49" x="0" y="128">
+    <polygon points="0,0 416,0 416,96 352,96 352,64 320,64 320,96 288,96 288,64 256,64 256,96 224,96 224,128 128,128 128,96 32,96 32,128 0,128"/>
+   </object>
   </objectgroup>
  </group>
 </map>

@@ -16,8 +16,8 @@ public class SafeZoneLevel extends Level {
             portal.disable();
             switch (portal) {
                 case FirstPortal firstPortal -> portal.enable();
-                case SecondPortal secondPortal when maxLevel >= 2 -> portal.enable();
-                case ThirdPortal thirdPortal when maxLevel >= 3 -> portal.enable();
+                case SecondPortal secondPortal when maxLevel >= 1 -> portal.enable();
+                case ThirdPortal thirdPortal when maxLevel >= 2 -> portal.enable();
                 default -> {}
             }
         }
