@@ -32,6 +32,8 @@ public class MyGdxGame extends Game {
     public AssetManager assetManager;
     public SpriteBatch batch;
 
+    private LevelChangeDelegate levelChangeDelegate;
+
     public static MyGdxGame getInstance() {
         return instance;
     }
@@ -103,7 +105,7 @@ public class MyGdxGame extends Game {
         setScreen(new MainMenu(hasAlreadyPlayed));
     }
 
-    public void changeLevel(Levels level) {
+    private void changeLevel(Levels level) {
         getScreen().dispose();
         inputMultiplexer.clear();
         currentLevel = level.create();
@@ -111,14 +113,18 @@ public class MyGdxGame extends Game {
         setScreen(currentLevel);
     }
 
-    public void levelCompleted(HeroData heroData) {
-        PlayerDataManager.getInstance().setHeroData(heroData);
-        changeLevel(Levels.SAFE);
+//    public void levelCompleted(HeroData heroData) {
+//        PlayerDataManager.getInstance().setHeroData(heroData);
+//        levelChangeDelegate = () -> changeLevel(Levels.SAFE);
+//    }
+
+    public void goToNewLevel(Levels level) {
+        levelChangeDelegate = () -> changeLevel(level);
     }
 
     public void levelFailed() {
         PlayerDataManager.getInstance().resetData();
-        showMainMenu();
+        levelChangeDelegate = this::showMainMenu;
     }
 
     public void restartCurrentLevel() {
@@ -142,6 +148,10 @@ public class MyGdxGame extends Game {
     @Override
     public void render() {
         super.render();
+        if(levelChangeDelegate != null) {
+            levelChangeDelegate.changeLevel();
+            levelChangeDelegate = null;
+        }
     }
 
     @Override
@@ -176,5 +186,9 @@ public class MyGdxGame extends Game {
         };
 
         public abstract Level create();
+    }
+
+    private interface LevelChangeDelegate {
+        void changeLevel();
     }
 }

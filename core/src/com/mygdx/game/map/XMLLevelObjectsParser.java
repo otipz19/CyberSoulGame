@@ -149,7 +149,10 @@ public class XMLLevelObjectsParser {
 
     private PortalData parsePortal(Element object) {
         Rectangle bounds = parseRectangle(object);
-        return new PortalData(bounds, getProperty(object, "type"));
+        return new PortalData(bounds,
+                getProperty(object, "type"),
+                getProperty(object, "destination"),
+                getProperty(object, "isEnabled"));
     }
 
     private void parseEnemiesObjectGroups(Element group) {

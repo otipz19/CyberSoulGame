@@ -1,6 +1,7 @@
 package com.mygdx.game.map;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.game.MyGdxGame;
 
 public class PortalData {
     public enum Type {
@@ -9,19 +10,24 @@ public class PortalData {
         THIRD
     }
 
-    private static final Type[] TYPES = {Type.FIRST, Type.SECOND, Type.THIRD};
-
     private final Rectangle bounds;
     private final Type type;
+    private final MyGdxGame.Levels destination;
+    private final boolean isEnabled;
 
-    public PortalData(Rectangle bounds, String type) {
+    public PortalData(Rectangle bounds, String type, String destination, String isEnabled) {
         this.bounds = bounds;
-        try{
-            int index = Integer.parseInt(type) - 1;
-            this.type = TYPES[index];
-        } catch (NumberFormatException | IndexOutOfBoundsException ex) {
+        try {
+            this.type = Type.valueOf(type.toUpperCase());
+        } catch (IllegalArgumentException ex) {
             throw new RuntimeException("Invalid portal type!", ex);
         }
+        try {
+            this.destination = MyGdxGame.Levels.valueOf(destination.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new RuntimeException("Invalid portal destination!", ex);
+        }
+        this.isEnabled = Boolean.parseBoolean(isEnabled);
     }
 
     public Rectangle getBounds() {
@@ -30,5 +36,13 @@ public class PortalData {
 
     public Type getType() {
         return type;
+    }
+
+    public MyGdxGame.Levels getDestination() {
+        return destination;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
     }
 }

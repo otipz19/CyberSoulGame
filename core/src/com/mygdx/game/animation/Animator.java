@@ -33,6 +33,13 @@ public abstract class Animator {
 
     protected abstract AnimationsMap createAnimationsMap();
 
+    public boolean isAnimationFinished() {
+        if(curAnimation != null) {
+            return curAnimation.isAnimationFinished(stateTime);
+        }
+        return false;
+    }
+
     /**
      * Forces animator to ignore all calls of setState() and setDirection(),
      * until current animation won't be finished.

@@ -163,17 +163,23 @@
   <objectgroup id="5" name="portals">
    <object id="2" x="640" y="800" width="96" height="96">
     <properties>
-     <property name="type" value="1"/>
+     <property name="destination" value="first"/>
+     <property name="isEnabled" value="true"/>
+     <property name="type" value="first"/>
     </properties>
    </object>
    <object id="3" x="768" y="800" width="96" height="96">
     <properties>
-     <property name="type" value="2"/>
+     <property name="destination" value="SECOND"/>
+     <property name="isEnabled" value="false"/>
+     <property name="type" value="second"/>
     </properties>
    </object>
    <object id="4" x="896" y="800" width="96" height="96">
     <properties>
-     <property name="type" value="3"/>
+     <property name="destination" value="THIRD"/>
+     <property name="isEnabled" value="false"/>
+     <property name="type" value="third"/>
     </properties>
    </object>
   </objectgroup>
