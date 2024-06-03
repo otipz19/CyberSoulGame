@@ -15,19 +15,23 @@ import com.mygdx.game.entities.resources.HeroResourcesManager;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
-import com.mygdx.game.utils.PlayerDataManager;
 
 public class Hero extends MortalEntity<HeroResourcesManager> {
     private final static float MAX_VELOCITY = 5f;
     private final static float MIN_NOT_IDLE_VELOCITY = MAX_VELOCITY*0.6f;
     private final static float DASH_COOLDOWN_TIME = 2f;
-    private final static float DOUBLEJUMP_DELAY = 0.5f;
+    private final static float JUMP_DELAY = 0.5f;
+    private final static float ATTACK_TIME_1 = 0.6f;
+    private final static float ATTACK_TIME_2 = 0.8f;
+    private final static float ATTACK_TIME_3 = 0.6f;
+    private final static float ATTACK_TIME_4 = 0.5f;
     private final SurfaceTouchSensor groundTouchListener;
     private final SurfaceTouchSensor leftWallTouchListener;
     private final SurfaceTouchSensor rightWallTouchListener;
     private boolean canDoubleJump;
-    private float jumpCooldown;
     private float dashCooldown;
+    private float jumpDelay;
+    private float attackDelay;
 
     public Hero(Level level, HeroData heroData, float x, float y, float width, float height) {
         this.level = level;
@@ -64,17 +68,41 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
 
     public void render(float deltaTime) {
         if (deltaTime != 0) {
-            jumpCooldown -= deltaTime;
-            dashCooldown -= deltaTime;
-            updateDirection();
-            handeRunning();
-            handleJumping();
-            handleFalling();
-            handleDashing();
-            handleIdle();
+            jumpDelay = Math.max(0, jumpDelay - deltaTime);
+            dashCooldown = Math.max(0, dashCooldown - deltaTime);
+            attackDelay = Math.max(0, attackDelay - deltaTime);
+            handleAttack();
+            if (attackDelay == 0) {
+                updateDirection();
+                handeRunning();
+                handleJumping();
+                handleFalling();
+                handleDashing();
+                handleIdle();
+            }
             updateResourcesManager(deltaTime);
         }
         animator.animate(MyGdxGame.getInstance().batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
+    }
+
+    private void handleAttack() {
+        if (attackDelay == 0 && groundTouchListener.isOnSurface()) {
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
+                animator.setState(HeroAnimator.State.PUNCH);
+                attackDelay = ATTACK_TIME_3;
+                clearVelocityX();
+            }
+            else if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+                animator.setState(HeroAnimator.State.ATTACK_1);
+                attackDelay = ATTACK_TIME_1;
+                clearVelocityX();
+            }
+            else if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
+                animator.setState(HeroAnimator.State.ATTACK_2);
+                attackDelay = ATTACK_TIME_2;
+                clearVelocityX();
+            }
+        }
     }
 
     private void updateDirection(){
@@ -97,28 +125,30 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
             if (groundTouchListener.isOnSurface())
                 animator.setState(HeroAnimator.State.RUN);
         }
-
-        if (!groundTouchListener.isOnSurface() && animator.getState() == HeroAnimator.State.RUN)
-            animator.setState(HeroAnimator.State.JUMP);
     }
 
     private void handleJumping() {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            if (groundTouchListener.isOnSurface() && jumpCooldown <= 0){
+            if (groundTouchListener.isOnSurface() && jumpDelay == 0){
                 clearVelocityY();
                 applyImpulse(0, 7f);
                 canDoubleJump = true;
                 animator.setState(HeroAnimator.State.JUMP);
-                jumpCooldown = DOUBLEJUMP_DELAY;
+                jumpDelay = JUMP_DELAY;
             }
-            else if (canDoubleJump && jumpCooldown <= 0){
+            else if (canDoubleJump && jumpDelay == 0){
                 clearVelocityY();
                 applyImpulse(0, 8f);
                 canDoubleJump = false;
                 animator.setState(HeroAnimator.State.DOUBLE_JUMP);
-                jumpCooldown = DOUBLEJUMP_DELAY;
+                jumpDelay = JUMP_DELAY;
             }
         }
+    }
+
+    private void clearVelocityX(){
+        Vector2 oldVelocity = body.getLinearVelocity();
+        body.setLinearVelocity(0, oldVelocity.y);
     }
 
     private void clearVelocityY(){
@@ -140,11 +170,14 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
             if (leftWallTouchListener.isOnSurface())
                 velocity.x = Math.max(velocity.x, 0);
             body.setLinearVelocity(velocity);
+
+            if (animator.getState() == HeroAnimator.State.RUN || animator.getState() == HeroAnimator.State.RUN_ATTACK)
+                animator.setState(HeroAnimator.State.JUMP);
         }
     }
 
     private void handleDashing() {
-        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && dashCooldown <= 0) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && dashCooldown == 0) {
             if (animator.getDirection() == Animator.Direction.LEFT){
                 body.setLinearVelocity(-MAX_VELOCITY, body.getLinearVelocity().y);
                 applyImpulse(-4f, 0);
@@ -153,7 +186,8 @@ public class Hero extends MortalEntity<HeroResourcesManager> {
                 body.setLinearVelocity(MAX_VELOCITY, body.getLinearVelocity().y);
                 applyImpulse(4f, 0);
             }
-            animator.setState(HeroAnimator.State.RUN);
+            animator.setState(HeroAnimator.State.RUN_ATTACK);
+            attackDelay = ATTACK_TIME_4;
             dashCooldown = DASH_COOLDOWN_TIME;
         }
     }
