@@ -59,4 +59,5 @@ public class AssetsNames {
     public static final String POWERSTATION_PARALLAX_3 = "zones/powerstation/resources/2 Background/Day/3.png";
     public static final String POWERSTATION_PARALLAX_4 = "zones/powerstation/resources/2 Background/Day/4.png";
     public static final String POWERSTATION_PARALLAX_5 = "zones/powerstation/resources/2 Background/Day/5.png";
+    public static final String SOUL_PARTICLES = "particles/soul.p";
 }

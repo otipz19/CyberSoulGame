@@ -11,6 +11,7 @@ import com.mygdx.game.animation.EnemyAnimator;
 import com.mygdx.game.entities.MortalEntity;
 import com.mygdx.game.entities.attacks.EnemyAttack;
 import com.mygdx.game.entities.heroes.Hero;
+import com.mygdx.game.entities.particles.SoulParticles;
 import com.mygdx.game.entities.resources.EnemyResourcesManager;
 import com.mygdx.game.entities.resources.ResourcesManager;
 import com.mygdx.game.levels.Level;
@@ -159,7 +160,15 @@ public class Enemy extends MortalEntity<ResourcesManager> {
         animator.blockAnimationReset();
         healthLossCount = Integer.MAX_VALUE;
         clearVelocityX();
-        new DelayedAction(getDeathDelay(), () -> level.world.destroyBody(body));
+        new DelayedAction(getDeathDelay(), () ->
+            {
+                Vector2 middlePosition = getMiddlePosition();
+                level.addParticleEffect(new SoulParticles(level, middlePosition.x, middlePosition.y, 1));
+                level.world.destroyBody(body);
+            });
     }
 
+    public Vector2 getMiddlePosition() {
+        return new Vector2(body.getPosition().x + width / 2, body.getPosition().y + height / 2);
+    }
 }

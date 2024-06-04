@@ -19,6 +19,8 @@ import com.mygdx.game.camera.LevelCamera;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
 import com.mygdx.game.entities.obstacles.Surface;
+import com.mygdx.game.entities.particles.Particles;
+import com.mygdx.game.entities.particles.SoulParticles;
 import com.mygdx.game.entities.portals.FirstPortal;
 import com.mygdx.game.entities.portals.Portal;
 import com.mygdx.game.entities.portals.SecondPortal;
@@ -63,6 +65,7 @@ public abstract class Level implements Screen {
     public Hero hero;
     protected final Array<EntryObstacle> obstacles = new Array<>();
     protected final Array<Enemy> enemies = new Array<>();
+    protected final Array<Particles> particles = new Array<>();
     protected final Array<Portal> portals = new Array<>();
 
     public LevelUI ui;
@@ -222,6 +225,9 @@ public abstract class Level implements Screen {
         for (var enemy: enemies) {
             enemy.render(delta);
         }
+        for (var particle: particles) {
+            particle.render(delta);
+        }
         hero.render(delta);
         game.batch.end();
     }
@@ -240,6 +246,11 @@ public abstract class Level implements Screen {
             world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
             accumulator -= TIME_STEP;
         }
+    }
+
+    public void addParticleEffect(Particles particleEffect){
+        particles.add(particleEffect);
+        particleEffect.addOnCompleteAction(() -> new DelayedAction(particleEffect.getDestructionDelay(), () -> particles.removeValue(particleEffect, true)));
     }
 
     @Override

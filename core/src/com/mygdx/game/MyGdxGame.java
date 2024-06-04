@@ -2,9 +2,11 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -101,6 +103,8 @@ public class MyGdxGame extends Game {
                         AssetsNames.INDUSTRIALZONE_LEVEL_TILEMAP,
                         AssetsNames.SAFEZONE_LEVEL_TILEMAP)
                 .forEach(str -> assetManager.load(str, TiledMap.class));
+        assetManager.setLoader(ParticleEffect.class, new ParticleEffectLoader(new InternalFileHandleResolver()));
+        assetManager.load(AssetsNames.SOUL_PARTICLES, ParticleEffect.class);
         assetManager.finishLoading();
     }
 
