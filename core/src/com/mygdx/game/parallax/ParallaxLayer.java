@@ -9,6 +9,7 @@ import com.mygdx.game.MyGdxGame;
 
 public class ParallaxLayer {
     private static final int SPRITES_COUNT = 9;
+
     private final Sprite[] sprites = new Sprite[SPRITES_COUNT];
     private final String assetName;
     private final float horizontalParallaxCoefficient;

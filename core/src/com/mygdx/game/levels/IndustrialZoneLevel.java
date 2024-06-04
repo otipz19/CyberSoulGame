@@ -13,7 +13,6 @@ public class IndustrialZoneLevel extends DangerousLevel {
     protected ParallaxBackground createBackground() {
         return new ParallaxBackground(camera, new String[] {
                 AssetsNames.INDUSTRIALZONE_PARALLAX_1,
-                AssetsNames.INDUSTRIALZONE_PARALLAX_2,
                 AssetsNames.INDUSTRIALZONE_PARALLAX_3,
                 AssetsNames.INDUSTRIALZONE_PARALLAX_4,
                 AssetsNames.INDUSTRIALZONE_PARALLAX_5

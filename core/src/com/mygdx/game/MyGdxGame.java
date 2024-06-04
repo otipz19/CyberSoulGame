@@ -91,7 +91,6 @@ public class MyGdxGame extends Game {
                         AssetsNames.GREENZONE_PARALLAX_4,
                         AssetsNames.GREENZONE_PARALLAX_5,
                         AssetsNames.INDUSTRIALZONE_PARALLAX_1,
-                        AssetsNames.INDUSTRIALZONE_PARALLAX_2,
                         AssetsNames.INDUSTRIALZONE_PARALLAX_3,
                         AssetsNames.INDUSTRIALZONE_PARALLAX_4,
                         AssetsNames.INDUSTRIALZONE_PARALLAX_5,
