@@ -11,4 +11,8 @@ public class AnimationsMap extends HashMap<Animator.State, Animation<TextureRegi
     public void putDefaultAnimation(Animator.State state, String assetName, Animation.PlayMode playMode){
         put(state, new AnimationBuilder(assetName).playMode(playMode).build());
     }
+
+    public void setStartState(Animator.State state) {
+        startAnimation = get(state);
+    }
 }

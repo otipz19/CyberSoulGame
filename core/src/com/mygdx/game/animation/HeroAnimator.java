@@ -22,11 +22,7 @@ public class HeroAnimator extends Animator {
     private float idleTime;
     private static final float IDLE_THRESHOLD = 0.2f;
 
-    public HeroAnimator() {
-        super(createAnimationsMap());
-    }
-
-    private static AnimationsMap createAnimationsMap() {
+    protected AnimationsMap createAnimationsMap() {
         AnimationsMap animations = new AnimationsMap();
         animations.put(State.IDLE, new AnimationBuilder(AssetsNames.BIKER_IDLE_SHEET)
                 .cols(4)
@@ -89,15 +85,5 @@ public class HeroAnimator extends Animator {
                 .build());
         animations.startAnimation = animations.get(State.IDLE);
         return animations;
-    }
-
-    @Override
-    public void setState(Animator.State newState) {
-        if (newState == HeroAnimator.State.IDLE && super.getState() != HeroAnimator.State.IDLE && idleTime < IDLE_THRESHOLD) {
-            idleTime += Gdx.graphics.getDeltaTime();
-        } else {
-            idleTime = 0;
-            super.setState(newState);
-        }
     }
 }

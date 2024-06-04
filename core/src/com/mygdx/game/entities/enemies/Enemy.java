@@ -2,7 +2,9 @@ package com.mygdx.game.entities.enemies;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.EnemyAnimator;
 import com.mygdx.game.entities.MortalEntity;

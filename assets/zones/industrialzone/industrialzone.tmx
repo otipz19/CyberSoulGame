@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="128" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="70">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="128" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="73">
  <tileset firstgid="1" source="Tiles.tsx"/>
  <layer id="3" name="background" width="128" height="64">
   <data encoding="csv">
@@ -138,6 +138,29 @@
 </data>
  </layer>
  <group id="4" name="default">
+  <objectgroup id="6" name="portals">
+   <object id="70" x="128" y="64" width="96" height="96">
+    <properties>
+     <property name="destination" value="safe"/>
+     <property name="isEnabled" value="false"/>
+     <property name="type" value="third"/>
+    </properties>
+   </object>
+   <object id="71" x="3936" y="1696" width="96" height="96">
+    <properties>
+     <property name="destination" value="safe"/>
+     <property name="isEnabled" value="true"/>
+     <property name="type" value="third"/>
+    </properties>
+   </object>
+  </objectgroup>
+  <objectgroup id="7" name="playerSpawns">
+   <object id="72" x="160" y="128" width="32" height="32">
+    <properties>
+     <property name="fromLevel" value="safe"/>
+    </properties>
+   </object>
+  </objectgroup>
   <objectgroup id="5" name="colliders">
    <object id="2" x="1088" y="448">
     <polygon points="0,0 -1088,0 -1088,-288 256,-288 256,-224 256,-64 2528,-64 2528,0 256,0 256,32 192,32 192,0 96,0 96,-64 192,-64 192,-224 -1056,-224 -1056,-64 0,-64"/>

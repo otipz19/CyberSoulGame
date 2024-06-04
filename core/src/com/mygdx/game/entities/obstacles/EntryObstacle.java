@@ -12,6 +12,7 @@ import com.mygdx.game.entities.resources.InstantDamageEffect;
 import com.mygdx.game.entities.resources.ResourcesManager;
 import com.mygdx.game.entities.sensors.SensorPosition;
 import com.mygdx.game.levels.Level;
+import com.mygdx.game.map.ObstacleData;
 import com.mygdx.game.physics.Collider;
 
 public class EntryObstacle extends Entity implements ICollisionListener {
@@ -33,13 +34,13 @@ public class EntryObstacle extends Entity implements ICollisionListener {
     private Array<MortalEntity<ResourcesManager>> entitiesToDamage =  new Array<>();
 
 
-    public EntryObstacle(Level level, Collider collider) {
+    public EntryObstacle(Level level, Collider collider, ObstacleData obstacleData) {
         this.level = level;
         this.body = new Surface(level, collider).getBody();
 
         animator = new EntryObstacleAnimator();
-        width = 2;
-        height = 3;
+        this.width = obstacleData.getBounds().width;
+        this.height = obstacleData.getBounds().height;
         fixture = body.getFixtureList().first();
 
         Shape colliderShape = SensorPosition.SLIM_INSIDE.getColliderShape(width, height);

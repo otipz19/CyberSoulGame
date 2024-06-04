@@ -1,6 +1,7 @@
 package com.mygdx.game.entities;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.Animator;
 
 public abstract class Entity extends GameObject {
@@ -52,5 +53,9 @@ public abstract class Entity extends GameObject {
 
     public void setAnimator(Animator animator) {
         this.animator = animator;
+    }
+
+    public void animate(float deltaTime) {
+        animator.animate(MyGdxGame.getInstance().batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
     }
 }

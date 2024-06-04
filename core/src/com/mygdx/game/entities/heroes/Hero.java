@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.Animator;
 import com.mygdx.game.animation.HeroAnimator;
-import com.mygdx.game.entities.MortalEntity;
+import com.mygdx.game.entities.*;
 import com.mygdx.game.entities.sensors.SensorPosition;
 import com.mygdx.game.entities.sensors.SurfaceTouchSensor;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
@@ -17,9 +17,9 @@ import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 
-public class Hero extends MortalEntity<HeroResourcesManager> implements Disposable {
+public class Hero extends MortalEntity<HeroResourcesManager> implements Disposable, ITriggerListener {
     private final static float MAX_VELOCITY = 5f;
-    private final static float MIN_NOT_IDLE_VELOCITY = MAX_VELOCITY*0.6f;
+    private final static float MIN_NOT_IDLE_VELOCITY = MAX_VELOCITY * 0.6f;
     private final static float DASH_COOLDOWN_TIME = 2f;
     private final static float JUMP_DELAY = 0.5f;
     private final HeroAttack1 attack1;
@@ -33,6 +33,8 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     private float dashCooldown;
     private float jumpDelay;
     private float attackDelay;
+
+    private InteractableEntity entityToInteract;
 
     public Hero(Level level, HeroData heroData, float x, float y, float width, float height) {
         this.level = level;
@@ -79,6 +81,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
             attackDelay = Math.max(0, attackDelay - deltaTime);
             handleAttack();
             if (attackDelay == 0) {
+                handleInteraction();
                 updateDirection();
                 handeRunning();
                 handleJumping();
@@ -99,8 +102,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
                 attack1.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
                 attack1.execute();
                 clearVelocityX();
-            }
-            else if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
+            } else if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
                 animator.setState(HeroAnimator.State.ATTACK_2);
                 attackDelay = attack2.getAttackTime();
                 attack2.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
@@ -117,7 +119,13 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
         }
     }
 
-    private void updateDirection(){
+    private void handleInteraction() {
+        if (entityToInteract != null && Gdx.input.isKeyPressed(Input.Keys.E)) {
+            entityToInteract.interact();
+        }
+    }
+
+    private void updateDirection() {
         if (Gdx.input.isKeyPressed(Input.Keys.A))
             animator.setDirection(HeroAnimator.Direction.LEFT);
         else if (Gdx.input.isKeyPressed(Input.Keys.D))
@@ -130,8 +138,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
                 applyImpulse(-0.6f, 0);
             if (groundTouchListener.isOnSurface())
                 animator.setState(HeroAnimator.State.RUN);
-        }
-        else if (Gdx.input.isKeyPressed(Input.Keys.D)){
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             if (body.getLinearVelocity().x <= MAX_VELOCITY)
                 applyImpulse(0.6f, 0);
             if (groundTouchListener.isOnSurface())
@@ -141,14 +148,13 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
 
     private void handleJumping() {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            if (groundTouchListener.isOnSurface() && jumpDelay == 0){
+            if (groundTouchListener.isOnSurface() && jumpDelay == 0) {
                 clearVelocityY();
                 applyImpulse(0, 7f);
                 canDoubleJump = true;
                 animator.setState(HeroAnimator.State.JUMP);
                 jumpDelay = JUMP_DELAY;
-            }
-            else if (canDoubleJump && jumpDelay == 0){
+            } else if (canDoubleJump && jumpDelay == 0) {
                 clearVelocityY();
                 applyImpulse(0, 8f);
                 canDoubleJump = false;
@@ -159,8 +165,8 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     }
 
     private void handleFalling() {
-        if (!groundTouchListener.isOnSurface()){
-            if (Gdx.input.isKeyPressed(Input.Keys.S)){
+        if (!groundTouchListener.isOnSurface()) {
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 if (body.getLinearVelocity().y >= -MAX_VELOCITY)
                     applyImpulse(0, -0.6f);
                 animator.setState(HeroAnimator.State.JUMP);
@@ -180,11 +186,10 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
 
     private void handleDashing() {
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && dashCooldown == 0) {
-            if (animator.getDirection() == Animator.Direction.LEFT){
+            if (animator.getDirection() == Animator.Direction.LEFT) {
                 body.setLinearVelocity(-MAX_VELOCITY, body.getLinearVelocity().y);
                 applyImpulse(-4f, 0);
-            }
-            else {
+            } else {
                 body.setLinearVelocity(MAX_VELOCITY, body.getLinearVelocity().y);
                 applyImpulse(4f, 0);
             }
@@ -197,19 +202,20 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     }
 
     private void handleIdle() {
-        if (groundTouchListener.isOnSurface() && noInput() && Math.abs(body.getLinearVelocity().x) < MIN_NOT_IDLE_VELOCITY){
-            body.setLinearVelocity(0, level.world.getGravity().y*0.4f);
+        if (groundTouchListener.isOnSurface() && noInput() && Math.abs(body.getLinearVelocity().x) < MIN_NOT_IDLE_VELOCITY) {
+            body.setLinearVelocity(0, level.world.getGravity().y * 0.4f);
             animator.setState(HeroAnimator.State.IDLE);
         }
     }
 
-    private boolean noInput(){
-        return  !Gdx.input.isKeyPressed(Input.Keys.A) &&
+    private boolean noInput() {
+        return !Gdx.input.isKeyPressed(Input.Keys.A) &&
                 !Gdx.input.isKeyPressed(Input.Keys.S) &&
                 !Gdx.input.isKeyPressed(Input.Keys.D) &&
                 !Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) &&
                 !Gdx.input.isKeyPressed(Input.Keys.SPACE);
     }
+
 
     private void clearVelocityX(){
         Vector2 oldVelocity = body.getLinearVelocity();
@@ -230,7 +236,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
         return new Vector2(body.getPosition().x + width / 2, body.getPosition().y + height / 2);
     }
 
-    public HeroData getData(){
+    public HeroData getData() {
         return resourcesManager.getHeroData();
     }
 
@@ -240,5 +246,19 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
         attack2.dispose();
         attack3.dispose();
         attack4.dispose();
+    }
+
+    @Override
+    public void onTriggerEnter(GameObject other) {
+        if (other instanceof InteractableEntity) {
+            entityToInteract = (InteractableEntity) other;
+        }
+    }
+
+    @Override
+    public void onTriggerExit(GameObject other) {
+        if (entityToInteract != null && other instanceof InteractableEntity) {
+            entityToInteract = null;
+        }
     }
 }

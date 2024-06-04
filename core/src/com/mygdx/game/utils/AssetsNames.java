@@ -24,6 +24,7 @@ public class AssetsNames {
     public static final String GREENZONE_LEVEL_TILEMAP = "zones/greenzone/greenzone.tmx";
     public static final String POWERSTATION_LEVEL_TILEMAP = "zones/powerstation/powerstation.tmx";
     public static final String INDUSTRIALZONE_LEVEL_TILEMAP = "zones/industrialzone/industrialzone.tmx";
+    public static final String SAFEZONE_LEVEL_TILEMAP = "zones/safezone/safezone.tmx";
 
     public static final String ENTRY_OBSTACLE_OPENING = "obstacles/entry/opening.png";
     public static final String ENTRY_OBSTACLE_CLOSING = "obstacles/entry/closing.png";
@@ -34,4 +35,11 @@ public class AssetsNames {
 
     public static final String STONE_6 = "zones/greenzone/resources/green-zone-tileset/3 Objects/Stones/6.png";
     public static final String FENCE_6 = "zones/greenzone/resources/green-zone-tileset/3 Objects/Fence/6.png";
+
+    public static final String PORTAL_FIRST_INACTIVE_SPRITESHEET = "zones/safezone/resources/portals/1-inactive.png";
+    public static final String PORTAL_SECOND_INACTIVE_SPRITESHEET = "zones/safezone/resources/portals/2-inactive.png";
+    public static final String PORTAL_THIRD_INACTIVE_SPRITESHEET = "zones/safezone/resources/portals/3-inactive.png";
+    public static final String PORTAL_FIRST_ACTIVATING_SPRITESHEET = "zones/safezone/resources/portals/1-activating.png";
+    public static final String PORTAL_SECOND_ACTIVATING_SPRITESHEET = "zones/safezone/resources/portals/2-activating.png";
+    public static final String PORTAL_THIRD_ACTIVATING_SPRITESHEET = "zones/safezone/resources/portals/3-activating.png";
 }

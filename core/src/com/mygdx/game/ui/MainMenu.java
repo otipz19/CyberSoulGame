@@ -109,7 +109,7 @@ public class MainMenu implements Screen {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 PlayerDataManager.getInstance().resetData();
-                MyGdxGame.getInstance().changeLevel(MyGdxGame.Levels.SAFE);
+                MyGdxGame.getInstance().goToNewLevel(MyGdxGame.Levels.SAFE);
             }
         });
         return startButton;

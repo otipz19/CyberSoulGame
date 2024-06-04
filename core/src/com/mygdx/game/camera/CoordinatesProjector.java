@@ -1,5 +1,6 @@
 package com.mygdx.game.camera;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class CoordinatesProjector {
@@ -43,5 +44,17 @@ public class CoordinatesProjector {
         vector2.x *= unitScale;
         vector2.y = (screenHeight - vector2.y) * unitScale;
         return vector2;
+    }
+
+    public Vector2 unproject(float x, float y) {
+        return unproject(new Vector2(x, y));
+    }
+
+    public Vector2 toWorldSize(float width, float height) {
+        return new Vector2(width * unitScale, height * unitScale);
+    }
+
+    public Vector2 toWorldSize(Rectangle rectangle) {
+        return toWorldSize(rectangle.width, rectangle.height);
     }
 }
