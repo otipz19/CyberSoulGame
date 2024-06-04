@@ -6,8 +6,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.animation.Animator;
 import com.mygdx.game.animation.EnemyAnimator;
 import com.mygdx.game.entities.MortalEntity;
+import com.mygdx.game.entities.attacks.EnemyAttack;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.resources.EnemyResourcesManager;
 import com.mygdx.game.entities.resources.ResourcesManager;
@@ -27,6 +29,8 @@ public class Enemy extends MortalEntity<ResourcesManager> {
     private float detectionRange = 4f;
     private boolean movingRight = true;
     private int healthLossCount;
+    private EnemyAttack attack;
+    private float attackDelay;
 
     public Enemy(Level level, EnemyData enemyData, float x, float y, float width, float height, float minX, float maxX) {
         super(new EnemyResourcesManager(100));
@@ -50,20 +54,23 @@ public class Enemy extends MortalEntity<ResourcesManager> {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = collider.getShape();
-        fixtureDef.density = 1f;
-        fixtureDef.friction = 0;
+        fixtureDef.density = 10f;
+        fixtureDef.friction = 0.3f;
         fixtureDef.restitution = 0;
 
         Fixture fixture = body.createFixture(fixtureDef);
 
         fixture.setUserData(this);
         collider.dispose();
+
+        attack = new EnemyAttack(this);
     }
 
 
     public void render(float deltaTime) {
-        if (healthLossCount == 0)
+        if (healthLossCount == 0 && attackDelay == 0)
             moveTowardsPlayer(deltaTime);
+        attackDelay = Math.max(0, attackDelay - deltaTime);
         updateResourcesManager(deltaTime);
         animator.animate(MyGdxGame.getInstance().batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
     }
@@ -105,16 +112,26 @@ public class Enemy extends MortalEntity<ResourcesManager> {
     private void attemptAttack(Vector2 playerPosition,Vector2 enemyPosition) {
         Vector2 direction = new Vector2((playerPosition.x - enemyPosition.x)/2, 0).nor();
         float distanceToPlayer = playerPosition.dst(enemyPosition);
-        if(distanceToPlayer>1.1f)
+        if(distanceToPlayer > 1.1f) {
+            animator.setState(EnemyAnimator.State.WALK);
             body.setLinearVelocity(direction.scl(attackSpeed));
-        else {
-            body.setLinearVelocity(0, 0);
-            animator.setState(EnemyAnimator.State.ATTACK_2);
         }
+        else
+            new DelayedAction(0.1f, this::attack);
         if(direction.x>0)
             animator.setDirection(EnemyAnimator.Direction.RIGHT);
         else
             animator.setDirection(EnemyAnimator.Direction.LEFT);
+    }
+
+    private void attack() {
+        if (healthLossCount != 0)
+            return;
+        animator.setState(EnemyAnimator.State.ATTACK_2);
+        attackDelay = attack.getAttackTime();
+        attack.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
+        attack.execute();
+        clearVelocityX();
     }
 
     @Override
@@ -122,8 +139,13 @@ public class Enemy extends MortalEntity<ResourcesManager> {
         animator.setState(EnemyAnimator.State.HURT);
         animator.blockAnimationReset();
         healthLossCount++;
-        body.setLinearVelocity(0, body.getLinearVelocity().y);
+        clearVelocityX();
         new DelayedAction(0.4f, () -> { healthLossCount--; animator.setState(EnemyAnimator.State.WALK); });
+    }
+
+    private void clearVelocityX() {
+        Vector2 oldVelocity = body.getLinearVelocity();
+        body.setLinearVelocity(0, oldVelocity.y);
     }
 
     @Override
@@ -136,7 +158,7 @@ public class Enemy extends MortalEntity<ResourcesManager> {
         animator.setState(EnemyAnimator.State.DEATH);
         animator.blockAnimationReset();
         healthLossCount = Integer.MAX_VALUE;
-        body.setLinearVelocity(0, body.getLinearVelocity().y);
+        clearVelocityX();
         new DelayedAction(getDeathDelay(), () -> level.world.destroyBody(body));
     }
 

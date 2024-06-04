@@ -1,9 +1,6 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -29,6 +26,7 @@ public class MyGdxGame extends Game {
     public AssetManager assetManager;
     public SpriteBatch batch;
     private LevelChangeDelegate levelChangeDelegate;
+    private int screenId;
 
     public static MyGdxGame getInstance() {
         return instance;
@@ -166,6 +164,16 @@ public class MyGdxGame extends Game {
         currentLevel.dispose();
         assetManager.dispose();
         batch.dispose();
+    }
+
+    @Override
+    public void setScreen(Screen screen) {
+        screenId++;
+        super.setScreen(screen);
+    }
+
+    public int getScreenId() {
+        return screenId;
     }
 
     public enum Levels {

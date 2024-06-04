@@ -48,7 +48,8 @@ public class AttackZone extends GameObject implements Disposable {
     }
 
     public void disable() {
-        body.destroyFixture(fixture);
+        if (!body.getFixtureList().isEmpty() && fixture != null)
+            body.destroyFixture(fixture);
         fixture = null;
     }
 

@@ -34,7 +34,7 @@ public class HeroAttack4 extends SideAttack {
     @Override
     public void onCollisionEnter(Entity other) {
         if (other instanceof Enemy enemy)
-            enemy.addResourcesEffect(new InstantDamageEffect(25));
+            enemy.addResourcesEffect(new InstantDamageEffect<>(25));
     }
 
     @Override

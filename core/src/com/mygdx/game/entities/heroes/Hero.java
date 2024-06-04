@@ -11,10 +11,7 @@ import com.mygdx.game.animation.Animator;
 import com.mygdx.game.animation.EnemyAnimator;
 import com.mygdx.game.animation.HeroAnimator;
 import com.mygdx.game.entities.*;
-import com.mygdx.game.entities.attacks.HeroAttack1;
-import com.mygdx.game.entities.attacks.HeroAttack2;
-import com.mygdx.game.entities.attacks.HeroAttack3;
-import com.mygdx.game.entities.attacks.HeroAttack4;
+import com.mygdx.game.entities.attacks.*;
 import com.mygdx.game.entities.sensors.InteractionSensor;
 import com.mygdx.game.entities.sensors.SensorPosition;
 import com.mygdx.game.entities.sensors.SurfaceTouchSensor;
@@ -109,29 +106,25 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     private void handleAttack() {
         if (groundTouchListener.isOnSurface()) {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-                animator.setState(HeroAnimator.State.ATTACK_1);
-                animator.blockAnimationReset();
-                attackDelay = attack1.getAttackTime();
-                attack1.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
-                attack1.execute();
+                attack(attack1, HeroAnimator.State.ATTACK_1);
                 clearVelocityX();
             } else if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
-                animator.setState(HeroAnimator.State.ATTACK_2);
-                animator.blockAnimationReset();
-                attackDelay = attack2.getAttackTime();
-                attack2.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
-                attack2.execute();
+                attack(attack2, HeroAnimator.State.ATTACK_2);
                 clearVelocityX();
             }
             else if (Gdx.input.isButtonJustPressed(Input.Buttons.MIDDLE)) {
-                animator.setState(HeroAnimator.State.PUNCH);
-                animator.blockAnimationReset();
-                attackDelay = attack3.getAttackTime();
-                attack3.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
-                attack3.execute();
+                attack(attack3, HeroAnimator.State.PUNCH);
                 clearVelocityX();
             }
         }
+    }
+
+    private void attack(SideAttack attack, HeroAnimator.State animation) {
+        animator.setState(animation);
+        animator.blockAnimationReset();
+        attackDelay = attack.getAttackTime();
+        attack.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
+        attack.execute();
     }
 
     private void handleInteraction() {
@@ -194,7 +187,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
                 velocity.x = Math.max(velocity.x, 0);
             body.setLinearVelocity(velocity);
 
-            if (animator.getState() == HeroAnimator.State.RUN || animator.getState() == HeroAnimator.State.RUN_ATTACK)
+            if (animator.getState() == HeroAnimator.State.RUN || animator.getState() == HeroAnimator.State.RUN_ATTACK || animator.getState() == HeroAnimator.State.IDLE)
                 animator.setState(HeroAnimator.State.JUMP);
         }
     }
@@ -208,11 +201,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
                 body.setLinearVelocity(MAX_VELOCITY, body.getLinearVelocity().y);
                 applyImpulse(4f, 0);
             }
-            animator.setState(HeroAnimator.State.RUN_ATTACK);
-            animator.blockAnimationReset();
-            attackDelay = attack4.getAttackTime();
-            attack4.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
-            attack4.execute();
+            attack(attack4, HeroAnimator.State.RUN_ATTACK);
             dashCooldown = DASH_COOLDOWN_TIME;
         }
     }

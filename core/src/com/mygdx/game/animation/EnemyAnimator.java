@@ -24,17 +24,17 @@ public class EnemyAnimator extends Animator {
         animations.put(State.ATTACK_1, new AnimationBuilder(AssetsNames.MONSTER_ATTACK1_SHEET)
                 .cols(6)
                 .rows(1)
-                .playMode(Animation.PlayMode.LOOP)
+                .playMode(Animation.PlayMode.NORMAL)
                 .build());
         animations.put(State.ATTACK_2, new AnimationBuilder(AssetsNames.MONSTER_ATTACK2_SHEET)
                 .cols(6)
                 .rows(1)
-                .playMode(Animation.PlayMode.LOOP)
+                .playMode(Animation.PlayMode.NORMAL)
                 .build());
         animations.put(State.ATTACK_3, new AnimationBuilder(AssetsNames.MONSTER_ATTACK3_SHEET)
                 .cols(5)
                 .rows(1)
-                .playMode(Animation.PlayMode.LOOP)
+                .playMode(Animation.PlayMode.NORMAL)
                 .build());
         animations.put(State.HURT, new AnimationBuilder(AssetsNames.MONSTER_HURT_SHEET)
                 .cols(3)

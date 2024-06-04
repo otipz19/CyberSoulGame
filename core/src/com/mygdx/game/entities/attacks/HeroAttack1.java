@@ -4,6 +4,7 @@ import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.enemies.Enemy;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.resources.InstantDamageEffect;
+import com.mygdx.game.entities.resources.ResourcesManager;
 import com.mygdx.game.entities.sensors.AttackZonePosition;
 
 public class HeroAttack1 extends SideAttack {
@@ -34,7 +35,7 @@ public class HeroAttack1 extends SideAttack {
     @Override
     public void onCollisionEnter(Entity other) {
         if (other instanceof Enemy enemy)
-            enemy.addResourcesEffect(new InstantDamageEffect(25));
+            enemy.addResourcesEffect(new InstantDamageEffect<>(25));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.mygdx.game.entities.attacks;
 
+import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.sensors.AttackZone;
 import com.mygdx.game.entities.sensors.AttackZonePosition;
@@ -10,10 +11,10 @@ public abstract class SideAttack implements Attack {
     protected final AttackZone rightAttackZone;
     protected boolean facingRight;
 
-    public SideAttack(Hero hero, AttackZonePosition leftAttackZonePosition, AttackZonePosition rightAttackZonePosition){
-        leftAttackZone = new AttackZone(hero, leftAttackZonePosition, getAttackWidth(), getAttackHeight());
+    public SideAttack(Entity attacker, AttackZonePosition leftAttackZonePosition, AttackZonePosition rightAttackZonePosition){
+        leftAttackZone = new AttackZone(attacker, leftAttackZonePosition, getAttackWidth(), getAttackHeight());
         leftAttackZone.setAttackHandler(this);
-        rightAttackZone = new AttackZone(hero, rightAttackZonePosition, getAttackWidth(), getAttackHeight());
+        rightAttackZone = new AttackZone(attacker, rightAttackZonePosition, getAttackWidth(), getAttackHeight());
         rightAttackZone.setAttackHandler(this);
     }
 

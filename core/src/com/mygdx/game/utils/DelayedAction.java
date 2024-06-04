@@ -1,6 +1,7 @@
 package com.mygdx.game.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.mygdx.game.MyGdxGame;
 
 public class DelayedAction {
     private final float delayInSeconds;
@@ -14,9 +15,11 @@ public class DelayedAction {
 
     private void delay() {
         try {
+            int oldScreenId = MyGdxGame.getInstance().getScreenId();
             long delayInMilliseconds = (long)(delayInSeconds * 1000);
             Thread.sleep(delayInMilliseconds);
-            Gdx.app.postRunnable(action);
+            if (MyGdxGame.getInstance().getScreenId() == oldScreenId)
+                Gdx.app.postRunnable(action);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

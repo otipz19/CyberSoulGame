@@ -1,13 +1,13 @@
 package com.mygdx.game.entities.resources;
 
-public class InstantDamageEffect implements ResourcesEffects<ResourcesManager> {
+public class InstantDamageEffect<T extends  ResourcesManager> implements ResourcesEffects<T> {
     private boolean isCompleted;
     private final float damage;
     public InstantDamageEffect(float damage){
         this.damage = damage;
     }
     @Override
-    public void apply(ResourcesManager resourcesManager, float deltaTime) {
+    public void apply(T resourcesManager, float deltaTime) {
         resourcesManager.decreaseHealth(damage);
         isCompleted = true;
     }
