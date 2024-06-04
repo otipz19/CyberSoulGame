@@ -1,6 +1,5 @@
 package com.mygdx.game.animation;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.mygdx.game.utils.AssetsNames;
 
 public class FirstPortalAnimator extends PortalAnimator {

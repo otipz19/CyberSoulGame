@@ -1,6 +1,5 @@
 package com.mygdx.game.animation;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.mygdx.game.utils.AssetsNames;
 
@@ -14,10 +13,6 @@ public class EnemyAnimator extends Animator {
         HURT,
         WALK
     }
-
-    private float idleTime;
-    private static final float IDLE_THRESHOLD = 0.2f;
-
     protected AnimationsMap createAnimationsMap() {
         AnimationsMap animations = new AnimationsMap();
         animations.put(State.IDLE, new AnimationBuilder(AssetsNames.MONSTER_IDLE_SHEET)
@@ -60,14 +55,4 @@ public class EnemyAnimator extends Animator {
         animations.startAnimation = animations.get(State.IDLE);
         return animations;
     }
-
-//    @Override
-//    public void setState(Animator.State newState) {
-//        if (newState == EnemyAnimator.State.IDLE && super.getState() != EnemyAnimator.State.IDLE && idleTime < IDLE_THRESHOLD) {
-//            idleTime += Gdx.graphics.getDeltaTime();
-//        } else {
-//            idleTime = 0;
-//            super.setState(newState);
-//        }
-//    }
 }

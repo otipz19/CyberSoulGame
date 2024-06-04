@@ -10,6 +10,7 @@ import com.mygdx.game.animation.EnemyAnimator;
 import com.mygdx.game.entities.MortalEntity;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.levels.Level;
+import com.mygdx.game.map.EnemyData;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 

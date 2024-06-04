@@ -6,7 +6,7 @@ import com.mygdx.game.entities.resources.ResourcesManager;
 
 public abstract class MortalEntity<T extends ResourcesManager> extends Entity{
     protected T resourcesManager;
-    private Array<ResourcesEffects<T>> resourcesEffects = new Array<>();
+    private final Array<ResourcesEffects<T>> resourcesEffects = new Array<>();
 
     public void updateResourcesManager(float deltaTime){
         for (ResourcesEffects<T> effect : resourcesEffects){

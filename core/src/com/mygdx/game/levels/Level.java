@@ -24,6 +24,7 @@ import com.mygdx.game.entities.portals.Portal;
 import com.mygdx.game.entities.portals.SecondPortal;
 import com.mygdx.game.entities.portals.ThirdPortal;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
+import com.mygdx.game.map.EnemyData;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
@@ -32,7 +33,6 @@ import com.mygdx.game.map.ObstacleData;
 import com.mygdx.game.map.XMLLevelObjectsParser;
 import com.mygdx.game.utils.PlayerDataManager;
 import com.mygdx.game.entities.enemies.Enemy;
-import com.mygdx.game.entities.enemies.EnemyData;
 
 public abstract class Level implements Screen {
     public Hero hero;
@@ -77,7 +77,7 @@ public abstract class Level implements Screen {
         isPaused = !isPaused;
     }
 
-    public Level(String tileMapName, Vector2 heroStartPos) {
+    public Level(String tileMapName) {
         this.game = MyGdxGame.getInstance();
         this.tileMapName = tileMapName;
         initResources();

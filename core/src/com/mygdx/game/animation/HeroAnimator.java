@@ -1,6 +1,5 @@
 package com.mygdx.game.animation;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.mygdx.game.utils.AssetsNames;
 
@@ -18,9 +17,6 @@ public class HeroAnimator extends Animator {
         PUNCH,
         RUN_ATTACK
     }
-
-    private float idleTime;
-    private static final float IDLE_THRESHOLD = 0.2f;
 
     protected AnimationsMap createAnimationsMap() {
         AnimationsMap animations = new AnimationsMap();

@@ -2,7 +2,6 @@ package com.mygdx.game.utils;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import com.badlogic.gdx.utils.SerializationException;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.heroes.HeroData;
 
@@ -27,7 +26,7 @@ public class PlayerDataManager {
     }
 
     private void loadData() {
-        String currentLevelJSON = null, previousLevelJSON = null, maxLevelJSON = null, heroDataJSON = null;
+        String currentLevelJSON, previousLevelJSON, maxLevelJSON, heroDataJSON;
         try (BufferedReader fileReader = new BufferedReader(new FileReader(SAVE_FILE))) {
             currentLevelJSON = fileReader.readLine();
             previousLevelJSON = fileReader.readLine();

@@ -1,6 +1,5 @@
 package com.mygdx.game.entities.obstacles;
 
-import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
@@ -29,9 +28,8 @@ public class EntryObstacle extends Entity implements ICollisionListener {
     private static final float PERIOD = 0.75f;
     private float elapsedTime;
 
-    private Fixture fixture;
-
-    private Array<MortalEntity<ResourcesManager>> entitiesToDamage =  new Array<>();
+    private final Fixture fixture;
+    private final Array<MortalEntity<ResourcesManager>> entitiesToDamage =  new Array<>();
 
 
     public EntryObstacle(Level level, Collider collider, ObstacleData obstacleData) {
