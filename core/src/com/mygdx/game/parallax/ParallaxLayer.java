@@ -7,7 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
 
 public class ParallaxLayer {
-    private static final int SPRITES_COUNT = 3;
+    //High values may produce performance issues
+    private static final int SPRITES_COUNT = 9;
     private final Sprite[] sprites = new Sprite[SPRITES_COUNT];
     private final String assetName;
     private final float parallaxCoefficient;
@@ -26,7 +27,7 @@ public class ParallaxLayer {
 
     public void render() {
         // Sprites creation is performed during rendering of first frame
-        // due to unknown value of viewport size at the time of constructor call
+        // due to unknown value of viewport's size at the time of constructor call
         if (isFirstRender) {
             isFirstRender = false;
             createSprites();
@@ -61,7 +62,7 @@ public class ParallaxLayer {
     }
 
     private float getMiddleScreenX() {
-        return camera.position.x - camera.viewportWidth / 4;
+        return camera.position.x - getScreenWidth() / 2;
     }
 
     private void updateSprites() {
@@ -95,11 +96,11 @@ public class ParallaxLayer {
     }
 
     private float getBehindTheLeftEdgeX() {
-        return camera.position.x - 3 * camera.viewportWidth / 4;
+        return getMiddleScreenX() - (SPRITES_COUNT / 2 * getScreenWidth());
     }
 
     private float getBehindTheRightEdgeX() {
-        return camera.position.x + camera.viewportWidth / 4;
+        return getMiddleScreenX() + (SPRITES_COUNT / 2 * getScreenWidth());
     }
 
     private float getMiddleScreenY() {
