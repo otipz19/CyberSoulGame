@@ -80,7 +80,21 @@ public class MyGdxGame extends Game {
                         AssetsNames.PORTAL_THIRD_INACTIVE_SPRITESHEET,
                         AssetsNames.PORTAL_FIRST_ACTIVATING_SPRITESHEET,
                         AssetsNames.PORTAL_SECOND_ACTIVATING_SPRITESHEET,
-                        AssetsNames.PORTAL_THIRD_ACTIVATING_SPRITESHEET)
+                        AssetsNames.PORTAL_THIRD_ACTIVATING_SPRITESHEET,
+                        AssetsNames.GREENZONE_PARALLAX_1,
+                        AssetsNames.GREENZONE_PARALLAX_2,
+                        AssetsNames.GREENZONE_PARALLAX_3,
+                        AssetsNames.GREENZONE_PARALLAX_4,
+                        AssetsNames.GREENZONE_PARALLAX_5,
+                        AssetsNames.INDUSTRIALZONE_PARALLAX_1,
+                        AssetsNames.INDUSTRIALZONE_PARALLAX_3,
+                        AssetsNames.INDUSTRIALZONE_PARALLAX_4,
+                        AssetsNames.INDUSTRIALZONE_PARALLAX_5,
+                        AssetsNames.POWERSTATION_PARALLAX_1,
+                        AssetsNames.POWERSTATION_PARALLAX_2,
+                        AssetsNames.POWERSTATION_PARALLAX_3,
+                        AssetsNames.POWERSTATION_PARALLAX_4,
+                        AssetsNames.POWERSTATION_PARALLAX_5)
                 .forEach(str -> assetManager.load(str, Texture.class));
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 //        assetManager.load(AssetsNames.TEST_LEVEL_TILEMAP, TiledMap.class);

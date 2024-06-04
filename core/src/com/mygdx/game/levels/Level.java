@@ -24,6 +24,7 @@ import com.mygdx.game.entities.portals.Portal;
 import com.mygdx.game.entities.portals.SecondPortal;
 import com.mygdx.game.entities.portals.ThirdPortal;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
+import com.mygdx.game.parallax.ParallaxBackground;
 import com.mygdx.game.map.EnemyData;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
@@ -42,6 +43,8 @@ public abstract class Level implements Screen {
     protected CoordinatesProjector coordinatesProjector;
 
     public World world;
+    private ParallaxBackground parallaxBackground;
+
     protected float accumulator;
     protected static final float TIME_STEP = 1 / 60f;
     protected static final int VELOCITY_ITERATIONS = 6;
@@ -85,7 +88,7 @@ public abstract class Level implements Screen {
         createCamera();
         createHero();
         createEntities();
-//        createBackground();
+        parallaxBackground = createBackground();
         createUI();
         box2dRenderer = new Box2DDebugRenderer(true, true, true, true, true, true);
     }
@@ -129,6 +132,8 @@ public abstract class Level implements Screen {
 
         viewport = new ScreenViewport(camera);
         viewport.setUnitsPerPixel(unitScale);
+
+        camera.update();
     }
 
     protected void createHero() {
@@ -168,9 +173,7 @@ public abstract class Level implements Screen {
         });
     }
 
-//    protected void createBackground() {
-//        background = game.assetManager.get(AssetsNames.GREENZONE_BACKGROUND_FULL);
-//    }
+    protected abstract ParallaxBackground createBackground();
 
     protected void createUI() {
         ui = new LevelUI(this);
@@ -181,7 +184,7 @@ public abstract class Level implements Screen {
             delta = 0;
         ScreenUtils.clear(Color.WHITE);
         updateCamera(delta);
-//        renderBackground(delta);
+        renderBackground(delta);
         renderMap(delta);
         renderEntities(delta);
         box2dRenderer.render(world, camera.combined);
@@ -195,13 +198,12 @@ public abstract class Level implements Screen {
         camera.update();
     }
 
-//    protected void renderBackground(float delta) {
-//        game.batch.setProjectionMatrix(camera.combined);
-//        game.batch.begin();
-//        game.batch.draw(background, 0, 0, 90, 34);
-//        game.batch.end();
-//    }
-
+    protected void renderBackground(float delta) {
+        game.batch.setProjectionMatrix(camera.combined);
+        game.batch.begin();
+        parallaxBackground.render();
+        game.batch.end();
+    }
 
     protected void renderMap(float delta) {
         mapRenderer.setView(camera);
@@ -244,6 +246,7 @@ public abstract class Level implements Screen {
     public void resize(int width, int height) {
         viewport.update(width, height);
         ui.getViewport().update(width, height, true);
+        parallaxBackground = createBackground();
     }
 
     @Override
