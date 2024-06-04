@@ -50,6 +50,10 @@ public abstract class Portal extends InteractableEntity {
         }
     }
 
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
     public void enable() {
         isEnabled = true;
     }

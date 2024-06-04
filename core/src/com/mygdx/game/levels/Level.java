@@ -83,7 +83,7 @@ public abstract class Level implements Screen {
         isPaused = !isPaused;
     }
 
-    public Level(String tileMapName, Vector2 heroStartPos) {
+    public Level(String tileMapName) {
         this.game = MyGdxGame.getInstance();
         this.tileMapName = tileMapName;
         initResources();

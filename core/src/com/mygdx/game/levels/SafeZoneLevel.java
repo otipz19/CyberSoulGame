@@ -11,7 +11,11 @@ import com.mygdx.game.utils.PlayerDataManager;
 
 public class SafeZoneLevel extends Level {
     public SafeZoneLevel() {
-        super(AssetsNames.SAFEZONE_LEVEL_TILEMAP, new Vector2(18, 32));
+        super(AssetsNames.SAFEZONE_LEVEL_TILEMAP);
+        enablePortalsToUnlockedLevels();
+    }
+
+    private void enablePortalsToUnlockedLevels() {
         int maxLevel = PlayerDataManager.getInstance().getMaxLevel().ordinal();
         for (Portal portal : portals) {
             portal.disable();

@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.parallax.ParallaxBackground;
 import com.mygdx.game.utils.AssetsNames;
 
-public class PowerStationZone extends Level {
+public class PowerStationZone extends DangerousLevel {
     public PowerStationZone() {
-        super(AssetsNames.POWERSTATION_LEVEL_TILEMAP, new Vector2(1, 1));
+        super(AssetsNames.POWERSTATION_LEVEL_TILEMAP);
     }
 
     @Override
