@@ -21,13 +21,6 @@ public class HeroResourcesManager extends ResourcesManager {
     }
 
     @Override
-    public void increaseHealth(float delta) {
-        if (delta < 0)
-            throw new RuntimeException("Delta can not be negative");
-        health = Math.min(health + delta, maxHealth);
-    }
-
-    @Override
     public void decreaseHealth(float delta) {
         if (delta < 0)
             throw new RuntimeException("Delta can not be negative");
@@ -35,6 +28,7 @@ public class HeroResourcesManager extends ResourcesManager {
         if (temp < 0){
             health += temp;
             shield = 0;
+            onHealthChangeActions.forEach(c -> c.accept(temp));
         }
         else
             shield = temp;
@@ -47,6 +41,7 @@ public class HeroResourcesManager extends ResourcesManager {
             shield = Math.min(shield + shieldRestoreUnit, maxShield);
             shieldRestoreTimer = SHIELD_UNIT_RESTORE_TIME;
         }
+        super.update(deltaTime);
     }
 
     public int getSouls(){

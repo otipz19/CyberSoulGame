@@ -8,8 +8,13 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.Animator;
+import com.mygdx.game.animation.EnemyAnimator;
 import com.mygdx.game.animation.HeroAnimator;
 import com.mygdx.game.entities.*;
+import com.mygdx.game.entities.attacks.HeroAttack1;
+import com.mygdx.game.entities.attacks.HeroAttack2;
+import com.mygdx.game.entities.attacks.HeroAttack3;
+import com.mygdx.game.entities.attacks.HeroAttack4;
 import com.mygdx.game.entities.sensors.InteractionSensor;
 import com.mygdx.game.entities.sensors.SensorPosition;
 import com.mygdx.game.entities.sensors.SurfaceTouchSensor;
@@ -17,6 +22,7 @@ import com.mygdx.game.entities.resources.HeroResourcesManager;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
+import com.mygdx.game.utils.DelayedAction;
 
 public class Hero extends MortalEntity<HeroResourcesManager> implements Disposable {
     private final static float MAX_VELOCITY = 5f;
@@ -35,8 +41,11 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     private float dashCooldown;
     private float jumpDelay;
     private float attackDelay;
+    private int healthLossCount;
 
     public Hero(Level level, HeroData heroData, float x, float y, float width, float height) {
+        super(new HeroResourcesManager(heroData));
+
         this.level = level;
         this.animator = new HeroAnimator();
         this.width = width;
@@ -71,8 +80,6 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
         attack2 = new HeroAttack2(this);
         attack3 = new HeroAttack3(this);
         attack4 = new HeroAttack4(this);
-
-        resourcesManager = new HeroResourcesManager(heroData);
     }
 
     public void render(float deltaTime) {
@@ -80,8 +87,8 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
             jumpDelay = Math.max(0, jumpDelay - deltaTime);
             dashCooldown = Math.max(0, dashCooldown - deltaTime);
             attackDelay = Math.max(0, attackDelay - deltaTime);
-            handleAttack();
-            if (attackDelay == 0) {
+            if (healthLossCount == 0 && attackDelay == 0) {
+                handleAttack();
                 handleInteraction();
                 updateDirection();
                 handeRunning();
@@ -100,15 +107,17 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     }
 
     private void handleAttack() {
-        if (attackDelay == 0 && groundTouchListener.isOnSurface()) {
+        if (groundTouchListener.isOnSurface()) {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 animator.setState(HeroAnimator.State.ATTACK_1);
+                animator.blockAnimationReset();
                 attackDelay = attack1.getAttackTime();
                 attack1.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
                 attack1.execute();
                 clearVelocityX();
             } else if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
                 animator.setState(HeroAnimator.State.ATTACK_2);
+                animator.blockAnimationReset();
                 attackDelay = attack2.getAttackTime();
                 attack2.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
                 attack2.execute();
@@ -116,6 +125,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
             }
             else if (Gdx.input.isButtonJustPressed(Input.Buttons.MIDDLE)) {
                 animator.setState(HeroAnimator.State.PUNCH);
+                animator.blockAnimationReset();
                 attackDelay = attack3.getAttackTime();
                 attack3.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
                 attack3.execute();
@@ -199,6 +209,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
                 applyImpulse(4f, 0);
             }
             animator.setState(HeroAnimator.State.RUN_ATTACK);
+            animator.blockAnimationReset();
             attackDelay = attack4.getAttackTime();
             attack4.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
             attack4.execute();
@@ -243,6 +254,27 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
 
     public HeroData getData() {
         return resourcesManager.getHeroData();
+    }
+
+    @Override
+    protected void onNonKillingHealthLoss() {
+        animator.setState(HeroAnimator.State.HURT);
+        animator.blockAnimationReset();
+        healthLossCount++;
+        new DelayedAction(0.3f, () -> { healthLossCount--; animator.setState(HeroAnimator.State.IDLE);});
+    }
+
+    @Override
+    public float getDeathDelay() {
+        return 0.6f;
+    }
+
+    @Override
+    public void onDeath() {
+        animator.setState(HeroAnimator.State.DEATH);
+        animator.blockAnimationReset();
+        healthLossCount = Integer.MAX_VALUE;
+        new DelayedAction(getDeathDelay(), MyGdxGame.getInstance()::levelFailed);
     }
 
     @Override

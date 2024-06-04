@@ -40,7 +40,6 @@ public class EnemyAnimator extends Animator {
                 .cols(3)
                 .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
-                .frameDuration(1 / 5f)
                 .build());
         animations.put(State.DEATH, new AnimationBuilder(AssetsNames.MONSTER_DEATH_SHEET)
                 .cols(6)

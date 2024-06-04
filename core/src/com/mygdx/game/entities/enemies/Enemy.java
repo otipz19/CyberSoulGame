@@ -9,12 +9,15 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.EnemyAnimator;
 import com.mygdx.game.entities.MortalEntity;
 import com.mygdx.game.entities.heroes.Hero;
+import com.mygdx.game.entities.resources.EnemyResourcesManager;
+import com.mygdx.game.entities.resources.ResourcesManager;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.map.EnemyData;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
+import com.mygdx.game.utils.DelayedAction;
 
-public class Enemy extends MortalEntity {
+public class Enemy extends MortalEntity<ResourcesManager> {
     private EnemyData enemyData;
     private float minX, maxX;
     private float attackRange = 1.5f;
@@ -23,7 +26,11 @@ public class Enemy extends MortalEntity {
     private float attackSpeed = 3.0f;
     private float detectionRange = 4f;
     private boolean movingRight = true;
-    public Enemy(Level level, EnemyData enemyData, float x, float y, float width, float height, float minX, float maxX, Hero player) {
+    private int healthLossCount;
+
+    public Enemy(Level level, EnemyData enemyData, float x, float y, float width, float height, float minX, float maxX) {
+        super(new EnemyResourcesManager(100));
+
         this.level = level;
         this.enemyData = enemyData;
         this.animator = new EnemyAnimator();
@@ -31,7 +38,7 @@ public class Enemy extends MortalEntity {
         this.height = height;
         this.minX = minX;
         this.maxX = maxX;
-        this.player = player;
+        this.player = level.hero;
 
         Collider collider = ColliderCreator.create(new Rectangle(x, y, width, height));
 
@@ -55,7 +62,9 @@ public class Enemy extends MortalEntity {
 
 
     public void render(float deltaTime) {
-        moveTowardsPlayer(deltaTime);
+        if (healthLossCount == 0)
+            moveTowardsPlayer(deltaTime);
+        updateResourcesManager(deltaTime);
         animator.animate(MyGdxGame.getInstance().batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
     }
 
@@ -106,6 +115,29 @@ public class Enemy extends MortalEntity {
             animator.setDirection(EnemyAnimator.Direction.RIGHT);
         else
             animator.setDirection(EnemyAnimator.Direction.LEFT);
+    }
+
+    @Override
+    protected void onNonKillingHealthLoss() {
+        animator.setState(EnemyAnimator.State.HURT);
+        animator.blockAnimationReset();
+        healthLossCount++;
+        body.setLinearVelocity(0, body.getLinearVelocity().y);
+        new DelayedAction(0.4f, () -> { healthLossCount--; animator.setState(EnemyAnimator.State.WALK); });
+    }
+
+    @Override
+    public float getDeathDelay() {
+        return 0.55f;
+    }
+
+    @Override
+    protected void onDeath() {
+        animator.setState(EnemyAnimator.State.DEATH);
+        animator.blockAnimationReset();
+        healthLossCount = Integer.MAX_VALUE;
+        body.setLinearVelocity(0, body.getLinearVelocity().y);
+        new DelayedAction(getDeathDelay(), () -> level.world.destroyBody(body));
     }
 
 }

@@ -31,39 +31,39 @@ import com.mygdx.game.physics.ContactListener;
 import com.mygdx.game.ui.LevelUI;
 import com.mygdx.game.map.ObstacleData;
 import com.mygdx.game.map.XMLLevelObjectsParser;
+import com.mygdx.game.utils.DelayedAction;
 import com.mygdx.game.utils.PlayerDataManager;
 import com.mygdx.game.entities.enemies.Enemy;
 
 public abstract class Level implements Screen {
-    public Hero hero;
-    public Enemy enemy;
-    public World world;
-    public LevelUI ui;
-
     protected MyGdxGame game;
-    protected TiledMap map;
-    protected OrthogonalTiledMapRenderer mapRenderer;
     protected LevelCamera camera;
     protected ScreenViewport viewport;
     protected CoordinatesProjector coordinatesProjector;
 
+    public World world;
     protected float accumulator;
     protected static final float TIME_STEP = 1 / 60f;
     protected static final int VELOCITY_ITERATIONS = 6;
     protected static final int POSITION_ITERATIONS = 2;
     protected Box2DDebugRenderer box2dRenderer;
 
+
+    private final String tileMapName;
+    protected TiledMap map;
+    protected OrthogonalTiledMapRenderer mapRenderer;
+    protected XMLLevelObjectsParser objectsParser;
     protected int levelWidth;
     protected int levelHeight;
     protected float unitScale;
 
-    private boolean isPaused;
-
-    protected XMLLevelObjectsParser objectsParser;
+    public Hero hero;
     protected final Array<EntryObstacle> obstacles = new Array<>();
+    protected final Array<Enemy> enemies = new Array<>();
     protected final Array<Portal> portals = new Array<>();
 
-    private final String tileMapName;
+    public LevelUI ui;
+    private boolean isPaused;
 
     public boolean isPaused(){
         return isPaused;
@@ -134,7 +134,6 @@ public abstract class Level implements Screen {
     protected void createHero() {
         Vector2 spawn = coordinatesProjector.unproject(getPlayerSpawn());
         hero = new Hero(this, PlayerDataManager.getInstance().getHeroData(), spawn.x, spawn.y, 0.95f, 0.95f);
-        hero.addOnDeathAction(() -> game.levelFailed());
         camera.setPositionSharply(hero.getCameraPosition());
     }
 
@@ -152,7 +151,12 @@ public abstract class Level implements Screen {
                 collider.dispose();
             }
         });
-        enemy = new Enemy(this, new EnemyData(), 6, 60f, 1, 1, 4, 9, hero);
+
+        // Should be changed
+        Enemy enemy = new Enemy(this, new EnemyData(), 20f, 32f, 1, 1, 18, 28);
+        enemies.add(enemy);
+        enemy.addOnDeathAction(() -> new DelayedAction(enemy.getDeathDelay(), () -> enemies.removeValue(enemy, true)));
+
         objectsParser.getPortalsData().forEach(portalData -> {
             Portal portal;
             switch (portalData.getType()) {
@@ -207,12 +211,14 @@ public abstract class Level implements Screen {
     protected void renderEntities(float delta) {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        enemy.render(delta);
         for (var obstacle : obstacles) {
             obstacle.render(delta);
         }
         for (var portal: portals) {
             portal.render(delta);
+        }
+        for (var enemy: enemies) {
+            enemy.render(delta);
         }
         hero.render(delta);
         game.batch.end();

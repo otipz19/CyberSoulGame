@@ -61,7 +61,6 @@ public class HeroAnimator extends Animator {
                 .cols(3)
                 .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
-                .frameDuration(1 / 5f)
                 .build());
         animations.put(State.PUNCH, new AnimationBuilder(AssetsNames.BIKER_PUNCH_SHEET)
                 .cols(6)

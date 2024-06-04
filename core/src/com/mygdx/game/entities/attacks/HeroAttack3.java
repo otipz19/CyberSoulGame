@@ -1,11 +1,14 @@
-package com.mygdx.game.entities.heroes;
+package com.mygdx.game.entities.attacks;
 
 import com.mygdx.game.entities.Entity;
+import com.mygdx.game.entities.enemies.Enemy;
+import com.mygdx.game.entities.heroes.Hero;
+import com.mygdx.game.entities.resources.InstantDamageEffect;
 import com.mygdx.game.entities.sensors.AttackZonePosition;
 
-public class HeroAttack1 extends HeroSideAttack  {
-    public HeroAttack1(Hero hero){
-        super(hero, AttackZonePosition.LEFT_TOP, AttackZonePosition.RIGHT_TOP);
+public class HeroAttack3 extends SideAttack {
+    public HeroAttack3(Hero hero){
+        super(hero, AttackZonePosition.LEFT_BOTTOM, AttackZonePosition.RIGHT_BOTTOM);
     }
 
     @Override
@@ -15,7 +18,7 @@ public class HeroAttack1 extends HeroSideAttack  {
 
     @Override
     public float getAttackDelay() {
-        return  0.09f;
+        return  0.2f;
     }
 
     @Override
@@ -30,7 +33,8 @@ public class HeroAttack1 extends HeroSideAttack  {
 
     @Override
     public void onCollisionEnter(Entity other) {
-        System.out.println("Attack 1");
+        if (other instanceof Enemy enemy)
+            enemy.addResourcesEffect(new InstantDamageEffect(30));
     }
 
     @Override

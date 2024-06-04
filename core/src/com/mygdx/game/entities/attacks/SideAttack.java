@@ -1,15 +1,16 @@
-package com.mygdx.game.entities.heroes;
+package com.mygdx.game.entities.attacks;
 
+import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.sensors.AttackZone;
 import com.mygdx.game.entities.sensors.AttackZonePosition;
 import com.mygdx.game.utils.DelayedAction;
 
-public abstract class HeroSideAttack implements HeroAttack {
+public abstract class SideAttack implements Attack {
     protected final AttackZone leftAttackZone;
     protected final AttackZone rightAttackZone;
     protected boolean facingRight;
 
-    public HeroSideAttack(Hero hero, AttackZonePosition leftAttackZonePosition, AttackZonePosition rightAttackZonePosition){
+    public SideAttack(Hero hero, AttackZonePosition leftAttackZonePosition, AttackZonePosition rightAttackZonePosition){
         leftAttackZone = new AttackZone(hero, leftAttackZonePosition, getAttackWidth(), getAttackHeight());
         leftAttackZone.setAttackHandler(this);
         rightAttackZone = new AttackZone(hero, rightAttackZonePosition, getAttackWidth(), getAttackHeight());

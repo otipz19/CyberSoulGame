@@ -4,10 +4,21 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.entities.resources.ResourcesEffects;
 import com.mygdx.game.entities.resources.ResourcesManager;
 
+import java.util.function.Consumer;
+
 public abstract class MortalEntity<T extends ResourcesManager> extends Entity{
     protected T resourcesManager;
-    private final Array<ResourcesEffects<T>> resourcesEffects = new Array<>();
-    private final Array<Runnable> onDeathActions = new Array<>();
+    private final Array<ResourcesEffects<T>> resourcesEffects;
+
+    public MortalEntity(T resourcesManager){
+        this.resourcesManager = resourcesManager;
+        resourcesEffects = new Array<>();
+        resourcesManager.addOnDeathAction(this::onDeath);
+        addOnHealthChangeAction(delta -> {
+            if (delta < 0 && resourcesManager.isAlive())
+                onNonKillingHealthLoss();
+        });
+    }
 
     public void updateResourcesManager(float deltaTime){
         for (ResourcesEffects<T> effect : resourcesEffects){
@@ -16,13 +27,16 @@ public abstract class MortalEntity<T extends ResourcesManager> extends Entity{
                 resourcesEffects.removeValue(effect, true);
         }
         resourcesManager.update(deltaTime);
-        if (!isAlive())
-            onDeathActions.forEach(Runnable::run);
     }
+
 
     public boolean isAlive(){
         return resourcesManager.isAlive();
     }
+    protected abstract void onDeath();
+    protected abstract void onNonKillingHealthLoss();
+
+    public abstract float getDeathDelay();
 
     public T getResourcesManager() {
         return resourcesManager;
@@ -37,14 +51,26 @@ public abstract class MortalEntity<T extends ResourcesManager> extends Entity{
     }
 
     public void addOnDeathAction(Runnable runnable) {
-        onDeathActions.add(runnable);
+        resourcesManager.addOnDeathAction(runnable);
     }
 
     public void removeOnDeathAction(Runnable runnable) {
-        onDeathActions.removeValue(runnable, true);
+        resourcesManager.addOnDeathAction(runnable);
     }
 
     public void clearOnDeathActions() {
-        onDeathActions.clear();
+        resourcesManager.clearOnDeathActions();
+    }
+
+    public void addOnHealthChangeAction(Consumer<Float> consumer) {
+        resourcesManager.addOnHealthChangeAction(consumer);
+    }
+
+    public void removeOnHealthChangeAction(Consumer<Float> consumer) {
+        resourcesManager.removeOnHealthChangeAction(consumer);
+    }
+
+    public void clearOnHealthChangeActions() {
+        resourcesManager.clearOnHealthChangeActions();
     }
 }
