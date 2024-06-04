@@ -244,6 +244,7 @@ public abstract class Level implements Screen {
     public void resize(int width, int height) {
         viewport.update(width, height);
         ui.getViewport().update(width, height, true);
+        parallaxBackground = createBackground();
     }
 
     @Override

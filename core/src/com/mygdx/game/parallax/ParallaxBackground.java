@@ -7,6 +7,9 @@ public class ParallaxBackground {
     private final ParallaxLayer[] layers = new ParallaxLayer[LAYERS_COUNT];
 
     public ParallaxBackground(OrthographicCamera camera, String[] layersAssetNames) {
+        if(layersAssetNames.length != LAYERS_COUNT) {
+            throw new RuntimeException(LAYERS_COUNT + " asset names for layers must be provided!");
+        }
         for (int i = 0; i < LAYERS_COUNT; i++) {
             layers[i] = new ParallaxLayer(layersAssetNames[i], camera, 0.5f / (i + 1));
         }
