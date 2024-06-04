@@ -1,10 +1,6 @@
 package com.mygdx.game.parallax;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.utils.AssetsNames;
 
 public class ParallaxBackground {
@@ -20,7 +16,7 @@ public class ParallaxBackground {
                 AssetsNames.GREENZONE_PARALLAX_5
         };
         for (int i = 0; i < LAYERS_COUNT; i++) {
-            layers[i] = new ParallaxLayer(assetsNames[i], camera, 1f / (i + 1));
+            layers[i] = new ParallaxLayer(assetsNames[i], camera, 0.5f / (i + 1));
         }
     }
 
