@@ -17,7 +17,6 @@ public class ParallaxLayer {
 
     private boolean isFirstRender = true;
 
-
     public ParallaxLayer(String assetName, OrthographicCamera camera, float parallaxCoefficient) {
         this.assetName = assetName;
         this.camera = camera;
@@ -26,6 +25,8 @@ public class ParallaxLayer {
     }
 
     public void render() {
+        // Sprites creation is performed during rendering of first frame
+        // due to unknown value of viewport size at the time of constructor call
         if (isFirstRender) {
             isFirstRender = false;
             createSprites();

@@ -91,7 +91,7 @@ public abstract class Level implements Screen {
         createCamera();
         createHero();
         createEntities();
-        createBackground();
+        parallaxBackground = createBackground();
         createUI();
         box2dRenderer = new Box2DDebugRenderer(true, true, true, true, true, true);
     }
@@ -173,9 +173,7 @@ public abstract class Level implements Screen {
         });
     }
 
-    protected void createBackground() {
-        parallaxBackground = new ParallaxBackground(camera);
-    }
+    protected abstract ParallaxBackground createBackground();
 
     protected void createUI() {
         ui = new LevelUI(this);

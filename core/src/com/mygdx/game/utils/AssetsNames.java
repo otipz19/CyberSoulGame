@@ -48,4 +48,16 @@ public class AssetsNames {
     public static final String GREENZONE_PARALLAX_3 = "zones/greenzone/resources/green-zone-tileset/2 Background/Day/3.png";
     public static final String GREENZONE_PARALLAX_4 = "zones/greenzone/resources/green-zone-tileset/2 Background/Day/4.png";
     public static final String GREENZONE_PARALLAX_5 = "zones/greenzone/resources/green-zone-tileset/2 Background/Day/5.png";
+
+    public static final String INDUSTRIALZONE_PARALLAX_1 = "zones/industrialzone/resources/2 Background/1.png";
+    public static final String INDUSTRIALZONE_PARALLAX_2 = "zones/industrialzone/resources/2 Background/2.png";
+    public static final String INDUSTRIALZONE_PARALLAX_3 = "zones/industrialzone/resources/2 Background/3.png";
+    public static final String INDUSTRIALZONE_PARALLAX_4 = "zones/industrialzone/resources/2 Background/4.png";
+    public static final String INDUSTRIALZONE_PARALLAX_5 = "zones/industrialzone/resources/2 Background/5.png";
+
+    public static final String POWERSTATION_PARALLAX_1 = "zones/powerstation/resources/2 Background/Day/1.png";
+    public static final String POWERSTATION_PARALLAX_2 = "zones/powerstation/resources/2 Background/Day/2.png";
+    public static final String POWERSTATION_PARALLAX_3 = "zones/powerstation/resources/2 Background/Day/3.png";
+    public static final String POWERSTATION_PARALLAX_4 = "zones/powerstation/resources/2 Background/Day/4.png";
+    public static final String POWERSTATION_PARALLAX_5 = "zones/powerstation/resources/2 Background/Day/5.png";
 }
