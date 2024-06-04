@@ -139,9 +139,7 @@ public abstract class Level implements Screen {
 
     protected Vector2 getPlayerSpawn() {
         Rectangle bounds = objectsParser.getPlayerSpawns()
-                .filter(spawn -> spawn.getFromLevel().equals(MyGdxGame.getInstance().getPreviousLevelType()))
-                .findFirst().get()
-                .getBounds();
+                .findFirst().orElseThrow().getBounds();
         return new Vector2(bounds.x, bounds.y + bounds.height);
     }
 
@@ -244,6 +242,7 @@ public abstract class Level implements Screen {
     @Override
     public void dispose() {
         world.dispose();
+        hero.dispose();
         ui.dispose();
         mapRenderer.dispose();
         box2dRenderer.dispose();

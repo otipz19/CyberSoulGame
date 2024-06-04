@@ -5,11 +5,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.Animator;
 import com.mygdx.game.animation.HeroAnimator;
 import com.mygdx.game.entities.*;
+import com.mygdx.game.entities.sensors.InteractionSensor;
 import com.mygdx.game.entities.sensors.SensorPosition;
 import com.mygdx.game.entities.sensors.SurfaceTouchSensor;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
@@ -17,7 +19,7 @@ import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 
-public class Hero extends MortalEntity<HeroResourcesManager> implements Disposable, ITriggerListener {
+public class Hero extends MortalEntity<HeroResourcesManager> implements Disposable {
     private final static float MAX_VELOCITY = 5f;
     private final static float MIN_NOT_IDLE_VELOCITY = MAX_VELOCITY * 0.6f;
     private final static float DASH_COOLDOWN_TIME = 2f;
@@ -29,12 +31,11 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     private final SurfaceTouchSensor groundTouchListener;
     private final SurfaceTouchSensor leftWallTouchListener;
     private final SurfaceTouchSensor rightWallTouchListener;
+    private final InteractionSensor interactionSensor;
     private boolean canDoubleJump;
     private float dashCooldown;
     private float jumpDelay;
     private float attackDelay;
-
-    private InteractableEntity entityToInteract;
 
     public Hero(Level level, HeroData heroData, float x, float y, float width, float height) {
         this.level = level;
@@ -65,6 +66,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
         groundTouchListener = new SurfaceTouchSensor(this, SensorPosition.BOTTOM);
         leftWallTouchListener = new SurfaceTouchSensor(this, SensorPosition.LEFT);
         rightWallTouchListener = new SurfaceTouchSensor(this, SensorPosition.RIGHT);
+        interactionSensor = new InteractionSensor(this);
 
         attack1 = new HeroAttack1(this);
         attack2 = new HeroAttack2(this);
@@ -120,8 +122,8 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     }
 
     private void handleInteraction() {
-        if (entityToInteract != null && Gdx.input.isKeyPressed(Input.Keys.E)) {
-            entityToInteract.interact();
+        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+            interactionSensor.interact();
         }
     }
 
@@ -246,19 +248,5 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
         attack2.dispose();
         attack3.dispose();
         attack4.dispose();
-    }
-
-    @Override
-    public void onTriggerEnter(GameObject other) {
-        if (other instanceof InteractableEntity) {
-            entityToInteract = (InteractableEntity) other;
-        }
-    }
-
-    @Override
-    public void onTriggerExit(GameObject other) {
-        if (entityToInteract != null && other instanceof InteractableEntity) {
-            entityToInteract = null;
-        }
     }
 }

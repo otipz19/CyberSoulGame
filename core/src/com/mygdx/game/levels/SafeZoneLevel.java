@@ -24,4 +24,12 @@ public class SafeZoneLevel extends Level {
             }
         }
     }
+
+    @Override
+    protected Vector2 getPlayerSpawn() {
+        Rectangle bounds = objectsParser.getPlayerSpawns()
+                .filter(spawn -> spawn.getFromLevel().equals(PlayerDataManager.getInstance().getPreviousLevel()))
+                .findFirst().orElseThrow().getBounds();
+        return new Vector2(bounds.x, bounds.y + bounds.height);
+    }
 }

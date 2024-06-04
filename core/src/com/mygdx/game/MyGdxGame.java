@@ -28,11 +28,7 @@ public class MyGdxGame extends Game {
     private Level currentLevel;
     public AssetManager assetManager;
     public SpriteBatch batch;
-
     private LevelChangeDelegate levelChangeDelegate;
-
-    private Levels previousLevelType = Levels.SAFE;
-    private Levels currentLevelType = Levels.SAFE;
 
     public static MyGdxGame getInstance() {
         return instance;
@@ -105,27 +101,8 @@ public class MyGdxGame extends Game {
         setScreen(new MainMenu(hasAlreadyPlayed));
     }
 
-    private void changeLevel(Levels level) {
-        getScreen().dispose();
-        inputMultiplexer.clear();
-        previousLevelType = currentLevelType;
-        currentLevelType = level;
-        currentLevel = level.create();
-        PlayerDataManager.getInstance().setCurrentLevel(level);
-        setScreen(currentLevel);
-    }
-
-//    public void levelCompleted(HeroData heroData) {
-//        PlayerDataManager.getInstance().setHeroData(heroData);
-//        levelChangeDelegate = () -> changeLevel(Levels.SAFE);
-//    }
-
     public void goToNewLevel(Levels level) {
         levelChangeDelegate = () -> changeLevel(level);
-    }
-
-    public Levels getPreviousLevelType() {
-        return previousLevelType;
     }
 
     public void levelFailed() {
@@ -135,6 +112,14 @@ public class MyGdxGame extends Game {
 
     public void restartCurrentLevel() {
         changeLevel(PlayerDataManager.getInstance().getCurrentLevel());
+    }
+
+    private void changeLevel(Levels level) {
+        getScreen().dispose();
+        inputMultiplexer.clear();
+        PlayerDataManager.getInstance().setCurrentLevel(level);
+        currentLevel = level.create();
+        setScreen(currentLevel);
     }
 
     public void changeDisplayMode() {

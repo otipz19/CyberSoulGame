@@ -5,12 +5,15 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.PortalAnimator;
 import com.mygdx.game.camera.CoordinatesProjector;
+import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.InteractableEntity;
+import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.map.PortalData;
 import com.mygdx.game.physics.BodyCreator;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
+import com.mygdx.game.utils.PlayerDataManager;
 
 public abstract class Portal extends InteractableEntity {
     private final PortalData portalData;
@@ -40,11 +43,12 @@ public abstract class Portal extends InteractableEntity {
     }
 
     @Override
-    public void interact() {
-        if (isEnabled) {
+    public void interact(Entity interactionCause) {
+        if (isEnabled && interactionCause instanceof Hero hero) {
             if (!hasActivated) {
                 animator.setState(PortalAnimator.State.ACTIVATING);
             } else {
+                PlayerDataManager.getInstance().setHeroData(hero.getData());
                 MyGdxGame.getInstance().goToNewLevel(portalData.getDestination());
             }
         }
