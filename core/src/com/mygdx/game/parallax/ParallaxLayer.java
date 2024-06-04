@@ -3,26 +3,34 @@ package com.mygdx.game.parallax;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
 
 public class ParallaxLayer {
-    //High values may produce performance issues
     private static final int SPRITES_COUNT = 9;
     private final Sprite[] sprites = new Sprite[SPRITES_COUNT];
     private final String assetName;
-    private final float parallaxCoefficient;
+    private final float horizontalParallaxCoefficient;
+    private final float verticalParallaxCoefficient;
+    private final float levelHeight;
 
     private final OrthographicCamera camera;
     private final Vector2 cameraPreviousPos;
 
     private boolean isFirstRender = true;
 
-    public ParallaxLayer(String assetName, OrthographicCamera camera, float parallaxCoefficient) {
+    public ParallaxLayer(String assetName,
+                         OrthographicCamera camera,
+                         float horizontalParallaxCoefficient,
+                         float verticalParallaxCoefficient,
+                         float levelHeight) {
         this.assetName = assetName;
         this.camera = camera;
         this.cameraPreviousPos = new Vector2(camera.position.x, camera.position.y);
-        this.parallaxCoefficient = parallaxCoefficient;
+        this.horizontalParallaxCoefficient = horizontalParallaxCoefficient;
+        this.verticalParallaxCoefficient = verticalParallaxCoefficient;
+        this.levelHeight = levelHeight;
     }
 
     public void render() {
@@ -79,12 +87,18 @@ public class ParallaxLayer {
         } else if (isSpriteBehindTheRightEdge(sprite)) {
             sprite.setX(getBehindTheLeftEdgeX());
         }
-        sprite.setY(getMiddleScreenY());
+        sprite.setY(getMiddleScreenY() + calcYOffset());
         sprite.draw(MyGdxGame.getInstance().batch);
     }
 
     private float calcXOffset() {
-        return parallaxCoefficient * (camera.position.x - cameraPreviousPos.x);
+        return horizontalParallaxCoefficient * (camera.position.x - cameraPreviousPos.x);
+    }
+
+    private float calcYOffset() {
+        return Interpolation.linear.apply(-(levelHeight * verticalParallaxCoefficient),
+                0,
+                (levelHeight - camera.position.y) / levelHeight);
     }
 
     private boolean isSpriteBehindTheLeftEdge(Sprite sprite) {

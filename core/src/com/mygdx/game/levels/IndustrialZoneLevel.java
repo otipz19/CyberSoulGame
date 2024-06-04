@@ -17,6 +17,6 @@ public class IndustrialZoneLevel extends DangerousLevel {
                 AssetsNames.INDUSTRIALZONE_PARALLAX_3,
                 AssetsNames.INDUSTRIALZONE_PARALLAX_4,
                 AssetsNames.INDUSTRIALZONE_PARALLAX_5
-        });
+        }, levelHeight);
     }
 }

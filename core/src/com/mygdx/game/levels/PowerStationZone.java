@@ -17,6 +17,6 @@ public class PowerStationZone extends DangerousLevel {
                 AssetsNames.POWERSTATION_PARALLAX_3,
                 AssetsNames.POWERSTATION_PARALLAX_4,
                 AssetsNames.POWERSTATION_PARALLAX_5
-        });
+        }, levelHeight);
     }
 }

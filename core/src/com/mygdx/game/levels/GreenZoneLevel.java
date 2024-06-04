@@ -17,6 +17,6 @@ public class GreenZoneLevel extends DangerousLevel {
                 AssetsNames.GREENZONE_PARALLAX_3,
                 AssetsNames.GREENZONE_PARALLAX_4,
                 AssetsNames.GREENZONE_PARALLAX_5
-        });
+        }, levelHeight);
     }
 }
