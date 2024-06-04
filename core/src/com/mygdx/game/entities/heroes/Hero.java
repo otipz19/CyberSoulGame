@@ -93,6 +93,10 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
             updateResourcesManager(deltaTime);
         }
         animator.animate(MyGdxGame.getInstance().batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
+
+        // Should be changed later
+        if (body.getPosition().y < -10)
+            resourcesManager.decreaseHealth(10);
     }
 
     private void handleAttack() {

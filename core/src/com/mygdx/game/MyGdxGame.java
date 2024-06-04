@@ -179,6 +179,7 @@ public class MyGdxGame extends Game {
         public abstract Level create();
     }
 
+    @FunctionalInterface
     private interface LevelChangeDelegate {
         void changeLevel();
     }

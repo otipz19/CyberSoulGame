@@ -134,6 +134,7 @@ public abstract class Level implements Screen {
     protected void createHero() {
         Vector2 spawn = coordinatesProjector.unproject(getPlayerSpawn());
         hero = new Hero(this, PlayerDataManager.getInstance().getHeroData(), spawn.x, spawn.y, 0.95f, 0.95f);
+        hero.addOnDeathAction(() -> game.levelFailed());
         camera.setPositionSharply(hero.getCameraPosition());
     }
 
