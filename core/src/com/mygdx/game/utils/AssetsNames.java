@@ -60,4 +60,17 @@ public class AssetsNames {
     public static final String POWERSTATION_PARALLAX_4 = "zones/powerstation/resources/2 Background/Day/4.png";
     public static final String POWERSTATION_PARALLAX_5 = "zones/powerstation/resources/2 Background/Day/5.png";
     public static final String SOUL_PARTICLES = "particles/soul.p";
+
+    public static final String BG_MUSIC = "music/BIB-Moonlight.ogg";
+    public static final String BG_MUSIC2 = "music/BG_MUSIC2.ogg";
+    public static final String BG_MUSIC3 = "music/BG_MUSIC3.ogg";
+    public static final String CREDIT_MUSIC = "music/credits.ogg";
+
+    public static final String JUMP_SOUND = "music/jump.ogg";
+    public static final String ATTACK_SOUND = "music/fist-attack.ogg";
+    public static final String ATTACK_COMBO_SOUND = "music/fist-combo-attack.ogg";
+    public static final String ATTACK_KICK_SOUND = "music/kick-attack.ogg";
+    public static final String TELEPORT_SOUND = "music/teleport.ogg";
+    public static final String DRINKING_SOUND = "music/drinking-sound.ogg";
+    public static final String HERO_HURT_SOUND = "music/male_hurt.ogg";
 }

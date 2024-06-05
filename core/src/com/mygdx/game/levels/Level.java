@@ -31,9 +31,11 @@ import com.mygdx.game.map.EnemyData;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
+import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.ui.LevelUI;
 import com.mygdx.game.map.ObstacleData;
 import com.mygdx.game.map.XMLLevelObjectsParser;
+import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.utils.DelayedAction;
 import com.mygdx.game.utils.PlayerDataManager;
 import com.mygdx.game.entities.enemies.Enemy;
@@ -46,7 +48,7 @@ public abstract class Level implements Screen {
 
     public World world;
     private ParallaxBackground parallaxBackground;
-
+    public SoundPlayer sound;
     protected float accumulator;
     protected static final float TIME_STEP = 1 / 60f;
     protected static final int VELOCITY_ITERATIONS = 6;
@@ -90,6 +92,7 @@ public abstract class Level implements Screen {
         createMap();
         createCamera();
         createHero();
+        createMusicSound();
         createEntities();
         parallaxBackground = createBackground();
         createUI();
@@ -99,7 +102,11 @@ public abstract class Level implements Screen {
     protected void initResources() {
         objectsParser = new XMLLevelObjectsParser(tileMapName);
     }
-
+    protected void createMusicSound() {
+        sound = new SoundPlayer();
+        sound.create();
+        SoundPlayer.getInstance().getMusic(AssetsNames.BG_MUSIC).play();
+    }
     protected void createMap() {
         world = new World(new Vector2(0, -10), true);
         world.setContactListener(new ContactListener());
@@ -189,6 +196,7 @@ public abstract class Level implements Screen {
         updateCamera(delta);
         renderBackground(delta);
         renderMap(delta);
+        renderMusicSound();
         renderEntities(delta);
         box2dRenderer.render(world, camera.combined);
         renderUI(delta);
@@ -207,7 +215,9 @@ public abstract class Level implements Screen {
         parallaxBackground.render();
         game.batch.end();
     }
-
+    protected void renderMusicSound() {
+        sound.render();
+    }
     protected void renderMap(float delta) {
         mapRenderer.setView(camera);
         mapRenderer.render();
@@ -265,6 +275,7 @@ public abstract class Level implements Screen {
         world.dispose();
         hero.dispose();
         ui.dispose();
+        sound.dispose();
         mapRenderer.dispose();
         box2dRenderer.dispose();
     }

@@ -19,6 +19,8 @@ import com.mygdx.game.entities.resources.HeroResourcesManager;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
+import com.mygdx.game.sound.SoundPlayer;
+import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.utils.DelayedAction;
 
 public class Hero extends MortalEntity<HeroResourcesManager> implements Disposable {
@@ -108,13 +110,16 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 attack(attack1, HeroAnimator.State.ATTACK_1);
                 clearVelocityX();
+                SoundPlayer.getInstance().getSound(AssetsNames.ATTACK_SOUND);
             } else if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
                 attack(attack2, HeroAnimator.State.ATTACK_2);
                 clearVelocityX();
+                SoundPlayer.getInstance().getSound(AssetsNames.ATTACK_COMBO_SOUND);
             }
             else if (Gdx.input.isButtonJustPressed(Input.Buttons.MIDDLE)) {
                 attack(attack3, HeroAnimator.State.PUNCH);
                 clearVelocityX();
+                SoundPlayer.getInstance().getSound(AssetsNames.ATTACK_KICK_SOUND);
             }
         }
     }
@@ -164,12 +169,14 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
                 canDoubleJump = true;
                 animator.setState(HeroAnimator.State.JUMP);
                 jumpDelay = JUMP_DELAY;
+                SoundPlayer.getInstance().getSound(AssetsNames.JUMP_SOUND);
             } else if (canDoubleJump && jumpDelay == 0) {
                 clearVelocityY();
                 applyImpulse(0, 8f);
                 canDoubleJump = false;
                 animator.setState(HeroAnimator.State.DOUBLE_JUMP);
                 jumpDelay = JUMP_DELAY;
+                SoundPlayer.getInstance().getSound(AssetsNames.JUMP_SOUND);
             }
         }
     }
