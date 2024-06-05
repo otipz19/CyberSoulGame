@@ -12,12 +12,19 @@ public class ColliderCreator {
      *  It is expected that coordinates of rectangle are x and y of bottom-left corner in world space
      */
     public static Collider create(Rectangle rectangle) {
-        float[] vertices =  {0, 0, rectangle.width, 0, rectangle.width, rectangle.height, 0, rectangle.height };
+        return create(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+    }
+
+    /**
+     *  It is expected that x and y are coordinates of bottom-left corner of rectangle in world space
+     */
+    public static Collider create(float x, float y, float width, float height) {
+        float[] vertices =  {0, 0, width, 0, width, height, 0, height };
 
         PolygonShape shape = new PolygonShape();
         shape.set(vertices);
 
-        return new Collider(rectangle.x, rectangle.y, shape);
+        return new Collider(x, y, shape);
     }
 
     /**

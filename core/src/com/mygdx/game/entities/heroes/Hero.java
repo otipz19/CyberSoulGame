@@ -48,7 +48,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
         this.width = width;
         this.height = height;
 
-        Collider collider = ColliderCreator.create(new Rectangle(x, y, width, height));
+        Collider collider = ColliderCreator.create(x, y, width, height);
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;

@@ -1,6 +1,5 @@
 package com.mygdx.game.entities.enemies;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -45,7 +44,7 @@ public class Enemy extends MortalEntity<ResourcesManager> {
         this.maxX = maxX;
         this.player = level.hero;
 
-        Collider collider = ColliderCreator.create(new Rectangle(x, y, width, height));
+        Collider collider = ColliderCreator.create(x, y, width, height);
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;

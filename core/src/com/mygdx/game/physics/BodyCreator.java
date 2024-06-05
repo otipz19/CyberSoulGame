@@ -1,9 +1,9 @@
 package com.mygdx.game.physics;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.entities.GameObject;
 import com.mygdx.game.physics.Collider;
 
 public class BodyCreator {
@@ -22,6 +22,24 @@ public class BodyCreator {
         body.createFixture(fixtureDef);
 
         collider.dispose();
+        return body;
+    }
+
+    public static Body createSensorBody(World world, Collider collider, GameObject userData){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(collider.getX(), collider.getY());
+        Body body = world.createBody(bodyDef);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = collider.getShape();
+        fixtureDef.isSensor = true;
+
+        Fixture fixture = body.createFixture(fixtureDef);
+        fixture.setUserData(userData);
+
+        collider.dispose();
+
         return body;
     }
 }

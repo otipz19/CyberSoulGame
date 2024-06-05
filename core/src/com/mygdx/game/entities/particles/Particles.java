@@ -7,40 +7,29 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.GameObject;
 import com.mygdx.game.levels.Level;
+import com.mygdx.game.physics.BodyCreator;
+import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.utils.DelayedAction;
 
 public abstract class Particles extends GameObject {
-    private final ParticleEffect particleEffect;
-    private boolean isComplete;
+    protected final ParticleEffect particleEffect;
+    protected boolean isComplete;
     protected Array<Runnable> onCompleteActions;
-    public Particles(Level level, float x, float y, float width, float height, ParticleEffect prototype) {
+
+    public Particles(Level level, float x, float y, float width, float height) {
         this.level = level;
+        this.body = BodyCreator.createSensorBody(level.world, ColliderCreator.create(x-width/2, y-width/2, width, height), this);
 
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(x, y);
-        body = level.world.createBody(bodyDef);
-
-        PolygonShape colliderShape = new PolygonShape();
-        colliderShape.setAsBox(width/2, height/2, new Vector2(0, 0), 0);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = colliderShape;
-        fixtureDef.isSensor = true;
-
-        Fixture fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(this);
-
-        colliderShape.dispose();
-
-        particleEffect = new ParticleEffect(prototype);
+        particleEffect = createParticleEffect();
         particleEffect.setPosition(x, y);
         particleEffect.start();
 
         onCompleteActions = new Array<>();
         onCompleteActions.add(() -> new DelayedAction(getDestructionDelay(), this::destruct));
     }
-    
+
+    public abstract ParticleEffect createParticleEffect();
+
     public void render(float deltaTime) {
         if (isComplete)
             return;

@@ -1,6 +1,7 @@
 package com.mygdx.game.entities.particles;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.ICollisionListener;
@@ -9,16 +10,33 @@ import com.mygdx.game.levels.Level;
 import com.mygdx.game.utils.AssetsNames;
 
 public class SoulParticles extends Particles implements ICollisionListener {
+    private final static ParticleEffectPool effectPool;
+    static {
+        ParticleEffect particleEffect = MyGdxGame.getInstance().assetManager.get(AssetsNames.SOUL_PARTICLES, ParticleEffect.class);
+        effectPool = new ParticleEffectPool(particleEffect, 1, 100);
+    }
 
     private int soulsAmount;
     public SoulParticles(Level level, float x, float y, int soulsAmount){
-        super(level, x, y, 0.5f, 0.5f, MyGdxGame.getInstance().assetManager.get(AssetsNames.SOUL_PARTICLES, ParticleEffect.class));
+        super(level, x, y, 0.5f, 0.5f);
         this.soulsAmount = soulsAmount;
+    }
+
+    @Override
+    public ParticleEffect createParticleEffect() {
+        return effectPool.obtain();
     }
 
     @Override
     public float getDestructionDelay() {
         return 0f;
+    }
+
+    @Override
+    protected void destruct() {
+        isComplete = true;
+        level.world.destroyBody(body);
+        ((ParticleEffectPool.PooledEffect)particleEffect).free();
     }
 
     @Override
