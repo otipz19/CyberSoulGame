@@ -39,14 +39,13 @@ public abstract class GateObstacle extends Entity implements ICollisionListener 
     private final Fixture mainFixture;
     private final Array<MortalEntity<ResourcesManager>> entitiesToDamage =  new Array<>();
 
-
     public GateObstacle(Level level, Collider collider, ObstacleData obstacleData, CoordinatesProjector projector) {
         this.level = level;
         this.body = new Surface(level, collider).getBody();
-        createDamageFixture();
-        mainFixture = body.getFixtureList().first();
-        setupSize(obstacleData, projector);
         animator = createAnimator();
+        setupSize(obstacleData, projector);
+        mainFixture = body.getFixtureList().first();
+        createDamageFixture();
     }
 
     protected abstract Animator createAnimator();
