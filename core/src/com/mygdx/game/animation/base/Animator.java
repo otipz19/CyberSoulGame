@@ -26,6 +26,7 @@ public abstract class Animator {
     private final Sprite flippingSprite = new Sprite();
 
     private boolean isAnimationResetBlocked;
+    private State fallbackState;
 
     public Animator() {
         this.animations = createAnimationsMap();
@@ -53,8 +54,16 @@ public abstract class Animator {
         }
     }
 
+    public void blockAnimationReset(State fallbackState) {
+        if (curAnimation.getPlayMode().equals(Animation.PlayMode.NORMAL)) {
+            isAnimationResetBlocked = true;
+            this.fallbackState = fallbackState;
+        }
+    }
+
     public void unblockAnimationReset() {
         isAnimationResetBlocked = false;
+        fallbackState = null;
     }
 
     public State getState() {
@@ -86,17 +95,26 @@ public abstract class Animator {
     public void animate(SpriteBatch batch, float x, float y, float width, float height, float deltaTime) {
         updateStateTime(deltaTime);
         animationChanged = false;
-        if (isAnimationResetBlocked && curAnimation.isAnimationFinished(stateTime)) {
-            unblockAnimationReset();
-        }
+        handleBlockedAnimation();
         batch.draw(getDirectedSprite(), x, y, width, height);
     }
+
 
     private void updateStateTime(float deltaTime) {
         if (animationChanged) {
             stateTime = 0;
         } else {
             stateTime += deltaTime;
+        }
+    }
+
+    private void handleBlockedAnimation() {
+        if (isAnimationResetBlocked && curAnimation.isAnimationFinished(stateTime)) {
+            isAnimationResetBlocked = false;
+            if(fallbackState != null) {
+                setState(fallbackState);
+                fallbackState = null;
+            }
         }
     }
 
