@@ -1,4 +1,4 @@
-package com.mygdx.game.animation;
+package com.mygdx.game.animation.concrete.portals;
 
 import com.mygdx.game.utils.AssetsNames;
 

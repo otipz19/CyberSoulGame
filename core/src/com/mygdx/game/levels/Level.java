@@ -19,6 +19,7 @@ import com.mygdx.game.camera.LevelCamera;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
+import com.mygdx.game.entities.obstacles.GateObstacle;
 import com.mygdx.game.entities.Surface;
 import com.mygdx.game.entities.portals.FirstPortal;
 import com.mygdx.game.entities.portals.Portal;
@@ -64,7 +65,7 @@ public abstract class Level implements Screen {
     private boolean isPaused;
 
     protected XMLLevelObjectsParser objectsParser;
-    protected final Array<EntryObstacle> obstacles = new Array<>();
+    protected final Array<GateObstacle> obstacles = new Array<>();
     protected final Array<Portal> portals = new Array<>();
 
     private final String tileMapName;
