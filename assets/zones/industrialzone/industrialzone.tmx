@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="128" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="100">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="128" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="102">
  <tileset firstgid="1" source="Tiles.tsx"/>
  <layer id="3" name="background" width="128" height="64">
   <data encoding="csv">
@@ -250,6 +250,11 @@
     </properties>
    </object>
    <object id="99" x="3520" y="1216" width="32" height="64">
+    <properties>
+     <property name="type" value="hammer"/>
+    </properties>
+   </object>
+   <object id="101" x="1632" y="160" width="32" height="64">
     <properties>
      <property name="type" value="hammer"/>
     </properties>

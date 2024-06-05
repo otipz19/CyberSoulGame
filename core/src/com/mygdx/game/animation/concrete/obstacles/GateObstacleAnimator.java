@@ -24,20 +24,22 @@ public abstract class GateObstacleAnimator extends Animator {
                 .build());
         animations.put(State.CLOSING, new AnimationBuilder(getClosingStateSheet())
                 .rows(1)
-                .cols(5)
-                .frameDuration(1 / 10f)
+                .cols(getCols())
+                .frameDuration(getFrameDuration())
                 .playMode(Animation.PlayMode.NORMAL)
                 .build());
         animations.put(State.OPENING, new AnimationBuilder(getOpeningStateSheet())
                 .rows(1)
-                .cols(5)
-                .frameDuration(1 / 10f)
+                .cols(getCols())
+                .frameDuration(getFrameDuration())
                 .playMode(Animation.PlayMode.NORMAL)
                 .build());
         animations.startAnimation = animations.get(State.CLOSED);
         return animations;
     }
 
+    protected abstract int getCols();
+    protected abstract float getFrameDuration();
     protected abstract String getClosedStateSheet();
     protected abstract String getClosingStateSheet();
     protected abstract String getOpeningStateSheet();

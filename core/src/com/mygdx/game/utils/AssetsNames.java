@@ -29,10 +29,9 @@ public class AssetsNames {
     public static final String ENTRY_OBSTACLE_OPENING = "obstacles/entry/opening.png";
     public static final String ENTRY_OBSTACLE_CLOSING = "obstacles/entry/closing.png";
     public static final String ENTRY_OBSTACLE_CLOSED = "obstacles/entry/closed.png";
-    //TODO: change to actual sheets
-    public static final String HAMMER_OBSTACLE_OPENING = "obstacles/hammer/Hammer.png";
-    public static final String HAMMER_OBSTACLE_CLOSING = "obstacles/hammer/Hammer.png";
-    public static final String HAMMER_OBSTACLE_CLOSED = "obstacles/hammer/Hammer.png";
+    public static final String HAMMER_OBSTACLE_OPENING = "obstacles/hammer/opening.png";
+    public static final String HAMMER_OBSTACLE_CLOSING = "obstacles/hammer/closing.png";
+    public static final String HAMMER_OBSTACLE_CLOSED = "obstacles/hammer/closed.png";
 
     public static final String UI_ATLAS = "ui/uiskin.atlas";
     public static final String UI_SKIN = "ui/uiskin.json";

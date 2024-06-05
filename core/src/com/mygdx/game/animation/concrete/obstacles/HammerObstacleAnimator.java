@@ -4,6 +4,16 @@ import com.mygdx.game.utils.AssetsNames;
 
 public class HammerObstacleAnimator extends GateObstacleAnimator {
     @Override
+    protected int getCols() {
+        return 6;
+    }
+
+    @Override
+    protected float getFrameDuration() {
+        return 1 / 12f;
+    }
+
+    @Override
     protected String getClosedStateSheet() {
         return AssetsNames.HAMMER_OBSTACLE_CLOSED;
     }
