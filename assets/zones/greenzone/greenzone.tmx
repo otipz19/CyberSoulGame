@@ -294,13 +294,7 @@
 </data>
  </layer>
  <group id="2" name="default">
-  <objectgroup id="102" name="obstacles">
-   <object id="56" x="256" y="448" width="64" height="96">
-    <properties>
-     <property name="type" value="entry"/>
-    </properties>
-   </object>
-  </objectgroup>
+  <objectgroup id="102" name="obstacles"/>
   <objectgroup id="100" name="portals">
    <object id="50" x="2784" y="128" width="96" height="96">
     <properties>

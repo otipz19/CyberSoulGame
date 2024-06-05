@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class ObstacleData {
     public enum Type {
         ENTRY,
+        HAMMER
     }
 
     private final Rectangle bounds;

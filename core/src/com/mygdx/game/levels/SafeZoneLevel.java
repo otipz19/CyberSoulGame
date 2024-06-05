@@ -24,14 +24,19 @@ public class SafeZoneLevel extends Level {
                 case FirstPortal firstPortal -> portal.enable();
                 case SecondPortal secondPortal when maxLevel >= 1 -> portal.enable();
                 case ThirdPortal thirdPortal when maxLevel >= 2 -> portal.enable();
-                default -> {}
+                default -> {
+                }
             }
+        }
+        //FOR DEBUG
+        for (Portal portal : portals) {
+            portal.enable();
         }
     }
 
     @Override
     protected ParallaxBackground createBackground() {
-        return new ParallaxBackground(camera, new String[] {
+        return new ParallaxBackground(camera, new String[]{
                 AssetsNames.GREENZONE_PARALLAX_1,
                 AssetsNames.GREENZONE_PARALLAX_2,
                 AssetsNames.GREENZONE_PARALLAX_3,
