@@ -5,6 +5,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -49,6 +51,19 @@ public class MyGdxGame extends Game {
     private void loadAssets() {
         assetManager = new AssetManager();
         assetManager.load(AssetsNames.UI_MENU_BACKGROUND, Texture.class);
+        Stream.of(AssetsNames.BG_MUSIC,
+                        AssetsNames.CREDIT_MUSIC,
+                        AssetsNames.BG_MUSIC2,
+                        AssetsNames.BG_MUSIC3)
+                .forEach(str -> assetManager.load(str, Music.class));
+        Stream.of(AssetsNames.JUMP_SOUND,
+                        AssetsNames.ATTACK_SOUND,
+                        AssetsNames.ATTACK_COMBO_SOUND,
+                        AssetsNames.ATTACK_KICK_SOUND,
+                        AssetsNames.TELEPORT_SOUND,
+                        AssetsNames.DRINKING_SOUND,
+                        AssetsNames.HERO_HURT_SOUND)
+                .forEach(str -> assetManager.load(str, Sound.class));
         assetManager.load(AssetsNames.GREENZONE_BACKGROUND_FULL, Texture.class);
         assetManager.load(AssetsNames.UI_ATLAS, TextureAtlas.class);
         assetManager.load(AssetsNames.UI_SKIN, Skin.class, new SkinLoader.SkinParameter(AssetsNames.UI_ATLAS));
