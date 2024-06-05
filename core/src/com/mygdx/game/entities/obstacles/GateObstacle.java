@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.animation.base.Animator;
 import com.mygdx.game.animation.concrete.obstacles.EntryObstacleAnimator;
+import com.mygdx.game.animation.concrete.obstacles.GateObstacleAnimator;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.ICollisionListener;
@@ -20,6 +21,8 @@ import com.mygdx.game.levels.Level;
 import com.mygdx.game.map.ObstacleData;
 import com.mygdx.game.physics.Collider;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public abstract class GateObstacle extends Entity implements ICollisionListener {
@@ -30,14 +33,21 @@ public abstract class GateObstacle extends Entity implements ICollisionListener 
         CLOSING,
     }
 
+    private static final Map<State, Animator.State> objectToAnimatorState = new HashMap<>() {{
+        put(State.OPENING, GateObstacleAnimator.State.OPENING);
+        put(State.CLOSING, GateObstacleAnimator.State.CLOSING);
+    }};
+
     private static final State[] STATES = {State.CLOSED, State.OPENING, State.OPENED, State.CLOSING};
     private int stateIndex;
+    private State state;
 
-    private static final float PERIOD = 0.75f;
+    private static final float STATIC_STATES_PERIOD = 1f;
+    private float period;
     private float elapsedTime;
 
     private final Fixture mainFixture;
-    private final Array<MortalEntity<ResourcesManager>> entitiesToDamage =  new Array<>();
+    private final Array<MortalEntity<ResourcesManager>> entitiesToDamage = new Array<>();
 
     public GateObstacle(Level level, Collider collider, ObstacleData obstacleData, CoordinatesProjector projector) {
         this.level = level;
@@ -75,13 +85,13 @@ public abstract class GateObstacle extends Entity implements ICollisionListener 
         animate(deltaTime);
     }
 
-    private void updateState(float deltaTime, Consumer<State> onStateChanged) {
+    private void updateState(float deltaTime, Runnable onStateChanged) {
         elapsedTime += deltaTime;
-        if (elapsedTime > PERIOD) {
+        if (elapsedTime > period) {
             elapsedTime = 0;
             stateIndex++;
-            State curState = getCurrentState();
-            onStateChanged.accept(curState);
+            state = getCurrentState();
+            onStateChanged.run();
         }
     }
 
@@ -89,33 +99,53 @@ public abstract class GateObstacle extends Entity implements ICollisionListener 
         return STATES[stateIndex % STATES.length];
     }
 
-    private void onStateChanged(State state) {
-        switch(state) {
+    private void onStateChanged() {
+        switch (state) {
             case CLOSED -> {
-                mainFixture.setSensor(false);
+                allowPass(false);
                 damageEntitiesInside();
+                setStaticPeriod();
             }
             case OPENING -> {
-                mainFixture.setSensor(true);
-                animator.setState(EntryObstacleAnimator.State.OPENING);
+                allowPass(false);
+                updateAnimation();
+                setAnimationPeriod();
             }
             case OPENED -> {
-                mainFixture.setSensor(true);
+                allowPass(true);
+                setStaticPeriod();
             }
             case CLOSING -> {
-                mainFixture.setSensor(false);
+                allowPass(false);
                 freezeEntitiesInside();
-                animator.setState(EntryObstacleAnimator.State.CLOSING);
+                updateAnimation();
+                setAnimationPeriod();
             }
         }
     }
 
+    private void allowPass(boolean allow) {
+        mainFixture.setSensor(allow);
+    }
+
+    private void setStaticPeriod() {
+        period = STATIC_STATES_PERIOD;
+    }
+
+    private void setAnimationPeriod() {
+        period = animator.getCurrentAnimationDuration();
+    }
+
     private void damageEntitiesInside() {
-        entitiesToDamage.forEach(e -> e.addResourcesEffect(new InstantDamageEffect(1000)));
+        entitiesToDamage.forEach(e -> e.addResourcesEffect(new InstantDamageEffect<>(1000)));
     }
 
     private void freezeEntitiesInside() {
         entitiesToDamage.forEach(e -> e.getBody().setType(BodyDef.BodyType.StaticBody));
+    }
+
+    private void updateAnimation() {
+        animator.setState(objectToAnimatorState.get(state));
     }
 
     @Override
@@ -125,8 +155,7 @@ public abstract class GateObstacle extends Entity implements ICollisionListener 
                 // can't replace with instanceof check for some reason
                 var entity = (MortalEntity<ResourcesManager>) other;
                 entitiesToDamage.add(entity);
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 //do nothing
             }
         }
@@ -139,8 +168,7 @@ public abstract class GateObstacle extends Entity implements ICollisionListener 
                 // can't replace with instanceof check for some reason
                 var entity = (MortalEntity<ResourcesManager>) other;
                 entitiesToDamage.removeValue(entity, true);
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 //do nothing
             }
         }

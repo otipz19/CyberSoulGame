@@ -10,7 +10,7 @@ public class HammerObstacleAnimator extends GateObstacleAnimator {
 
     @Override
     protected float getFrameDuration() {
-        return 1 / 12f;
+        return 1 / 18f;
     }
 
     @Override

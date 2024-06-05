@@ -11,7 +11,7 @@ public class EntryObstacleAnimator extends GateObstacleAnimator {
 
     @Override
     protected float getFrameDuration() {
-        return 1 / 10f;
+        return 1 / 16f;
     }
 
     @Override

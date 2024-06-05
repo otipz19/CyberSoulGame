@@ -35,10 +35,11 @@ public abstract class Animator {
     protected abstract AnimationsMap createAnimationsMap();
 
     public boolean isAnimationFinished() {
-        if(curAnimation != null) {
-            return curAnimation.isAnimationFinished(stateTime);
-        }
-        return false;
+        return curAnimation != null && curAnimation.isAnimationFinished(stateTime);
+    }
+
+    public float getCurrentAnimationDuration() {
+        return curAnimation.getAnimationDuration();
     }
 
     /**

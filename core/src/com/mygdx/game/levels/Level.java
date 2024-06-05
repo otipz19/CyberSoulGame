@@ -244,11 +244,11 @@ public abstract class Level implements Screen {
     protected void renderEntities(float delta) {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        renderEntities(delta, obstacles);
         renderEntities(delta, portals);
         renderEntities(delta, enemies);
         renderEntities(delta, particles);
         hero.render(delta);
+        renderEntities(delta, obstacles);
         game.batch.end();
     }
 
