@@ -1,18 +1,25 @@
 package com.mygdx.game.entities.obstacles;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.EntryObstacleAnimator;
-import com.mygdx.game.entities.*;
+import com.mygdx.game.camera.CoordinatesProjector;
+import com.mygdx.game.entities.Entity;
+import com.mygdx.game.entities.ICollisionListener;
+import com.mygdx.game.entities.MortalEntity;
+import com.mygdx.game.entities.Surface;
 import com.mygdx.game.entities.resources.InstantDamageEffect;
 import com.mygdx.game.entities.resources.ResourcesManager;
 import com.mygdx.game.entities.sensors.SensorPosition;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.map.ObstacleData;
 import com.mygdx.game.physics.Collider;
+
+import java.util.function.Consumer;
 
 public class EntryObstacle extends Entity implements ICollisionListener {
     private enum State {
@@ -28,19 +35,20 @@ public class EntryObstacle extends Entity implements ICollisionListener {
     private static final float PERIOD = 0.75f;
     private float elapsedTime;
 
-    private final Fixture fixture;
+    private final Fixture mainFixture;
     private final Array<MortalEntity<ResourcesManager>> entitiesToDamage =  new Array<>();
 
 
-    public EntryObstacle(Level level, Collider collider, ObstacleData obstacleData) {
+    public EntryObstacle(Level level, Collider collider, ObstacleData obstacleData, CoordinatesProjector projector) {
         this.level = level;
         this.body = new Surface(level, collider).getBody();
-
+        mainFixture = body.getFixtureList().first();
+        createDamageFixture();
+        setupSize(obstacleData, projector);
         animator = new EntryObstacleAnimator();
-        this.width = obstacleData.getBounds().width;
-        this.height = obstacleData.getBounds().height;
-        fixture = body.getFixtureList().first();
+    }
 
+    private void createDamageFixture() {
         Shape colliderShape = SensorPosition.SLIM_INSIDE.getColliderShape(width, height);
 
         FixtureDef fixtureDef = new FixtureDef();
@@ -53,27 +61,59 @@ public class EntryObstacle extends Entity implements ICollisionListener {
         colliderShape.dispose();
     }
 
+    private void setupSize(ObstacleData obstacleData, CoordinatesProjector projector) {
+        Vector2 worldSize = projector.toWorldSize(obstacleData.getBounds());
+        this.width = worldSize.x;
+        this.height = worldSize.y;
+    }
+
     @Override
     public void render(float deltaTime) {
+        updateState(deltaTime, this::onStateChanged);
+        animate(deltaTime);
+    }
+
+    private void updateState(float deltaTime, Consumer<State> onStateChanged) {
         elapsedTime += deltaTime;
         if (elapsedTime > PERIOD) {
             elapsedTime = 0;
             stateIndex++;
             State curState = getCurrentState();
-            fixture.setSensor(curState == State.OPENED);
-            if(curState == State.OPENING){
-                animator.setState(EntryObstacleAnimator.State.OPENING);
-                entitiesToDamage.forEach(e -> e.addResourcesEffect(new InstantDamageEffect(50)));
-            } else if(curState == State.CLOSING) {
-                animator.setState(EntryObstacleAnimator.State.CLOSING);
-                entitiesToDamage.forEach(e -> e.addResourcesEffect(new InstantDamageEffect(50)));
-            }
+            onStateChanged.accept(curState);
         }
-        animator.animate(MyGdxGame.getInstance().batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
     }
 
     private State getCurrentState() {
         return STATES[stateIndex % STATES.length];
+    }
+
+    private void onStateChanged(State state) {
+        switch(state) {
+            case CLOSED -> {
+                mainFixture.setSensor(false);
+                damageEntitiesInside();
+            }
+            case OPENING -> {
+                mainFixture.setSensor(true);
+                animator.setState(EntryObstacleAnimator.State.OPENING);
+            }
+            case OPENED -> {
+                mainFixture.setSensor(true);
+            }
+            case CLOSING -> {
+                mainFixture.setSensor(false);
+                freezeEntitiesInside();
+                animator.setState(EntryObstacleAnimator.State.CLOSING);
+            }
+        }
+    }
+
+    private void damageEntitiesInside() {
+        entitiesToDamage.forEach(e -> e.addResourcesEffect(new InstantDamageEffect(1000)));
+    }
+
+    private void freezeEntitiesInside() {
+        entitiesToDamage.forEach(e -> e.getBody().setType(BodyDef.BodyType.StaticBody));
     }
 
     @Override

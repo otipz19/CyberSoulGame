@@ -1,4 +1,4 @@
-package com.mygdx.game.entities.obstacles;
+package com.mygdx.game.entities;
 
 import com.mygdx.game.entities.GameObject;
 import com.mygdx.game.levels.Level;

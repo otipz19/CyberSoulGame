@@ -16,9 +16,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
+import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
-import com.mygdx.game.entities.obstacles.Surface;
+import com.mygdx.game.entities.Surface;
 import com.mygdx.game.entities.portals.FirstPortal;
 import com.mygdx.game.entities.portals.Portal;
 import com.mygdx.game.entities.portals.SecondPortal;
@@ -153,8 +154,7 @@ public abstract class Level implements Screen {
         objectsParser.getObstaclesData().forEach(obstacleData -> {
             if (obstacleData.getType().equals(ObstacleData.Type.ENTRY)) {
                 var collider = ColliderCreator.create(obstacleData.getBounds(), coordinatesProjector);
-                obstacles.add(new EntryObstacle(this, collider, obstacleData));
-                collider.dispose();
+                obstacles.add(new EntryObstacle(this, collider, obstacleData, coordinatesProjector));
             }
         });
         enemy = new Enemy(this, new EnemyData(), 6, 60f, 1, 1, 4, 9, hero);
@@ -210,14 +210,16 @@ public abstract class Level implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         enemy.render(delta);
-        for (var obstacle : obstacles) {
-            obstacle.render(delta);
-        }
-        for (var portal: portals) {
-            portal.render(delta);
-        }
+        renderEntities(delta, portals);
         hero.render(delta);
+        renderEntities(delta, obstacles);
         game.batch.end();
+    }
+
+    protected <T extends Entity> void renderEntities(float delta, Array<T> entities) {
+        for(T entity: entities) {
+            entity.render(delta);
+        }
     }
 
     protected void renderUI(float delta) {

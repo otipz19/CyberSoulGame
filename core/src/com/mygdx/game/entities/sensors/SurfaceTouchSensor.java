@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.GameObject;
 import com.mygdx.game.entities.ITriggerListener;
-import com.mygdx.game.entities.obstacles.Surface;
+import com.mygdx.game.entities.Surface;
 
 public class SurfaceTouchSensor extends GameObject implements ITriggerListener {
     private int surfaceTouchesNumber;
