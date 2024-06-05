@@ -4,12 +4,16 @@ import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.game.entities.heroes.HeroData;
 
 public class HeroResourcesManager extends ResourcesManager {
-
     private final float SHIELD_UNIT_RESTORE_TIME = 3f;
+    private final float ENERGY_UNIT_RESTORE_TIME = 0.1f;
     protected float shield;
     protected float maxShield;
     protected float shieldRestoreUnit;
     private float shieldRestoreTimer;
+    protected float energy;
+    protected float maxEnergy;
+    protected float energyRestoreUnit;
+    private float energyRestoreTimer;
     protected int souls;
 
     public HeroResourcesManager(HeroData heroData) {
@@ -17,6 +21,9 @@ public class HeroResourcesManager extends ResourcesManager {
         this.shield = heroData.maxShield;
         this.maxShield = heroData.maxShield;
         this.shieldRestoreUnit = heroData.shieldRestoreUnit;
+        this.energy = heroData.maxEnergy;
+        this.maxEnergy = heroData.maxEnergy;
+        this.energyRestoreUnit = heroData.energyRestorationUnit;
         this.souls = heroData.souls;
     }
 
@@ -36,10 +43,15 @@ public class HeroResourcesManager extends ResourcesManager {
 
     @Override
     public void update(float deltaTime){
-        shieldRestoreTimer -= deltaTime;
-        if (shieldRestoreTimer <= 0) {
+        shieldRestoreTimer = Math.max(shieldRestoreTimer - deltaTime, 0);
+        energyRestoreTimer = Math.max(energyRestoreTimer - deltaTime, 0);
+        if (shieldRestoreTimer == 0) {
             shield = Math.min(shield + shieldRestoreUnit, maxShield);
             shieldRestoreTimer = SHIELD_UNIT_RESTORE_TIME;
+        }
+        if (energyRestoreTimer == 0) {
+            energy = Math.min(energy + energyRestoreUnit, maxEnergy);
+            energyRestoreTimer = ENERGY_UNIT_RESTORE_TIME;
         }
         super.update(deltaTime);
     }
@@ -79,6 +91,51 @@ public class HeroResourcesManager extends ResourcesManager {
         this.shieldRestoreUnit = shieldRestoreUnit;
     }
 
+    public float getEnergyPercent() {
+        return energy/maxEnergy;
+    }
+
+    public float getEnergyValue() {
+        return energy;
+    }
+
+    public void increaseEnergy(float delta) {
+        if (delta < 0)
+            throw new RuntimeException("Delta can not be negative");
+        energy = Math.min(energy + delta, maxEnergy);
+    }
+
+    public boolean tryConsumeEnergy(float delta) {
+        if (delta < 0)
+            throw new RuntimeException("Delta can not be negative");
+        float newEnergy = energy - delta;
+        if (newEnergy < 0)
+            return false;
+        else {
+            energy = newEnergy;
+            return true;
+        }
+    }
+
+    public float getMaxEnergy() {
+        return maxEnergy;
+    }
+
+    public void setMaxEnergy(float maxEnergy) {
+        if (maxEnergy <= 0)
+            throw new RuntimeException("Max shield can not be 0 or less");
+        this.maxEnergy = maxEnergy;
+        energy = MathUtils.clamp(energy, 0, maxEnergy);
+    }
+
+    public float getEnergyRestoreUnit() {
+        return energyRestoreUnit;
+    }
+
+    public void setEnergyRestoreUnit(float energyRestoreUnit) {
+        this.energyRestoreUnit = energyRestoreUnit;
+    }
+
     public HeroData getHeroData(){
         HeroData heroData = new HeroData();
         heroData.health = health;
@@ -86,6 +143,8 @@ public class HeroResourcesManager extends ResourcesManager {
         heroData.souls = souls;
         heroData.maxShield = maxShield;
         heroData.shieldRestoreUnit = shieldRestoreUnit;
+        heroData.maxEnergy = maxEnergy;
+        heroData.energyRestorationUnit = energyRestoreUnit;
         return heroData;
     }
 }

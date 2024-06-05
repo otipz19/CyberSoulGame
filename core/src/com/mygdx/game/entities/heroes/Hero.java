@@ -120,11 +120,13 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     }
 
     private void attack(SideAttack attack, HeroAnimator.State animation) {
-        animator.setState(animation);
-        animator.blockAnimationReset();
-        attackDelay = attack.getAttackTime();
-        attack.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
-        attack.execute();
+        if (resourcesManager.tryConsumeEnergy(attack.getEnergyConsumption())) {
+            animator.setState(animation);
+            animator.blockAnimationReset();
+            attackDelay = attack.getAttackTime();
+            attack.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
+            attack.execute();
+        }
     }
 
     private void handleInteraction() {

@@ -32,6 +32,11 @@ public class HeroAttack2 extends SideAttack {
     }
 
     @Override
+    public float getEnergyConsumption() {
+        return 20f;
+    }
+
+    @Override
     public void onCollisionEnter(Entity other) {
         if (other instanceof Enemy enemy)
             enemy.addResourcesEffect(new InstantDamageEffect<>(20));

@@ -9,4 +9,7 @@ import com.mygdx.game.entities.ICollisionListener;
      float getAttackDelay();
      float getAttackWidth();
      float getAttackHeight();
+     default float getEnergyConsumption() {
+         return 0;
+     }
 }

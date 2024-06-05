@@ -234,7 +234,7 @@ public abstract class Level implements Screen {
 
     protected void renderUI(float delta) {
         HeroResourcesManager resourcesManager = hero.getResourcesManager();
-        ui.updateStatistics(resourcesManager.getHealthPercent(), resourcesManager.getShieldPercent(), 1, resourcesManager.getSouls());
+        ui.updateStatistics(resourcesManager.getHealthPercent(), resourcesManager.getShieldPercent(), resourcesManager.getEnergyPercent(), resourcesManager.getSouls());
         ui.act(delta);
         ui.draw();
     }
