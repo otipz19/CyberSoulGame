@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.*;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.utils.PlayerDataManager;
 
@@ -89,7 +90,9 @@ public class MainMenu implements Screen {
         settingsUI.addOnHideAction(() -> stage.addActor(menuButtons));
 
         creditsUI = new CreditsUI(stage);
-        creditsUI.addOnHideAction(() -> stage.addActor(menuButtons));
+        creditsUI.addOnHideAction(() -> { stage.addActor(menuButtons); SoundPlayer.getInstance().setBackgroundMusic(AssetsNames.MENU_MUSIC);});
+
+        SoundPlayer.getInstance().setBackgroundMusic(AssetsNames.MENU_MUSIC);
     }
 
     private TextButton getContinueButton(Skin skin) {
@@ -133,6 +136,7 @@ public class MainMenu implements Screen {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 menuButtons.remove();
+                SoundPlayer.getInstance().setBackgroundMusic(AssetsNames.CREDIT_MUSIC);
                 creditsUI.registerAsInputProcessor();
                 creditsUI.reset();
                 stage.addActor(creditsUI);

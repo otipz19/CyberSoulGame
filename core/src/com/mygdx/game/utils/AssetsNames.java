@@ -61,9 +61,10 @@ public class AssetsNames {
     public static final String POWERSTATION_PARALLAX_5 = "zones/powerstation/resources/2 Background/Day/5.png";
     public static final String SOUL_PARTICLES = "particles/soul.p";
 
-    public static final String BG_MUSIC = "music/BIB-Moonlight.ogg";
-    public static final String BG_MUSIC2 = "music/BG_MUSIC2.ogg";
-    public static final String BG_MUSIC3 = "music/BG_MUSIC3.ogg";
+    public static final String MENU_MUSIC = "music/BG_MUSIC3.ogg";
+    public static final String GREENZONE_BG_MUSIC = "music/BG_MUSIC3.ogg";
+    public static final String POWERSTATION_BG_MUSIC = "music/BG_MUSIC2.ogg";
+    public static final String INDUSTRIALZONE_BG_MUSIC = "music/BIB-Moonlight.ogg";
     public static final String CREDIT_MUSIC = "music/credits.ogg";
 
     public static final String JUMP_SOUND = "music/jump.ogg";
@@ -72,5 +73,6 @@ public class AssetsNames {
     public static final String ATTACK_KICK_SOUND = "music/kick-attack.ogg";
     public static final String TELEPORT_SOUND = "music/teleport.ogg";
     public static final String DRINKING_SOUND = "music/drinking-sound.ogg";
+    public static final String DASH_SOUND = "music/hero-dash.ogg";
     public static final String HERO_HURT_SOUND = "music/male_hurt.ogg";
 }

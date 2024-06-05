@@ -45,11 +45,11 @@ public class CreditsUI extends UILayer {
             
             
             Sound design
-            ???
+            Stanislav Kylakevych
             
             
             Effects
-            ???
+            Mykola Prybysh
             
             
             Special thanks

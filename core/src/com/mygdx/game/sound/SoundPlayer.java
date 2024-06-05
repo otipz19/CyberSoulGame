@@ -1,63 +1,113 @@
 package com.mygdx.game.sound;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.mygdx.game.utils.AssetsNames;
+import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.utils.PlayerPreferencesManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SoundPlayer extends ApplicationAdapter {
+public class SoundPlayer {
     private static SoundPlayer instance;
     public static SoundPlayer getInstance(){
         if (instance == null)
             instance = new SoundPlayer();
         return instance;
     }
-    private Map<String, Sound> sounds = new HashMap<>();
-    private Map<String, Music> musics = new HashMap<>();
+    private Music music;
+    private final Map<Sound, Array<Long>> soundIDs;
 
-    @Override
-    public void create() {
+    private boolean isMusicPaused;
+    private boolean isSoundsPaused;
 
+    private SoundPlayer() {
+        soundIDs = new HashMap<>();
     }
 
-    @Override
-    public void render() {
-        for(Music music: instance.musics.values()){
-            music.setVolume(PlayerPreferencesManager.getInstance().getMusicVolume());
+    public void update() {
+        music.setVolume(PlayerPreferencesManager.getInstance().getMusicVolume());
+        for (Sound sound : soundIDs.keySet()) {
+            for (long id : soundIDs.get(sound))
+                sound.setVolume(id, PlayerPreferencesManager.getInstance().getSoundVolume());
         }
     }
-    @Override
-    public void dispose() {
-        for(Sound sound: sounds.values()){
-            sound.dispose();
-        }
-        for(Music music: musics.values()){
-            music.dispose();
-        }
-        musics.clear();
-        sounds.clear();
+
+    public void setBackgroundMusic(String musicName) {
+        clearBackgroundMusic();
+        music = MyGdxGame.getInstance().assetManager.get(musicName, Music.class);
+        music.setVolume(PlayerPreferencesManager.getInstance().getMusicVolume());
+        music.setLooping(true);
+        music.play();
+        if (isMusicPaused)
+            music.pause();
     }
-    public Music getMusic(String fileName) {
-        return musics.computeIfAbsent(fileName, fn-> Gdx.audio.newMusic(Gdx.files.internal(fn)));
-    }
-    public Sound getSound(String fileName) {
-        if (sounds.containsKey(fileName)) {
-            long id = sounds.get(fileName).play();
-            sounds.get(fileName).setVolume(id,PlayerPreferencesManager.getInstance().getSoundVolume());
-            return sounds.get(fileName);
+
+    public void clearBackgroundMusic() {
+        if (music != null) {
+            music.stop();
+            music = null;
         }
-        Sound sound = Gdx.audio.newSound(Gdx.files.internal(fileName));
+    }
+
+    public void playSound(String soundName) {
+        Sound sound = MyGdxGame.getInstance().assetManager.get(soundName, Sound.class);
         long id = sound.play();
-        sound.setVolume(id,PlayerPreferencesManager.getInstance().getSoundVolume());
-        sounds.put(fileName, sound);
-        return sound;
+        sound.setVolume(id, PlayerPreferencesManager.getInstance().getSoundVolume());
+        soundIDs.compute(sound, (s, ids) -> {
+                if (ids == null)
+                    ids = new Array<>();
+                ids.add(id);
+                return ids;
+            });
+        if (isSoundsPaused)
+            sound.pause();
+    }
+
+    public void clearSounds() {
+        for (Sound sound : soundIDs.keySet()) {
+            sound.stop();
+        }
+    }
+
+    public void clearAll() {
+        clearBackgroundMusic();
+        clearSounds();
+    }
+
+    public void pauseAll() {
+        pauseBackgroundMusic();
+        pauseSounds();
+    }
+
+    public void pauseBackgroundMusic() {
+        music.pause();
+        isMusicPaused = true;
+    }
+
+    public void pauseSounds() {
+        for (Sound sound : soundIDs.keySet()) {
+            sound.pause();
+        }
+        isSoundsPaused = true;
+    }
+
+    public void unpauseAll() {
+        unpauseBackgroundMusic();
+        unpauseSounds();
+    }
+
+    public void unpauseBackgroundMusic() {
+        music.play();
+        isMusicPaused = false;
+    }
+
+    public void unpauseSounds() {
+        for (Sound sound : soundIDs.keySet()) {
+            sound.resume();
+        }
+        isSoundsPaused = false;
     }
 }
   

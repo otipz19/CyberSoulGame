@@ -7,6 +7,7 @@ import com.mygdx.game.entities.portals.Portal;
 import com.mygdx.game.entities.portals.SecondPortal;
 import com.mygdx.game.entities.portals.ThirdPortal;
 import com.mygdx.game.parallax.ParallaxBackground;
+import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.utils.PlayerDataManager;
 
@@ -46,5 +47,13 @@ public class SafeZoneLevel extends Level {
                 .filter(spawn -> spawn.getFromLevel().equals(PlayerDataManager.getInstance().getPreviousLevel()))
                 .findFirst().orElseThrow().getBounds();
         return new Vector2(bounds.x, bounds.y + bounds.height);
+    }
+
+    @Override
+    protected void createMusicSound() {
+        super.createMusicSound();
+        soundPlayer.setBackgroundMusic(AssetsNames.GREENZONE_BG_MUSIC);
+        if (PlayerDataManager.getInstance().getMaxLevel().ordinal() != 0)
+            soundPlayer.playSound(AssetsNames.TELEPORT_SOUND);
     }
 }

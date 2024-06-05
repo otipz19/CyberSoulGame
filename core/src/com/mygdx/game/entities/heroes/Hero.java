@@ -108,25 +108,23 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     private void handleAttack() {
         if (groundTouchListener.isOnSurface()) {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-                attack(attack1, HeroAnimator.State.ATTACK_1);
+                attack(attack1, AssetsNames.ATTACK_SOUND, HeroAnimator.State.ATTACK_1);
                 clearVelocityX();
-                SoundPlayer.getInstance().getSound(AssetsNames.ATTACK_SOUND);
             } else if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
-                attack(attack2, HeroAnimator.State.ATTACK_2);
+                attack(attack2, AssetsNames.ATTACK_COMBO_SOUND, HeroAnimator.State.ATTACK_2);
                 clearVelocityX();
-                SoundPlayer.getInstance().getSound(AssetsNames.ATTACK_COMBO_SOUND);
             }
             else if (Gdx.input.isButtonJustPressed(Input.Buttons.MIDDLE)) {
-                attack(attack3, HeroAnimator.State.PUNCH);
+                attack(attack3, AssetsNames.ATTACK_KICK_SOUND, HeroAnimator.State.PUNCH);
                 clearVelocityX();
-                SoundPlayer.getInstance().getSound(AssetsNames.ATTACK_KICK_SOUND);
             }
         }
     }
 
-    private void attack(SideAttack attack, HeroAnimator.State animation) {
+    private void attack(SideAttack attack, String soundName, HeroAnimator.State animation) {
         if (resourcesManager.tryConsumeEnergy(attack.getEnergyConsumption())) {
             animator.setState(animation);
+            new DelayedAction(attack.getAttackDelay(), () -> SoundPlayer.getInstance().playSound(soundName));
             animator.blockAnimationReset();
             attackDelay = attack.getAttackTime();
             attack.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
@@ -169,14 +167,14 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
                 canDoubleJump = true;
                 animator.setState(HeroAnimator.State.JUMP);
                 jumpDelay = JUMP_DELAY;
-                SoundPlayer.getInstance().getSound(AssetsNames.JUMP_SOUND);
+                SoundPlayer.getInstance().playSound(AssetsNames.JUMP_SOUND);
             } else if (canDoubleJump && jumpDelay == 0) {
                 clearVelocityY();
                 applyImpulse(0, 8f);
                 canDoubleJump = false;
                 animator.setState(HeroAnimator.State.DOUBLE_JUMP);
                 jumpDelay = JUMP_DELAY;
-                SoundPlayer.getInstance().getSound(AssetsNames.JUMP_SOUND);
+                SoundPlayer.getInstance().playSound(AssetsNames.JUMP_SOUND);
             }
         }
     }
@@ -210,7 +208,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
                 body.setLinearVelocity(MAX_VELOCITY, body.getLinearVelocity().y);
                 applyImpulse(4f, 0);
             }
-            attack(attack4, HeroAnimator.State.RUN_ATTACK);
+            attack(attack4, AssetsNames.DASH_SOUND, HeroAnimator.State.RUN_ATTACK);
             dashCooldown = DASH_COOLDOWN_TIME;
         }
     }
@@ -258,6 +256,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     protected void onNonKillingHealthLoss() {
         animator.setState(HeroAnimator.State.HURT);
         animator.blockAnimationReset();
+        SoundPlayer.getInstance().playSound(AssetsNames.HERO_HURT_SOUND);
         healthLossCount++;
         new DelayedAction(0.3f, () -> { healthLossCount--; animator.setState(HeroAnimator.State.IDLE);});
     }
@@ -271,6 +270,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     public void onDeath() {
         animator.setState(HeroAnimator.State.DEATH);
         animator.blockAnimationReset();
+        SoundPlayer.getInstance().playSound(AssetsNames.HERO_HURT_SOUND);
         healthLossCount = Integer.MAX_VALUE;
         new DelayedAction(getDeathDelay(), MyGdxGame.getInstance()::levelFailed);
     }

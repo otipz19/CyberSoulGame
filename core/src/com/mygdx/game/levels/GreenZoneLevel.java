@@ -1,7 +1,7 @@
 package com.mygdx.game.levels;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.parallax.ParallaxBackground;
+import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.utils.AssetsNames;
 
 public class GreenZoneLevel extends DangerousLevel {
@@ -18,5 +18,12 @@ public class GreenZoneLevel extends DangerousLevel {
                 AssetsNames.GREENZONE_PARALLAX_4,
                 AssetsNames.GREENZONE_PARALLAX_5
         }, levelHeight);
+    }
+
+    @Override
+    protected void createMusicSound() {
+        super.createMusicSound();
+        soundPlayer.setBackgroundMusic(AssetsNames.GREENZONE_BG_MUSIC);
+        soundPlayer.playSound(AssetsNames.TELEPORT_SOUND);
     }
 }

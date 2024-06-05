@@ -51,10 +51,10 @@ public class MyGdxGame extends Game {
     private void loadAssets() {
         assetManager = new AssetManager();
         assetManager.load(AssetsNames.UI_MENU_BACKGROUND, Texture.class);
-        Stream.of(AssetsNames.BG_MUSIC,
+        Stream.of(AssetsNames.GREENZONE_BG_MUSIC,
                         AssetsNames.CREDIT_MUSIC,
-                        AssetsNames.BG_MUSIC2,
-                        AssetsNames.BG_MUSIC3)
+                        AssetsNames.POWERSTATION_BG_MUSIC,
+                        AssetsNames.INDUSTRIALZONE_BG_MUSIC)
                 .forEach(str -> assetManager.load(str, Music.class));
         Stream.of(AssetsNames.JUMP_SOUND,
                         AssetsNames.ATTACK_SOUND,
@@ -62,6 +62,7 @@ public class MyGdxGame extends Game {
                         AssetsNames.ATTACK_KICK_SOUND,
                         AssetsNames.TELEPORT_SOUND,
                         AssetsNames.DRINKING_SOUND,
+                        AssetsNames.DASH_SOUND,
                         AssetsNames.HERO_HURT_SOUND)
                 .forEach(str -> assetManager.load(str, Sound.class));
         assetManager.load(AssetsNames.GREENZONE_BACKGROUND_FULL, Texture.class);

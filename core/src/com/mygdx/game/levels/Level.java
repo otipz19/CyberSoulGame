@@ -20,7 +20,6 @@ import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
 import com.mygdx.game.entities.obstacles.Surface;
 import com.mygdx.game.entities.particles.Particles;
-import com.mygdx.game.entities.particles.SoulParticles;
 import com.mygdx.game.entities.portals.FirstPortal;
 import com.mygdx.game.entities.portals.Portal;
 import com.mygdx.game.entities.portals.SecondPortal;
@@ -48,13 +47,11 @@ public abstract class Level implements Screen {
 
     public World world;
     private ParallaxBackground parallaxBackground;
-    public SoundPlayer sound;
     protected float accumulator;
     protected static final float TIME_STEP = 1 / 60f;
     protected static final int VELOCITY_ITERATIONS = 6;
     protected static final int POSITION_ITERATIONS = 2;
     protected Box2DDebugRenderer box2dRenderer;
-
 
     private final String tileMapName;
     protected TiledMap map;
@@ -71,6 +68,7 @@ public abstract class Level implements Screen {
     protected final Array<Portal> portals = new Array<>();
 
     public LevelUI ui;
+    public SoundPlayer soundPlayer;
     private boolean isPaused;
 
     public boolean isPaused(){
@@ -79,10 +77,14 @@ public abstract class Level implements Screen {
 
     public void setPaused(boolean value){
         isPaused = value;
+        if (isPaused)
+            soundPlayer.pauseSounds();
+        else
+            soundPlayer.unpauseSounds();
     }
 
     public void togglePause(){
-        isPaused = !isPaused;
+        setPaused(!isPaused);
     }
 
     public Level(String tileMapName) {
@@ -92,9 +94,9 @@ public abstract class Level implements Screen {
         createMap();
         createCamera();
         createHero();
-        createMusicSound();
         createEntities();
         parallaxBackground = createBackground();
+        createMusicSound();
         createUI();
         box2dRenderer = new Box2DDebugRenderer(true, true, true, true, true, true);
     }
@@ -102,11 +104,7 @@ public abstract class Level implements Screen {
     protected void initResources() {
         objectsParser = new XMLLevelObjectsParser(tileMapName);
     }
-    protected void createMusicSound() {
-        sound = new SoundPlayer();
-        sound.create();
-        SoundPlayer.getInstance().getMusic(AssetsNames.BG_MUSIC).play();
-    }
+
     protected void createMap() {
         world = new World(new Vector2(0, -10), true);
         world.setContactListener(new ContactListener());
@@ -185,6 +183,10 @@ public abstract class Level implements Screen {
 
     protected abstract ParallaxBackground createBackground();
 
+    protected void createMusicSound() {
+        soundPlayer = SoundPlayer.getInstance();
+    }
+
     protected void createUI() {
         ui = new LevelUI(this);
     }
@@ -196,9 +198,9 @@ public abstract class Level implements Screen {
         updateCamera(delta);
         renderBackground(delta);
         renderMap(delta);
-        renderMusicSound();
         renderEntities(delta);
         box2dRenderer.render(world, camera.combined);
+        updateMusicSound();
         renderUI(delta);
         doPhysicsStep(delta);
     }
@@ -215,9 +217,7 @@ public abstract class Level implements Screen {
         parallaxBackground.render();
         game.batch.end();
     }
-    protected void renderMusicSound() {
-        sound.render();
-    }
+
     protected void renderMap(float delta) {
         mapRenderer.setView(camera);
         mapRenderer.render();
@@ -240,6 +240,10 @@ public abstract class Level implements Screen {
         }
         hero.render(delta);
         game.batch.end();
+    }
+
+    protected void updateMusicSound() {
+        soundPlayer.update();
     }
 
     protected void renderUI(float delta) {
@@ -275,7 +279,7 @@ public abstract class Level implements Screen {
         world.dispose();
         hero.dispose();
         ui.dispose();
-        sound.dispose();
+        soundPlayer.clearAll();
         mapRenderer.dispose();
         box2dRenderer.dispose();
     }
