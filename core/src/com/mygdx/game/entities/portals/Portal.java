@@ -49,7 +49,7 @@ public abstract class Portal extends InteractableEntity {
         if (isEnabled && interactionCause instanceof Hero hero) {
             if (!hasActivated) {
                 animator.setState(PortalAnimator.State.ACTIVATING);
-                animator.blockAnimationReset();
+//                animator.blockAnimationReset();
             } else {
                 PlayerDataManager.getInstance().setHeroData(hero.getData());
                 MyGdxGame.getInstance().goToNewLevel(portalData.getDestination());

@@ -19,6 +19,10 @@ public class AnimationBuilder {
     private float frameDuration = DEFAULT_FRAME_DURATION;
     private Animation.PlayMode playMode = Animation.PlayMode.NORMAL;
 
+    private boolean isBlocked;
+    private Animator.State fallbackState;
+    private int priority;
+
     public AnimationBuilder(String assetName){
         this.assetName = assetName;
     }
@@ -57,7 +61,57 @@ public class AnimationBuilder {
         return this;
     }
 
-    public Animation<TextureRegion> build(){
+    public AnimationBuilder blocked(Animator.State fallbackState){
+        this.fallbackState = fallbackState;
+        return blocked();
+    }
+
+    public AnimationBuilder blocked() {
+        this.isBlocked = true;
+        return this;
+    }
+
+    /**
+     * priority = 1000
+     */
+    public AnimationBuilder veryHighPriority() {
+        return priority(1000);
+    }
+
+    /**
+     * priority = 100
+     */
+    public AnimationBuilder highPriority() {
+        return priority(100);
+    }
+
+    /**
+     * priority = 0
+     */
+    public AnimationBuilder normalPriority() {
+        return priority(0);
+    }
+
+    /**
+     * priority = -100
+     */
+    public AnimationBuilder lowPriority() {
+        return priority(1000);
+    }
+
+    /**
+     * priority = -1000
+     */
+    public AnimationBuilder veryLowPriority() {
+        return priority(1000);
+    }
+
+    public AnimationBuilder priority(int value) {
+        this.priority = value;
+        return this;
+    }
+
+    public MyAnimation build(){
         if(spriteSheet == null){
             spriteSheet = MyGdxGame.getInstance().assetManager.get(assetName);
         }
@@ -70,13 +124,13 @@ public class AnimationBuilder {
         return createAnimation(spriteSheet, rows, cols, frameDuration, playMode);
     }
 
-    private Animation<TextureRegion> createAnimation(Texture spriteSheet,
+    private MyAnimation createAnimation(Texture spriteSheet,
                                                        int rows,
                                                        int cols,
                                                        float frameDuration,
                                                        Animation.PlayMode playMode) {
         TextureRegion[] frames = splitSheetIntoFrames(spriteSheet, rows, cols);
-        Animation<TextureRegion> animation = new Animation<>(frameDuration, frames);
+        var animation = new MyAnimation(frameDuration, priority, isBlocked, fallbackState, frames);
         animation.setPlayMode(playMode);
         return animation;
     }

@@ -16,6 +16,7 @@ public class EnemyAnimator extends Animator {
         HURT,
         WALK
     }
+
     protected AnimationsMap createAnimationsMap() {
         AnimationsMap animations = new AnimationsMap();
         animations.put(State.IDLE, new AnimationBuilder(AssetsNames.MONSTER_IDLE_SHEET)
@@ -28,26 +29,33 @@ public class EnemyAnimator extends Animator {
                 .cols(6)
                 .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
+                .blocked(State.WALK)
                 .build());
         animations.put(State.ATTACK_2, new AnimationBuilder(AssetsNames.MONSTER_ATTACK2_SHEET)
                 .cols(6)
                 .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
+                .blocked(State.WALK)
                 .build());
         animations.put(State.ATTACK_3, new AnimationBuilder(AssetsNames.MONSTER_ATTACK3_SHEET)
                 .cols(5)
                 .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
+                .blocked(State.WALK)
                 .build());
         animations.put(State.HURT, new AnimationBuilder(AssetsNames.MONSTER_HURT_SHEET)
-                .cols(3)
+                .cols(2)
                 .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
+                .blocked(State.WALK)
+                .highPriority()
                 .build());
         animations.put(State.DEATH, new AnimationBuilder(AssetsNames.MONSTER_DEATH_SHEET)
                 .cols(6)
                 .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
+                .blocked()
+                .veryHighPriority()
                 .build());
         animations.put(State.WALK, new AnimationBuilder(AssetsNames.MONSTER_WALK_SHEET)
                 .cols(6)

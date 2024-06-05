@@ -24,17 +24,21 @@ public abstract class PortalAnimator extends Animator {
                 .cols(getCols())
                 .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
+                .blocked()
                 .build());
         map.put(State.INACTIVATING, new AnimationBuilder(getActivatingSheetName())
                 .cols(getCols())
                 .rows(1)
                 .playMode(Animation.PlayMode.REVERSED)
+                .blocked()
                 .build());
         map.setStartState(State.INACTIVE);
         return map;
     }
 
     protected abstract int getCols();
+
     protected abstract String getInactiveSheetName();
+
     protected abstract String getActivatingSheetName();
 }

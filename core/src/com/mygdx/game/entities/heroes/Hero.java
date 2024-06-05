@@ -125,7 +125,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
         if (resourcesManager.tryConsumeEnergy(attack.getEnergyConsumption())) {
             animator.setState(animation);
             new DelayedAction(attack.getAttackDelay(), () -> SoundPlayer.getInstance().playSound(soundName));
-            animator.blockAnimationReset();
+//            animator.blockAnimationReset();
             attackDelay = attack.getAttackTime();
             attack.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
             attack.execute();
@@ -255,7 +255,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     @Override
     protected void onNonKillingHealthLoss() {
         animator.setState(HeroAnimator.State.HURT);
-        animator.blockAnimationReset();
+//        animator.blockAnimationReset();
         SoundPlayer.getInstance().playSound(AssetsNames.HERO_HURT_SOUND);
         healthLossCount++;
         new DelayedAction(0.3f, () -> { healthLossCount--; animator.setState(HeroAnimator.State.IDLE);});
@@ -269,7 +269,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     @Override
     public void onDeath() {
         animator.setState(HeroAnimator.State.DEATH);
-        animator.blockAnimationReset();
+//        animator.blockAnimationReset();
         SoundPlayer.getInstance().playSound(AssetsNames.HERO_HURT_SOUND);
         healthLossCount = Integer.MAX_VALUE;
         new DelayedAction(getDeathDelay(), MyGdxGame.getInstance()::levelFailed);

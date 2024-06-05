@@ -137,7 +137,7 @@ public class Enemy extends MortalEntity<ResourcesManager> {
     @Override
     protected void onNonKillingHealthLoss() {
         animator.setState(EnemyAnimator.State.HURT);
-        animator.blockAnimationReset();
+//        animator.blockAnimationReset();
         healthLossCount++;
         clearVelocityX();
         new DelayedAction(0.4f, () -> { healthLossCount--; animator.setState(EnemyAnimator.State.WALK); });
@@ -156,7 +156,7 @@ public class Enemy extends MortalEntity<ResourcesManager> {
     @Override
     protected void onDeath() {
         animator.setState(EnemyAnimator.State.DEATH);
-        animator.blockAnimationReset();
+//        animator.blockAnimationReset();
         healthLossCount = Integer.MAX_VALUE;
         clearVelocityX();
         new DelayedAction(getDeathDelay(), () ->
