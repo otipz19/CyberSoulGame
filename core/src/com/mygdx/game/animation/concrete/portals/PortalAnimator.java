@@ -1,6 +1,9 @@
-package com.mygdx.game.animation;
+package com.mygdx.game.animation.concrete.portals;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.mygdx.game.animation.base.AnimationBuilder;
+import com.mygdx.game.animation.base.AnimationsMap;
+import com.mygdx.game.animation.base.Animator;
 
 public abstract class PortalAnimator extends Animator {
     public enum State implements Animator.State {

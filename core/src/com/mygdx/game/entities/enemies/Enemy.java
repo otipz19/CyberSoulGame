@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.Animator;
 import com.mygdx.game.animation.EnemyAnimator;
+import com.mygdx.game.animation.concrete.EnemyAnimator;
 import com.mygdx.game.entities.MortalEntity;
 import com.mygdx.game.entities.attacks.EnemyAttack;
 import com.mygdx.game.entities.heroes.Hero;

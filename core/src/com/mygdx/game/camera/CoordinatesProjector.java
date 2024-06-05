@@ -51,10 +51,15 @@ public class CoordinatesProjector {
     }
 
     public Vector2 toWorldSize(float width, float height) {
-        return new Vector2(width * unitScale, height * unitScale);
+        return new Vector2(toWorldSize(width), toWorldSize(height));
     }
 
     public Vector2 toWorldSize(Rectangle rectangle) {
         return toWorldSize(rectangle.width, rectangle.height);
     }
+
+    public float toWorldSize(float screenValue) {
+        return screenValue * unitScale;
+    }
+
 }

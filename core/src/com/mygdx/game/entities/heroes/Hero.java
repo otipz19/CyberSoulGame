@@ -10,6 +10,8 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.Animator;
 import com.mygdx.game.animation.EnemyAnimator;
 import com.mygdx.game.animation.HeroAnimator;
+import com.mygdx.game.animation.base.Animator;
+import com.mygdx.game.animation.concrete.HeroAnimator;
 import com.mygdx.game.entities.*;
 import com.mygdx.game.entities.attacks.*;
 import com.mygdx.game.entities.sensors.InteractionSensor;

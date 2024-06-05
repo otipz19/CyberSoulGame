@@ -2,7 +2,7 @@ package com.mygdx.game.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.animation.Animator;
+import com.mygdx.game.animation.base.Animator;
 
 public abstract class Entity extends GameObject {
     protected Animator animator;

@@ -1,6 +1,5 @@
 package com.mygdx.game.levels;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.parallax.ParallaxBackground;
 import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.utils.AssetsNames;

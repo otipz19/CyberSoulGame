@@ -1,6 +1,9 @@
-package com.mygdx.game.animation;
+package com.mygdx.game.animation.concrete;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.mygdx.game.animation.base.AnimationBuilder;
+import com.mygdx.game.animation.base.AnimationsMap;
+import com.mygdx.game.animation.base.Animator;
 import com.mygdx.game.utils.AssetsNames;
 
 public class HeroAnimator extends Animator {

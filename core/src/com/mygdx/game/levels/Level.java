@@ -16,10 +16,14 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
+import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
 import com.mygdx.game.entities.obstacles.Surface;
 import com.mygdx.game.entities.particles.Particles;
+import com.mygdx.game.entities.obstacles.GateObstacle;
+import com.mygdx.game.entities.Surface;
+import com.mygdx.game.entities.obstacles.HammerObstacle;
 import com.mygdx.game.entities.portals.FirstPortal;
 import com.mygdx.game.entities.portals.Portal;
 import com.mygdx.game.entities.portals.SecondPortal;
@@ -157,12 +161,20 @@ public abstract class Level implements Screen {
     }
 
     protected void createEntities() {
+        createObstacles();
+        createEnemies();
+        createPortals();
+    }
+
+    private void createObstacles() {
         objectsParser.getObstaclesData().forEach(obstacleData -> {
-            if (obstacleData.getType().equals(ObstacleData.Type.ENTRY)) {
-                var collider = ColliderCreator.create(obstacleData.getBounds(), coordinatesProjector);
-                obstacles.add(new EntryObstacle(this, collider, obstacleData));
-                collider.dispose();
-            }
+            var collider = ColliderCreator.create(obstacleData.getBounds(), coordinatesProjector);
+            GateObstacle obstacle = switch (obstacleData.getType()) {
+                case ENTRY -> new EntryObstacle(this, collider, obstacleData, coordinatesProjector);
+                case HAMMER -> new HammerObstacle(this, collider, obstacleData, coordinatesProjector);
+                default -> throw new RuntimeException("Not supported obstacle type!");
+            };
+            obstacles.add(obstacle);
         });
 
         // Should be changed
@@ -170,12 +182,20 @@ public abstract class Level implements Screen {
         enemies.add(enemy);
         enemy.addOnDeathAction(() -> new DelayedAction(enemy.getDeathDelay(), () -> enemies.removeValue(enemy, true)));
 
+    }
+
+    private void createEnemies() {
+        enemy = new Enemy(this, new EnemyData(), 6, 60f, 1, 1, 4, 9, hero);
+    }
+
+    private void createPortals() {
         objectsParser.getPortalsData().forEach(portalData -> {
             Portal portal;
             switch (portalData.getType()) {
                 case FIRST -> portal = new FirstPortal(this, portalData, coordinatesProjector);
                 case SECOND -> portal = new SecondPortal(this, portalData, coordinatesProjector);
-                default -> portal = new ThirdPortal(this, portalData, coordinatesProjector);
+                case THIRD -> portal = new ThirdPortal(this, portalData, coordinatesProjector);
+                default -> throw new RuntimeException("Not supported portal type!");
             }
             portals.add(portal);
         });
@@ -240,6 +260,12 @@ public abstract class Level implements Screen {
         }
         hero.render(delta);
         game.batch.end();
+    }
+
+    protected <T extends Entity> void renderEntities(float delta, Array<T> entities) {
+        for (T entity : entities) {
+            entity.render(delta);
+        }
     }
 
     protected void updateMusicSound() {
