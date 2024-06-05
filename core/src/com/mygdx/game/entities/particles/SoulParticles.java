@@ -7,6 +7,7 @@ import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.ICollisionListener;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.levels.Level;
+import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.utils.AssetsNames;
 
 public class SoulParticles extends Particles implements ICollisionListener {
@@ -44,6 +45,7 @@ public class SoulParticles extends Particles implements ICollisionListener {
         if (other instanceof Hero hero) {
             hero.getResourcesManager().changeSouls(soulsAmount);
             complete();
+            SoundPlayer.getInstance().playSound(AssetsNames.PICKING_SOUL_SOUND);
         }
     }
 

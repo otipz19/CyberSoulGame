@@ -54,7 +54,12 @@ public class MyGdxGame extends Game {
         Stream.of(AssetsNames.GREENZONE_BG_MUSIC,
                         AssetsNames.CREDIT_MUSIC,
                         AssetsNames.POWERSTATION_BG_MUSIC,
-                        AssetsNames.INDUSTRIALZONE_BG_MUSIC)
+                        AssetsNames.INDUSTRIALZONE_BG_MUSIC,
+                        AssetsNames.BG_MUSIC1,
+                        AssetsNames.INTRO_MUSIC,
+                        AssetsNames.WINNER_MUSIC,
+                        AssetsNames.FUN_MENU_MUSIC,
+                        AssetsNames.DEFAULT_MENU_MUSIC)
                 .forEach(str -> assetManager.load(str, Music.class));
         Stream.of(AssetsNames.JUMP_SOUND,
                         AssetsNames.ATTACK_SOUND,
@@ -63,7 +68,11 @@ public class MyGdxGame extends Game {
                         AssetsNames.TELEPORT_SOUND,
                         AssetsNames.DRINKING_SOUND,
                         AssetsNames.DASH_SOUND,
-                        AssetsNames.HERO_HURT_SOUND)
+                        AssetsNames.HERO_HURT_SOUND,
+                        AssetsNames.RANGE_ATTACK_SOUND,
+                        AssetsNames.ATTACK_SWORD_SOUND,
+                        AssetsNames.ATTACK_SWORD_HIT_SOUND,
+                        AssetsNames.PICKING_SOUL_SOUND)
                 .forEach(str -> assetManager.load(str, Sound.class));
         assetManager.load(AssetsNames.GREENZONE_BACKGROUND_FULL, Texture.class);
         assetManager.load(AssetsNames.UI_ATLAS, TextureAtlas.class);
@@ -79,6 +88,7 @@ public class MyGdxGame extends Game {
                         AssetsNames.BIKER_HURT_SHEET,
                         AssetsNames.BIKER_PUNCH_SHEET,
                         AssetsNames.BIKER_RUN_ATTACK_SHEET,
+                        AssetsNames.BIKER_DASH_SHEET,
                         AssetsNames.ENTRY_OBSTACLE_CLOSED,
                         AssetsNames.ENTRY_OBSTACLE_CLOSING,
                         AssetsNames.ENTRY_OBSTACLE_OPENING,
