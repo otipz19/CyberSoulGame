@@ -208,7 +208,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
                 body.setLinearVelocity(MAX_VELOCITY, body.getLinearVelocity().y);
                 applyImpulse(4f, 0);
             }
-            attack(attack4, AssetsNames.DASH_SOUND, HeroAnimator.State.RUN_ATTACK);
+            attack(attack4,AssetsNames.DASH_SOUND,HeroAnimator.State.DASH);
             dashCooldown = DASH_COOLDOWN_TIME;
         }
     }

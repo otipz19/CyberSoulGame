@@ -18,7 +18,8 @@ public class HeroAnimator extends Animator {
         DOUBLE_JUMP,
         HURT,
         PUNCH,
-        RUN_ATTACK
+        RUN_ATTACK,
+        DASH
     }
 
     protected AnimationsMap createAnimationsMap() {
@@ -75,6 +76,11 @@ public class HeroAnimator extends Animator {
                 .rows(1)
                 .playMode(Animation.PlayMode.LOOP)
                 .frameDuration(1 / 12f)
+                .build());
+        animations.put(State.DASH, new AnimationBuilder(AssetsNames.BIKER_DASH_SHEET)
+                .cols(6)
+                .rows(1)
+                .playMode(Animation.PlayMode.NORMAL)
                 .build());
         animations.put(State.DEATH, new AnimationBuilder(AssetsNames.BIKER_DEATH_SHEET)
                 .cols(6)
