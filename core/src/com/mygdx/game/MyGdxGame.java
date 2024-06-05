@@ -23,6 +23,8 @@ import com.mygdx.game.utils.PlayerPreferencesManager;
 import java.util.stream.Stream;
 
 public class MyGdxGame extends Game {
+    public static final boolean IS_DEV_MODE = false;
+
     private static MyGdxGame instance;
     private InputMultiplexer inputMultiplexer;
     private Level currentLevel;
