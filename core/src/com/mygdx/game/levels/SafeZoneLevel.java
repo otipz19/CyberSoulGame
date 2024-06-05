@@ -30,7 +30,7 @@ public class SafeZoneLevel extends Level {
                 }
             }
         }
-        if(MyGdxGame.IS_DEV_MODE) {
+        if(MyGdxGame.IS_DEBUG_MODE) {
             for (Portal portal : portals) {
                 portal.enable();
             }

@@ -4,12 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.base.Animator;
 
-public abstract class Entity extends GameObject {
+public abstract class Entity extends GameObject implements IRenderable {
     protected Animator animator;
     protected float width;
     protected float height;
-
-    public abstract void render(float deltaTime);
 
     public float getWidth() {
         return width;

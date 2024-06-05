@@ -24,7 +24,8 @@ import com.mygdx.game.utils.PlayerPreferencesManager;
 import java.util.stream.Stream;
 
 public class MyGdxGame extends Game {
-    public static final boolean IS_DEV_MODE = false;
+    public static final boolean IS_DEV_MODE = true;
+    public static final boolean IS_DEBUG_MODE = false;
 
     private static MyGdxGame instance;
     private InputMultiplexer inputMultiplexer;

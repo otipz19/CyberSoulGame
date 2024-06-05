@@ -16,32 +16,29 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
-import com.mygdx.game.entities.Entity;
+import com.mygdx.game.entities.IRenderable;
+import com.mygdx.game.entities.Surface;
+import com.mygdx.game.entities.enemies.Enemy;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
-import com.mygdx.game.entities.obstacles.Surface;
-import com.mygdx.game.entities.particles.Particles;
 import com.mygdx.game.entities.obstacles.GateObstacle;
-import com.mygdx.game.entities.Surface;
 import com.mygdx.game.entities.obstacles.HammerObstacle;
+import com.mygdx.game.entities.particles.Particles;
 import com.mygdx.game.entities.portals.FirstPortal;
 import com.mygdx.game.entities.portals.Portal;
 import com.mygdx.game.entities.portals.SecondPortal;
 import com.mygdx.game.entities.portals.ThirdPortal;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
-import com.mygdx.game.parallax.ParallaxBackground;
 import com.mygdx.game.map.EnemyData;
+import com.mygdx.game.map.XMLLevelObjectsParser;
+import com.mygdx.game.parallax.ParallaxBackground;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
 import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.ui.LevelUI;
-import com.mygdx.game.map.ObstacleData;
-import com.mygdx.game.map.XMLLevelObjectsParser;
-import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.utils.DelayedAction;
 import com.mygdx.game.utils.PlayerDataManager;
-import com.mygdx.game.entities.enemies.Enemy;
 
 public abstract class Level implements Screen {
     protected MyGdxGame game;
@@ -66,7 +63,7 @@ public abstract class Level implements Screen {
     protected float unitScale;
 
     public Hero hero;
-    protected final Array<EntryObstacle> obstacles = new Array<>();
+    protected final Array<GateObstacle> obstacles = new Array<>();
     protected final Array<Enemy> enemies = new Array<>();
     protected final Array<Particles> particles = new Array<>();
     protected final Array<Portal> portals = new Array<>();
@@ -75,11 +72,11 @@ public abstract class Level implements Screen {
     public SoundPlayer soundPlayer;
     private boolean isPaused;
 
-    public boolean isPaused(){
+    public boolean isPaused() {
         return isPaused;
     }
 
-    public void setPaused(boolean value){
+    public void setPaused(boolean value) {
         isPaused = value;
         if (isPaused)
             soundPlayer.pauseSounds();
@@ -87,7 +84,7 @@ public abstract class Level implements Screen {
             soundPlayer.unpauseSounds();
     }
 
-    public void togglePause(){
+    public void togglePause() {
         setPaused(!isPaused);
     }
 
@@ -102,7 +99,9 @@ public abstract class Level implements Screen {
         parallaxBackground = createBackground();
         createMusicSound();
         createUI();
-        box2dRenderer = new Box2DDebugRenderer(true, true, true, true, true, true);
+        if (MyGdxGame.IS_DEV_MODE) {
+            box2dRenderer = new Box2DDebugRenderer(true, true, true, true, true, true);
+        }
     }
 
     protected void initResources() {
@@ -176,16 +175,13 @@ public abstract class Level implements Screen {
             };
             obstacles.add(obstacle);
         });
+    }
 
+    private void createEnemies() {
         // Should be changed
         Enemy enemy = new Enemy(this, new EnemyData(), 20f, 32f, 1, 1, 18, 28);
         enemies.add(enemy);
         enemy.addOnDeathAction(() -> new DelayedAction(enemy.getDeathDelay(), () -> enemies.removeValue(enemy, true)));
-
-    }
-
-    private void createEnemies() {
-        enemy = new Enemy(this, new EnemyData(), 6, 60f, 1, 1, 4, 9, hero);
     }
 
     private void createPortals() {
@@ -219,7 +215,9 @@ public abstract class Level implements Screen {
         renderBackground(delta);
         renderMap(delta);
         renderEntities(delta);
-        box2dRenderer.render(world, camera.combined);
+        if (MyGdxGame.IS_DEV_MODE) {
+            box2dRenderer.render(world, camera.combined);
+        }
         updateMusicSound();
         renderUI(delta);
         doPhysicsStep(delta);
@@ -246,23 +244,15 @@ public abstract class Level implements Screen {
     protected void renderEntities(float delta) {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        for (var obstacle : obstacles) {
-            obstacle.render(delta);
-        }
-        for (var portal: portals) {
-            portal.render(delta);
-        }
-        for (var enemy: enemies) {
-            enemy.render(delta);
-        }
-        for (var particle: particles) {
-            particle.render(delta);
-        }
+        renderEntities(delta, obstacles);
+        renderEntities(delta, portals);
+        renderEntities(delta, enemies);
+        renderEntities(delta, particles);
         hero.render(delta);
         game.batch.end();
     }
 
-    protected <T extends Entity> void renderEntities(float delta, Array<T> entities) {
+    protected <T extends IRenderable> void renderEntities(float delta, Array<T> entities) {
         for (T entity : entities) {
             entity.render(delta);
         }
@@ -288,7 +278,7 @@ public abstract class Level implements Screen {
         }
     }
 
-    public void addParticleEffect(Particles particleEffect){
+    public void addParticleEffect(Particles particleEffect) {
         particles.add(particleEffect);
         particleEffect.addOnCompleteAction(() -> new DelayedAction(particleEffect.getDestructionDelay(), () -> particles.removeValue(particleEffect, true)));
     }
@@ -307,18 +297,24 @@ public abstract class Level implements Screen {
         ui.dispose();
         soundPlayer.clearAll();
         mapRenderer.dispose();
-        box2dRenderer.dispose();
+        if (MyGdxGame.IS_DEV_MODE) {
+            box2dRenderer.dispose();
+        }
     }
 
     @Override
-    public void show() {}
+    public void show() {
+    }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
-    public void hide() {}
+    public void hide() {
+    }
 }
