@@ -12,6 +12,7 @@ public class AssetsNames {
     public static final String BIKER_HURT_SHEET = "heroes/biker/Biker_hurt.png";
     public static final String BIKER_PUNCH_SHEET = "heroes/biker/Biker_punch.png";
     public static final String BIKER_RUN_ATTACK_SHEET = "heroes/biker/Biker_run_attack.png";
+    public static final String BIKER_DASH_SHEET = "heroes/biker/Biker_dash.png";
     public static final String GREENZONE_BACKGROUND_FULL = "zones/greenzone/resources/green-zone-tileset/2 Background/Day/Background.png";
     public static final String MONSTER_IDLE_SHEET = "enemies/monster/Idle.png";
     public static final String MONSTER_ATTACK1_SHEET = "enemies/monster/Attack1.png";
@@ -65,18 +66,28 @@ public class AssetsNames {
     public static final String POWERSTATION_PARALLAX_5 = "zones/powerstation/resources/2 Background/Day/5.png";
     public static final String SOUL_PARTICLES = "particles/soul.p";
 
-    public static final String MENU_MUSIC = "music/BG_MUSIC3.ogg";
+    public static final String MENU_MUSIC = "music/main_menu.ogg";
+    public static final String FUN_MENU_MUSIC = "music/fun_menu_music.ogg";
+    public static final String DEFAULT_MENU_MUSIC = "music/main_menu.ogg";
     public static final String GREENZONE_BG_MUSIC = "music/BG_MUSIC3.ogg";
     public static final String POWERSTATION_BG_MUSIC = "music/BG_MUSIC2.ogg";
     public static final String INDUSTRIALZONE_BG_MUSIC = "music/BIB-Moonlight.ogg";
+    public static final String INTRO_MUSIC = "music/INTRO_MUSIC.ogg";
+    public static final String BG_MUSIC1 = "music/BG_MUSIC1.ogg";
     public static final String CREDIT_MUSIC = "music/credits.ogg";
-
+    public static final String WINNER_MUSIC = "music/winner_music.ogg";
     public static final String JUMP_SOUND = "music/jump.ogg";
     public static final String ATTACK_SOUND = "music/fist-attack.ogg";
     public static final String ATTACK_COMBO_SOUND = "music/fist-combo-attack.ogg";
     public static final String ATTACK_KICK_SOUND = "music/kick-attack.ogg";
+    public static final String ATTACK_SWORD_SOUND = "music/sword_hero_attack.ogg";
+    public static final String ATTACK_SWORD_HIT_SOUND = "music/sword_hero_attack_2.ogg";
     public static final String TELEPORT_SOUND = "music/teleport.ogg";
     public static final String DRINKING_SOUND = "music/drinking-sound.ogg";
     public static final String DASH_SOUND = "music/hero-dash.ogg";
+    public static final String PICKING_SOUL_SOUND = "music/picking_soul.ogg";
     public static final String HERO_HURT_SOUND = "music/male_hurt.ogg";
+
+    public static final String RANGE_ATTACK_SOUND = "music/range_enemy_attack.ogg";
+
 }

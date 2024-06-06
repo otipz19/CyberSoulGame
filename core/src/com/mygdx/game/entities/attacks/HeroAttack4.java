@@ -13,7 +13,7 @@ public class HeroAttack4 extends SideAttack {
 
     @Override
     public float getAttackTime() {
-        return 0.5f;
+        return 0.6f;
     }
 
     @Override
