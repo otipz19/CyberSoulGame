@@ -3,7 +3,7 @@ package com.mygdx.game.entities;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.game.levels.Level;
 
-public class GameObject {
+public abstract class GameObject {
     protected Body body;
     protected Level level;
 

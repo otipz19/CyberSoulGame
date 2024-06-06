@@ -1,9 +1,10 @@
-package com.mygdx.game.animation;
+package com.mygdx.game.animation.base;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.mygdx.game.animation.concrete.HeroAnimator;
 
 public abstract class Animator {
     public interface State {
@@ -16,7 +17,7 @@ public abstract class Animator {
 
     private final AnimationsMap animations;
 
-    private Animation<TextureRegion> curAnimation;
+    private MyAnimation curAnimation;
     private State curState;
     private Direction curDirection = Direction.RIGHT;
     private boolean animationChanged;
@@ -25,6 +26,7 @@ public abstract class Animator {
     private final Sprite flippingSprite = new Sprite();
 
     private boolean isAnimationResetBlocked;
+//    private State fallbackState;
 
     public Animator() {
         this.animations = createAnimationsMap();
@@ -34,39 +36,50 @@ public abstract class Animator {
     protected abstract AnimationsMap createAnimationsMap();
 
     public boolean isAnimationFinished() {
-        if(curAnimation != null) {
-            return curAnimation.isAnimationFinished(stateTime);
-        }
-        return false;
+        return curAnimation != null && curAnimation.isAnimationFinished(stateTime);
     }
 
-    /**
-     * Forces animator to ignore all calls of setState() and setDirection(),
-     * until current animation won't be finished.
-     * Works only if current animation is in PlayMode.NORMAL.
-     */
-    public void blockAnimationReset() {
-        if (curAnimation.getPlayMode().equals(Animation.PlayMode.NORMAL)) {
-            isAnimationResetBlocked = true;
-        }
+    public float getCurrentAnimationDuration() {
+        return curAnimation.getAnimationDuration();
     }
 
-    public void unblockAnimationReset() {
-        isAnimationResetBlocked = false;
-    }
+//    /**
+//     * Forces animator to ignore all calls of setState() and setDirection(),
+//     * until current animation won't be finished.
+//     * Works only if current animation is in PlayMode.NORMAL.
+//     */
+//    public void blockAnimationReset() {
+//        if (curAnimation.getPlayMode().equals(Animation.PlayMode.NORMAL)) {
+//            isAnimationResetBlocked = true;
+//        }
+//    }
+//
+//    public void blockAnimationReset(State fallbackState) {
+//        if (curAnimation.getPlayMode().equals(Animation.PlayMode.NORMAL)) {
+//            isAnimationResetBlocked = true;
+//            this.fallbackState = fallbackState;
+//        }
+//    }
+
+//    public void unblockAnimationReset() {
+//        isAnimationResetBlocked = false;
+//        fallbackState = null;
+//    }
 
     public State getState() {
         return curState;
     }
 
     public void setState(State newState) {
-        if (!isAnimationResetBlocked) {
+        if (!animations.containsKey(newState)) {
+            throw new RuntimeException("Animation state " + newState.toString() + " doesn't have registered animation!");
+        }
+
+        if (!isAnimationResetBlocked || animations.get(newState).getPriority() > curAnimation.getPriority()) {
             animationChanged |= newState != curState;
             curState = newState;
-            if (!animations.containsKey(curState)) {
-                throw new RuntimeException("Animation state " + curState.toString() + " doesn't have registered animation!");
-            }
             curAnimation = animations.get(curState);
+            isAnimationResetBlocked = curAnimation.isBlocked();
         }
     }
 
@@ -84,17 +97,25 @@ public abstract class Animator {
     public void animate(SpriteBatch batch, float x, float y, float width, float height, float deltaTime) {
         updateStateTime(deltaTime);
         animationChanged = false;
-        if (isAnimationResetBlocked && curAnimation.isAnimationFinished(stateTime)) {
-            unblockAnimationReset();
-        }
+        handleBlockedAnimation();
         batch.draw(getDirectedSprite(), x, y, width, height);
     }
+
 
     private void updateStateTime(float deltaTime) {
         if (animationChanged) {
             stateTime = 0;
         } else {
             stateTime += deltaTime;
+        }
+    }
+
+    private void handleBlockedAnimation() {
+        if (isAnimationResetBlocked && curAnimation.isAnimationFinished(stateTime)) {
+            isAnimationResetBlocked = false;
+            if(curAnimation.getFallbackState() != null) {
+                setState(curAnimation.getFallbackState());
+            }
         }
     }
 

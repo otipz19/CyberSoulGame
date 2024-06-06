@@ -12,14 +12,6 @@ public class EnemyData {
     private final Rectangle travelArea;
     private final Type type;
 
-    @Deprecated
-    // Should be deleted
-    public EnemyData() {
-        this.spawnPoint = null;
-        this.travelArea = null;
-        this.type = null;
-    }
-
     public EnemyData(Rectangle spawnPoint, Rectangle travelArea, String type) {
         this.spawnPoint = spawnPoint;
         this.travelArea = travelArea;

@@ -1,6 +1,6 @@
 package com.mygdx.game.levels;
 
-import com.mygdx.game.animation.PortalAnimator;
+import com.mygdx.game.animation.concrete.portals.PortalAnimator;
 
 public abstract class DangerousLevel extends Level {
     public DangerousLevel(String tileMapName) {

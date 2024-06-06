@@ -24,6 +24,9 @@ import com.mygdx.game.utils.PlayerPreferencesManager;
 import java.util.stream.Stream;
 
 public class MyGdxGame extends Game {
+    public static final boolean IS_DEV_MODE = true;
+    public static final boolean IS_DEBUG_MODE = true;
+
     private static MyGdxGame instance;
     private InputMultiplexer inputMultiplexer;
     private Level currentLevel;
@@ -92,6 +95,9 @@ public class MyGdxGame extends Game {
                         AssetsNames.ENTRY_OBSTACLE_CLOSED,
                         AssetsNames.ENTRY_OBSTACLE_CLOSING,
                         AssetsNames.ENTRY_OBSTACLE_OPENING,
+                        AssetsNames.HAMMER_OBSTACLE_CLOSED,
+                        AssetsNames.HAMMER_OBSTACLE_CLOSING,
+                        AssetsNames.HAMMER_OBSTACLE_OPENING,
                         AssetsNames.STONE_6,
                         AssetsNames.FENCE_6,
                         AssetsNames.MONSTER_ATTACK1_SHEET,
@@ -129,7 +135,6 @@ public class MyGdxGame extends Game {
                         AssetsNames.POWERSTATION_PARALLAX_5)
                 .forEach(str -> assetManager.load(str, Texture.class));
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-//        assetManager.load(AssetsNames.TEST_LEVEL_TILEMAP, TiledMap.class);
         Stream.of(AssetsNames.GREENZONE_LEVEL_TILEMAP,
                         AssetsNames.POWERSTATION_LEVEL_TILEMAP,
                         AssetsNames.INDUSTRIALZONE_LEVEL_TILEMAP,
@@ -197,7 +202,7 @@ public class MyGdxGame extends Game {
     public void dispose() {
         PlayerDataManager.getInstance().saveData();
         PlayerPreferencesManager.getInstance().savePreferences();
-        currentLevel.dispose();
+        getScreen().dispose();
         assetManager.dispose();
         batch.dispose();
     }

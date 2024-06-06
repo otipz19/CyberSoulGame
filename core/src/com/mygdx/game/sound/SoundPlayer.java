@@ -69,6 +69,7 @@ public class SoundPlayer {
         for (Sound sound : soundIDs.keySet()) {
             sound.stop();
         }
+        soundIDs.clear();
     }
 
     public void clearAll() {
@@ -82,7 +83,8 @@ public class SoundPlayer {
     }
 
     public void pauseBackgroundMusic() {
-        music.pause();
+        if (music != null)
+            music.pause();
         isMusicPaused = true;
     }
 
@@ -99,7 +101,8 @@ public class SoundPlayer {
     }
 
     public void unpauseBackgroundMusic() {
-        music.play();
+        if (music != null)
+            music.play();
         isMusicPaused = false;
     }
 

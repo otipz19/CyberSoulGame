@@ -3,7 +3,7 @@ package com.mygdx.game.entities.portals;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.animation.PortalAnimator;
+import com.mygdx.game.animation.concrete.portals.PortalAnimator;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.InteractableEntity;
@@ -49,7 +49,7 @@ public abstract class Portal extends InteractableEntity {
         if (isEnabled && interactionCause instanceof Hero hero) {
             if (!hasActivated) {
                 animator.setState(PortalAnimator.State.ACTIVATING);
-                animator.blockAnimationReset();
+//                animator.blockAnimationReset();
             } else {
                 PlayerDataManager.getInstance().setHeroData(hero.getData());
                 MyGdxGame.getInstance().goToNewLevel(portalData.getDestination());

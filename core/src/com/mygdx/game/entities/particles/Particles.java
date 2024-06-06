@@ -6,12 +6,13 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.GameObject;
+import com.mygdx.game.entities.IRenderable;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.BodyCreator;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.utils.DelayedAction;
 
-public abstract class Particles extends GameObject {
+public abstract class Particles extends GameObject implements IRenderable {
     protected final ParticleEffect particleEffect;
     protected boolean isComplete;
     protected Array<Runnable> onCompleteActions;

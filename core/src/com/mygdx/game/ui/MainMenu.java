@@ -163,6 +163,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void render(float deltaTime) {
+        SoundPlayer.getInstance().update();
         stage.act(deltaTime);
         stage.draw();
     }

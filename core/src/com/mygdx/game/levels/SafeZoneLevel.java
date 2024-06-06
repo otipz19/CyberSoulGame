@@ -2,6 +2,7 @@ package com.mygdx.game.levels;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.portals.FirstPortal;
 import com.mygdx.game.entities.portals.Portal;
 import com.mygdx.game.entities.portals.SecondPortal;
@@ -25,14 +26,20 @@ public class SafeZoneLevel extends Level {
                 case FirstPortal firstPortal -> portal.enable();
                 case SecondPortal secondPortal when maxLevel >= 1 -> portal.enable();
                 case ThirdPortal thirdPortal when maxLevel >= 2 -> portal.enable();
-                default -> {}
+                default -> {
+                }
+            }
+        }
+        if(MyGdxGame.IS_DEBUG_MODE) {
+            for (Portal portal : portals) {
+                portal.enable();
             }
         }
     }
 
     @Override
     protected ParallaxBackground createBackground() {
-        return new ParallaxBackground(camera, new String[] {
+        return new ParallaxBackground(camera, new String[]{
                 AssetsNames.GREENZONE_PARALLAX_1,
                 AssetsNames.GREENZONE_PARALLAX_2,
                 AssetsNames.GREENZONE_PARALLAX_3,

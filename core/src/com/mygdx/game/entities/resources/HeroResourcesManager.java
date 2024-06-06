@@ -117,6 +117,10 @@ public class HeroResourcesManager extends ResourcesManager {
         }
     }
 
+    public boolean hasEnergy(float energy) {
+        return this.energy - energy >= 0;
+    }
+
     public float getMaxEnergy() {
         return maxEnergy;
     }
