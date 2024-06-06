@@ -201,6 +201,7 @@ public abstract class Level implements Screen {
 
     protected void createMusicSound() {
         soundPlayer = SoundPlayer.getInstance();
+        soundPlayer.unpauseAll();
     }
 
     protected void createUI() {
