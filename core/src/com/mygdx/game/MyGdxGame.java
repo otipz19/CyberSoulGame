@@ -53,7 +53,6 @@ public class MyGdxGame extends Game {
 
     private void loadAssets() {
         assetManager = new AssetManager();
-        assetManager.load(AssetsNames.UI_MENU_BACKGROUND, Texture.class);
         Stream.of(AssetsNames.GREENZONE_BG_MUSIC,
                         AssetsNames.CREDIT_MUSIC,
                         AssetsNames.POWERSTATION_BG_MUSIC,
@@ -77,10 +76,10 @@ public class MyGdxGame extends Game {
                         AssetsNames.ATTACK_SWORD_HIT_SOUND,
                         AssetsNames.PICKING_SOUL_SOUND)
                 .forEach(str -> assetManager.load(str, Sound.class));
-        assetManager.load(AssetsNames.GREENZONE_BACKGROUND_FULL, Texture.class);
         assetManager.load(AssetsNames.UI_ATLAS, TextureAtlas.class);
         assetManager.load(AssetsNames.UI_SKIN, Skin.class, new SkinLoader.SkinParameter(AssetsNames.UI_ATLAS));
-        Stream.of(AssetsNames.BIKER_RUN_SHEET,
+        Stream.of(AssetsNames.UI_MENU_BACKGROUND,
+                        AssetsNames.BIKER_RUN_SHEET,
                         AssetsNames.BIKER_JUMP_SHEET,
                         AssetsNames.BIKER_IDLE_SHEET,
                         AssetsNames.BIKER_ATTACK1_SHEET,
@@ -126,7 +125,9 @@ public class MyGdxGame extends Game {
                         AssetsNames.POWERSTATION_PARALLAX_2,
                         AssetsNames.POWERSTATION_PARALLAX_3,
                         AssetsNames.POWERSTATION_PARALLAX_4,
-                        AssetsNames.POWERSTATION_PARALLAX_5)
+                        AssetsNames.POWERSTATION_PARALLAX_5,
+                        AssetsNames.TEST_PROJECTILE_FLYING_SPRITESHEET,
+                        AssetsNames.TEST_PROJECTILE_EXPLODING_SPRITESHEET)
                 .forEach(str -> assetManager.load(str, Texture.class));
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         Stream.of(AssetsNames.GREENZONE_LEVEL_TILEMAP,

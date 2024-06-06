@@ -1,49 +1,51 @@
-package com.mygdx.game.entities.attacks;
+package com.mygdx.game.entities.attacks.concrete;
 
 import com.mygdx.game.entities.Entity;
+import com.mygdx.game.entities.attacks.base.SideMeleeAttack;
 import com.mygdx.game.entities.enemies.Enemy;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.resources.InstantDamageEffect;
-import com.mygdx.game.entities.sensors.AttackZonePosition;
+import com.mygdx.game.entities.attacks.AttackZonePosition;
 
-public class HeroAttack4 extends SideAttack {
-    public HeroAttack4(Hero hero){
-        super(hero, AttackZonePosition.LEFT_MIDDLE, AttackZonePosition.RIGHT_MIDDLE);
+public class BikerAttack2 extends SideMeleeAttack {
+    public BikerAttack2(Hero hero){
+        super(hero, AttackZonePosition.LEFT_TOP, AttackZonePosition.RIGHT_TOP);
     }
 
     @Override
     public float getAttackTime() {
-        return 0.6f;
+        return 0.8f;
     }
 
     @Override
     public float getAttackDelay() {
-        return 0f;
+        return  0.09f;
     }
 
     @Override
     public float getAttackWidth() {
-        return 0.3f;
+        return 0.4f;
     }
 
     @Override
     public float getAttackHeight() {
-        return 1f;
+        return 0.6f;
     }
 
     @Override
     public float getEnergyConsumption() {
-        return 30f;
+        return 20f;
     }
 
     @Override
     public void onCollisionEnter(Entity other) {
         if (other instanceof Enemy enemy)
-            enemy.addResourcesEffect(new InstantDamageEffect<>(25));
+            enemy.addResourcesEffect(new InstantDamageEffect<>(20));
     }
 
     @Override
     public void onCollisionExit(Entity other) {
-
+        if (other instanceof Enemy enemy)
+            enemy.addResourcesEffect(new InstantDamageEffect<>(40));
     }
 }

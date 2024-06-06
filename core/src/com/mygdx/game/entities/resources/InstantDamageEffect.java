@@ -1,6 +1,6 @@
 package com.mygdx.game.entities.resources;
 
-public class InstantDamageEffect<T extends  ResourcesManager> implements ResourcesEffects<T> {
+public class InstantDamageEffect<T extends  ResourcesManager> implements ResourcesEffect<T> {
     private boolean isCompleted;
     private final float damage;
     public InstantDamageEffect(float damage){

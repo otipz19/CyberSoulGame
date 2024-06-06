@@ -5,10 +5,11 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.base.Animator;
 import com.mygdx.game.animation.concrete.EnemyAnimator;
 import com.mygdx.game.entities.MortalEntity;
-import com.mygdx.game.entities.attacks.EnemyAttack;
+import com.mygdx.game.entities.attacks.concrete.EnemyAttack;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.movement.GroundEnemyMovementController;
 import com.mygdx.game.entities.particles.SoulParticles;
+import com.mygdx.game.entities.projectiles.ProjectileCollidable;
 import com.mygdx.game.entities.resources.EnemyResourcesManager;
 import com.mygdx.game.entities.resources.ResourcesManager;
 import com.mygdx.game.levels.Level;
@@ -18,7 +19,7 @@ import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.utils.DelayedAction;
 
-public class Enemy extends MortalEntity<ResourcesManager> {
+public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileCollidable {
     private final Hero player;
     private final GroundEnemyMovementController movementController;
     private final EnemyData enemyData;
@@ -117,7 +118,7 @@ public class Enemy extends MortalEntity<ResourcesManager> {
         new DelayedAction(getDeathDelay(), () ->
             {
                 Vector2 middlePosition = getMiddlePosition();
-                level.addParticleEffect(new SoulParticles(level, middlePosition.x, middlePosition.y, 1));
+                new SoulParticles(level, middlePosition.x, middlePosition.y, 1);
                 level.world.destroyBody(body);
             });
     }

@@ -28,6 +28,7 @@ import com.mygdx.game.entities.portals.FirstPortal;
 import com.mygdx.game.entities.portals.Portal;
 import com.mygdx.game.entities.portals.SecondPortal;
 import com.mygdx.game.entities.portals.ThirdPortal;
+import com.mygdx.game.entities.projectiles.Projectile;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
 import com.mygdx.game.map.EnemyData;
 import com.mygdx.game.map.XMLLevelObjectsParser;
@@ -66,6 +67,7 @@ public abstract class Level implements Screen {
     protected final Array<GateObstacle> obstacles = new Array<>();
     protected final Array<Enemy> enemies = new Array<>();
     protected final Array<Particles> particles = new Array<>();
+    protected final Array<Projectile> projectiles = new Array<>();
     protected final Array<Portal> portals = new Array<>();
 
     public LevelUI ui;
@@ -247,6 +249,7 @@ public abstract class Level implements Screen {
         game.batch.begin();
         renderEntities(delta, portals);
         renderEntities(delta, enemies);
+        renderEntities(delta, projectiles);
         renderEntities(delta, particles);
         hero.render(delta);
         renderEntities(delta, obstacles);
@@ -282,6 +285,11 @@ public abstract class Level implements Screen {
     public void addParticleEffect(Particles particleEffect) {
         particles.add(particleEffect);
         particleEffect.addOnCompleteAction(() -> new DelayedAction(particleEffect.getDestructionDelay(), () -> particles.removeValue(particleEffect, true)));
+    }
+
+    public void addProjectile(Projectile projectile) {
+        projectiles.add(projectile);
+        projectile.addOnExplosionAction(() -> new DelayedAction(projectile.getDestructionDelay(), () -> projectiles.removeValue(projectile, true)));
     }
 
     @Override

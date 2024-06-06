@@ -1,4 +1,4 @@
-package com.mygdx.game.entities.sensors;
+package com.mygdx.game.entities.attacks;
 
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;

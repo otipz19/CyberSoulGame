@@ -1,14 +1,14 @@
 package com.mygdx.game.entities;
 
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.game.entities.resources.ResourcesEffects;
+import com.mygdx.game.entities.resources.ResourcesEffect;
 import com.mygdx.game.entities.resources.ResourcesManager;
 
 import java.util.function.Consumer;
 
 public abstract class MortalEntity<T extends ResourcesManager> extends Entity{
     protected T resourcesManager;
-    private final Array<ResourcesEffects<T>> resourcesEffects;
+    private final Array<ResourcesEffect<T>> resourcesEffects;
 
     public MortalEntity(T resourcesManager){
         this.resourcesManager = resourcesManager;
@@ -21,7 +21,7 @@ public abstract class MortalEntity<T extends ResourcesManager> extends Entity{
     }
 
     public void updateResourcesManager(float deltaTime){
-        for (ResourcesEffects<T> effect : resourcesEffects){
+        for (ResourcesEffect<T> effect : resourcesEffects){
             effect.apply(resourcesManager, deltaTime);
             if (effect.isCompleted())
                 resourcesEffects.removeValue(effect, true);
@@ -46,7 +46,7 @@ public abstract class MortalEntity<T extends ResourcesManager> extends Entity{
         this.resourcesManager = resourcesManager;
     }
 
-    public void addResourcesEffect(ResourcesEffects<T> effect){
+    public void addResourcesEffect(ResourcesEffect<T> effect){
         resourcesEffects.add(effect);
     }
 

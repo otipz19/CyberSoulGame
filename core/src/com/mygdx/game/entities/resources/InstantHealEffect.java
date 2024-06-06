@@ -1,6 +1,6 @@
 package com.mygdx.game.entities.resources;
 
-public class InstantHealEffect<T extends  ResourcesManager> implements ResourcesEffects<T> {
+public class InstantHealEffect<T extends  ResourcesManager> implements ResourcesEffect<T> {
     private boolean isCompleted;
     private final float heal;
     public InstantHealEffect(float heal){

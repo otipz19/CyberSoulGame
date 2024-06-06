@@ -7,13 +7,13 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.animation.base.Animator;
-import com.mygdx.game.animation.concrete.obstacles.EntryObstacleAnimator;
 import com.mygdx.game.animation.concrete.obstacles.GateObstacleAnimator;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.ICollisionListener;
 import com.mygdx.game.entities.MortalEntity;
 import com.mygdx.game.entities.Surface;
+import com.mygdx.game.entities.projectiles.ProjectileCollidable;
 import com.mygdx.game.entities.resources.InstantDamageEffect;
 import com.mygdx.game.entities.resources.ResourcesManager;
 import com.mygdx.game.entities.sensors.SensorPosition;
@@ -23,9 +23,8 @@ import com.mygdx.game.physics.Collider;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
-public abstract class GateObstacle extends Entity implements ICollisionListener {
+public abstract class GateObstacle extends Entity implements ICollisionListener, ProjectileCollidable {
     private enum State {
         CLOSED,
         OPENING,

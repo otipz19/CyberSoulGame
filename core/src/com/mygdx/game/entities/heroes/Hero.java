@@ -5,10 +5,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.animation.base.Animator;
 import com.mygdx.game.animation.concrete.HeroAnimator;
 import com.mygdx.game.entities.MortalEntity;
-import com.mygdx.game.entities.attacks.*;
+import com.mygdx.game.entities.attacks.base.SideMeleeAttack;
+import com.mygdx.game.entities.attacks.concrete.*;
 import com.mygdx.game.entities.movement.HeroMovementController;
+import com.mygdx.game.entities.projectiles.ProjectileCollidable;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
 import com.mygdx.game.entities.sensors.InteractionSensor;
 import com.mygdx.game.entities.sensors.SensorPosition;
@@ -20,12 +23,13 @@ import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.utils.DelayedAction;
 
-public class Hero extends MortalEntity<HeroResourcesManager> implements Disposable {
+public class Hero extends MortalEntity<HeroResourcesManager> implements Disposable, ProjectileCollidable {
     private final HeroMovementController movementController;
-    private final HeroAttack1 attack1;
-    private final HeroAttack2 attack2;
-    private final HeroAttack3 attack3;
-    private final HeroAttack4 attack4;
+    private final BikerAttack1 attack1;
+    private final BikerAttack2 attack2;
+    private final BikerAttack3 attack3;
+    private final BikerAttack4 attack4;
+    private final TestProjectileAttack testProjectileAttack;
     private final SurfaceTouchSensor groundTouchListener;
     private final SurfaceTouchSensor leftWallTouchListener;
     private final SurfaceTouchSensor rightWallTouchListener;
@@ -52,10 +56,13 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
         rightWallTouchListener = new SurfaceTouchSensor(this, SensorPosition.RIGHT);
         interactionSensor = new InteractionSensor(this);
 
-        attack1 = new HeroAttack1(this);
-        attack2 = new HeroAttack2(this);
-        attack3 = new HeroAttack3(this);
-        attack4 = new HeroAttack4(this);
+        attack1 = new BikerAttack1(this);
+        attack2 = new BikerAttack2(this);
+        attack3 = new BikerAttack3(this);
+        attack4 = new BikerAttack4(this);
+        testProjectileAttack = new TestProjectileAttack(this);
+
+        animator.setDirection(movementController.isFacingRight() ? Animator.Direction.RIGHT : Animator.Direction.LEFT);
     }
 
     public void render(float deltaTime) {
@@ -95,9 +102,14 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
                 movementController.clearVelocityX();
             }
         }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            testProjectileAttack.setDirection(movementController.isFacingRight());
+            testProjectileAttack.execute();
+        }
     }
 
-    private void attack(SideAttack attack, String soundName, HeroAnimator.State animation) {
+    private void attack(SideMeleeAttack attack, String soundName, HeroAnimator.State animation) {
         if (resourcesManager.tryConsumeEnergy(attack.getEnergyConsumption())) {
             animator.setState(animation);
             new DelayedAction(attack.getAttackDelay(), () -> SoundPlayer.getInstance().playSound(soundName));

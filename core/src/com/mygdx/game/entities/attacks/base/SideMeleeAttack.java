@@ -1,17 +1,18 @@
-package com.mygdx.game.entities.attacks;
+package com.mygdx.game.entities.attacks.base;
 
+import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.entities.Entity;
-import com.mygdx.game.entities.heroes.Hero;
-import com.mygdx.game.entities.sensors.AttackZone;
-import com.mygdx.game.entities.sensors.AttackZonePosition;
+import com.mygdx.game.entities.ICollisionListener;
+import com.mygdx.game.entities.attacks.AttackZone;
+import com.mygdx.game.entities.attacks.AttackZonePosition;
 import com.mygdx.game.utils.DelayedAction;
 
-public abstract class SideAttack implements Attack {
+public abstract class SideMeleeAttack implements MeleeAttack, ICollisionListener, Disposable {
     protected final AttackZone leftAttackZone;
     protected final AttackZone rightAttackZone;
     protected boolean facingRight;
 
-    public SideAttack(Entity attacker, AttackZonePosition leftAttackZonePosition, AttackZonePosition rightAttackZonePosition){
+    public SideMeleeAttack(Entity attacker, AttackZonePosition leftAttackZonePosition, AttackZonePosition rightAttackZonePosition){
         leftAttackZone = new AttackZone(attacker, leftAttackZonePosition, getAttackWidth(), getAttackHeight());
         leftAttackZone.setAttackHandler(this);
         rightAttackZone = new AttackZone(attacker, rightAttackZonePosition, getAttackWidth(), getAttackHeight());

@@ -13,7 +13,6 @@ public class AssetsNames {
     public static final String BIKER_PUNCH_SHEET = "heroes/biker/Biker_punch.png";
     public static final String BIKER_RUN_ATTACK_SHEET = "heroes/biker/Biker_run_attack.png";
     public static final String BIKER_DASH_SHEET = "heroes/biker/Biker_dash.png";
-    public static final String GREENZONE_BACKGROUND_FULL = "zones/greenzone/resources/green-zone-tileset/2 Background/Day/Background.png";
     public static final String MONSTER_IDLE_SHEET = "enemies/monster/Idle.png";
     public static final String MONSTER_ATTACK1_SHEET = "enemies/monster/Attack1.png";
     public static final String MONSTER_ATTACK2_SHEET = "enemies/monster/Attack2.png";
@@ -21,7 +20,6 @@ public class AssetsNames {
     public static final String MONSTER_DEATH_SHEET = "enemies/monster/Death.png";
     public static final String MONSTER_WALK_SHEET = "enemies/monster/Walk.png";
     public static final String MONSTER_HURT_SHEET = "enemies/monster/Hurt.png";
-    public static final String TEST_LEVEL_TILEMAP = "zones/greenzone/levels/test-level.tmx";
     public static final String GREENZONE_LEVEL_TILEMAP = "zones/greenzone/greenzone.tmx";
     public static final String POWERSTATION_LEVEL_TILEMAP = "zones/powerstation/powerstation.tmx";
     public static final String INDUSTRIALZONE_LEVEL_TILEMAP = "zones/industrialzone/industrialzone.tmx";
@@ -64,7 +62,11 @@ public class AssetsNames {
     public static final String POWERSTATION_PARALLAX_3 = "zones/powerstation/resources/2 Background/Day/3.png";
     public static final String POWERSTATION_PARALLAX_4 = "zones/powerstation/resources/2 Background/Day/4.png";
     public static final String POWERSTATION_PARALLAX_5 = "zones/powerstation/resources/2 Background/Day/5.png";
+
     public static final String SOUL_PARTICLES = "particles/soul.p";
+
+    public static final String TEST_PROJECTILE_FLYING_SPRITESHEET = "projectiles/test-flight.png";
+    public static final String TEST_PROJECTILE_EXPLODING_SPRITESHEET = "projectiles/test-explosion.png";
 
     public static final String MENU_MUSIC = "music/main_menu.ogg";
     public static final String FUN_MENU_MUSIC = "music/fun_menu_music.ogg";

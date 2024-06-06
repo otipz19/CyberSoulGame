@@ -1,8 +1,6 @@
 package com.mygdx.game.entities.particles;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.GameObject;
@@ -27,6 +25,8 @@ public abstract class Particles extends GameObject implements IRenderable {
 
         onCompleteActions = new Array<>();
         onCompleteActions.add(() -> new DelayedAction(getDestructionDelay(), this::destruct));
+
+        level.addParticleEffect(this);
     }
 
     public abstract ParticleEffect createParticleEffect();

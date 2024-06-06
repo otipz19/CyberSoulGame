@@ -60,4 +60,24 @@ public class BodyCreator {
 
         return body;
     }
+
+    public static Body createProjectileBody(World world, Collider collider, boolean isAffectedByGravity){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(collider.getX(), collider.getY());
+        if (!isAffectedByGravity)
+            bodyDef.gravityScale = 0;
+        bodyDef.bullet = true;
+        Body body = world.createBody(bodyDef);
+        body.setFixedRotation(true);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = collider.getShape();
+        fixtureDef.isSensor = true;
+        body.createFixture(fixtureDef);
+
+        collider.dispose();
+
+        return body;
+    }
 }
