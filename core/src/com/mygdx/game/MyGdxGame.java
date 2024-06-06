@@ -196,7 +196,7 @@ public class MyGdxGame extends Game {
     public void dispose() {
         PlayerDataManager.getInstance().saveData();
         PlayerPreferencesManager.getInstance().savePreferences();
-        currentLevel.dispose();
+        getScreen().dispose();
         assetManager.dispose();
         batch.dispose();
     }
