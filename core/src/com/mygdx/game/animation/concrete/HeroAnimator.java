@@ -46,12 +46,14 @@ public class HeroAnimator extends Animator {
                 .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
                 .blocked(State.IDLE)
+                .priority(500)
                 .build());
         animations.put(State.ATTACK_2, new AnimationBuilder(AssetsNames.BIKER_ATTACK2_SHEET)
                 .cols(8)
                 .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
                 .blocked(State.IDLE)
+                .priority(500)
                 .build());
         animations.put(State.CLIMB, new AnimationBuilder(AssetsNames.BIKER_CLIMB_SHEET)
                 .cols(6)
@@ -75,6 +77,7 @@ public class HeroAnimator extends Animator {
                 .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
                 .blocked(State.IDLE)
+                .priority(500)
                 .build());
         animations.put(State.RUN_ATTACK, new AnimationBuilder(AssetsNames.BIKER_RUN_ATTACK_SHEET)
                 .cols(6)
@@ -86,6 +89,8 @@ public class HeroAnimator extends Animator {
                 .cols(6)
                 .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
+                .blocked(State.RUN)
+                .priority(500)
                 .build());
         animations.put(State.DEATH, new AnimationBuilder(AssetsNames.BIKER_DEATH_SHEET)
                 .cols(6)

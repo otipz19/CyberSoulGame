@@ -30,18 +30,21 @@ public class EnemyAnimator extends Animator {
                 .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
                 .blocked(State.WALK)
+                .priority(500)
                 .build());
         animations.put(State.ATTACK_2, new AnimationBuilder(AssetsNames.MONSTER_ATTACK2_SHEET)
                 .cols(6)
                 .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
                 .blocked(State.WALK)
+                .priority(500)
                 .build());
         animations.put(State.ATTACK_3, new AnimationBuilder(AssetsNames.MONSTER_ATTACK3_SHEET)
                 .cols(5)
                 .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
                 .blocked(State.WALK)
+                .priority(500)
                 .build());
         animations.put(State.HURT, new AnimationBuilder(AssetsNames.MONSTER_HURT_SHEET)
                 .cols(2)
