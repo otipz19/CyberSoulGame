@@ -14,7 +14,8 @@ import com.mygdx.game.entities.ICollisionListener;
 import com.mygdx.game.entities.MortalEntity;
 import com.mygdx.game.entities.Surface;
 import com.mygdx.game.entities.projectiles.ProjectileCollidable;
-import com.mygdx.game.entities.resources.InstantDamageEffect;
+import com.mygdx.game.entities.resources.AbsoluteInstantDamageEffect;
+import com.mygdx.game.entities.resources.RelativeInstantDamageEffect;
 import com.mygdx.game.entities.resources.ResourcesManager;
 import com.mygdx.game.entities.sensors.SensorPosition;
 import com.mygdx.game.levels.Level;
@@ -136,7 +137,7 @@ public abstract class GateObstacle extends Entity implements ICollisionListener,
     }
 
     private void damageEntitiesInside() {
-        entitiesToDamage.forEach(e -> e.addResourcesEffect(new InstantDamageEffect<>(1000)));
+        entitiesToDamage.forEach(e -> e.addResourcesEffect(new RelativeInstantDamageEffect<>(1)));
     }
 
     private void freezeEntitiesInside() {

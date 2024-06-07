@@ -151,4 +151,9 @@ public class HeroResourcesManager extends ResourcesManager {
         heroData.energyRestorationUnit = energyRestoreUnit;
         return heroData;
     }
+
+    @Override
+    public float getMaxDurability() {
+        return getMaxHealth() + getMaxShield();
+    }
 }

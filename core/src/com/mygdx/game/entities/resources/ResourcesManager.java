@@ -59,6 +59,10 @@ public abstract class ResourcesManager {
         return maxHealth;
     }
 
+    public float getMaxDurability() {
+        return maxHealth;
+    }
+
     public void setMaxHealth(float maxHealth) {
         if (maxHealth <= 0)
             throw new RuntimeException("Max health can not be 0 or less");
