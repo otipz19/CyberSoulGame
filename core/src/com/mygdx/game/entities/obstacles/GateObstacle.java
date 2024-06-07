@@ -14,7 +14,8 @@ import com.mygdx.game.entities.ICollisionListener;
 import com.mygdx.game.entities.MortalEntity;
 import com.mygdx.game.entities.Surface;
 import com.mygdx.game.entities.projectiles.ProjectileCollidable;
-import com.mygdx.game.entities.resources.InstantDamageEffect;
+import com.mygdx.game.entities.resources.AbsoluteInstantDamageEffect;
+import com.mygdx.game.entities.resources.RelativeInstantDamageEffect;
 import com.mygdx.game.entities.resources.ResourcesManager;
 import com.mygdx.game.entities.sensors.SensorPosition;
 import com.mygdx.game.levels.Level;
@@ -48,11 +49,11 @@ public abstract class GateObstacle extends Entity implements ICollisionListener,
     private final Fixture mainFixture;
     private final Array<MortalEntity<ResourcesManager>> entitiesToDamage = new Array<>();
 
-    public GateObstacle(Level level, Collider collider, ObstacleData obstacleData, CoordinatesProjector projector) {
+    public GateObstacle(Level level, Collider collider, ObstacleData obstacleData) {
         this.level = level;
         this.body = new Surface(level, collider).getBody();
         animator = createAnimator();
-        setupSize(obstacleData, projector);
+        setupSize(obstacleData, level.getCoordinatesProjector());
         mainFixture = body.getFixtureList().first();
         createDamageFixture();
     }
@@ -136,7 +137,7 @@ public abstract class GateObstacle extends Entity implements ICollisionListener,
     }
 
     private void damageEntitiesInside() {
-        entitiesToDamage.forEach(e -> e.addResourcesEffect(new InstantDamageEffect<>(1000)));
+        entitiesToDamage.forEach(e -> e.addResourcesEffect(new RelativeInstantDamageEffect<>(1)));
     }
 
     private void freezeEntitiesInside() {

@@ -25,7 +25,6 @@ public abstract class Animator {
     private final Sprite flippingSprite = new Sprite();
 
     private boolean isAnimationResetBlocked;
-//    private State fallbackState;
 
     public Animator() {
         this.animations = createAnimationsMap();
@@ -41,29 +40,6 @@ public abstract class Animator {
     public float getCurrentAnimationDuration() {
         return curAnimation.getAnimationDuration();
     }
-
-//    /**
-//     * Forces animator to ignore all calls of setState() and setDirection(),
-//     * until current animation won't be finished.
-//     * Works only if current animation is in PlayMode.NORMAL.
-//     */
-//    public void blockAnimationReset() {
-//        if (curAnimation.getPlayMode().equals(Animation.PlayMode.NORMAL)) {
-//            isAnimationResetBlocked = true;
-//        }
-//    }
-//
-//    public void blockAnimationReset(State fallbackState) {
-//        if (curAnimation.getPlayMode().equals(Animation.PlayMode.NORMAL)) {
-//            isAnimationResetBlocked = true;
-//            this.fallbackState = fallbackState;
-//        }
-//    }
-
-//    public void unblockAnimationReset() {
-//        isAnimationResetBlocked = false;
-//        fallbackState = null;
-//    }
 
     public State getState() {
         return curState;

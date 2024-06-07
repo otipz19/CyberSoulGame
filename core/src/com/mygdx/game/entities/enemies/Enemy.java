@@ -1,5 +1,6 @@
 package com.mygdx.game.entities.enemies;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.base.Animator;
@@ -29,7 +30,6 @@ public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileC
     private float attackDelay;
     private int healthLossCount;
 
-
     public Enemy(Level level, EnemyData enemyData, float width, float height) {
         super(new EnemyResourcesManager(100));
 
@@ -38,19 +38,22 @@ public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileC
         this.width = width;
         this.height = height;
         this.player = level.hero;
-        
-        Collider collider = ColliderCreator.create(enemyData.getSpawnPoint().x, enemyData.getSpawnPoint().y, width, height);
-        body = BodyCreator.createDynamicBody(level.world, collider, 0.3f, 10, 0);
+
+        Rectangle spawnPointInWorldCoordinates = level.getCoordinatesProjector().unproject(enemyData.getSpawnPoint());
+        Rectangle travelAreaInWorldCoordinates = level.getCoordinatesProjector().unproject(enemyData.getTravelArea());
+        Collider collider = ColliderCreator.create(spawnPointInWorldCoordinates.x, spawnPointInWorldCoordinates.y, width, height);
+        body = BodyCreator.createDynamicBody(level.world, collider, 0.3f, 5, 0);
         body.setFixedRotation(true);
         body.getFixtureList().first().setUserData(this);
 
         attack = new EnemyAttack(this);
-        movementController = new GroundEnemyMovementController(body, enemyData.getTravelArea().x, enemyData.getTravelArea().x + enemyData.getTravelArea().width);
+        movementController = new GroundEnemyMovementController(body,
+                travelAreaInWorldCoordinates.x,
+                travelAreaInWorldCoordinates.x + travelAreaInWorldCoordinates.width - width);
 
         animator = new EnemyAnimator();
         animator.setDirection(movementController.isFacingRight() ? Animator.Direction.RIGHT : Animator.Direction.LEFT);
     }
-
 
     public void render(float deltaTime) {
         attackDelay = Math.max(0, attackDelay - deltaTime);
@@ -59,7 +62,6 @@ public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileC
         updateResourcesManager(deltaTime);
         animator.animate(MyGdxGame.getInstance().batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
     }
-
 
     private void move() {
         Vector2 playerPosition = player.getBody().getPosition();
@@ -98,7 +100,6 @@ public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileC
     @Override
     protected void onNonKillingHealthLoss() {
         animator.setState(EnemyAnimator.State.HURT);
-//        animator.blockAnimationReset();
         healthLossCount++;
         movementController.clearVelocityX();
         new DelayedAction(0.4f, () -> healthLossCount--);
@@ -112,7 +113,6 @@ public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileC
     @Override
     protected void onDeath() {
         animator.setState(EnemyAnimator.State.DEATH);
-//        animator.blockAnimationReset();
         healthLossCount = Integer.MAX_VALUE;
         movementController.clearVelocityX();
         new DelayedAction(getDeathDelay(), () ->

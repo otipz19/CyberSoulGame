@@ -20,7 +20,7 @@ public class SafeZoneLevel extends Level {
 
     private void enablePortalsToUnlockedLevels() {
         int maxLevel = PlayerDataManager.getInstance().getMaxLevel().ordinal();
-        for (Portal portal : portals) {
+        for (Portal portal : mapBinder.getPortals()) {
             portal.disable();
             switch (portal) {
                 case FirstPortal firstPortal -> portal.enable();
@@ -31,7 +31,7 @@ public class SafeZoneLevel extends Level {
             }
         }
         if(MyGdxGame.IS_DEBUG_MODE) {
-            for (Portal portal : portals) {
+            for (Portal portal : mapBinder.getPortals()) {
                 portal.enable();
             }
         }
@@ -49,11 +49,11 @@ public class SafeZoneLevel extends Level {
     }
 
     @Override
-    protected Vector2 getPlayerSpawn() {
-        Rectangle bounds = objectsParser.getPlayerSpawns()
+    protected Vector2 getPlayerSpawnInWorldCoordinates() {
+        Rectangle bounds = mapBinder.getPlayerSpawns()
                 .filter(spawn -> spawn.getFromLevel().equals(PlayerDataManager.getInstance().getPreviousLevel()))
                 .findFirst().orElseThrow().getBounds();
-        return new Vector2(bounds.x, bounds.y + bounds.height);
+        return coordinatesProjector.unproject(bounds.x, bounds.y + bounds.height);
     }
 
     @Override

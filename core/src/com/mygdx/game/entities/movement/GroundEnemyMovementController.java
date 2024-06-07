@@ -36,7 +36,7 @@ public class GroundEnemyMovementController extends MovementController{
     public boolean tryMoveRightInRange() {
         moveRight();
         Vector2 newPosition = body.getPosition();
-        if (newPosition.x > maxX) {
+        if (isGreater(newPosition.x, maxX)) {
             body.setTransform(maxX, newPosition.y, 0);
             return false;
         }
@@ -46,11 +46,20 @@ public class GroundEnemyMovementController extends MovementController{
     public boolean tryMoveLeftInRange() {
         moveLeft();
         Vector2 newPosition = body.getPosition();
-        if (newPosition.x < minX) {
+        if (isLess(newPosition.x, minX)) {
             body.setTransform(minX, newPosition.y, 0);
             return false;
         }
         return true;
+    }
+
+    private boolean isGreater(float first, float second) {
+        return isLess(second, first);
+    }
+
+    private boolean isLess(float first, float second) {
+        final float epsilon = 0.1f;
+        return (first - second) <= epsilon;
     }
 
     public boolean tryMoveTo(Vector2 position) {
