@@ -38,7 +38,7 @@ public class HeroResourcesManager extends ResourcesManager {
         if (temp < 0){
             health += temp;
             shield = 0;
-            onHealthChangeActions.forEach(c -> c.accept(temp));
+            fireOnHealthChangeEvent(temp);
         }
         else
             shield = temp;

@@ -3,13 +3,14 @@ package com.mygdx.game.entities.resources;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public abstract class ResourcesManager {
     protected float health;
     protected float maxHealth;
     protected boolean isInvincible;
     protected final Array<Runnable> onDeathActions = new Array<>();
-    protected final Array<Consumer<Float>> onHealthChangeActions = new Array<>();
+    protected final Array<Function<Float, Boolean>> onHealthChangeActions = new Array<>();
 
     public ResourcesManager(float health, float maxHealth) {
         this.health = health;
@@ -24,7 +25,7 @@ public abstract class ResourcesManager {
         health = Math.min(health + delta, maxHealth);
         float deltaHealth = health - oldHealth;
         if (deltaHealth != 0)
-            onHealthChangeActions.forEach(c -> c.accept(deltaHealth));
+            fireOnHealthChangeEvent(deltaHealth);
     }
 
     public void decreaseHealth(float delta) {
@@ -37,7 +38,15 @@ public abstract class ResourcesManager {
         health = Math.max(health - delta, 0);
         float deltaHealth = health - oldHealth;
         if (deltaHealth != 0)
-            onHealthChangeActions.forEach(c -> c.accept(deltaHealth));
+            fireOnHealthChangeEvent(deltaHealth);
+    }
+
+    protected void fireOnHealthChangeEvent(float deltaHealth) {
+        onHealthChangeActions.forEach(c -> {
+            boolean isHandled = c.apply(deltaHealth);
+            if (isHandled)
+                onHealthChangeActions.removeValue(c, true);
+        });
     }
 
     public void update(float deltaTime) {
@@ -93,12 +102,12 @@ public abstract class ResourcesManager {
         onDeathActions.clear();
     }
 
-    public void addOnHealthChangeAction(Consumer<Float> consumer) {
-        onHealthChangeActions.add(consumer);
+    public void addOnHealthChangeAction(Function<Float, Boolean> action) {
+        onHealthChangeActions.add(action);
     }
 
-    public void removeOnHealthChangeAction(Consumer<Float> consumer) {
-        onHealthChangeActions.removeValue(consumer, true);
+    public void removeOnHealthChangeAction(Function<Float, Boolean> action) {
+        onHealthChangeActions.removeValue(action, true);
     }
 
     public void clearOnHealthChangeActions() {

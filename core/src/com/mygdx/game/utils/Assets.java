@@ -72,8 +72,8 @@ public class Assets {
 
         public static final String UI_MENU_BACKGROUND = "ui/menu_background.png";
 
-        public static final String TEST_PROJECTILE_FLYING_SPRITESHEET = "projectiles/test-flight.png";
-        public static final String TEST_PROJECTILE_EXPLODING_SPRITESHEET = "projectiles/test-explosion.png";
+        public static final String PUNK_SPROJECTILE_FLYING_SPRITESHEET = "projectiles/punk-sprojectile.png";
+        public static final String PUNK_SPROJECTILE_EXPLODING_SPRITESHEET = "projectiles/punk-sprojectile-explosion.png";
 
         public static final String PUNK_SCYTHEPROJECTILE_FLYING_SPRITESHEET = "projectiles/punk-scytheprojectile.png";
         public static final String PUNK_SCYTHEPROJECTILE_EXPLODING_SPRITESHEET = "projectiles/punk-scytheprojectile-explosion.png";

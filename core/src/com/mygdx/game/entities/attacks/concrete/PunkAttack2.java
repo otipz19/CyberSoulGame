@@ -20,7 +20,7 @@ public class PunkAttack2 extends SideProjectileAttack {
 
     @Override
     public float getAttackDelay() {
-        return 0.5f;
+        return 0.45f;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class PunkAttack2 extends SideProjectileAttack {
 
     @Override
     public float getEnergyConsumption() {
-        return 10f;
+        return 20f;
     }
 
     @Override

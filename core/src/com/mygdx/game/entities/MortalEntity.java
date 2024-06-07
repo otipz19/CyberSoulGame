@@ -5,6 +5,7 @@ import com.mygdx.game.entities.resources.ResourcesEffect;
 import com.mygdx.game.entities.resources.ResourcesManager;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public abstract class MortalEntity<T extends ResourcesManager> extends Entity{
     protected T resourcesManager;
@@ -17,6 +18,7 @@ public abstract class MortalEntity<T extends ResourcesManager> extends Entity{
         addOnHealthChangeAction(delta -> {
             if (delta < 0 && resourcesManager.isAlive())
                 onNonKillingHealthLoss();
+            return false;
         });
     }
 
@@ -62,12 +64,12 @@ public abstract class MortalEntity<T extends ResourcesManager> extends Entity{
         resourcesManager.clearOnDeathActions();
     }
 
-    public void addOnHealthChangeAction(Consumer<Float> consumer) {
-        resourcesManager.addOnHealthChangeAction(consumer);
+    public void addOnHealthChangeAction(Function<Float, Boolean> action) {
+        resourcesManager.addOnHealthChangeAction(action);
     }
 
-    public void removeOnHealthChangeAction(Consumer<Float> consumer) {
-        resourcesManager.removeOnHealthChangeAction(consumer);
+    public void removeOnHealthChangeAction(Function<Float, Boolean> action) {
+        resourcesManager.removeOnHealthChangeAction(action);
     }
 
     public void clearOnHealthChangeActions() {

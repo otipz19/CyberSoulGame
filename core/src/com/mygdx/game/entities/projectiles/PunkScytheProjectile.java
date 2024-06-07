@@ -3,7 +3,6 @@ package com.mygdx.game.entities.projectiles;
 import com.mygdx.game.animation.base.Animator;
 import com.mygdx.game.animation.concrete.projectiles.ProjectileAnimator;
 import com.mygdx.game.animation.concrete.projectiles.PunkScytheProjectileAnimator;
-import com.mygdx.game.animation.concrete.projectiles.TestProjectileAnimator;
 import com.mygdx.game.entities.Entity;
 
 public class PunkScytheProjectile extends HeroProjectile {

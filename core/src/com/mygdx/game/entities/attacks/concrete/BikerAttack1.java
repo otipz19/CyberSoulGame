@@ -19,7 +19,7 @@ public class BikerAttack1 extends SideMeleeAttack {
 
     @Override
     public float getAttackDelay() {
-        return  0.09f;
+        return  0.3f;
     }
 
     @Override

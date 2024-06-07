@@ -7,6 +7,7 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.concrete.heroes.HeroAnimator;
 import com.mygdx.game.entities.MortalEntity;
 import com.mygdx.game.entities.attacks.base.Attack;
+import com.mygdx.game.entities.attacks.base.SideAttack;
 import com.mygdx.game.entities.movement.HeroMovementController;
 import com.mygdx.game.entities.projectiles.ProjectileCollidable;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
@@ -96,7 +97,16 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         }
     }
 
-    protected abstract void attack(Attack attack, String soundName, HeroAnimator.State animation);
+    protected void attack(Attack attack, String soundName, HeroAnimator.State animation) {
+        SideAttack sideAttack = (SideAttack)attack;
+        if (resourcesManager.tryConsumeEnergy(attack.getEnergyConsumption())) {
+            animator.setState(animation);
+            new DelayedAction(sideAttack.getAttackDelay(), () -> SoundPlayer.getInstance().playSound(soundName));
+            attackDelay = sideAttack.getAttackTime();
+            sideAttack.setDirection(movementController.isFacingRight());
+            sideAttack.execute();
+        }
+    }
 
     protected void handleInteraction() {
         if (Gdx.input.isKeyPressed(Input.Keys.E))

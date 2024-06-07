@@ -13,10 +13,7 @@ import com.mygdx.game.entities.particles.SoulParticles;
 import com.mygdx.game.entities.projectiles.ProjectileCollidable;
 import com.mygdx.game.entities.resources.EnemyResourcesManager;
 import com.mygdx.game.entities.resources.ResourcesManager;
-import com.mygdx.game.entities.sensors.AttackRangeSensor;
-import com.mygdx.game.entities.sensors.DefaultEnemyHeadSensor;
-import com.mygdx.game.entities.sensors.LeftAttackRangeSensor;
-import com.mygdx.game.entities.sensors.RightAttackRangeSensor;
+import com.mygdx.game.entities.sensors.*;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.map.data.EnemyData;
 import com.mygdx.game.physics.BodyCreator;
@@ -30,7 +27,6 @@ public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileC
     private final EnemyData enemyData;
     private final EnemyAttack attack;
     private float detectionRange = 4f;
-//    private float attackRange;
     private float attackDelay;
     private int healthLossCount;
 
@@ -62,9 +58,8 @@ public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileC
         animator.setDirection(movementController.isFacingRight() ? Animator.Direction.RIGHT : Animator.Direction.LEFT);
 
         new DefaultEnemyHeadSensor(this);
-//        this.attackRange = width + attack.getAttackWidth();
-        this.leftAttackRange = new LeftAttackRangeSensor(this);
-        this.rightAttackRange = new RightAttackRangeSensor(this);
+        this.leftAttackRange = new AttackRangeSensor(this, SensorPosition.LEFT);
+        this.rightAttackRange = new AttackRangeSensor(this, SensorPosition.RIGHT);
     }
 
     public void render(float deltaTime) {
@@ -137,5 +132,9 @@ public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileC
 
     public Vector2 getMiddlePosition() {
         return new Vector2(body.getPosition().x + width / 2, body.getPosition().y + height / 2);
+    }
+
+    public GroundEnemyMovementController getMovementController() {
+        return movementController;
     }
 }

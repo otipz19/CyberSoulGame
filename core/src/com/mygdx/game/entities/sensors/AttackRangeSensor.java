@@ -5,7 +5,7 @@ import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.GameObject;
 import com.mygdx.game.entities.heroes.Hero;
 
-public abstract class AttackRangeSensor extends Sensor {
+public class AttackRangeSensor extends Sensor {
     private boolean isInRange;
 
     public AttackRangeSensor(Entity parent, SensorPosition sensorPosition) {
