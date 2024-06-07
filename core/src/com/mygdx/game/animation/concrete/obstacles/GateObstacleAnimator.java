@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.mygdx.game.animation.base.AnimationBuilder;
 import com.mygdx.game.animation.base.AnimationsMap;
 import com.mygdx.game.animation.base.Animator;
-import com.mygdx.game.utils.AssetsNames;
 
 public abstract class GateObstacleAnimator extends Animator {
     public enum State implements Animator.State{

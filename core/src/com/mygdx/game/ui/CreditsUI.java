@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.utils.AssetsNames;
+import com.mygdx.game.utils.Assets;
 
 public class CreditsUI extends UILayer {
 
@@ -66,7 +66,7 @@ public class CreditsUI extends UILayer {
     public CreditsUI(Stage stage) {
         super(stage);
 
-        Skin skin = MyGdxGame.getInstance().assetManager.get(AssetsNames.UI_SKIN, Skin.class);
+        Skin skin = MyGdxGame.getInstance().assetManager.get(Assets.Skins.UI_SKIN, Skin.class);
 
         setSkin(skin);
         setFillParent(true);

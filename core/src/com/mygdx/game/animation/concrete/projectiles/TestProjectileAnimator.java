@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.mygdx.game.animation.base.AnimationBuilder;
 import com.mygdx.game.animation.base.AnimationsMap;
 import com.mygdx.game.animation.base.Animator;
-import com.mygdx.game.utils.AssetsNames;
+import com.mygdx.game.utils.Assets;
 
 public class TestProjectileAnimator extends Animator {
     public enum State implements Animator.State {
@@ -15,13 +15,13 @@ public class TestProjectileAnimator extends Animator {
     @Override
     protected AnimationsMap createAnimationsMap() {
         var animations = new AnimationsMap();
-        animations.put(State.FLYING, new AnimationBuilder(AssetsNames.TEST_PROJECTILE_FLYING_SPRITESHEET)
+        animations.put(State.FLYING, new AnimationBuilder(Assets.Textures.TEST_PROJECTILE_FLYING_SPRITESHEET)
                 .rows(1)
                 .cols(1)
                 .frameDuration(1)
                 .playMode(Animation.PlayMode.NORMAL)
                 .build());
-        animations.put(State.EXPLODING, new AnimationBuilder(AssetsNames.TEST_PROJECTILE_EXPLODING_SPRITESHEET)
+        animations.put(State.EXPLODING, new AnimationBuilder(Assets.Textures.TEST_PROJECTILE_EXPLODING_SPRITESHEET)
                 .rows(3)
                 .cols(1)
                 .playMode(Animation.PlayMode.NORMAL)

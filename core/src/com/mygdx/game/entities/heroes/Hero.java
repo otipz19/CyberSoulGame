@@ -3,14 +3,10 @@ package com.mygdx.game.entities.heroes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.animation.base.Animator;
 import com.mygdx.game.animation.concrete.heroes.HeroAnimator;
 import com.mygdx.game.entities.MortalEntity;
 import com.mygdx.game.entities.attacks.base.Attack;
-import com.mygdx.game.entities.attacks.base.SideMeleeAttack;
-import com.mygdx.game.entities.attacks.concrete.*;
 import com.mygdx.game.entities.movement.HeroMovementController;
 import com.mygdx.game.entities.projectiles.ProjectileCollidable;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
@@ -21,7 +17,7 @@ import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.BodyCreator;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.sound.SoundPlayer;
-import com.mygdx.game.utils.AssetsNames;
+import com.mygdx.game.utils.Assets;
 import com.mygdx.game.utils.DelayedAction;
 
 public abstract class Hero extends MortalEntity<HeroResourcesManager> implements ProjectileCollidable {
@@ -82,14 +78,14 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
     protected void handleAttack() {
         if (groundTouchListener.isOnSurface()) {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-                attack(attack1, AssetsNames.ATTACK_SOUND, HeroAnimator.State.ATTACK_1);
+                attack(attack1, Assets.Sound.ATTACK_SOUND, HeroAnimator.State.ATTACK_1);
                 movementController.clearVelocityX();
             } else if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
-                attack(attack2, AssetsNames.ATTACK_COMBO_SOUND, HeroAnimator.State.ATTACK_2);
+                attack(attack2, Assets.Sound.ATTACK_COMBO_SOUND, HeroAnimator.State.ATTACK_2);
                 movementController.clearVelocityX();
             }
             else if (Gdx.input.isButtonJustPressed(Input.Buttons.MIDDLE)) {
-                attack(attack3, AssetsNames.ATTACK_KICK_SOUND, HeroAnimator.State.PUNCH);
+                attack(attack3, Assets.Sound.ATTACK_KICK_SOUND, HeroAnimator.State.PUNCH);
                 movementController.clearVelocityX();
             }
         }
@@ -128,14 +124,14 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
                 if (hasJumped) {
                     canDoubleJump = true;
                     animator.setState(HeroAnimator.State.JUMP);
-                    SoundPlayer.getInstance().playSound(AssetsNames.JUMP_SOUND);
+                    SoundPlayer.getInstance().playSound(Assets.Sound.JUMP_SOUND);
                 }
             } else if (canDoubleJump) {
                 boolean hasJumped = movementController.tryJump();
                 if (hasJumped) {
                     canDoubleJump = false;
                     animator.setState(HeroAnimator.State.DOUBLE_JUMP);
-                    SoundPlayer.getInstance().playSound(AssetsNames.JUMP_SOUND);
+                    SoundPlayer.getInstance().playSound(Assets.Sound.JUMP_SOUND);
                 }
             }
         }
@@ -161,7 +157,7 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
             if (hasDashed) {
                 resourcesManager.setInvincible(true);
                 new DelayedAction(attack4.getAttackTime(), () -> resourcesManager.setInvincible(false));
-                attack(attack4,AssetsNames.DASH_SOUND, HeroAnimator.State.DASH);
+                attack(attack4, Assets.Sound.DASH_SOUND, HeroAnimator.State.DASH);
             }
         }
     }
@@ -191,7 +187,7 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
     @Override
     protected void onNonKillingHealthLoss() {
         animator.setState(HeroAnimator.State.HURT);
-        SoundPlayer.getInstance().playSound(AssetsNames.HERO_HURT_SOUND);
+        SoundPlayer.getInstance().playSound(Assets.Sound.HERO_HURT_SOUND);
         healthLossCount++;
         new DelayedAction(0.3f, () -> healthLossCount--);
     }
@@ -204,7 +200,7 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
     @Override
     public void onDeath() {
         animator.setState(HeroAnimator.State.DEATH);
-        SoundPlayer.getInstance().playSound(AssetsNames.HERO_HURT_SOUND);
+        SoundPlayer.getInstance().playSound(Assets.Sound.HERO_HURT_SOUND);
         healthLossCount = Integer.MAX_VALUE;
         new DelayedAction(getDeathDelay(), MyGdxGame.getInstance()::levelFailed);
     }

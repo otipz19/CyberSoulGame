@@ -8,12 +8,12 @@ import com.mygdx.game.entities.ICollisionListener;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.sound.SoundPlayer;
-import com.mygdx.game.utils.AssetsNames;
+import com.mygdx.game.utils.Assets;
 
 public class SoulParticles extends Particles implements ICollisionListener {
     private final static ParticleEffectPool effectPool;
     static {
-        ParticleEffect particleEffect = MyGdxGame.getInstance().assetManager.get(AssetsNames.SOUL_PARTICLES, ParticleEffect.class);
+        ParticleEffect particleEffect = MyGdxGame.getInstance().assetManager.get(Assets.ParticleEffects.SOUL_PARTICLES, ParticleEffect.class);
         effectPool = new ParticleEffectPool(particleEffect, 1, 100);
     }
 
@@ -45,7 +45,7 @@ public class SoulParticles extends Particles implements ICollisionListener {
         if (other instanceof Hero hero) {
             hero.getResourcesManager().changeSouls(soulsAmount);
             complete();
-            SoundPlayer.getInstance().playSound(AssetsNames.PICKING_SOUL_SOUND);
+            SoundPlayer.getInstance().playSound(Assets.Sound.PICKING_SOUL_SOUND);
         }
     }
 
