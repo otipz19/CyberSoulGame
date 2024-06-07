@@ -23,16 +23,16 @@ public abstract class Portal extends InteractableEntity {
 
     private boolean hasActivated;
 
-    public Portal(Level level, PortalData portalData, CoordinatesProjector projector, PortalAnimator animator) {
+    public Portal(Level level, PortalData portalData, PortalAnimator animator) {
         this.level = level;
         this.portalData = portalData;
         this.isEnabled = portalData.isEnabled();
-        Collider collider = ColliderCreator.create(portalData.getBounds(), projector);
+        Collider collider = ColliderCreator.create(portalData.getBounds(), level.getCoordinatesProjector());
         body = BodyCreator.createStaticBody(level.world, collider, 0, 0, 0);
         Fixture fixture = body.getFixtureList().first();
         fixture.setSensor(true);
         fixture.setUserData(this);
-        Vector2 projectedSize = projector.toWorldSize(portalData.getBounds());
+        Vector2 projectedSize = level.getCoordinatesProjector().toWorldSize(portalData.getBounds());
         this.width = projectedSize.x;
         this.height = projectedSize.y;
         this.animator = animator;

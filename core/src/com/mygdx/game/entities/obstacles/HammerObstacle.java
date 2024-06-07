@@ -8,8 +8,8 @@ import com.mygdx.game.map.ObstacleData;
 import com.mygdx.game.physics.Collider;
 
 public class HammerObstacle extends GateObstacle {
-    public HammerObstacle(Level level, Collider collider, ObstacleData obstacleData, CoordinatesProjector projector) {
-        super(level, collider, obstacleData, projector);
+    public HammerObstacle(Level level, Collider collider, ObstacleData obstacleData) {
+        super(level, collider, obstacleData);
     }
 
     @Override

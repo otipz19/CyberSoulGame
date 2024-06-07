@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -17,24 +16,11 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
 import com.mygdx.game.entities.IRenderable;
-import com.mygdx.game.entities.Surface;
-import com.mygdx.game.entities.enemies.Enemy;
 import com.mygdx.game.entities.heroes.Hero;
-import com.mygdx.game.entities.obstacles.EntryObstacle;
-import com.mygdx.game.entities.obstacles.GateObstacle;
-import com.mygdx.game.entities.obstacles.HammerObstacle;
 import com.mygdx.game.entities.particles.Particles;
-import com.mygdx.game.entities.portals.FirstPortal;
-import com.mygdx.game.entities.portals.Portal;
-import com.mygdx.game.entities.portals.SecondPortal;
-import com.mygdx.game.entities.portals.ThirdPortal;
 import com.mygdx.game.entities.projectiles.Projectile;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
-import com.mygdx.game.map.EnemyData;
-import com.mygdx.game.map.XMLLevelObjectsParser;
 import com.mygdx.game.parallax.ParallaxBackground;
-import com.mygdx.game.physics.Collider;
-import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.physics.ContactListener;
 import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.ui.LevelUI;
@@ -58,17 +44,16 @@ public abstract class Level implements Screen {
     private final String tileMapName;
     protected TiledMap map;
     protected OrthogonalTiledMapRenderer mapRenderer;
-    protected XMLLevelObjectsParser objectsParser;
     protected int levelWidth;
     protected int levelHeight;
     protected float unitScale;
 
     public Hero hero;
-    protected final Array<GateObstacle> obstacles = new Array<>();
-    protected final Array<Enemy> enemies = new Array<>();
-    protected final Array<Particles> particles = new Array<>();
-    protected final Array<Projectile> projectiles = new Array<>();
-    protected final Array<Portal> portals = new Array<>();
+    MapObjectsBinder mapBinder;
+
+    private final Array<Particles> particles = new Array<>();
+    private final Array<Projectile> projectiles = new Array<>();
+
 
     public LevelUI ui;
     public SoundPlayer soundPlayer;
@@ -93,11 +78,11 @@ public abstract class Level implements Screen {
     public Level(String tileMapName) {
         this.game = MyGdxGame.getInstance();
         this.tileMapName = tileMapName;
-        initResources();
+        initMapBinder();
         createMap();
         createCamera();
         createHero();
-        createEntities();
+        mapBinder.createEntities();
         parallaxBackground = createBackground();
         createMusicSound();
         createUI();
@@ -106,8 +91,8 @@ public abstract class Level implements Screen {
         }
     }
 
-    protected void initResources() {
-        objectsParser = new XMLLevelObjectsParser(tileMapName);
+    protected void initMapBinder() {
+        mapBinder = new MapObjectsBinder(tileMapName, this);
     }
 
     protected void createMap() {
@@ -126,17 +111,7 @@ public abstract class Level implements Screen {
         mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
         coordinatesProjector = new CoordinatesProjector(unitScale, mapHeight);
 
-        objectsParser.getColliders().forEach(shape -> {
-            Collider collider;
-            if (shape instanceof Rectangle)
-                collider = ColliderCreator.create((Rectangle) shape, coordinatesProjector);
-            else if (shape instanceof Polygon)
-                collider = ColliderCreator.create((Polygon) shape, coordinatesProjector);
-            else
-                throw new RuntimeException("Shape is not supported");
-
-            new Surface(this, collider);
-        });
+        mapBinder.createColliders();
     }
 
     protected void createCamera() {
@@ -150,53 +125,15 @@ public abstract class Level implements Screen {
     }
 
     protected void createHero() {
-        Vector2 spawn = coordinatesProjector.unproject(getPlayerSpawn());
+        Vector2 spawn = getPlayerSpawnInWorldCoordinates();
         hero = new Hero(this, PlayerDataManager.getInstance().getHeroData(), spawn.x, spawn.y, 0.95f, 0.95f);
         camera.setPositionSharply(hero.getCameraPosition());
     }
 
-    protected Vector2 getPlayerSpawn() {
-        Rectangle bounds = objectsParser.getPlayerSpawns()
+    protected Vector2 getPlayerSpawnInWorldCoordinates() {
+        Rectangle bounds = mapBinder.getPlayerSpawns()
                 .findFirst().orElseThrow().getBounds();
-        return new Vector2(bounds.x, bounds.y + bounds.height);
-    }
-
-    protected void createEntities() {
-        createObstacles();
-        createEnemies();
-        createPortals();
-    }
-
-    private void createObstacles() {
-        objectsParser.getObstaclesData().forEach(obstacleData -> {
-            var collider = ColliderCreator.create(obstacleData.getBounds(), coordinatesProjector);
-            GateObstacle obstacle = switch (obstacleData.getType()) {
-                case ENTRY -> new EntryObstacle(this, collider, obstacleData, coordinatesProjector);
-                case HAMMER -> new HammerObstacle(this, collider, obstacleData, coordinatesProjector);
-                default -> throw new RuntimeException("Not supported obstacle type!");
-            };
-            obstacles.add(obstacle);
-        });
-    }
-
-    private void createEnemies() {
-        // Should be changed
-        Enemy enemy = new Enemy(this, new EnemyData(new Rectangle(20, 32, 0, 0), new Rectangle(18, 32, 10, 1), "DEFAULT"), 1, 1);
-        enemies.add(enemy);
-        enemy.addOnDeathAction(() -> new DelayedAction(enemy.getDeathDelay(), () -> enemies.removeValue(enemy, true)));
-    }
-
-    private void createPortals() {
-        objectsParser.getPortalsData().forEach(portalData -> {
-            Portal portal;
-            switch (portalData.getType()) {
-                case FIRST -> portal = new FirstPortal(this, portalData, coordinatesProjector);
-                case SECOND -> portal = new SecondPortal(this, portalData, coordinatesProjector);
-                case THIRD -> portal = new ThirdPortal(this, portalData, coordinatesProjector);
-                default -> throw new RuntimeException("Not supported portal type!");
-            }
-            portals.add(portal);
-        });
+        return coordinatesProjector.unproject(bounds.x, bounds.y + bounds.height);
     }
 
     protected abstract ParallaxBackground createBackground();
@@ -247,12 +184,12 @@ public abstract class Level implements Screen {
     protected void renderEntities(float delta) {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        renderEntities(delta, portals);
-        renderEntities(delta, enemies);
+        mapBinder.renderPortals(delta);
+        mapBinder.renderEnemies(delta);
         renderEntities(delta, projectiles);
         renderEntities(delta, particles);
         hero.render(delta);
-        renderEntities(delta, obstacles);
+        mapBinder.renderObstacles(delta);
         game.batch.end();
     }
 
@@ -325,5 +262,9 @@ public abstract class Level implements Screen {
 
     @Override
     public void hide() {
+    }
+
+    public CoordinatesProjector getCoordinatesProjector() {
+        return coordinatesProjector;
     }
 }

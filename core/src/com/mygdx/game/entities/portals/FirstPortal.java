@@ -6,7 +6,7 @@ import com.mygdx.game.levels.Level;
 import com.mygdx.game.map.PortalData;
 
 public class FirstPortal extends Portal {
-    public FirstPortal(Level level, PortalData portalData, CoordinatesProjector projector) {
-        super(level, portalData, projector, new FirstPortalAnimator());
+    public FirstPortal(Level level, PortalData portalData) {
+        super(level, portalData, new FirstPortalAnimator());
     }
 }

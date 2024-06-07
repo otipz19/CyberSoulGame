@@ -9,7 +9,7 @@ public abstract class DangerousLevel extends Level {
     }
 
     private void inactivateStartingPortal() {
-        portals.forEach(portal -> {
+        mapBinder.getPortals().forEach(portal -> {
             if (!portal.isEnabled()) {
                 portal.getAnimator().setState(PortalAnimator.State.INACTIVATING);
             }
