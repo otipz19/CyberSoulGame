@@ -25,12 +25,10 @@ public class BikerHero extends Hero implements Disposable {
         attack3 = new BikerAttack3(this);
         attack4 = new BikerAttack4(this);
 
-        attack1Sound = Assets.Sound.ATTACK_SOUND;
-        attack2Sound = Assets.Sound.ATTACK_COMBO_SOUND;
-        attack3Sound = Assets.Sound.ATTACK_KICK_SOUND;
-        dashSound = Assets.Sound.DASH_SOUND;
-        jumpSound = Assets.Sound.JUMP_SOUND;
-        hpLossSound = Assets.Sound.HERO_HURT_SOUND;
+        attack1Sound = Assets.Sound.BIKER_ATTACK1_SOUND;
+        attack2Sound = Assets.Sound.BIKER_ATTACK2_SOUND;
+        attack3Sound = Assets.Sound.BIKER_ATTACK3_SOUND;
+        hpLossSound = Assets.Sound.BIKER_HURT_SOUND;
     }
 
     @Override

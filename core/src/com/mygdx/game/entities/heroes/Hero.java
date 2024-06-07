@@ -56,6 +56,9 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         leftWallTouchListener = new SurfaceTouchSensor(this, SensorPosition.LEFT);
         rightWallTouchListener = new SurfaceTouchSensor(this, SensorPosition.RIGHT);
         interactionSensor = new InteractionSensor(this);
+
+        dashSound = Assets.Sound.HERO_DASH_SOUND;
+        jumpSound = Assets.Sound.HERO_JUMP_SOUND;
     }
 
     public void render(float deltaTime) {

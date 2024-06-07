@@ -113,17 +113,21 @@ public class Assets {
     }
 
     public static class Sound {
-        public static final String JUMP_SOUND = "music/jump.ogg";
-        public static final String ATTACK_SOUND = "music/fist-attack.ogg";
-        public static final String ATTACK_COMBO_SOUND = "music/fist-combo-attack.ogg";
-        public static final String ATTACK_KICK_SOUND = "music/kick-attack.ogg";
+        public static final String HERO_JUMP_SOUND = "music/jump.ogg";
+        public static final String BIKER_ATTACK1_SOUND = "music/fist-attack.ogg";
+        public static final String BIKER_ATTACK2_SOUND = "music/fist-combo-attack.ogg";
+        public static final String BIKER_ATTACK3_SOUND = "music/kick-attack.ogg";
+        public static final String PUNK_ATTACK1_SOUND = "music/fist-attack.ogg";
+        public static final String PUNK_ATTACK2_SOUND = "music/fist-combo-attack.ogg";
+        public static final String PUNK_ATTACK3_SOUND = "music/kick-attack.ogg";
         public static final String ATTACK_SWORD_SOUND = "music/sword_hero_attack.ogg";
         public static final String ATTACK_SWORD_HIT_SOUND = "music/sword_hero_attack_2.ogg";
         public static final String TELEPORT_SOUND = "music/teleport.ogg";
         public static final String DRINKING_SOUND = "music/drinking-sound.ogg";
-        public static final String DASH_SOUND = "music/hero-dash.ogg";
+        public static final String HERO_DASH_SOUND = "music/hero-dash.ogg";
         public static final String PICKING_SOUL_SOUND = "music/picking_soul.ogg";
-        public static final String HERO_HURT_SOUND = "music/male_hurt.ogg";
+        public static final String BIKER_HURT_SOUND = "music/male_hurt.ogg";
+        public static final String PUNK_HURT_SOUND = "music/male_hurt.ogg";
 
         public static final String RANGE_ATTACK_SOUND = "music/range_enemy_attack.ogg";
     }
