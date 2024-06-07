@@ -27,15 +27,15 @@ public class PunkHeroAnimator extends HeroAnimator {
                 .playMode(Animation.PlayMode.NORMAL)
                 .build());
         animations.put(State.ATTACK_1, new AnimationBuilder(AssetsNames.PUNK_ATTACK1_SHEET)
-                .cols(3)
-                .rows(2)
+                .cols(6)
+                .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
                 .blocked(State.IDLE)
                 .priority(500)
                 .build());
         animations.put(State.ATTACK_2, new AnimationBuilder(AssetsNames.PUNK_ATTACK2_SHEET)
-                .cols(5)
-                .rows(2)
+                .cols(8)
+                .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
                 .blocked(State.IDLE)
                 .priority(500)
@@ -46,8 +46,8 @@ public class PunkHeroAnimator extends HeroAnimator {
                 .playMode(Animation.PlayMode.LOOP)
                 .build());
         animations.put(State.DOUBLE_JUMP, new AnimationBuilder(AssetsNames.PUNK_DOUBLEJUMP_SHEET)
-                .cols(3)
-                .rows(2)
+                .cols(5)
+                .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
                 .build());
         animations.put(State.HURT, new AnimationBuilder(AssetsNames.PUNK_HURT_SHEET)
@@ -58,8 +58,8 @@ public class PunkHeroAnimator extends HeroAnimator {
                 .highPriority()
                 .build());
         animations.put(State.PUNCH, new AnimationBuilder(AssetsNames.PUNK_PUNCH_SHEET)
-                .cols(3)
-                .rows(2)
+                .cols(6)
+                .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
                 .blocked(State.IDLE)
                 .priority(500)
