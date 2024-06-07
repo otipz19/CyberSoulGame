@@ -4,8 +4,10 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class EnemyData {
     public enum Type {
-        //Should be changed, when concrete enemies will be added
         DEFAULT,
+        MONSTER,
+        CAR,
+        BAT,
     }
 
     private final Rectangle spawnPoint;

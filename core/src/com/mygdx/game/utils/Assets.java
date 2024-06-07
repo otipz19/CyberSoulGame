@@ -36,6 +36,22 @@ public class Assets {
         public static final String MONSTER_WALK_SHEET = "enemies/monster/Walk.png";
         public static final String MONSTER_HURT_SHEET = "enemies/monster/Hurt.png";
 
+        public static final String BAT_IDLE_SHEET = "enemies/bat_monster/Idle.png";
+        public static final String BAT_ATTACK1_SHEET = "enemies/bat_monster/Attack1.png";
+        public static final String BAT_ATTACK2_SHEET = "enemies/bat_monster/Attack2.png";
+        public static final String BAT_ATTACK3_SHEET = "enemies/bat_monster/Attack3.png";
+        public static final String BAT_DEATH_SHEET = "enemies/bat_monster/Death.png";
+        public static final String BAT_WALK_SHEET = "enemies/bat_monster/Walk.png";
+        public static final String BAT_HURT_SHEET = "enemies/bat_monster/Hurt.png";
+
+        public static final String CAR_IDLE_SHEET = "enemies/car_monster/Idle.png";
+        public static final String CAR_ATTACK1_SHEET = "enemies/car_monster/Attack1.png";
+        public static final String CAR_ATTACK2_SHEET = "enemies/car_monster/Attack2.png";
+        public static final String CAR_ATTACK3_SHEET = "enemies/car_monster/Attack3_1.png";
+        public static final String CAR_DEATH_SHEET = "enemies/car_monster/Death.png";
+        public static final String CAR_WALK_SHEET = "enemies/car_monster/Walk.png";
+        public static final String CAR_HURT_SHEET = "enemies/car_monster/Hurt.png";
+
         public static final String ENTRY_OBSTACLE_OPENING = "obstacles/entry/opening.png";
         public static final String ENTRY_OBSTACLE_CLOSING = "obstacles/entry/closing.png";
         public static final String ENTRY_OBSTACLE_CLOSED = "obstacles/entry/closed.png";
@@ -133,7 +149,7 @@ public class Assets {
 
         public static final String PUNK_DEATH_SOUND = "music/female_death.ogg";
 
-
+        public static final String PORTAL_CHARGING_SOUND = "music/portal-charging.ogg";
         public static final String RANGE_ATTACK_SOUND = "music/range_enemy_attack.ogg";
     }
 }

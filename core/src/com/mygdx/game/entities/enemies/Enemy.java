@@ -21,11 +21,10 @@ import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.utils.DelayedAction;
 
-public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileCollidable {
+public abstract class Enemy extends MortalEntity<ResourcesManager> implements ProjectileCollidable {
     private final Hero player;
-    private final GroundEnemyMovementController movementController;
-    private final EnemyData enemyData;
-    private final EnemyAttack attack;
+    protected final GroundEnemyMovementController movementController;
+    protected EnemyAttack attack;
     private float detectionRange = 4f;
     private float attackDelay;
     private int healthLossCount;
@@ -37,7 +36,6 @@ public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileC
         super(new EnemyResourcesManager(100));
 
         this.level = level;
-        this.enemyData = enemyData;
         this.width = width;
         this.height = height;
         this.player = level.hero;
@@ -49,13 +47,9 @@ public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileC
         body.setFixedRotation(true);
         body.getFixtureList().first().setUserData(this);
 
-        attack = new EnemyAttack(this);
         movementController = new GroundEnemyMovementController(body,
                 travelAreaInWorldCoordinates.x,
                 travelAreaInWorldCoordinates.x + travelAreaInWorldCoordinates.width - width);
-
-        animator = new EnemyAnimator();
-        animator.setDirection(movementController.isFacingRight() ? Animator.Direction.RIGHT : Animator.Direction.LEFT);
 
         new DefaultEnemyHeadSensor(this);
         this.leftAttackRange = new AttackRangeSensor(this, SensorPosition.LEFT);
@@ -96,7 +90,7 @@ public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileC
         }
     }
 
-    private void attack() {
+    protected void attack() {
         if (healthLossCount != 0)
             return;
         animator.setState(EnemyAnimator.State.ATTACK_2);

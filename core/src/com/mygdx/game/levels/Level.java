@@ -16,8 +16,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
-import com.mygdx.game.entities.IRenderable;
-import com.mygdx.game.entities.heroes.BikerHero;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.heroes.PunkHero;
 import com.mygdx.game.entities.particles.Particles;

@@ -5,7 +5,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.entities.DeathZone;
 import com.mygdx.game.entities.Surface;
+import com.mygdx.game.entities.enemies.BatEnemy;
+import com.mygdx.game.entities.enemies.CarEnemy;
 import com.mygdx.game.entities.enemies.Enemy;
+import com.mygdx.game.entities.enemies.MonsterEnemy;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
 import com.mygdx.game.entities.obstacles.GateObstacle;
 import com.mygdx.game.entities.obstacles.HammerObstacle;
@@ -83,7 +86,16 @@ public class MapObjectsBinder {
             Enemy enemy;
             switch (enemyData.getType()) {
                 case DEFAULT -> {
-                    enemy = new Enemy(level, enemyData, 1.5f, 2f);
+                    enemy = new MonsterEnemy(level, enemyData, 1.5f, 2f);
+                }
+                case MONSTER -> {
+                    enemy = new MonsterEnemy(level, enemyData, 1.5f, 2f);
+                }
+                case BAT -> {
+                    enemy = new BatEnemy(level, enemyData, 1.5f, 2f);
+                }
+                case CAR -> {
+                    enemy = new CarEnemy(level, enemyData, 1.5f, 2f);
                 }
                 default -> throw new RuntimeException("Not supported enemy type!");
             }

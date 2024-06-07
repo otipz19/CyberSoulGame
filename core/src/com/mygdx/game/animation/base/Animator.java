@@ -30,9 +30,12 @@ public abstract class Animator {
         this.animations = createAnimationsMap();
         this.curAnimation = animations.startAnimation;
     }
+    public Animator(AnimationsMap animations) {
+        this.animations = animations;
+        this.curAnimation = animations.startAnimation;
+    }
 
     protected abstract AnimationsMap createAnimationsMap();
-
     public boolean isAnimationFinished() {
         return curAnimation != null && curAnimation.isAnimationFinished(stateTime);
     }

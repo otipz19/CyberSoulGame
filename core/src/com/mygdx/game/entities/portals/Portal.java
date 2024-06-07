@@ -12,6 +12,8 @@ import com.mygdx.game.map.data.PortalData;
 import com.mygdx.game.physics.BodyCreator;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
+import com.mygdx.game.sound.SoundPlayer;
+import com.mygdx.game.utils.Assets;
 import com.mygdx.game.utils.PlayerDataManager;
 
 public abstract class Portal extends InteractableEntity {
@@ -46,7 +48,7 @@ public abstract class Portal extends InteractableEntity {
         if (isEnabled && interactionCause instanceof Hero hero) {
             if (!hasActivated) {
                 animator.setState(PortalAnimator.State.ACTIVATING);
-//                animator.blockAnimationReset();
+                SoundPlayer.getInstance().playSound(Assets.Sound.PORTAL_CHARGING_SOUND);
             } else {
                 PlayerDataManager.getInstance().setHeroData(hero.getData());
                 MyGdxGame.getInstance().goToNewLevel(portalData.getDestination());
