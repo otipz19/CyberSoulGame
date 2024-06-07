@@ -9,25 +9,14 @@ import com.mygdx.game.entities.GameObject;
 import com.mygdx.game.entities.ITriggerListener;
 import com.mygdx.game.entities.InteractableEntity;
 
-public class InteractionSensor extends GameObject implements ITriggerListener {
+public class InteractionSensor extends Sensor {
     private final Array<InteractableEntity> entitiesToInteract;
-    private final Entity parent;
+
     public InteractionSensor(Entity parent){
-        this.level = parent.getLevel();
-        this.body = parent.getBody();
-        this.parent = parent;
+        super(parent);
         entitiesToInteract = new Array<>();
-
         Shape colliderShape = SensorPosition.SLIM_INSIDE.getColliderShape(parent.getWidth(), parent.getHeight());
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = colliderShape;
-        fixtureDef.isSensor = true;
-
-        Fixture fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(this);
-
-        colliderShape.dispose();
+        createFixture(colliderShape);
     }
 
     public void interact() {

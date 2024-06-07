@@ -205,4 +205,8 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         healthLossCount = Integer.MAX_VALUE;
         new DelayedAction(getDeathDelay(), MyGdxGame.getInstance()::levelFailed);
     }
+
+    public HeroMovementController getMovementController() {
+        return movementController;
+    }
 }
