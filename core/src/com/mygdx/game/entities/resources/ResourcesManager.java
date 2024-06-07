@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 public abstract class ResourcesManager {
     protected float health;
     protected float maxHealth;
-
+    protected boolean isInvincible;
     protected final Array<Runnable> onDeathActions = new Array<>();
     protected final Array<Consumer<Float>> onHealthChangeActions = new Array<>();
 
@@ -63,6 +63,14 @@ public abstract class ResourcesManager {
         if (maxHealth <= 0)
             throw new RuntimeException("Max health can not be 0 or less");
         this.maxHealth = maxHealth;
+    }
+
+    public boolean isInvincible() {
+        return isInvincible;
+    }
+
+    public void setInvincible(boolean invincible) {
+        isInvincible = invincible;
     }
 
     public void addOnDeathAction(Runnable runnable) {

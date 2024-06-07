@@ -158,8 +158,11 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
     protected void handleDashing() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) && resourcesManager.hasEnergy(attack4.getEnergyConsumption())) {
             boolean hasDashed = movementController.tryDash();
-            if (hasDashed)
+            if (hasDashed) {
+                resourcesManager.setInvincible(true);
+                new DelayedAction(attack4.getAttackTime(), () -> resourcesManager.setInvincible(false));
                 attack(attack4,AssetsNames.DASH_SOUND, HeroAnimator.State.DASH);
+            }
         }
     }
 
