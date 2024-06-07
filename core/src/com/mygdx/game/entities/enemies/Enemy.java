@@ -29,7 +29,7 @@ public class Enemy extends MortalEntity<ResourcesManager> {
     private int healthLossCount;
 
 
-    public Enemy(Level level, EnemyData enemyData, float width, float height) {
+    public Enemy(Level level, EnemyData enemyData, float width, float height, EnemyAnimator.EnemyType type) {
         super(new EnemyResourcesManager(100));
 
         this.level = level;
@@ -46,7 +46,7 @@ public class Enemy extends MortalEntity<ResourcesManager> {
         attack = new EnemyAttack(this);
         movementController = new GroundEnemyMovementController(body, enemyData.getTravelArea().x, enemyData.getTravelArea().x + enemyData.getTravelArea().width);
 
-        animator = new EnemyAnimator();
+        animator = EnemyAnimator.createAnimator(type);
         animator.setDirection(movementController.isFacingRight() ? Animator.Direction.RIGHT : Animator.Direction.LEFT);
     }
 

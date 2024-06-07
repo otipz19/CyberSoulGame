@@ -23,12 +23,21 @@ public class AssetsNames {
     public static final String MONSTER_WALK_SHEET = "enemies/monster/Walk.png";
     public static final String MONSTER_HURT_SHEET = "enemies/monster/Hurt.png";
 
+    public static final String MONSTER2_IDLE_SHEET = "enemies/bat_monster/Idle.png";
     public static final String MONSTER2_ATTACK1_SHEET = "enemies/bat_monster/Attack1.png";
     public static final String MONSTER2_ATTACK2_SHEET = "enemies/bat_monster/Attack2.png";
     public static final String MONSTER2_ATTACK3_SHEET = "enemies/bat_monster/Attack3.png";
     public static final String MONSTER2_DEATH_SHEET = "enemies/bat_monster/Death.png";
     public static final String MONSTER2_WALK_SHEET = "enemies/bat_monster/Walk.png";
     public static final String MONSTER2_HURT_SHEET = "enemies/bat_monster/Hurt.png";
+
+    public static final String MONSTER3_IDLE_SHEET = "enemies/car_monster/Idle.png";
+    public static final String MONSTER3_ATTACK1_SHEET = "enemies/car_monster/Attack1.png";
+    public static final String MONSTER3_ATTACK2_SHEET = "enemies/car_monster/Attack2.png";
+    public static final String MONSTER3_ATTACK3_SHEET = "enemies/car_monster/Attack3_1.png";
+    public static final String MONSTER3_DEATH_SHEET = "enemies/car_monster/Death.png";
+    public static final String MONSTER3_WALK_SHEET = "enemies/car_monster/Walk.png";
+    public static final String MONSTER3_HURT_SHEET = "enemies/car_monster/Hurt.png";
 
     public static final String TEST_LEVEL_TILEMAP = "zones/greenzone/levels/test-level.tmx";
     public static final String GREENZONE_LEVEL_TILEMAP = "zones/greenzone/greenzone.tmx";
@@ -92,6 +101,7 @@ public class AssetsNames {
     public static final String ATTACK_SWORD_SOUND = "music/sword_hero_attack.ogg";
     public static final String ATTACK_SWORD_HIT_SOUND = "music/sword_hero_attack_2.ogg";
     public static final String TELEPORT_SOUND = "music/teleport.ogg";
+    public static final String PORTAL_CHARGING_SOUND = "music/portal-charging.ogg";
     public static final String DRINKING_SOUND = "music/drinking-sound.ogg";
     public static final String DASH_SOUND = "music/hero-dash.ogg";
     public static final String PICKING_SOUL_SOUND = "music/picking_soul.ogg";

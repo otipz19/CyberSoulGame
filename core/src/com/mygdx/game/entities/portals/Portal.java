@@ -49,6 +49,7 @@ public abstract class Portal extends InteractableEntity {
         if (isEnabled && interactionCause instanceof Hero hero) {
             if (!hasActivated) {
                 animator.setState(PortalAnimator.State.ACTIVATING);
+                SoundPlayer.getInstance().playSound(AssetsNames.PORTAL_CHARGING_SOUND);
 //                animator.blockAnimationReset();
             } else {
                 PlayerDataManager.getInstance().setHeroData(hero.getData());

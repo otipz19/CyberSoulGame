@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.animation.concrete.EnemyAnimator;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
 import com.mygdx.game.entities.IRenderable;
@@ -179,7 +180,7 @@ public abstract class Level implements Screen {
 
     private void createEnemies() {
         // Should be changed
-        Enemy enemy = new Enemy(this, new EnemyData(new Rectangle(20, 32, 0, 0), new Rectangle(18, 32, 10, 1), "DEFAULT"), 1, 1);
+        Enemy enemy = new Enemy(this, new EnemyData(new Rectangle(20, 32, 0, 0), new Rectangle(18, 32, 10, 1), "DEFAULT"), 1, 1, EnemyAnimator.EnemyType.MONSTER3);
         enemies.add(enemy);
         enemy.addOnDeathAction(() -> new DelayedAction(enemy.getDeathDelay(), () -> enemies.removeValue(enemy, true)));
     }
