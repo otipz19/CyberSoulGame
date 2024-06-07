@@ -37,6 +37,12 @@ public class CoordinatesProjector {
         return vector2;
     }
 
+    public Rectangle unproject(Rectangle rectangle) {
+        Vector2 pos = unproject(rectangle.x, rectangle.y);
+        Vector2 size = toWorldSize(rectangle.width, rectangle.height);
+        return new Rectangle(pos.x, pos.y, size.x, size.y);
+    }
+
     /**
      * screen -> world
      */

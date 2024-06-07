@@ -72,10 +72,17 @@ public class MapObjectsBinder {
     }
 
     private void createEnemies() {
-        // Should be changed
-        Enemy enemy = new Enemy(level, new EnemyData(new Rectangle(20, 32, 0, 0), new Rectangle(18, 32, 10, 1), "DEFAULT"), 1, 1);
-        enemies.add(enemy);
-        enemy.addOnDeathAction(() -> new DelayedAction(enemy.getDeathDelay(), () -> enemies.removeValue(enemy, true)));
+        objectsParser.getEnemiesData().forEach(enemyData -> {
+            Enemy enemy;
+            switch (enemyData.getType()) {
+                case DEFAULT -> {
+                    enemy = new Enemy(level, enemyData, 1.5f, 2f);
+                }
+                default -> throw new RuntimeException("Not supported enemy type!");
+            }
+            enemies.add(enemy);
+            enemy.addOnDeathAction(() -> new DelayedAction(enemy.getDeathDelay(), () -> enemies.removeValue(enemy, true)));
+        });
     }
 
     private void createPortals() {
