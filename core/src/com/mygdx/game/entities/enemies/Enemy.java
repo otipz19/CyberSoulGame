@@ -20,16 +20,16 @@ import com.mygdx.game.utils.DelayedAction;
 
 public class Enemy extends MortalEntity<ResourcesManager> {
     private final Hero player;
-    private final GroundEnemyMovementController movementController;
+    protected final GroundEnemyMovementController movementController;
     private final EnemyData enemyData;
-    private final EnemyAttack attack;
+    protected EnemyAttack attack;
     private float detectionRange = 4f;
     private float attackRange = 1.1f;
     private float attackDelay;
     private int healthLossCount;
 
 
-    public Enemy(Level level, EnemyData enemyData, float width, float height, EnemyAnimator.EnemyType type) {
+    public Enemy(Level level, EnemyData enemyData, float width, float height) {
         super(new EnemyResourcesManager(100));
 
         this.level = level;
@@ -46,8 +46,7 @@ public class Enemy extends MortalEntity<ResourcesManager> {
         attack = new EnemyAttack(this);
         movementController = new GroundEnemyMovementController(body, enemyData.getTravelArea().x, enemyData.getTravelArea().x + enemyData.getTravelArea().width);
 
-        animator = EnemyAnimator.createAnimator(type);
-        animator.setDirection(movementController.isFacingRight() ? Animator.Direction.RIGHT : Animator.Direction.LEFT);
+        //animator.setDirection(movementController.isFacingRight() ? Animator.Direction.RIGHT : Animator.Direction.LEFT);
     }
 
 
@@ -60,7 +59,7 @@ public class Enemy extends MortalEntity<ResourcesManager> {
     }
 
 
-    private void move() {
+    protected void move() {
         Vector2 playerPosition = player.getBody().getPosition();
         Vector2 enemyPosition = body.getPosition();
         float distanceToPlayer = playerPosition.dst(enemyPosition);
@@ -74,7 +73,7 @@ public class Enemy extends MortalEntity<ResourcesManager> {
         animator.setDirection(movementController.isFacingRight() ? Animator.Direction.RIGHT : Animator.Direction.LEFT);
     }
 
-    private void attemptAttack(Vector2 playerPosition, float distanceToPlayer) {
+    protected void attemptAttack(Vector2 playerPosition, float distanceToPlayer) {
         if(distanceToPlayer > attackRange) {
             movementController.changeToAttackMode();
             movementController.tryMoveTo(playerPosition);
@@ -86,7 +85,7 @@ public class Enemy extends MortalEntity<ResourcesManager> {
         }
     }
 
-    private void attack() {
+    protected void attack() {
         if (healthLossCount != 0)
             return;
         animator.setState(EnemyAnimator.State.ATTACK_2);

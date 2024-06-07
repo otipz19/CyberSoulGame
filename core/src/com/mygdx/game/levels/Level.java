@@ -19,6 +19,7 @@ import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
 import com.mygdx.game.entities.IRenderable;
 import com.mygdx.game.entities.Surface;
+import com.mygdx.game.entities.enemies.CarEnemy;
 import com.mygdx.game.entities.enemies.Enemy;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
@@ -180,7 +181,7 @@ public abstract class Level implements Screen {
 
     private void createEnemies() {
         // Should be changed
-        Enemy enemy = new Enemy(this, new EnemyData(new Rectangle(20, 32, 0, 0), new Rectangle(18, 32, 10, 1), "DEFAULT"), 1, 1, EnemyAnimator.EnemyType.MONSTER3);
+        Enemy enemy = new CarEnemy(this, new EnemyData(new Rectangle(20, 32, 0, 0), new Rectangle(18, 32, 10, 1), "DEFAULT"), 1, 1);
         enemies.add(enemy);
         enemy.addOnDeathAction(() -> new DelayedAction(enemy.getDeathDelay(), () -> enemies.removeValue(enemy, true)));
     }
