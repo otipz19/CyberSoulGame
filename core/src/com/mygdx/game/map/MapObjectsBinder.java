@@ -1,9 +1,9 @@
-package com.mygdx.game.levels;
+package com.mygdx.game.map;
 
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.entities.DeathZone;
 import com.mygdx.game.entities.Surface;
 import com.mygdx.game.entities.enemies.Enemy;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
@@ -13,12 +13,12 @@ import com.mygdx.game.entities.portals.FirstPortal;
 import com.mygdx.game.entities.portals.Portal;
 import com.mygdx.game.entities.portals.SecondPortal;
 import com.mygdx.game.entities.portals.ThirdPortal;
-import com.mygdx.game.map.EnemyData;
-import com.mygdx.game.map.PlayerSpawnData;
-import com.mygdx.game.map.XMLLevelObjectsParser;
+import com.mygdx.game.levels.Level;
+import com.mygdx.game.map.data.PlayerSpawnData;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.utils.DelayedAction;
+import com.mygdx.game.utils.RenderUtils;
 
 import java.util.stream.Stream;
 
@@ -39,9 +39,9 @@ public class MapObjectsBinder {
         objectsParser.getColliders().forEach(shape -> {
             Collider collider;
             if (shape instanceof Rectangle)
-                collider = ColliderCreator.create((Rectangle) shape, level.coordinatesProjector);
+                collider = ColliderCreator.create((Rectangle) shape, level.getCoordinatesProjector());
             else if (shape instanceof Polygon)
-                collider = ColliderCreator.create((Polygon) shape, level.coordinatesProjector);
+                collider = ColliderCreator.create((Polygon) shape, level.getCoordinatesProjector());
             else
                 throw new RuntimeException("Shape is not supported");
 
@@ -54,9 +54,16 @@ public class MapObjectsBinder {
     }
 
     public void createEntities() {
+        createDeathZones();
         createObstacles();
         createEnemies();
         createPortals();
+    }
+
+    private void createDeathZones() {
+        objectsParser.getDeathZones().forEach(bounds -> {
+            new DeathZone(level, bounds);
+        });
     }
 
     private void createObstacles() {
@@ -99,15 +106,15 @@ public class MapObjectsBinder {
     }
 
     public void renderObstacles(float delta) {
-        level.renderEntities(delta, obstacles);
+        RenderUtils.renderEntities(delta, obstacles);
     }
 
     public void renderEnemies(float delta) {
-        level.renderEntities(delta, enemies);
+        RenderUtils.renderEntities(delta, enemies);
     }
 
     public void renderPortals(float delta) {
-        level.renderEntities(delta, portals);
+        RenderUtils.renderEntities(delta, portals);
     }
 
     public Array<Portal> getPortals() {

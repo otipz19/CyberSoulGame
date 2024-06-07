@@ -1,5 +1,9 @@
 package com.mygdx.game.map;
 
+import com.mygdx.game.map.data.EnemyData;
+import com.mygdx.game.map.data.ObstacleData;
+import com.mygdx.game.map.data.PlayerSpawnData;
+import com.mygdx.game.map.data.PortalData;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -29,6 +33,8 @@ public class XMLLevelObjectsParser {
     private final List<EnemyData> enemiesData = new ArrayList<>();
     private final List<PortalData> portalsData = new ArrayList<>();
     private final List<PlayerSpawnData> playerSpawnsData = new ArrayList<>();
+
+    private final List<Rectangle> deathZones = new ArrayList<>();
 
     public XMLLevelObjectsParser(String levelFileName) {
         document = loadDocument(levelFileName);
@@ -72,14 +78,12 @@ public class XMLLevelObjectsParser {
             Element objectGroup = (Element) objectGroups.item(i);
             if (objectGroup.hasAttribute("name")) {
                 String groupName = objectGroup.getAttribute("name");
-                if (groupName.equals("colliders")) {
-                    parseColliders(objectGroup);
-                } else if (groupName.equals("obstacles")) {
-                    parseObstacles(objectGroup);
-                } else if (groupName.equals("portals")) {
-                    parsePortals(objectGroup);
-                } else if(groupName.equals("playerSpawns")) {
-                    parsePlayerSpawns(objectGroup);
+                switch (groupName) {
+                    case "colliders" -> parseColliders(objectGroup);
+                    case "obstacles" -> parseObstacles(objectGroup);
+                    case "portals" -> parsePortals(objectGroup);
+                    case "playerSpawns" -> parsePlayerSpawns(objectGroup);
+                    case "deathZones" -> parseDeathZones(objectGroup);
                 }
             }
         }
@@ -156,6 +160,12 @@ public class XMLLevelObjectsParser {
     private PlayerSpawnData parsePlayerSpawn(Element object) {
         Rectangle bounds = parseRectangle(object);
         return new PlayerSpawnData(bounds, getProperty(object, "fromLevel"));
+    }
+
+    private void parseDeathZones(Element objectGroup) {
+        forEachObjectInGroup(objectGroup, object -> {
+            deathZones.add(parseRectangle(object));
+        });
     }
 
     private void parseEnemiesObjectGroups(Element group) {
@@ -236,5 +246,9 @@ public class XMLLevelObjectsParser {
 
     public Stream<PlayerSpawnData> getPlayerSpawns() {
         return playerSpawnsData.stream();
+    }
+
+    public Stream<Rectangle> getDeathZones() {
+        return deathZones.stream();
     }
 }

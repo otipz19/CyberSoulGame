@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -18,23 +17,20 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
 import com.mygdx.game.entities.IRenderable;
-import com.mygdx.game.entities.Surface;
-import com.mygdx.game.entities.enemies.Enemy;
 import com.mygdx.game.entities.heroes.BikerHero;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.heroes.PunkHero;
-import com.mygdx.game.entities.obstacles.EntryObstacle;
-import com.mygdx.game.entities.obstacles.GateObstacle;
-import com.mygdx.game.entities.obstacles.HammerObstacle;
 import com.mygdx.game.entities.particles.Particles;
 import com.mygdx.game.entities.projectiles.Projectile;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
+import com.mygdx.game.map.MapObjectsBinder;
 import com.mygdx.game.parallax.ParallaxBackground;
 import com.mygdx.game.physics.ContactListener;
 import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.ui.LevelUI;
 import com.mygdx.game.utils.DelayedAction;
 import com.mygdx.game.utils.PlayerDataManager;
+import com.mygdx.game.utils.RenderUtils;
 
 public abstract class Level implements Screen {
     protected MyGdxGame game;
@@ -195,17 +191,11 @@ public abstract class Level implements Screen {
         game.batch.begin();
         mapBinder.renderPortals(delta);
         mapBinder.renderEnemies(delta);
-        renderEntities(delta, projectiles);
-        renderEntities(delta, particles);
+        RenderUtils.renderEntities(delta, projectiles);
+        RenderUtils.renderEntities(delta, particles);
         hero.render(delta);
         mapBinder.renderObstacles(delta);
         game.batch.end();
-    }
-
-    protected <T extends IRenderable> void renderEntities(float delta, Array<T> entities) {
-        for (T entity : entities) {
-            entity.render(delta);
-        }
     }
 
     protected void updateMusicSound() {
