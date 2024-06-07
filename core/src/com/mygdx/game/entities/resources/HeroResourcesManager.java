@@ -1,7 +1,10 @@
 package com.mygdx.game.entities.resources;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.entities.heroes.HeroData;
+
+import java.util.function.Function;
 
 public class HeroResourcesManager extends ResourcesManager {
     private final float SHIELD_UNIT_RESTORE_TIME = 3f;
@@ -15,6 +18,7 @@ public class HeroResourcesManager extends ResourcesManager {
     protected float energyRestoreUnit;
     private float energyRestoreTimer;
     protected int souls;
+    protected final Array<Function<Float, Boolean>> onShieldChangeActions = new Array<>();
 
     public HeroResourcesManager(HeroData heroData) {
         super(heroData.health, heroData.maxHealth);
@@ -34,6 +38,7 @@ public class HeroResourcesManager extends ResourcesManager {
         if (delta < 0)
             throw new RuntimeException("Delta can not be negative");
 
+        float oldShield = shield;
         float temp = shield - delta;
         if (temp < 0){
             health += temp;
@@ -42,6 +47,17 @@ public class HeroResourcesManager extends ResourcesManager {
         }
         else
             shield = temp;
+
+        if (shield != oldShield)
+            fireOnShieldChangeEvent(shield - oldShield);
+    }
+
+    protected void fireOnShieldChangeEvent(float deltaShield) {
+        onShieldChangeActions.forEach(c -> {
+            boolean isHandled = c.apply(deltaShield);
+            if (isHandled)
+                onShieldChangeActions.removeValue(c, true);
+        });
     }
 
     @Override
@@ -49,8 +65,11 @@ public class HeroResourcesManager extends ResourcesManager {
         shieldRestoreTimer = Math.max(shieldRestoreTimer - deltaTime, 0);
         energyRestoreTimer = Math.max(energyRestoreTimer - deltaTime, 0);
         if (shieldRestoreTimer == 0) {
+            float oldShield = shield;
             shield = Math.min(shield + shieldRestoreUnit, maxShield);
             shieldRestoreTimer = SHIELD_UNIT_RESTORE_TIME;
+            if (shield != oldShield)
+                fireOnShieldChangeEvent(shield - oldShield);
         }
         if (energyRestoreTimer == 0) {
             energy = Math.min(energy + energyRestoreUnit, maxEnergy);
@@ -146,6 +165,18 @@ public class HeroResourcesManager extends ResourcesManager {
 
     public void setEnergyRestoreUnit(float energyRestoreUnit) {
         this.energyRestoreUnit = energyRestoreUnit;
+    }
+
+    public void addOnShieldChangeAction(Function<Float, Boolean> action) {
+        onShieldChangeActions.add(action);
+    }
+
+    public void removeOnShieldChangeAction(Function<Float, Boolean> action) {
+        onShieldChangeActions.removeValue(action, true);
+    }
+
+    public void clearOnShieldChangeActions() {
+        onShieldChangeActions.clear();
     }
 
     public HeroData getHeroData(){

@@ -61,6 +61,13 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
 
         dashSound = Assets.Sound.HERO_DASH_SOUND;
         jumpSound = Assets.Sound.HERO_JUMP_SOUND;
+        shieldImpactSound= Assets.Sound.SHIELD_IMPACT_SOUND;
+
+        resourcesManager.addOnShieldChangeAction(delta -> {
+            if (delta < 0)
+                SoundPlayer.getInstance().playSound(shieldImpactSound);
+            return false;
+        });
     }
 
     public void render(float deltaTime) {
@@ -217,7 +224,6 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
     public void onDeath() {
         SoundPlayer.getInstance().playSound(deathSound);
         animator.setState(HeroAnimator.State.DEATH);
-        SoundPlayer.getInstance().playSound(hpLossSound);
         healthLossCount = Integer.MAX_VALUE;
         new DelayedAction(getDeathDelay(), MyGdxGame.getInstance()::levelFailed);
     }
