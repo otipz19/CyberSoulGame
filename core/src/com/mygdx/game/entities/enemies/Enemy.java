@@ -18,7 +18,7 @@ import com.mygdx.game.entities.sensors.DefaultEnemyHeadSensor;
 import com.mygdx.game.entities.sensors.LeftAttackRangeSensor;
 import com.mygdx.game.entities.sensors.RightAttackRangeSensor;
 import com.mygdx.game.levels.Level;
-import com.mygdx.game.map.EnemyData;
+import com.mygdx.game.map.data.EnemyData;
 import com.mygdx.game.physics.BodyCreator;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;

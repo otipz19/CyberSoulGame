@@ -1,4 +1,4 @@
-package com.mygdx.game.map;
+package com.mygdx.game.map.data;
 
 import com.badlogic.gdx.math.Rectangle;
 

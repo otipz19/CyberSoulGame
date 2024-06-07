@@ -8,7 +8,7 @@ import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.InteractableEntity;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.levels.Level;
-import com.mygdx.game.map.PortalData;
+import com.mygdx.game.map.data.PortalData;
 import com.mygdx.game.physics.BodyCreator;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
