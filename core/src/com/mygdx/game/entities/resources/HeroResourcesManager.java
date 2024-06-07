@@ -29,8 +29,11 @@ public class HeroResourcesManager extends ResourcesManager {
 
     @Override
     public void decreaseHealth(float delta) {
+        if (isInvincible)
+            return;
         if (delta < 0)
             throw new RuntimeException("Delta can not be negative");
+
         float temp = shield - delta;
         if (temp < 0){
             health += temp;
@@ -54,6 +57,11 @@ public class HeroResourcesManager extends ResourcesManager {
             energyRestoreTimer = ENERGY_UNIT_RESTORE_TIME;
         }
         super.update(deltaTime);
+    }
+
+    @Override
+    public float getMaxDurability() {
+        return getMaxHealth() + getMaxShield();
     }
 
     public int getSouls(){
@@ -150,10 +158,5 @@ public class HeroResourcesManager extends ResourcesManager {
         heroData.maxEnergy = maxEnergy;
         heroData.energyRestorationUnit = energyRestoreUnit;
         return heroData;
-    }
-
-    @Override
-    public float getMaxDurability() {
-        return getMaxHealth() + getMaxShield();
     }
 }

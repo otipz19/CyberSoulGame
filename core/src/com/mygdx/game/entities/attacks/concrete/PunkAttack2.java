@@ -34,6 +34,11 @@ public class PunkAttack2 extends SideProjectileAttack {
     }
 
     @Override
+    public float getEnergyConsumption() {
+        return 10f;
+    }
+
+    @Override
     public Projectile createProjectile(Entity owner, float x, float y, float initialAngle) {
         HeroProjectile projectile = new PunkScytheProjectile(owner, x, y, getProjectileWidth(), getProjectileHeight(), initialAngle);
         projectile.setDamage(30);

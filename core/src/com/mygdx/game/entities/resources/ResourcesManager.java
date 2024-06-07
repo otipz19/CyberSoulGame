@@ -19,6 +19,7 @@ public abstract class ResourcesManager {
     public void increaseHealth(float delta) {
         if (delta < 0)
             throw new RuntimeException("Delta can not be negative");
+
         float oldHealth = health;
         health = Math.min(health + delta, maxHealth);
         float deltaHealth = health - oldHealth;
@@ -27,8 +28,11 @@ public abstract class ResourcesManager {
     }
 
     public void decreaseHealth(float delta) {
+        if (isInvincible)
+            return;
         if (delta < 0)
             throw new RuntimeException("Delta can not be negative");
+
         float oldHealth = health;
         health = Math.max(health - delta, 0);
         float deltaHealth = health - oldHealth;
