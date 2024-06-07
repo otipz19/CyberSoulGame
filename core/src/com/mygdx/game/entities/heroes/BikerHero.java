@@ -5,6 +5,7 @@ import com.mygdx.game.animation.base.Animator;
 import com.mygdx.game.animation.concrete.heroes.BikerHeroAnimator;
 import com.mygdx.game.animation.concrete.heroes.HeroAnimator;
 import com.mygdx.game.entities.attacks.base.Attack;
+import com.mygdx.game.entities.attacks.base.SideAttack;
 import com.mygdx.game.entities.attacks.base.SideMeleeAttack;
 import com.mygdx.game.entities.attacks.concrete.*;
 import com.mygdx.game.levels.Level;
@@ -26,7 +27,7 @@ public class BikerHero extends Hero implements Disposable {
 
     @Override
     protected void attack(Attack attack, String soundName, HeroAnimator.State animation) {
-        SideMeleeAttack sideMeleeAttack = (SideMeleeAttack)attack;
+        SideAttack sideMeleeAttack = (SideAttack)attack;
         if (resourcesManager.tryConsumeEnergy(attack.getEnergyConsumption())) {
             animator.setState(animation);
             new DelayedAction(sideMeleeAttack.getAttackDelay(), () -> SoundPlayer.getInstance().playSound(soundName));

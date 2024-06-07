@@ -7,10 +7,9 @@ import com.mygdx.game.entities.attacks.AttackZone;
 import com.mygdx.game.entities.attacks.AttackZonePosition;
 import com.mygdx.game.utils.DelayedAction;
 
-public abstract class SideMeleeAttack implements MeleeAttack, ICollisionListener, Disposable {
+public abstract class SideMeleeAttack extends SideAttack implements MeleeAttack, ICollisionListener, Disposable {
     protected final AttackZone leftAttackZone;
     protected final AttackZone rightAttackZone;
-    protected boolean facingRight;
 
     public SideMeleeAttack(Entity attacker, AttackZonePosition leftAttackZonePosition, AttackZonePosition rightAttackZonePosition){
         leftAttackZone = new AttackZone(attacker, leftAttackZonePosition, getAttackWidth(), getAttackHeight());
@@ -26,10 +25,6 @@ public abstract class SideMeleeAttack implements MeleeAttack, ICollisionListener
         else
             attackZone = leftAttackZone;
         new DelayedAction(getAttackDelay(), () -> attackZone.enable(getAttackTime()-getAttackDelay()));
-    }
-
-    public void setDirection(boolean facingRight) {
-        this.facingRight = facingRight;
     }
 
     @Override

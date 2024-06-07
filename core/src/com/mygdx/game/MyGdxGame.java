@@ -139,7 +139,9 @@ public class MyGdxGame extends Game {
                         AssetsNames.POWERSTATION_PARALLAX_4,
                         AssetsNames.POWERSTATION_PARALLAX_5,
                         AssetsNames.TEST_PROJECTILE_FLYING_SPRITESHEET,
-                        AssetsNames.TEST_PROJECTILE_EXPLODING_SPRITESHEET)
+                        AssetsNames.TEST_PROJECTILE_EXPLODING_SPRITESHEET,
+                        AssetsNames.PUNK_SCYTHEPROJECTILE_FLYING_SPRITESHEET,
+                        AssetsNames.PUNK_SCYTHEPROJECTILE_EXPLODING_SPRITESHEET)
                 .forEach(str -> assetManager.load(str, Texture.class));
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         Stream.of(AssetsNames.GREENZONE_LEVEL_TILEMAP,

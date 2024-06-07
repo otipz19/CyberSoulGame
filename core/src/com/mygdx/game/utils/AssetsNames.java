@@ -79,6 +79,8 @@ public class AssetsNames {
 
     public static final String TEST_PROJECTILE_FLYING_SPRITESHEET = "projectiles/test-flight.png";
     public static final String TEST_PROJECTILE_EXPLODING_SPRITESHEET = "projectiles/test-explosion.png";
+    public static final String PUNK_SCYTHEPROJECTILE_FLYING_SPRITESHEET = "projectiles/punk-scytheprojectile.png";
+    public static final String PUNK_SCYTHEPROJECTILE_EXPLODING_SPRITESHEET = "projectiles/punk-scytheprojectile-explosion.png";
 
     public static final String MENU_MUSIC = "music/main_menu.ogg";
     public static final String FUN_MENU_MUSIC = "music/fun_menu_music.ogg";

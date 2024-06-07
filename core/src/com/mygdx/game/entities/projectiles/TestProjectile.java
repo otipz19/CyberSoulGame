@@ -5,14 +5,12 @@ import com.mygdx.game.animation.concrete.projectiles.TestProjectileAnimator;
 import com.mygdx.game.entities.Entity;
 
 public class TestProjectile extends HeroProjectile {
-    public TestProjectile(Entity owner, float x, float y, float initialAngle) {
-        super(owner, x, y, 0.5f, 0.25f, 12, initialAngle, false);
+    public TestProjectile(Entity owner, float x, float y, float width, float height, float initialAngle) {
+        super(owner, x, y, width, height, 12, initialAngle, false);
         animator = new TestProjectileAnimator();
+        animator.setDirection(body.getLinearVelocity().x > 0 ? Animator.Direction.RIGHT : Animator.Direction.LEFT);
 
-        addOnExplosionAction(() -> {
-                animator.setDirection(body.getLinearVelocity().x > 0 ? Animator.Direction.RIGHT : Animator.Direction.LEFT);
-                animator.setState(TestProjectileAnimator.State.EXPLODING)
-            ;});
+        addOnExplosionAction(() -> animator.setState(TestProjectileAnimator.State.EXPLODING));
     }
 
     @Override
