@@ -5,6 +5,18 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 
 public enum AttackZonePosition {
+    RIGHT {
+        @Override
+        public Shape getColliderShape(float parentWidth, float parentHeight, float zoneWidth, float zoneHeight) {
+            PolygonShape shape = new PolygonShape();
+            float hw = zoneWidth * 0.5f;
+            float hh = parentHeight * 0.5f;
+            float x = parentWidth + hw;
+            float y = parentHeight * 0.5f;
+            shape.setAsBox(hw, hh, new Vector2(x, y), 0);
+            return shape;
+        }
+    },
     RIGHT_MIDDLE {
         @Override
         public Shape getColliderShape(float parentWidth, float parentHeight, float zoneWidth, float zoneHeight) {
@@ -37,6 +49,18 @@ public enum AttackZonePosition {
             float hh = zoneHeight * 0.5f;
             float x = parentWidth + hw;
             float y = hh;
+            shape.setAsBox(hw, hh, new Vector2(x, y), 0);
+            return shape;
+        }
+    },
+    LEFT {
+        @Override
+        public Shape getColliderShape(float parentWidth, float parentHeight, float zoneWidth, float zoneHeight) {
+            PolygonShape shape = new PolygonShape();
+            float hw = zoneWidth * 0.5f;
+            float hh = parentHeight * 0.5f;
+            float x = -hw;
+            float y = parentHeight * 0.5f;
             shape.setAsBox(hw, hh, new Vector2(x, y), 0);
             return shape;
         }

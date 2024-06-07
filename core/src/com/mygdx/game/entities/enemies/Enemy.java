@@ -13,6 +13,10 @@ import com.mygdx.game.entities.particles.SoulParticles;
 import com.mygdx.game.entities.projectiles.ProjectileCollidable;
 import com.mygdx.game.entities.resources.EnemyResourcesManager;
 import com.mygdx.game.entities.resources.ResourcesManager;
+import com.mygdx.game.entities.sensors.AttackRangeSensor;
+import com.mygdx.game.entities.sensors.DefaultEnemyHeadSensor;
+import com.mygdx.game.entities.sensors.LeftAttackRangeSensor;
+import com.mygdx.game.entities.sensors.RightAttackRangeSensor;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.map.EnemyData;
 import com.mygdx.game.physics.BodyCreator;
@@ -26,9 +30,12 @@ public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileC
     private final EnemyData enemyData;
     private final EnemyAttack attack;
     private float detectionRange = 4f;
-    private float attackRange = 1.1f;
+//    private float attackRange;
     private float attackDelay;
     private int healthLossCount;
+
+    private final AttackRangeSensor leftAttackRange;
+    private final AttackRangeSensor rightAttackRange;
 
     public Enemy(Level level, EnemyData enemyData, float width, float height) {
         super(new EnemyResourcesManager(100));
@@ -53,6 +60,11 @@ public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileC
 
         animator = new EnemyAnimator();
         animator.setDirection(movementController.isFacingRight() ? Animator.Direction.RIGHT : Animator.Direction.LEFT);
+
+        new DefaultEnemyHeadSensor(this);
+//        this.attackRange = width + attack.getAttackWidth();
+        this.leftAttackRange = new LeftAttackRangeSensor(this);
+        this.rightAttackRange = new RightAttackRangeSensor(this);
     }
 
     public void render(float deltaTime) {
@@ -78,7 +90,7 @@ public class Enemy extends MortalEntity<ResourcesManager> implements ProjectileC
     }
 
     private void attemptAttack(Vector2 playerPosition, float distanceToPlayer) {
-        if(distanceToPlayer > attackRange) {
+        if(!leftAttackRange.isHeroInRange() && !rightAttackRange.isHeroInRange()) {
             movementController.changeToAttackMode();
             movementController.tryMoveTo(playerPosition);
         }

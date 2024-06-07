@@ -9,7 +9,7 @@ import com.mygdx.game.entities.attacks.AttackZonePosition;
 
 public class EnemyAttack extends SideMeleeAttack {
     public EnemyAttack(Enemy enemy){
-        super(enemy, AttackZonePosition.LEFT_TOP, AttackZonePosition.RIGHT_TOP);
+        super(enemy, AttackZonePosition.LEFT, AttackZonePosition.RIGHT);
     }
 
     @Override
