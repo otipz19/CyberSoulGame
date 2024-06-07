@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.*;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.sound.SoundPlayer;
-import com.mygdx.game.utils.AssetsNames;
+import com.mygdx.game.utils.Assets;
 import com.mygdx.game.utils.PlayerDataManager;
 
 public class MainMenu implements Screen {
@@ -26,7 +26,7 @@ public class MainMenu implements Screen {
         stage = new Stage(new ScreenViewport());
         ((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(stage);
 
-        Texture texture = MyGdxGame.getInstance().assetManager.get(AssetsNames.UI_MENU_BACKGROUND, Texture.class);
+        Texture texture = MyGdxGame.getInstance().assetManager.get(Assets.Textures.UI_MENU_BACKGROUND, Texture.class);
         Drawable background = new TextureRegionDrawable(texture);
         stage.addActor(new Image(background));
 
@@ -34,7 +34,7 @@ public class MainMenu implements Screen {
         menuButtons.setFillParent(true);
         menuButtons.left().bottom();
 
-        Skin skin = MyGdxGame.getInstance().assetManager.get(AssetsNames.UI_SKIN, Skin.class);
+        Skin skin = MyGdxGame.getInstance().assetManager.get(Assets.Skins.UI_SKIN, Skin.class);
 
         if (hasAlreadyPlayed) {
             TextButton continueButton = getContinueButton(skin);
@@ -90,9 +90,9 @@ public class MainMenu implements Screen {
         settingsUI.addOnHideAction(() -> stage.addActor(menuButtons));
 
         creditsUI = new CreditsUI(stage);
-        creditsUI.addOnHideAction(() -> { stage.addActor(menuButtons); SoundPlayer.getInstance().setBackgroundMusic(AssetsNames.MENU_MUSIC);});
+        creditsUI.addOnHideAction(() -> { stage.addActor(menuButtons); SoundPlayer.getInstance().setBackgroundMusic(Assets.Music.MENU_MUSIC);});
 
-        SoundPlayer.getInstance().setBackgroundMusic(AssetsNames.MENU_MUSIC);
+        SoundPlayer.getInstance().setBackgroundMusic(Assets.Music.MENU_MUSIC);
     }
 
     private TextButton getContinueButton(Skin skin) {
@@ -136,7 +136,7 @@ public class MainMenu implements Screen {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 menuButtons.remove();
-                SoundPlayer.getInstance().setBackgroundMusic(AssetsNames.CREDIT_MUSIC);
+                SoundPlayer.getInstance().setBackgroundMusic(Assets.Music.CREDIT_MUSIC);
                 creditsUI.registerAsInputProcessor();
                 creditsUI.reset();
                 stage.addActor(creditsUI);

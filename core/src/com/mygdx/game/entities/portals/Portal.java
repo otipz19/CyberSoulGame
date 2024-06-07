@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.concrete.portals.PortalAnimator;
-import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.InteractableEntity;
 import com.mygdx.game.entities.heroes.Hero;
@@ -13,8 +12,6 @@ import com.mygdx.game.map.PortalData;
 import com.mygdx.game.physics.BodyCreator;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
-import com.mygdx.game.sound.SoundPlayer;
-import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.utils.PlayerDataManager;
 
 public abstract class Portal extends InteractableEntity {

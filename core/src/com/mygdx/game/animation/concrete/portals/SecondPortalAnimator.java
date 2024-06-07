@@ -1,6 +1,6 @@
 package com.mygdx.game.animation.concrete.portals;
 
-import com.mygdx.game.utils.AssetsNames;
+import com.mygdx.game.utils.Assets;
 
 public class SecondPortalAnimator extends PortalAnimator {
 
@@ -11,11 +11,11 @@ public class SecondPortalAnimator extends PortalAnimator {
 
     @Override
     protected String getInactiveSheetName() {
-        return AssetsNames.PORTAL_SECOND_INACTIVE_SPRITESHEET;
+        return Assets.Textures.PORTAL_SECOND_INACTIVE_SPRITESHEET;
     }
 
     @Override
     protected String getActivatingSheetName() {
-        return AssetsNames.PORTAL_SECOND_ACTIVATING_SPRITESHEET;
+        return Assets.Textures.PORTAL_SECOND_ACTIVATING_SPRITESHEET;
     }
 }

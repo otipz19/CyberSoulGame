@@ -8,13 +8,12 @@ import com.mygdx.game.entities.portals.Portal;
 import com.mygdx.game.entities.portals.SecondPortal;
 import com.mygdx.game.entities.portals.ThirdPortal;
 import com.mygdx.game.parallax.ParallaxBackground;
-import com.mygdx.game.sound.SoundPlayer;
-import com.mygdx.game.utils.AssetsNames;
+import com.mygdx.game.utils.Assets;
 import com.mygdx.game.utils.PlayerDataManager;
 
 public class SafeZoneLevel extends Level {
     public SafeZoneLevel() {
-        super(AssetsNames.SAFEZONE_LEVEL_TILEMAP);
+        super(Assets.TiledMaps.SAFEZONE_LEVEL_TILEMAP);
         enablePortalsToUnlockedLevels();
     }
 
@@ -40,11 +39,11 @@ public class SafeZoneLevel extends Level {
     @Override
     protected ParallaxBackground createBackground() {
         return new ParallaxBackground(camera, new String[]{
-                AssetsNames.GREENZONE_PARALLAX_1,
-                AssetsNames.GREENZONE_PARALLAX_2,
-                AssetsNames.GREENZONE_PARALLAX_3,
-                AssetsNames.GREENZONE_PARALLAX_4,
-                AssetsNames.GREENZONE_PARALLAX_5
+                Assets.Textures.GREENZONE_PARALLAX_1,
+                Assets.Textures.GREENZONE_PARALLAX_2,
+                Assets.Textures.GREENZONE_PARALLAX_3,
+                Assets.Textures.GREENZONE_PARALLAX_4,
+                Assets.Textures.GREENZONE_PARALLAX_5
         }, levelHeight);
     }
 
@@ -59,8 +58,8 @@ public class SafeZoneLevel extends Level {
     @Override
     protected void createMusicSound() {
         super.createMusicSound();
-        soundPlayer.setBackgroundMusic(AssetsNames.GREENZONE_BG_MUSIC);
+        soundPlayer.setBackgroundMusic(Assets.Music.GREENZONE_BG_MUSIC);
         if (PlayerDataManager.getInstance().getMaxLevel().ordinal() != 0)
-            soundPlayer.playSound(AssetsNames.TELEPORT_SOUND);
+            soundPlayer.playSound(Assets.Sound.TELEPORT_SOUND);
     }
 }

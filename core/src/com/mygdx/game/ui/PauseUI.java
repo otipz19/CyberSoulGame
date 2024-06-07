@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.levels.Level;
-import com.mygdx.game.utils.AssetsNames;
+import com.mygdx.game.utils.Assets;
 
 public class PauseUI extends UILayer {
     private final Level level;
@@ -18,7 +18,7 @@ public class PauseUI extends UILayer {
         super(stage);
         this.level = level;
 
-        Skin skin = MyGdxGame.getInstance().assetManager.get(AssetsNames.UI_SKIN, Skin.class);
+        Skin skin = MyGdxGame.getInstance().assetManager.get(Assets.Skins.UI_SKIN, Skin.class);
         registerAsInputProcessor();
 
         setSkin(skin);

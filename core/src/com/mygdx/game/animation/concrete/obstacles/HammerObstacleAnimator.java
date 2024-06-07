@@ -1,6 +1,6 @@
 package com.mygdx.game.animation.concrete.obstacles;
 
-import com.mygdx.game.utils.AssetsNames;
+import com.mygdx.game.utils.Assets;
 
 public class HammerObstacleAnimator extends GateObstacleAnimator {
     @Override
@@ -15,16 +15,16 @@ public class HammerObstacleAnimator extends GateObstacleAnimator {
 
     @Override
     protected String getClosedStateSheet() {
-        return AssetsNames.HAMMER_OBSTACLE_CLOSED;
+        return Assets.Textures.HAMMER_OBSTACLE_CLOSED;
     }
 
     @Override
     protected String getClosingStateSheet() {
-        return AssetsNames.HAMMER_OBSTACLE_CLOSING;
+        return Assets.Textures.HAMMER_OBSTACLE_CLOSING;
     }
 
     @Override
     protected String getOpeningStateSheet() {
-        return AssetsNames.HAMMER_OBSTACLE_OPENING;
+        return Assets.Textures.HAMMER_OBSTACLE_OPENING;
     }
 }

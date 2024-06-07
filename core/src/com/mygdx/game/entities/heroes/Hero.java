@@ -3,14 +3,10 @@ package com.mygdx.game.entities.heroes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.animation.base.Animator;
 import com.mygdx.game.animation.concrete.heroes.HeroAnimator;
 import com.mygdx.game.entities.MortalEntity;
 import com.mygdx.game.entities.attacks.base.Attack;
-import com.mygdx.game.entities.attacks.base.SideMeleeAttack;
-import com.mygdx.game.entities.attacks.concrete.*;
 import com.mygdx.game.entities.movement.HeroMovementController;
 import com.mygdx.game.entities.projectiles.ProjectileCollidable;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
@@ -21,7 +17,7 @@ import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.BodyCreator;
 import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.sound.SoundPlayer;
-import com.mygdx.game.utils.AssetsNames;
+import com.mygdx.game.utils.Assets;
 import com.mygdx.game.utils.DelayedAction;
 
 public abstract class Hero extends MortalEntity<HeroResourcesManager> implements ProjectileCollidable {
@@ -206,7 +202,7 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
     @Override
     public void onDeath() {
         animator.setState(HeroAnimator.State.DEATH);
-        SoundPlayer.getInstance().playSound(AssetsNames.HERO_HURT_SOUND);
+        SoundPlayer.getInstance().playSound(hpLossSound);
         healthLossCount = Integer.MAX_VALUE;
         new DelayedAction(getDeathDelay(), MyGdxGame.getInstance()::levelFailed);
     }

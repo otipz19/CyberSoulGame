@@ -10,7 +10,7 @@ import com.mygdx.game.entities.attacks.base.SideMeleeAttack;
 import com.mygdx.game.entities.attacks.concrete.*;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.sound.SoundPlayer;
-import com.mygdx.game.utils.AssetsNames;
+import com.mygdx.game.utils.Assets;
 import com.mygdx.game.utils.DelayedAction;
 
 public class BikerHero extends Hero implements Disposable {
@@ -25,12 +25,12 @@ public class BikerHero extends Hero implements Disposable {
         attack3 = new BikerAttack3(this);
         attack4 = new BikerAttack4(this);
 
-        attack1Sound = AssetsNames.ATTACK_SOUND;
-        attack2Sound = AssetsNames.ATTACK_COMBO_SOUND;
-        attack3Sound = AssetsNames.ATTACK_KICK_SOUND;
-        dashSound = AssetsNames.DASH_SOUND;
-        jumpSound = AssetsNames.JUMP_SOUND;
-        hpLossSound = AssetsNames.HERO_HURT_SOUND;
+        attack1Sound = Assets.Sound.ATTACK_SOUND;
+        attack2Sound = Assets.Sound.ATTACK_COMBO_SOUND;
+        attack3Sound = Assets.Sound.ATTACK_KICK_SOUND;
+        dashSound = Assets.Sound.DASH_SOUND;
+        jumpSound = Assets.Sound.JUMP_SOUND;
+        hpLossSound = Assets.Sound.HERO_HURT_SOUND;
     }
 
     @Override
