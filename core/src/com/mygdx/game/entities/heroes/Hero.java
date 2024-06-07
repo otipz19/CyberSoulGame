@@ -39,8 +39,9 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
     protected String attack3Sound;
     protected String dashSound;
     protected String jumpSound;
+    protected String shieldImpactSound;
     protected String hpLossSound;
-
+    protected String deathSound;
     public Hero(Level level, HeroData heroData, float x, float y, float width, float height) {
         super(new HeroResourcesManager(heroData));
 
@@ -214,6 +215,7 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
 
     @Override
     public void onDeath() {
+        SoundPlayer.getInstance().playSound(deathSound);
         animator.setState(HeroAnimator.State.DEATH);
         SoundPlayer.getInstance().playSound(hpLossSound);
         healthLossCount = Integer.MAX_VALUE;

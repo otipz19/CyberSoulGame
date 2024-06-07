@@ -24,6 +24,8 @@ public class PunkHero extends Hero implements Disposable {
         attack2Sound = Assets.Sound.PUNK_ATTACK2_SOUND;
         attack3Sound = Assets.Sound.PUNK_ATTACK3_SOUND;
         hpLossSound = Assets.Sound.PUNK_HURT_SOUND;
+        shieldImpactSound= Assets.Sound.SHIELD_IMPACT_SOUND;
+        deathSound=Assets.Sound.PUNK_DEATH_SOUND;
     }
 
     @Override
