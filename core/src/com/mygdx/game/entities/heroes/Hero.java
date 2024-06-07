@@ -6,8 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.base.Animator;
-import com.mygdx.game.animation.concrete.HeroAnimator;
+import com.mygdx.game.animation.concrete.heroes.HeroAnimator;
 import com.mygdx.game.entities.MortalEntity;
+import com.mygdx.game.entities.attacks.base.Attack;
 import com.mygdx.game.entities.attacks.base.SideMeleeAttack;
 import com.mygdx.game.entities.attacks.concrete.*;
 import com.mygdx.game.entities.movement.HeroMovementController;
@@ -23,26 +24,24 @@ import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.utils.AssetsNames;
 import com.mygdx.game.utils.DelayedAction;
 
-public class Hero extends MortalEntity<HeroResourcesManager> implements Disposable, ProjectileCollidable {
-    private final HeroMovementController movementController;
-    private final BikerAttack1 attack1;
-    private final BikerAttack2 attack2;
-    private final BikerAttack3 attack3;
-    private final BikerAttack4 attack4;
-    private final TestProjectileAttack testProjectileAttack;
-    private final SurfaceTouchSensor groundTouchListener;
-    private final SurfaceTouchSensor leftWallTouchListener;
-    private final SurfaceTouchSensor rightWallTouchListener;
-    private final InteractionSensor interactionSensor;
-    private boolean canDoubleJump;
-    private float attackDelay;
-    private int healthLossCount;
+public abstract class Hero extends MortalEntity<HeroResourcesManager> implements ProjectileCollidable {
+    protected final HeroMovementController movementController;
+    protected Attack attack1;
+    protected Attack attack2;
+    protected Attack attack3;
+    protected Attack attack4;
+    protected final SurfaceTouchSensor groundTouchListener;
+    protected final SurfaceTouchSensor leftWallTouchListener;
+    protected final SurfaceTouchSensor rightWallTouchListener;
+    protected final InteractionSensor interactionSensor;
+    protected boolean canDoubleJump;
+    protected float attackDelay;
+    protected int healthLossCount;
 
     public Hero(Level level, HeroData heroData, float x, float y, float width, float height) {
         super(new HeroResourcesManager(heroData));
 
         this.level = level;
-        this.animator = new HeroAnimator();
         this.width = width;
         this.height = height;
 
@@ -55,14 +54,6 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
         leftWallTouchListener = new SurfaceTouchSensor(this, SensorPosition.LEFT);
         rightWallTouchListener = new SurfaceTouchSensor(this, SensorPosition.RIGHT);
         interactionSensor = new InteractionSensor(this);
-
-        attack1 = new BikerAttack1(this);
-        attack2 = new BikerAttack2(this);
-        attack3 = new BikerAttack3(this);
-        attack4 = new BikerAttack4(this);
-        testProjectileAttack = new TestProjectileAttack(this);
-
-        animator.setDirection(movementController.isFacingRight() ? Animator.Direction.RIGHT : Animator.Direction.LEFT);
     }
 
     public void render(float deltaTime) {
@@ -88,7 +79,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
             resourcesManager.decreaseHealth(10);
     }
 
-    private void handleAttack() {
+    protected void handleAttack() {
         if (groundTouchListener.isOnSurface()) {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 attack(attack1, AssetsNames.ATTACK_SOUND, HeroAnimator.State.ATTACK_1);
@@ -102,37 +93,23 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
                 movementController.clearVelocityX();
             }
         }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            testProjectileAttack.setDirection(movementController.isFacingRight());
-            testProjectileAttack.execute();
-        }
     }
 
-    private void attack(SideMeleeAttack attack, String soundName, HeroAnimator.State animation) {
-        if (resourcesManager.tryConsumeEnergy(attack.getEnergyConsumption())) {
-            animator.setState(animation);
-            new DelayedAction(attack.getAttackDelay(), () -> SoundPlayer.getInstance().playSound(soundName));
-//            animator.blockAnimationReset();
-            attackDelay = attack.getAttackTime();
-            attack.setDirection(movementController.isFacingRight());
-            attack.execute();
-        }
-    }
+    protected abstract void attack(Attack attack, String soundName, HeroAnimator.State animation);
 
-    private void handleInteraction() {
+    protected void handleInteraction() {
         if (Gdx.input.isKeyPressed(Input.Keys.E))
             interactionSensor.interact();
     }
 
-    private void updateDirection() {
+    protected void updateDirection() {
         if (Gdx.input.isKeyPressed(Input.Keys.A))
             animator.setDirection(HeroAnimator.Direction.LEFT);
         else if (Gdx.input.isKeyPressed(Input.Keys.D))
             animator.setDirection(HeroAnimator.Direction.RIGHT);
     }
 
-    private void handeRunning() {
+    protected void handeRunning() {
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             movementController.moveLeft();
             if (groundTouchListener.isOnSurface())
@@ -144,7 +121,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
         }
     }
 
-    private void handleJumping() {
+    protected void handleJumping() {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             if (groundTouchListener.isOnSurface()) {
                 boolean hasJumped = movementController.tryJump();
@@ -164,7 +141,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
         }
     }
 
-    private void handleFalling() {
+    protected void handleFalling() {
         if (!groundTouchListener.isOnSurface()) {
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 movementController.accelerateFall();
@@ -178,7 +155,7 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
         }
     }
 
-    private void handleDashing() {
+    protected void handleDashing() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) && resourcesManager.hasEnergy(attack4.getEnergyConsumption())) {
             boolean hasDashed = movementController.tryDash();
             if (hasDashed)
@@ -186,14 +163,14 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
         }
     }
 
-    private void handleIdle() {
+    protected void handleIdle() {
         if (groundTouchListener.isOnSurface() && noInput() && movementController.isBodyEffectivelyIdle()) {
             body.setLinearVelocity(0, level.world.getGravity().y * 0.4f);
             animator.setState(HeroAnimator.State.IDLE);
         }
     }
 
-    private boolean noInput() {
+    protected boolean noInput() {
         return !Gdx.input.isKeyPressed(Input.Keys.A) &&
                 !Gdx.input.isKeyPressed(Input.Keys.D) &&
                 !Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) &&
@@ -211,7 +188,6 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     @Override
     protected void onNonKillingHealthLoss() {
         animator.setState(HeroAnimator.State.HURT);
-//        animator.blockAnimationReset();
         SoundPlayer.getInstance().playSound(AssetsNames.HERO_HURT_SOUND);
         healthLossCount++;
         new DelayedAction(0.3f, () -> healthLossCount--);
@@ -225,17 +201,8 @@ public class Hero extends MortalEntity<HeroResourcesManager> implements Disposab
     @Override
     public void onDeath() {
         animator.setState(HeroAnimator.State.DEATH);
-//        animator.blockAnimationReset();
         SoundPlayer.getInstance().playSound(AssetsNames.HERO_HURT_SOUND);
         healthLossCount = Integer.MAX_VALUE;
         new DelayedAction(getDeathDelay(), MyGdxGame.getInstance()::levelFailed);
-    }
-
-    @Override
-    public void dispose() {
-        attack1.dispose();
-        attack2.dispose();
-        attack3.dispose();
-        attack4.dispose();
     }
 }

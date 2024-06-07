@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
@@ -19,7 +20,9 @@ import com.mygdx.game.camera.LevelCamera;
 import com.mygdx.game.entities.IRenderable;
 import com.mygdx.game.entities.Surface;
 import com.mygdx.game.entities.enemies.Enemy;
+import com.mygdx.game.entities.heroes.BikerHero;
 import com.mygdx.game.entities.heroes.Hero;
+import com.mygdx.game.entities.heroes.PunkHero;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
 import com.mygdx.game.entities.obstacles.GateObstacle;
 import com.mygdx.game.entities.obstacles.HammerObstacle;
@@ -151,7 +154,7 @@ public abstract class Level implements Screen {
 
     protected void createHero() {
         Vector2 spawn = coordinatesProjector.unproject(getPlayerSpawn());
-        hero = new Hero(this, PlayerDataManager.getInstance().getHeroData(), spawn.x, spawn.y, 0.95f, 0.95f);
+        hero = new PunkHero(this, PlayerDataManager.getInstance().getHeroData(), spawn.x, spawn.y, 0.95f, 0.95f);
         camera.setPositionSharply(hero.getCameraPosition());
     }
 
@@ -302,7 +305,8 @@ public abstract class Level implements Screen {
     @Override
     public void dispose() {
         world.dispose();
-        hero.dispose();
+        if (hero instanceof Disposable disposableHero)
+            disposableHero.dispose();
         ui.dispose();
         soundPlayer.clearAll();
         mapRenderer.dispose();
