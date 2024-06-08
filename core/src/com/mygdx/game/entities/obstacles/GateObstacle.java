@@ -136,7 +136,7 @@ public abstract class GateObstacle extends Entity implements ICollisionListener,
     }
 
     private void damageEntitiesInside() {
-        entitiesToDamage.forEach(e -> e.addResourcesEffect(new RelativeInstantDamageEffect<>(1)));
+        entitiesToDamage.forEach(e -> { e.getResourcesManager().setInvincible(false); e.addResourcesEffect(new RelativeInstantDamageEffect<>(1)); });
     }
 
     private void freezeEntitiesInside() {
