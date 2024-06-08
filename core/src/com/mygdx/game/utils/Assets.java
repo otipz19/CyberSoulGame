@@ -93,6 +93,12 @@ public class Assets {
 
         public static final String PUNK_SCYTHEPROJECTILE_FLYING_SPRITESHEET = "projectiles/punk-scytheprojectile.png";
         public static final String PUNK_SCYTHEPROJECTILE_EXPLODING_SPRITESHEET = "projectiles/punk-scytheprojectile-explosion.png";
+
+        public static final String BAT_PROJECTILE_FLYING_SPRITESHEET = "projectiles/bat-projectile.png";
+        public static final String BAT_PROJECTILE_EXPLODING_SPRITESHEET = "projectiles/bat-projectile-explosion.png";
+
+        public static final String CAR_PROJECTILE_FLYING_SPRITESHEET = "projectiles/car-projectile.png";
+        public static final String CAR_PROJECTILE_EXPLODING_SPRITESHEET = "projectiles/car-projectile-explosion.png";
     }
 
     public static class TiledMaps {

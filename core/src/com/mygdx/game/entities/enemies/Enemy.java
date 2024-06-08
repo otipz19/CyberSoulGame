@@ -29,7 +29,7 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
 
     protected final Hero player;
     protected final GroundEnemyMovementController movementController;
-    protected float detectionRange = 4f;
+    protected float detectionRange;
     protected float attackDelay;
     protected Attack attack;
     protected AttackRangeSensor leftAttackRange;

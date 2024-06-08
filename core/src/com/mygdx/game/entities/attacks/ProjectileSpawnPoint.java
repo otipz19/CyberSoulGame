@@ -19,7 +19,7 @@ public enum ProjectileSpawnPoint {
     BOTTOM_LEFT {
         public Vector2 getPoint(Entity parent, float projectileWidth, float projectileHeight) {
             Vector2 parentPosition = parent.getPosition();
-            return new Vector2(parentPosition.x - projectileWidth, parentPosition.y);
+            return new Vector2(parentPosition.x - projectileWidth, parentPosition.y + projectileHeight * 0.1f);
         }
     },
     TOP_RIGHT {
@@ -37,7 +37,7 @@ public enum ProjectileSpawnPoint {
     BOTTOM_RIGHT {
         public Vector2 getPoint(Entity parent, float projectileWidth, float projectileHeight) {
             Vector2 parentPosition = parent.getPosition();
-            return new Vector2(parentPosition.x + parent.getWidth(), parentPosition.y);
+            return new Vector2(parentPosition.x + parent.getWidth(), parentPosition.y + projectileHeight * 0.1f );
         }
     };
 

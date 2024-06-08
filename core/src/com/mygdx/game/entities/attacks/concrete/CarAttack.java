@@ -1,45 +1,42 @@
 package com.mygdx.game.entities.attacks.concrete;
 
 import com.mygdx.game.entities.Entity;
-import com.mygdx.game.entities.attacks.AttackZonePosition;
-import com.mygdx.game.entities.attacks.base.SideMeleeAttack;
-import com.mygdx.game.entities.enemies.Enemy;
-import com.mygdx.game.entities.heroes.Hero;
-import com.mygdx.game.entities.resources.AbsoluteInstantDamageEffect;
+import com.mygdx.game.entities.attacks.ProjectileSpawnPoint;
+import com.mygdx.game.entities.attacks.base.SideProjectileAttack;
+import com.mygdx.game.entities.projectiles.CarProjectile;
+import com.mygdx.game.entities.projectiles.EnemyProjectile;
+import com.mygdx.game.entities.projectiles.Projectile;
 
-public class CarAttack extends SideMeleeAttack {
-    public CarAttack(Enemy enemy){
-        super(enemy, AttackZonePosition.LEFT, AttackZonePosition.RIGHT);
+public class CarAttack extends SideProjectileAttack {
+
+    public CarAttack(Entity attacker) {
+        super(attacker, ProjectileSpawnPoint.BOTTOM_LEFT, ProjectileSpawnPoint.BOTTOM_RIGHT);
     }
 
     @Override
     public float getAttackTime() {
-        return 0.6f;
+        return 0.4f;
     }
 
     @Override
     public float getAttackDelay() {
-        return  0.09f;
+        return 0.15f;
     }
 
     @Override
-    public float getAttackWidth() {
+    public float getProjectileWidth() {
+        return 1.2f;
+    }
+
+    @Override
+    public float getProjectileHeight() {
         return 0.3f;
     }
 
     @Override
-    public float getAttackHeight() {
-        return 0.6f;
-    }
-
-    @Override
-    public void onCollisionEnter(Entity other) {
-        if (other instanceof Hero hero)
-            hero.addResourcesEffect(new AbsoluteInstantDamageEffect<>(25));
-    }
-
-    @Override
-    public void onCollisionExit(Entity other) {
-
+    public Projectile createProjectile(Entity owner, float x, float y, float initialAngle) {
+        EnemyProjectile projectile = new CarProjectile(owner, x, y, getProjectileWidth(), getProjectileHeight(), initialAngle);
+        projectile.setDamage(25);
+        return projectile;
     }
 }

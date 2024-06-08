@@ -8,8 +8,8 @@ import com.mygdx.game.entities.resources.AbsoluteInstantDamageEffect;
 import com.mygdx.game.entities.attacks.AttackZonePosition;
 
 public class MonsterAttack extends SideMeleeAttack {
-    public MonsterAttack(Enemy enemy){
-        super(enemy, AttackZonePosition.LEFT, AttackZonePosition.RIGHT);
+    public MonsterAttack(Enemy attacker){
+        super(attacker, AttackZonePosition.LEFT_MIDDLE, AttackZonePosition.RIGHT_MIDDLE);
     }
 
     @Override
@@ -19,7 +19,7 @@ public class MonsterAttack extends SideMeleeAttack {
 
     @Override
     public float getAttackDelay() {
-        return  0.09f;
+        return 0.09f;
     }
 
     @Override
@@ -29,13 +29,13 @@ public class MonsterAttack extends SideMeleeAttack {
 
     @Override
     public float getAttackHeight() {
-        return 0.6f;
+        return attacker.getHeight();
     }
 
     @Override
     public void onCollisionEnter(Entity other) {
         if (other instanceof Hero hero)
-            hero.addResourcesEffect(new AbsoluteInstantDamageEffect<>(25));
+            hero.addResourcesEffect(new AbsoluteInstantDamageEffect<>(40));
     }
 
     @Override
