@@ -93,6 +93,9 @@ public class Assets {
 
         public static final String PUNK_SCYTHEPROJECTILE_FLYING_SPRITESHEET = "projectiles/punk-scytheprojectile.png";
         public static final String PUNK_SCYTHEPROJECTILE_EXPLODING_SPRITESHEET = "projectiles/punk-scytheprojectile-explosion.png";
+
+        public static final String MONK_IDLE_SHEET = "npc/monk/Idle.png";
+        public static final String MONK_INTERACT_SHEET = "npc/monk/Special.png";
     }
 
     public static class TiledMaps {

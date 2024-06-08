@@ -9,6 +9,8 @@ import com.mygdx.game.entities.enemies.BatEnemy;
 import com.mygdx.game.entities.enemies.CarEnemy;
 import com.mygdx.game.entities.enemies.Enemy;
 import com.mygdx.game.entities.enemies.MonsterEnemy;
+import com.mygdx.game.entities.npc.Monk;
+import com.mygdx.game.entities.npc.Npc;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
 import com.mygdx.game.entities.obstacles.GateObstacle;
 import com.mygdx.game.entities.obstacles.HammerObstacle;
@@ -32,6 +34,7 @@ public class MapObjectsBinder {
     private final Array<GateObstacle> obstacles = new Array<>();
     private final Array<Enemy> enemies = new Array<>();
     private final Array<Portal> portals = new Array<>();
+    private final Array<Npc> npcList = new Array<>();
 
     public MapObjectsBinder(String tileMapName, Level level) {
         objectsParser = new XMLLevelObjectsParser(tileMapName);
@@ -61,6 +64,7 @@ public class MapObjectsBinder {
         createObstacles();
         createEnemies();
         createPortals();
+        createNpc();
     }
 
     private void createDeathZones() {
@@ -108,9 +112,20 @@ public class MapObjectsBinder {
                 case FIRST -> portal = new FirstPortal(level, portalData);
                 case SECOND -> portal = new SecondPortal(level, portalData);
                 case THIRD -> portal = new ThirdPortal(level, portalData);
-                default -> throw new RuntimeException("Not supported portal type!");
+                default -> throw new RuntimeException("Not supported portal type! " + portalData.getType());
             }
             portals.add(portal);
+        });
+    }
+
+    private void createNpc() {
+        objectsParser.getNpcData().forEach(npcData -> {
+            Npc npc;
+            switch(npcData.getType()) {
+                case MONK -> npc = new Monk(level, npcData);
+                default -> throw new RuntimeException("Unsupported NPC type! " + npcData.getType());
+            }
+            npcList.add(npc);
         });
     }
 
@@ -126,6 +141,10 @@ public class MapObjectsBinder {
         RenderUtils.renderEntities(delta, portals);
     }
 
+    public void renderAllNpc(float delta) {
+        RenderUtils.renderEntities(delta, npcList);
+    }
+
     public Array<Portal> getPortals() {
         return portals;
     }
@@ -136,5 +155,9 @@ public class MapObjectsBinder {
 
     public Array<Enemy> getEnemies() {
         return enemies;
+    }
+
+    public Array<Npc> getNpcList() {
+        return npcList;
     }
 }
