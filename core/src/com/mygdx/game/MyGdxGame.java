@@ -3,6 +3,9 @@ package com.mygdx.game;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.entities.heroes.BikerHero;
+import com.mygdx.game.entities.heroes.Hero;
+import com.mygdx.game.entities.heroes.PunkHero;
 import com.mygdx.game.levels.*;
 import com.mygdx.game.ui.MainMenu;
 import com.mygdx.game.utils.MyAssetManager;
@@ -47,7 +50,7 @@ public class MyGdxGame extends Game {
             getScreen().dispose();
         inputMultiplexer.clear();
         currentLevel = null;
-        boolean hasAlreadyPlayed = PlayerDataManager.getInstance().getMaxLevel() != Levels.SAFE;
+        boolean hasAlreadyPlayed = PlayerDataManager.getInstance().getHero() != Heroes.NOT_SELECTED;
         setScreen(new MainMenu(hasAlreadyPlayed));
     }
 
@@ -142,5 +145,28 @@ public class MyGdxGame extends Game {
     @FunctionalInterface
     private interface LevelChangeDelegate {
         void changeLevel();
+    }
+
+    public enum Heroes {
+        NOT_SELECTED {
+            @Override
+            public Hero create(Level level, float x, float y, float width, float height) {
+                throw new RuntimeException("Can not create a hero without player selection");
+            }
+        },
+        BIKER {
+            @Override
+            public Hero create(Level level, float x, float y, float width, float height) {
+                return new BikerHero(level, PlayerDataManager.getInstance().getHeroData(), x, y, width, height);
+            }
+        },
+        PUNK {
+            @Override
+            public Hero create(Level level, float x, float y, float width, float height) {
+                return new PunkHero(level, PlayerDataManager.getInstance().getHeroData(), x, y, width, height);
+            }
+        };
+
+        public abstract Hero create(Level level, float x, float y, float width, float height);
     }
 }

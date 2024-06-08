@@ -1,5 +1,11 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	main-large: {
+		file: main-large.fnt
+		scaledSize: -1
+		markupEnabled: true
+		flip: false
+	}
 	main-medium: {
 		file: main-medium.fnt
 		scaledSize: -1
@@ -64,6 +70,16 @@ com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
 		font: main-medium
 	}
 }
+com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+	biker-selection: {
+		imageUp: biker-card
+		imageOver: biker-card-over
+	}
+	punk-selection: {
+		imageUp: punk-card
+		imageOver: punk-card-over
+	}
+}
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
 		font: main-medium
@@ -73,6 +89,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	credits: {
 		font: main-medium
 		fontColor: text
+	}
+	selection: {
+		font: main-large
+		fontColor: text
+		background: background
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {

@@ -17,6 +17,7 @@ public class PlayerDataManager {
     }
 
     private HeroData heroData;
+    private MyGdxGame.Heroes hero;
     private MyGdxGame.Levels previousLevel;
     private MyGdxGame.Levels currentLevel;
     private MyGdxGame.Levels maxLevel;
@@ -26,13 +27,15 @@ public class PlayerDataManager {
     }
 
     private void loadData() {
-        String currentLevelJSON, previousLevelJSON, maxLevelJSON, heroDataJSON;
+        String heroJSON, currentLevelJSON, previousLevelJSON, maxLevelJSON, heroDataJSON;
         try (BufferedReader fileReader = new BufferedReader(new FileReader(SAVE_FILE))) {
+            heroJSON = fileReader.readLine();
             currentLevelJSON = fileReader.readLine();
             previousLevelJSON = fileReader.readLine();
             maxLevelJSON = fileReader.readLine();
             heroDataJSON = fileReader.readLine();
             Json json = new Json(JsonWriter.OutputType.json);
+            hero = json.fromJson(MyGdxGame.Heroes.class, heroJSON);
             currentLevel = json.fromJson(MyGdxGame.Levels.class, currentLevelJSON);
             previousLevel = json.fromJson(MyGdxGame.Levels.class, previousLevelJSON);
             maxLevel = json.fromJson(MyGdxGame.Levels.class, maxLevelJSON);
@@ -45,11 +48,14 @@ public class PlayerDataManager {
 
     public void saveData() {
         Json json = new Json(JsonWriter.OutputType.json);
+        String heroJSON = json.toJson(hero, MyGdxGame.Heroes.class);
         String currentLevelJSON = json.toJson(currentLevel, MyGdxGame.Levels.class);
         String previousLevelJSON = json.toJson(previousLevel, MyGdxGame.Levels.class);
         String maxLevelJSON = json.toJson(maxLevel, MyGdxGame.Levels.class);
         String heroDataJSON = json.toJson(heroData, HeroData.class);
         try (FileWriter fileWriter = new FileWriter(SAVE_FILE)) {
+            fileWriter.write(heroJSON);
+            fileWriter.write("\n");
             fileWriter.write(currentLevelJSON);
             fileWriter.write("\n");
             fileWriter.write(previousLevelJSON);
@@ -64,6 +70,7 @@ public class PlayerDataManager {
 
     public void resetData() {
         File saveFile = new File(SAVE_FILE);
+        hero = MyGdxGame.Heroes.NOT_SELECTED;
         currentLevel = MyGdxGame.Levels.SAFE;
         previousLevel = MyGdxGame.Levels.SAFE;
         maxLevel = MyGdxGame.Levels.SAFE;
@@ -77,6 +84,14 @@ public class PlayerDataManager {
 
     public void setHeroData(HeroData heroData) {
         this.heroData = heroData;
+    }
+
+    public MyGdxGame.Heroes getHero() {
+        return hero;
+    }
+
+    public void setHero(MyGdxGame.Heroes hero) {
+        this.hero = hero;
     }
 
     public MyGdxGame.Levels getCurrentLevel() {

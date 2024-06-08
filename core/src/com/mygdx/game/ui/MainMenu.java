@@ -19,6 +19,7 @@ import com.mygdx.game.utils.PlayerDataManager;
 public class MainMenu implements Screen {
     private final Stage stage;
     private final Table menuButtons;
+    private final HeroSelectionUI heroSelectionUI;
     private final SettingsUI settingsUI;
     private final CreditsUI creditsUI;
 
@@ -86,6 +87,8 @@ public class MainMenu implements Screen {
 
         stage.addActor(menuButtons);
 
+        heroSelectionUI = new HeroSelectionUI(stage);
+
         settingsUI = new SettingsUI(stage);
         settingsUI.addOnHideAction(() -> stage.addActor(menuButtons));
 
@@ -112,7 +115,8 @@ public class MainMenu implements Screen {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 PlayerDataManager.getInstance().resetData();
-                MyGdxGame.getInstance().goToNewLevel(MyGdxGame.Levels.SAFE);
+                menuButtons.remove();
+                stage.addActor(heroSelectionUI);
             }
         });
         return startButton;

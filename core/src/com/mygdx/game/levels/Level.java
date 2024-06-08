@@ -129,7 +129,7 @@ public abstract class Level implements Screen {
 
     protected void createHero() {
         Vector2 spawn = getPlayerSpawnInWorldCoordinates();
-        hero = new PunkHero(this, PlayerDataManager.getInstance().getHeroData(), spawn.x, spawn.y, 0.95f, 0.95f);
+        hero = PlayerDataManager.getInstance().getHero().create(this, spawn.x, spawn.y, 0.95f, 0.95f);
         camera.setPositionSharply(hero.getCameraPosition());
     }
 
