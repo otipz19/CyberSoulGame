@@ -151,5 +151,15 @@ public class Assets {
 
         public static final String PORTAL_CHARGING_SOUND = "music/portal-charging.ogg";
         public static final String RANGE_ATTACK_SOUND = "music/range_enemy_attack.ogg";
+        public static final String NO_SOUND = "music/nosound.ogg";
+        public static final String MONSTER_ATTACK_SOUND = NO_SOUND;
+        public static final String MONSTER_HEALTH_LOSS_SOUND = NO_SOUND;
+        public static final String MONSTER_DEATH_SOUND = NO_SOUND;
+        public static final String CAR_ATTACK_SOUND = NO_SOUND;
+        public static final String CAR_HEALTH_LOSS_SOUND = NO_SOUND;
+        public static final String CAR_DEATH_SOUND = NO_SOUND;
+        public static final String BAT_ATTACK_SOUND = NO_SOUND;
+        public static final String BAT_HEALTH_LOSS_SOUND = NO_SOUND;
+        public static final String BAT_DEATH_SOUND = NO_SOUND;
     }
 }

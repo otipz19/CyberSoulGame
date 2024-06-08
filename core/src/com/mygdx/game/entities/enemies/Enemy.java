@@ -6,7 +6,8 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.base.Animator;
 import com.mygdx.game.animation.concrete.enemies.EnemyAnimator;
 import com.mygdx.game.entities.MortalEntity;
-import com.mygdx.game.entities.attacks.concrete.EnemyAttack;
+import com.mygdx.game.entities.attacks.base.Attack;
+import com.mygdx.game.entities.attacks.base.SideAttack;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.movement.GroundEnemyMovementController;
 import com.mygdx.game.entities.particles.SoulParticles;
@@ -19,21 +20,25 @@ import com.mygdx.game.map.data.EnemyData;
 import com.mygdx.game.physics.BodyCreator;
 import com.mygdx.game.physics.Collider;
 import com.mygdx.game.physics.ColliderCreator;
+import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.utils.DelayedAction;
 
 public abstract class Enemy extends MortalEntity<ResourcesManager> implements ProjectileCollidable {
     //for 1x1 size
     private static final float BASE_DENSITY = 10f;
 
-    private final Hero player;
+    protected final Hero player;
     protected final GroundEnemyMovementController movementController;
-    protected EnemyAttack attack;
-    private float detectionRange = 4f;
-    private float attackDelay;
-    private int healthLossCount;
-
-    private final AttackRangeSensor leftAttackRange;
-    private final AttackRangeSensor rightAttackRange;
+    protected float detectionRange = 4f;
+    protected float attackDelay;
+    protected Attack attack;
+    protected AttackRangeSensor leftAttackRange;
+    protected AttackRangeSensor rightAttackRange;
+    protected EnemyAnimator.State attackAnimation;
+    protected String attackSound;
+    protected String healthLossSound;
+    protected String deathSound;
+    protected int healthLossCount;
 
     public Enemy(Level level, EnemyData enemyData, float width, float height) {
         super(new EnemyResourcesManager(100));
@@ -56,8 +61,6 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
                 travelAreaInWorldCoordinates.x + travelAreaInWorldCoordinates.width - width);
 
         new DefaultEnemyHeadSensor(this);
-        this.leftAttackRange = new AttackRangeSensor(this, SensorPosition.LEFT);
-        this.rightAttackRange = new AttackRangeSensor(this, SensorPosition.RIGHT);
     }
 
     public void render(float deltaTime) {
@@ -97,14 +100,18 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
     protected void attack() {
         if (healthLossCount != 0)
             return;
-        animator.setState(EnemyAnimator.State.ATTACK_2);
-        attack.setDirection(movementController.isFacingRight());
-        attack.execute();
+
+        SideAttack sideAttack = (SideAttack)attack;
+        animator.setState(attackAnimation);
+        SoundPlayer.getInstance().playSound(attackSound);
+        sideAttack.setDirection(movementController.isFacingRight());
+        sideAttack.execute();
     }
 
     @Override
     protected void onNonKillingHealthLoss() {
         animator.setState(EnemyAnimator.State.HURT);
+        SoundPlayer.getInstance().playSound(healthLossSound);
         healthLossCount++;
         movementController.clearVelocityX();
         new DelayedAction(0.4f, () -> healthLossCount--);
@@ -118,6 +125,7 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
     @Override
     protected void onDeath() {
         animator.setState(EnemyAnimator.State.DEATH);
+        SoundPlayer.getInstance().playSound(deathSound);
         healthLossCount = Integer.MAX_VALUE;
         movementController.clearVelocityX();
         new DelayedAction(getDeathDelay(), () ->
