@@ -1,9 +1,6 @@
 package com.mygdx.game.map;
 
-import com.mygdx.game.map.data.EnemyData;
-import com.mygdx.game.map.data.ObstacleData;
-import com.mygdx.game.map.data.PlayerSpawnData;
-import com.mygdx.game.map.data.PortalData;
+import com.mygdx.game.map.data.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -33,6 +30,7 @@ public class XMLLevelObjectsParser {
     private final List<EnemyData> enemiesData = new ArrayList<>();
     private final List<PortalData> portalsData = new ArrayList<>();
     private final List<PlayerSpawnData> playerSpawnsData = new ArrayList<>();
+    private final List<NpcData> npcDataList = new ArrayList<>();
 
     private final List<Rectangle> deathZones = new ArrayList<>();
 
@@ -84,6 +82,7 @@ public class XMLLevelObjectsParser {
                     case "portals" -> parsePortals(objectGroup);
                     case "playerSpawns" -> parsePlayerSpawns(objectGroup);
                     case "deathZones" -> parseDeathZones(objectGroup);
+                    case "npc" -> parseNpc(objectGroup);
                 }
             }
         }
@@ -165,6 +164,14 @@ public class XMLLevelObjectsParser {
     private void parseDeathZones(Element objectGroup) {
         forEachObjectInGroup(objectGroup, object -> {
             deathZones.add(parseRectangle(object));
+        });
+    }
+
+    private void parseNpc(Element objectGroup) {
+        forEachObjectInGroup(objectGroup, object -> {
+            Rectangle bounds = parseRectangle(object);
+            NpcData npcData = new NpcData(bounds, getProperty(object, "type"));
+            npcDataList.add(npcData);
         });
     }
 
@@ -250,5 +257,9 @@ public class XMLLevelObjectsParser {
 
     public Stream<Rectangle> getDeathZones() {
         return deathZones.stream();
+    }
+
+    public Stream<NpcData> getNpcData() {
+        return npcDataList.stream();
     }
 }

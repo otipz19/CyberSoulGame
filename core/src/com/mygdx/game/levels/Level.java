@@ -191,6 +191,7 @@ public abstract class Level implements Screen {
         mapBinder.renderEnemies(delta);
         RenderUtils.renderEntities(delta, projectiles);
         RenderUtils.renderEntities(delta, particles);
+        mapBinder.renderAllNpc(delta);
         hero.render(delta);
         mapBinder.renderObstacles(delta);
         game.batch.end();
