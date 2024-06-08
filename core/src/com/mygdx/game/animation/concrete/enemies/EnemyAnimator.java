@@ -1,4 +1,4 @@
-package com.mygdx.game.animation.concrete;
+package com.mygdx.game.animation.concrete.enemies;
 
 
 import com.mygdx.game.animation.base.AnimationsMap;

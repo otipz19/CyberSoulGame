@@ -85,17 +85,14 @@ public class MapObjectsBinder {
         objectsParser.getEnemiesData().forEach(enemyData -> {
             Enemy enemy;
             switch (enemyData.getType()) {
-                case DEFAULT -> {
-                    enemy = new MonsterEnemy(level, enemyData, 1.5f, 2f);
-                }
                 case MONSTER -> {
                     enemy = new MonsterEnemy(level, enemyData, 1.5f, 2f);
                 }
                 case BAT -> {
-                    enemy = new BatEnemy(level, enemyData, 1.5f, 2f);
+                    enemy = new BatEnemy(level, enemyData, 1.25f, 1.75f);
                 }
                 case CAR -> {
-                    enemy = new CarEnemy(level, enemyData, 1.5f, 2f);
+                    enemy = new CarEnemy(level, enemyData, 3f, 2.5f);
                 }
                 default -> throw new RuntimeException("Not supported enemy type!");
             }

@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.animation.base.Animator;
-import com.mygdx.game.animation.concrete.EnemyAnimator;
+import com.mygdx.game.animation.concrete.enemies.EnemyAnimator;
 import com.mygdx.game.entities.MortalEntity;
 import com.mygdx.game.entities.attacks.concrete.EnemyAttack;
 import com.mygdx.game.entities.heroes.Hero;
@@ -22,6 +22,9 @@ import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.utils.DelayedAction;
 
 public abstract class Enemy extends MortalEntity<ResourcesManager> implements ProjectileCollidable {
+    //for 1x1 size
+    private static final float BASE_DENSITY = 10f;
+
     private final Hero player;
     protected final GroundEnemyMovementController movementController;
     protected EnemyAttack attack;
@@ -43,7 +46,8 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
         Rectangle spawnPointInWorldCoordinates = level.getCoordinatesProjector().unproject(enemyData.getSpawnPoint());
         Rectangle travelAreaInWorldCoordinates = level.getCoordinatesProjector().unproject(enemyData.getTravelArea());
         Collider collider = ColliderCreator.create(spawnPointInWorldCoordinates.x, spawnPointInWorldCoordinates.y, width, height);
-        body = BodyCreator.createDynamicBody(level.world, collider, 0.3f, 5, 0);
+        float density = BASE_DENSITY / (width * height);
+        body = BodyCreator.createDynamicBody(level.world, collider, 0.3f, density, 0);
         body.setFixedRotation(true);
         body.getFixtureList().first().setUserData(this);
 

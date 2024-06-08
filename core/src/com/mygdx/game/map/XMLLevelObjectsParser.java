@@ -171,7 +171,7 @@ public class XMLLevelObjectsParser {
     private void parseEnemiesObjectGroups(Element group) {
         NodeList objectGroups = group.getElementsByTagName("objectgroup");
         for (int i = 0; i < objectGroups.getLength(); i++) {
-            Element objectGroup = (Element) objectGroups.item(0);
+            Element objectGroup = (Element) objectGroups.item(i);
             enemiesData.add(parseEnemy(objectGroup));
         }
     }

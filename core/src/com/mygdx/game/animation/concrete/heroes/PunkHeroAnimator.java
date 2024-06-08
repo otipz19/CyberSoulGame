@@ -78,10 +78,11 @@ public class PunkHeroAnimator extends HeroAnimator {
                 .priority(500)
                 .build());
         animations.put(State.DEATH, new AnimationBuilder(Assets.Textures.PUNK_DEATH_SHEET)
-                .cols(3)
-                .rows(2)
+                .cols(7)
+                .rows(1)
                 .playMode(Animation.PlayMode.NORMAL)
                 .blocked()
+                .frameDuration(1 / 12f)
                 .veryHighPriority()
                 .build());
         animations.startAnimation = animations.get(State.IDLE);

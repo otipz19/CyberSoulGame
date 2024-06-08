@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class EnemyData {
     public enum Type {
-        DEFAULT,
         MONSTER,
         CAR,
         BAT,
