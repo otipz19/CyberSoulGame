@@ -148,6 +148,7 @@ public abstract class Level implements Screen {
 
     protected void createUI() {
         ui = new LevelUI(this);
+        hero.addOnDeathAction(() -> new DelayedAction(hero.getDeathDelay(), ui::showDeathUI));
     }
 
     public final void render(float delta) {

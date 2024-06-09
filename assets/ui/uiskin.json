@@ -101,7 +101,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		fontColor: text
 		background: background
 	}
-	win: {
+	end: {
 		font: main-enormous
 		fontColor: text
 	}

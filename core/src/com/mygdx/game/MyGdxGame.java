@@ -77,7 +77,6 @@ public class MyGdxGame extends Game {
     }
 
     public void levelFailed() {
-        PlayerDataManager.getInstance().resetData();
         levelChangeDelegate = this::showMainMenu;
     }
 

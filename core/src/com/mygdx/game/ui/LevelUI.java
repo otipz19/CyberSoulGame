@@ -2,11 +2,15 @@ package com.mygdx.game.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.ui.upgrades.UpgradeUI;
+import com.mygdx.game.utils.PlayerDataManager;
 
 public class LevelUI extends Stage {
     private final Level level;
@@ -82,5 +86,10 @@ public class LevelUI extends Stage {
         upgradeUI = null;
         pauseUI.registerAsInputProcessor();
         level.setPaused(false);
+    }
+
+    public void showDeathUI() {
+        pauseUI.unregisterAsInputProcessor();
+        addActor(new DeathUI(this));
     }
 }

@@ -20,6 +20,7 @@ import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.utils.Assets;
 import com.mygdx.game.utils.DelayedAction;
+import com.mygdx.game.utils.PlayerDataManager;
 
 public abstract class Hero extends MortalEntity<HeroResourcesManager> implements ProjectileCollidable {
     protected final HeroMovementController movementController;
@@ -226,7 +227,7 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         SoundPlayer.getInstance().playSound(deathSound);
         animator.setState(HeroAnimator.State.DEATH);
         healthLossCount = Integer.MAX_VALUE;
-        new DelayedAction(getDeathDelay(), MyGdxGame.getInstance()::levelFailed);
+        PlayerDataManager.getInstance().resetData();
     }
 
     public HeroMovementController getMovementController() {

@@ -47,13 +47,13 @@ public class WinScreen implements Screen {
         table.setFillParent(true);
         table.setBackground("background");
 
-        Label winLabel = new Label("You win!", skin, "win");
+        Label winLabel = new Label("You win!", skin, "end");
         winLabel.setAlignment(Align.center);
 
-        Label thanksLabel = new Label("Thanks for playing!", skin, "win");
+        Label thanksLabel = new Label("Thanks for playing!", skin, "end");
         thanksLabel.setAlignment(Align.center);
 
-        Label clickLabel = new Label("Click to continue...", skin, "win");
+        Label clickLabel = new Label("Click to continue...", skin, "end");
         clickLabel.setAlignment(Align.center);
 
         addLabel(winLabel, 0f, false);

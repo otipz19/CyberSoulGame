@@ -65,18 +65,20 @@ public class HeroResourcesManager extends ResourcesManager {
 
     @Override
     public void update(float deltaTime){
-        shieldRestoreTimer = Math.max(shieldRestoreTimer - deltaTime, 0);
-        energyRestoreTimer = Math.max(energyRestoreTimer - deltaTime, 0);
-        if (shieldRestoreTimer == 0) {
-            float oldShield = shield;
-            shield = Math.min(shield + shieldRestoreUnit, maxShield);
-            shieldRestoreTimer = SHIELD_UNIT_RESTORE_TIME;
-            if (shield != oldShield)
-                fireOnShieldChangeEvent(shield - oldShield);
-        }
-        if (energyRestoreTimer == 0) {
-            energy = Math.min(energy + energyRestoreUnit, maxEnergy);
-            energyRestoreTimer = ENERGY_UNIT_RESTORE_TIME;
+        if(isAlive()) {
+            shieldRestoreTimer = Math.max(shieldRestoreTimer - deltaTime, 0);
+            energyRestoreTimer = Math.max(energyRestoreTimer - deltaTime, 0);
+            if (shieldRestoreTimer == 0) {
+                float oldShield = shield;
+                shield = Math.min(shield + shieldRestoreUnit, maxShield);
+                shieldRestoreTimer = SHIELD_UNIT_RESTORE_TIME;
+                if (shield != oldShield)
+                    fireOnShieldChangeEvent(shield - oldShield);
+            }
+            if (energyRestoreTimer == 0) {
+                energy = Math.min(energy + energyRestoreUnit, maxEnergy);
+                energyRestoreTimer = ENERGY_UNIT_RESTORE_TIME;
+            }
         }
         super.update(deltaTime);
     }
