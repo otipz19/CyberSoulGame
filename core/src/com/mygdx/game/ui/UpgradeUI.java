@@ -7,13 +7,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.heroes.HeroData;
+import com.mygdx.game.entities.resources.HeroResourcesManager;
+import com.mygdx.game.levels.Level;
 import com.mygdx.game.utils.Assets;
 import com.mygdx.game.utils.PlayerDataManager;
 
-public class UpgradeUI extends UILayer{
+public class UpgradeUI extends UILayer {
     private final LevelUI levelUI;
 
-    public UpgradeUI(LevelUI levelUI) {
+    public UpgradeUI(LevelUI levelUI, Level level) {
         super(levelUI);
         this.levelUI = levelUI;
 
@@ -27,35 +29,35 @@ public class UpgradeUI extends UILayer{
 
         HeroData heroData = PlayerDataManager.getInstance().getHeroData();
 
-        UpgradeBar healthUpgrade = new UpgradeBar(heroData.maxHealth, 10, 25) {
+        HeroResourcesManager resourcesManager = level.hero.getResourcesManager();
+        UpgradeBar healthUpgrade = new UpgradeBar(heroData.maxHealth, 10, 25, resourcesManager) {
             @Override
             public void upgrade() {
-                // upgrade health
-                currentValue += step;
+                resourcesManager.setMaxHealth(currentValue);
+                resourcesManager.increaseHealth(resourcesManager.getMaxHealth());
             }
         };
 
-        UpgradeBar shieldUpgrade = new UpgradeBar(heroData.maxShield, 25, 10) {
+        UpgradeBar shieldUpgrade = new UpgradeBar(heroData.maxShield, 25, 10, resourcesManager) {
             @Override
             public void upgrade() {
-                // upgrade shield
-                currentValue += step;
+                resourcesManager.setMaxShield(currentValue);
+                resourcesManager.setShield(resourcesManager.getMaxShield());
             }
         };
 
-        UpgradeBar energyUpgrade = new UpgradeBar(heroData.maxEnergy, 10, 15) {
+        UpgradeBar energyUpgrade = new UpgradeBar(heroData.maxEnergy, 10, 15, resourcesManager) {
             @Override
             public void upgrade() {
-                // upgrade energy
-                currentValue += step;
+                resourcesManager.setMaxEnergy(currentValue);
+                resourcesManager.increaseEnergy(resourcesManager.getMaxEnergy());
             }
         };
 
-        UpgradeBar damageUpgrade = new UpgradeBar(1, 0.1f, 20) {
+        UpgradeBar damageUpgrade = new UpgradeBar(1, 0.1f, 20, resourcesManager) {
             @Override
             public void upgrade() {
-                // upgrade energy
-                currentValue += step;
+                resourcesManager.setDamageMultiplier(currentValue);
             }
         };
 

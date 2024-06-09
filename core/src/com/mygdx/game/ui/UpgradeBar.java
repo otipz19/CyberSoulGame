@@ -5,18 +5,27 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.entities.resources.HeroResourcesManager;
+import com.mygdx.game.levels.Level;
 import com.mygdx.game.utils.Assets;
 
 public abstract class UpgradeBar {
     protected float currentValue;
-    protected float step;
-    protected int price;
     protected Label valueLabel;
 
-    public UpgradeBar(float currentValue, float step, int price) {
+    protected float step;
+    protected TextButton stepButton;
+
+    protected int price;
+    protected Label priceLabel;
+
+    protected final HeroResourcesManager resourcesManager;
+
+    public UpgradeBar(float currentValue, float step, int price, HeroResourcesManager resourcesManager) {
         this.currentValue = currentValue;
         this.step = step;
         this.price = price;
+        this.resourcesManager = resourcesManager;
     }
 
     public void createRow(Table table, String style) {
@@ -33,16 +42,20 @@ public abstract class UpgradeBar {
         valueLabel = new Label(String.format("%.1f", currentValue), skin);
         valueLabel.setAlignment(Align.center);
 
-        TextButton button = new TextButton(String.format("+%.1f", step), skin);
-        button.addListener(new ChangeListener() {
+        stepButton = new TextButton(String.format("+%.1f", step), skin);
+        stepButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                upgrade();
-                updateValue();
+                if (resourcesManager.getSouls() >= price) {
+                    currentValue += step;
+                    resourcesManager.changeSouls(-price);
+                    upgrade();
+                    updateValue();
+                }
             }
         });
 
-        Label priceLabel = new Label(String.format(" %d ", price), skin );
+        priceLabel = new Label(String.format(" %d ", price), skin );
         priceLabel.setAlignment(Align.center);
 
         Image soulIcon = new Image(skin,  "soul-icon");
@@ -58,7 +71,7 @@ public abstract class UpgradeBar {
                 .pad(10, 10, 10, 0);
         table.add(priceLabel);
         table.add().expandX();
-        table.add(button)
+        table.add(stepButton)
                 .height(40)
                 .growX()
                 .pad(0, 0, 0, 10);;
@@ -70,5 +83,4 @@ public abstract class UpgradeBar {
     public void updateValue() {
         valueLabel.setText(String.format("%.1f", currentValue));
     }
-
 }
