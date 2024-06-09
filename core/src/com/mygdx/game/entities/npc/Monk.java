@@ -33,7 +33,7 @@ public class Monk extends Npc {
     public void interact(Entity interactionCause) {
         if(interactionCause instanceof Hero hero) {
             animator.setState(MonkAnimator.State.INTERACT);
-            new AbsoluteInstantDamageEffect<>(100).apply(hero.getResourcesManager(), 0);
+            level.ui.showUpgradeUI();
         }
     }
 }

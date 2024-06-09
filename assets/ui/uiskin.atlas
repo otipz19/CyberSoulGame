@@ -27,7 +27,7 @@ biker-card-over
   index: -1
 checkbox-off
   rotate: false
-  xy: 988, 1837
+  xy: 67, 416
   size: 34, 34
   split: 0, 0, 0, 0
   orig: 34, 34
@@ -35,10 +35,17 @@ checkbox-off
   index: -1
 checkbox-on
   rotate: false
-  xy: 1, 416
+  xy: 988, 1837
   size: 34, 34
   split: 0, 0, 0, 0
   orig: 34, 34
+  offset: 0, 0
+  index: -1
+damage-icon
+  rotate: false
+  xy: 1, 320
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
 energy
@@ -47,6 +54,13 @@ energy
   size: 985, 27
   split: 0, 0, 0, 0
   orig: 985, 27
+  offset: 0, 0
+  index: -1
+energy-icon
+  rotate: false
+  xy: 1, 386
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
 energybar-background
@@ -64,6 +78,13 @@ health
   size: 985, 27
   split: 0, 0, 0, 0
   orig: 985, 27
+  offset: 0, 0
+  index: -1
+health-icon
+  rotate: false
+  xy: 828, 1125
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
 healthbar-background
@@ -111,6 +132,13 @@ shield
   orig: 985, 27
   offset: 0, 0
   index: -1
+shield-icon
+  rotate: false
+  xy: 1632, 1335
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 shieldbar-background
   rotate: false
   xy: 1, 1873
@@ -139,7 +167,7 @@ slider-beforeknob
   index: -1
 slider-knob
   rotate: false
-  xy: 828, 1155
+  xy: 828, 1089
   size: 22, 34
   split: 0, 0, 0, 0
   orig: 22, 34

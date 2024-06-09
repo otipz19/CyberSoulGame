@@ -8,18 +8,22 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.levels.Level;
 
 public class LevelUI extends Stage {
+    private final Level level;
     private StatusBar healthBar;
     private StatusBar shieldBar;
     private StatusBar energyBar;
     private Counter soulsCounter;
+    private final PauseUI pauseUI;
+    private UpgradeUI upgradeUI;
 
     public LevelUI(Level level) {
+        this.level = level;
         ((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(this);
 
         setViewport(new ScreenViewport());
 
         createStatusUI();
-        new PauseUI(this, level);
+        pauseUI = new PauseUI(this, level);
     }
 
     private void createStatusUI() {
@@ -57,5 +61,25 @@ public class LevelUI extends Stage {
         shieldBar.setValuePercent(shieldPercent);
         energyBar.setValuePercent(energyPercent);
         soulsCounter.setValue(souls);
+    }
+
+    public void showUpgradeUI() {
+        if (upgradeUI != null)
+            return;
+
+        level.setPaused(true);
+        pauseUI.unregisterAsInputProcessor();
+        upgradeUI = new UpgradeUI(this);
+        this.addActor(upgradeUI);
+    }
+
+    public void hideUpgradeUI() {
+        if (upgradeUI == null)
+            return;
+
+        upgradeUI.hideLayer();
+        upgradeUI = null;
+        pauseUI.registerAsInputProcessor();
+        level.setPaused(false);
     }
 }
