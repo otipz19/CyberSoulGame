@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.levels.Level;
+import com.mygdx.game.ui.upgrades.UpgradeUI;
 
 public class LevelUI extends Stage {
     private final Level level;

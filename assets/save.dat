@@ -1,5 +1,5 @@
 "PUNK"
-"THIRD"
 "SAFE"
-"THIRD"
-{"health":100,"maxHealth":100,"maxShield":50,"shieldRestoreUnit":2,"maxEnergy":100,"energyRestorationUnit":1,"damageMultiplier":5.9999967}
+"SAFE"
+"SAFE"
+{"health":100,"maxHealth":100,"maxShield":50,"shieldRestoreUnit":2,"maxEnergy":100,"energyRestorationUnit":1,"damageMultiplier":1}

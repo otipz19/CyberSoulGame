@@ -1,12 +1,12 @@
-package com.mygdx.game.ui;
+package com.mygdx.game.ui.upgrades;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
-import com.mygdx.game.levels.Level;
 import com.mygdx.game.utils.Assets;
 
 public abstract class UpgradeBar {
@@ -20,6 +20,8 @@ public abstract class UpgradeBar {
     protected Label priceLabel;
 
     protected final HeroResourcesManager resourcesManager;
+
+    private final Array<IUpgradeTransaction> upgradeTransactions = new Array<>();
 
     public UpgradeBar(float currentValue, float step, int price, HeroResourcesManager resourcesManager) {
         this.currentValue = currentValue;
@@ -47,10 +49,25 @@ public abstract class UpgradeBar {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 if (resourcesManager.getSouls() >= price) {
-                    currentValue += step;
-                    resourcesManager.changeSouls(-price);
-                    upgrade();
-                    updateValue();
+                    IUpgradeTransaction transaction = new IUpgradeTransaction() {
+                        @Override
+                        public void commit() {
+                            currentValue += step;
+                            resourcesManager.changeSouls(-price);
+                            upgrade();
+                            updateValue();
+                        }
+
+                        @Override
+                        public void undo() {
+                            currentValue -= step;
+                            resourcesManager.changeSouls(price);
+                            revert();
+                            updateValue();
+                        }
+                    };
+                    upgradeTransactions.add(transaction);
+                    transaction.commit();
                 }
             }
         });
@@ -78,9 +95,15 @@ public abstract class UpgradeBar {
         table.row();
     }
 
-    public abstract void upgrade();
+    protected abstract void upgrade();
+    protected abstract void revert();
 
     public void updateValue() {
         valueLabel.setText(String.format("%.1f", currentValue));
+    }
+
+    public void reset() {
+        upgradeTransactions.forEach(IUpgradeTransaction::undo);
+        upgradeTransactions.clear();
     }
 }
