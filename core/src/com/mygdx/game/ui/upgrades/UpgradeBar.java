@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
 import com.mygdx.game.utils.Assets;
+import com.mygdx.game.utils.PlayerDataManager;
 
 public abstract class UpgradeBar {
     protected float currentValue;

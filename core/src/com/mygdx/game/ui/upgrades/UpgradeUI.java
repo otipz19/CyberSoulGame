@@ -81,6 +81,7 @@ public class UpgradeUI extends UILayer {
         saveButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
+                PlayerDataManager.getInstance().setHeroData(resourcesManager.getHeroData());
                 levelUI.hideUpgradeUI();
             }
         });
