@@ -73,7 +73,7 @@ public class LevelUI extends Stage {
             return;
 
         level.setPaused(true);
-        pauseUI.unregisterAsInputProcessor();
+        blockPausing();
         upgradeUI = new UpgradeUI(this, level);
         this.addActor(upgradeUI);
     }
@@ -84,12 +84,19 @@ public class LevelUI extends Stage {
 
         upgradeUI.hideLayer();
         upgradeUI = null;
-        pauseUI.registerAsInputProcessor();
+        unblockPausing();
         level.setPaused(false);
     }
 
     public void showDeathUI() {
-        pauseUI.unregisterAsInputProcessor();
         addActor(new DeathUI(this));
+    }
+
+    public void blockPausing() {
+        pauseUI.unregisterAsInputProcessor();
+    }
+
+    public void unblockPausing() {
+        pauseUI.registerAsInputProcessor();
     }
 }
