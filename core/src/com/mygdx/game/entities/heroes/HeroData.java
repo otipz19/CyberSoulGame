@@ -1,5 +1,7 @@
 package com.mygdx.game.entities.heroes;
 
+import com.mygdx.game.MyGdxGame;
+
 public class HeroData {
     public float health;
     public float maxHealth;
@@ -17,6 +19,9 @@ public class HeroData {
         heroData.maxShield = 50;
         heroData.shieldRestoreUnit = 2;
         heroData.souls = 0;
+        if(MyGdxGame.IS_DEBUG_MODE) {
+            heroData.souls = 1000;
+        }
         heroData.maxEnergy = 100;
         heroData.energyRestorationUnit = 1;
         heroData.damageMultiplier = 1f;

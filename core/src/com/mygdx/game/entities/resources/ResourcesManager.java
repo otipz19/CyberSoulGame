@@ -1,5 +1,6 @@
 package com.mygdx.game.entities.resources;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.function.Consumer;
@@ -80,6 +81,7 @@ public abstract class ResourcesManager {
         if (maxHealth <= 0)
             throw new RuntimeException("Max health can not be 0 or less");
         this.maxHealth = maxHealth;
+        this.health = MathUtils.clamp(health, 0, maxHealth);
     }
 
     public boolean isInvincible() {

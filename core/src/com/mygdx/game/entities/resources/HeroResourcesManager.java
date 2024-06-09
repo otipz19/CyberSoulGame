@@ -32,10 +32,6 @@ public class HeroResourcesManager extends ResourcesManager {
         this.energyRestoreUnit = heroData.energyRestorationUnit;
         this.souls = heroData.souls;
         this.damageMultiplier = heroData.damageMultiplier;
-
-        if(MyGdxGame.IS_DEBUG_MODE) {
-            this.souls = 1000;
-        }
     }
 
     @Override
