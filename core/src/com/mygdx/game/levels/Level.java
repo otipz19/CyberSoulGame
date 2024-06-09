@@ -266,4 +266,8 @@ public abstract class Level implements Screen {
     public CoordinatesProjector getCoordinatesProjector() {
         return coordinatesProjector;
     }
+
+    public Hero getHero() {
+        return hero;
+    }
 }

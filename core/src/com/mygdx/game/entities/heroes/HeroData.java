@@ -8,6 +8,7 @@ public class HeroData {
     public float maxEnergy;
     public float energyRestorationUnit;
     public int souls;
+    public float damageMultiplier;
 
     public static HeroData getDefault() {
         HeroData heroData = new HeroData();
@@ -18,6 +19,7 @@ public class HeroData {
         heroData.souls = 0;
         heroData.maxEnergy = 100;
         heroData.energyRestorationUnit = 1;
+        heroData.damageMultiplier = 1f;
         return heroData;
     }
 }

@@ -33,7 +33,7 @@ public class Monk extends Npc {
     public void interact(Entity interactionCause) {
         if(interactionCause instanceof Hero hero) {
             animator.setState(MonkAnimator.State.INTERACT);
-            level.ui.showUpgradeUI();
+            level.ui.showUpgradeUI(level);
         }
     }
 }

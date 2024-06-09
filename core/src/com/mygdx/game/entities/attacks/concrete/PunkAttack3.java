@@ -2,6 +2,7 @@ package com.mygdx.game.entities.attacks.concrete;
 
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.attacks.AttackZonePosition;
+import com.mygdx.game.entities.attacks.base.HeroMeleeAttack;
 import com.mygdx.game.entities.attacks.base.SideMeleeAttack;
 import com.mygdx.game.entities.enemies.Enemy;
 import com.mygdx.game.entities.heroes.Hero;
@@ -9,7 +10,7 @@ import com.mygdx.game.entities.resources.AbsoluteInstantDamageEffect;
 
 import java.util.function.Consumer;
 
-public class PunkAttack3 extends SideMeleeAttack {
+public class PunkAttack3 extends HeroMeleeAttack {
     private final static float ATTACK_IMPULSE = 40f;
     private Hero hero;
     public PunkAttack3(Hero hero){
@@ -43,7 +44,7 @@ public class PunkAttack3 extends SideMeleeAttack {
     @Override
     public void onCollisionEnter(Entity other) {
         if (other instanceof Enemy enemy) {
-            enemy.addResourcesEffect(new AbsoluteInstantDamageEffect<>(10));
+            enemy.addResourcesEffect(new AbsoluteInstantDamageEffect<>(10 * getDamageMultiplier()));
             enemy.addOnHealthChangeAction(d -> {
                 if (hero.getMovementController().isFacingRight())
                     enemy.getMovementController().applyImpulse(ATTACK_IMPULSE, 0f);

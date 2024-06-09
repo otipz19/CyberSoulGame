@@ -1,5 +1,8 @@
 ## Java
 
+assets/save.dat
+*.dat
+
 *.class
 *.war
 *.ear

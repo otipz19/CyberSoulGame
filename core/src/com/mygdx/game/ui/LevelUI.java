@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.levels.Level;
+import com.mygdx.game.ui.upgrades.UpgradeUI;
 
 public class LevelUI extends Stage {
     private final Level level;
@@ -63,13 +64,13 @@ public class LevelUI extends Stage {
         soulsCounter.setValue(souls);
     }
 
-    public void showUpgradeUI() {
+    public void showUpgradeUI(Level level) {
         if (upgradeUI != null)
             return;
 
         level.setPaused(true);
         pauseUI.unregisterAsInputProcessor();
-        upgradeUI = new UpgradeUI(this);
+        upgradeUI = new UpgradeUI(this, level);
         this.addActor(upgradeUI);
     }
 

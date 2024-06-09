@@ -8,7 +8,6 @@ import com.mygdx.game.entities.attacks.AttackZonePosition;
 import com.mygdx.game.utils.DelayedAction;
 
 public abstract class SideMeleeAttack extends SideAttack implements MeleeAttack, ICollisionListener, Disposable {
-
     protected final Entity attacker;
     protected final AttackZone leftAttackZone;
     protected final AttackZone rightAttackZone;

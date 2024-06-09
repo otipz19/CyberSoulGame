@@ -2,12 +2,13 @@ package com.mygdx.game.entities.attacks.concrete;
 
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.attacks.AttackZonePosition;
+import com.mygdx.game.entities.attacks.base.HeroMeleeAttack;
 import com.mygdx.game.entities.attacks.base.SideMeleeAttack;
 import com.mygdx.game.entities.enemies.Enemy;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.resources.AbsoluteInstantDamageEffect;
 
-public class PunkAttack4 extends SideMeleeAttack {
+public class PunkAttack4 extends HeroMeleeAttack {
     public PunkAttack4(Hero hero){
         super(hero, AttackZonePosition.LEFT_MIDDLE, AttackZonePosition.RIGHT_MIDDLE);
     }
@@ -40,7 +41,7 @@ public class PunkAttack4 extends SideMeleeAttack {
     @Override
     public void onCollisionEnter(Entity other) {
         if (other instanceof Enemy enemy)
-            enemy.addResourcesEffect(new AbsoluteInstantDamageEffect<>(15));
+            enemy.addResourcesEffect(new AbsoluteInstantDamageEffect<>(15 * getDamageMultiplier()));
     }
 
     @Override

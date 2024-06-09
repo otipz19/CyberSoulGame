@@ -2,6 +2,7 @@ package com.mygdx.game.entities.resources;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.heroes.HeroData;
 
 import java.util.function.Function;
@@ -18,6 +19,7 @@ public class HeroResourcesManager extends ResourcesManager {
     protected float energyRestoreUnit;
     private float energyRestoreTimer;
     protected int souls;
+    protected float damageMultiplier;
     protected final Array<Function<Float, Boolean>> onShieldChangeActions = new Array<>();
 
     public HeroResourcesManager(HeroData heroData) {
@@ -29,6 +31,11 @@ public class HeroResourcesManager extends ResourcesManager {
         this.maxEnergy = heroData.maxEnergy;
         this.energyRestoreUnit = heroData.energyRestorationUnit;
         this.souls = heroData.souls;
+        this.damageMultiplier = heroData.damageMultiplier;
+
+        if(MyGdxGame.IS_DEBUG_MODE) {
+            this.souls = 1000;
+        }
     }
 
     @Override
@@ -107,7 +114,14 @@ public class HeroResourcesManager extends ResourcesManager {
         if (maxShield <= 0)
             throw new RuntimeException("Max shield can not be 0 or less");
         this.maxShield = maxShield;
-        shield = MathUtils.clamp(shield, 0, maxShield);
+        setShield(shield);
+    }
+
+    public void setShield(float value) {
+        if(value < 0) {
+            throw new RuntimeException("Shield can not be negative");
+        }
+        this.shield = MathUtils.clamp(value, 0, maxShield);
     }
 
     public float getShieldRestoreUnit() {
@@ -175,6 +189,17 @@ public class HeroResourcesManager extends ResourcesManager {
         onShieldChangeActions.removeValue(action, true);
     }
 
+    public void setDamageMultiplier(float value) {
+        if(value < 0) {
+            throw new RuntimeException("Damage multiplier can not be negative!");
+        }
+        this.damageMultiplier = value;
+    }
+
+    public float getDamageMultiplier() {
+        return damageMultiplier;
+    }
+
     public void clearOnShieldChangeActions() {
         onShieldChangeActions.clear();
     }
@@ -188,6 +213,7 @@ public class HeroResourcesManager extends ResourcesManager {
         heroData.shieldRestoreUnit = shieldRestoreUnit;
         heroData.maxEnergy = maxEnergy;
         heroData.energyRestorationUnit = energyRestoreUnit;
+        heroData.damageMultiplier = damageMultiplier;
         return heroData;
     }
 }

@@ -42,6 +42,7 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
     protected String shieldImpactSound;
     protected String hpLossSound;
     protected String deathSound;
+
     public Hero(Level level, HeroData heroData, float x, float y, float width, float height) {
         super(new HeroResourcesManager(heroData));
 

@@ -2,14 +2,16 @@ package com.mygdx.game.entities.attacks.concrete;
 
 import com.mygdx.game.entities.Entity;
 import com.mygdx.game.entities.attacks.ProjectileSpawnPoint;
+import com.mygdx.game.entities.attacks.base.HeroRangeAttack;
 import com.mygdx.game.entities.attacks.base.SideProjectileAttack;
+import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.projectiles.HeroProjectile;
 import com.mygdx.game.entities.projectiles.Projectile;
 import com.mygdx.game.entities.projectiles.PunkScytheProjectile;
 
-public class PunkAttack2 extends SideProjectileAttack {
+public class PunkAttack2 extends HeroRangeAttack {
 
-    public PunkAttack2(Entity attacker) {
+    public PunkAttack2(Hero attacker) {
         super(attacker, ProjectileSpawnPoint.MIDDLE_LEFT, ProjectileSpawnPoint.MIDDLE_RIGHT);
     }
 
@@ -41,7 +43,7 @@ public class PunkAttack2 extends SideProjectileAttack {
     @Override
     public Projectile createProjectile(Entity owner, float x, float y, float initialAngle) {
         HeroProjectile projectile = new PunkScytheProjectile(owner, x, y, getProjectileWidth(), getProjectileHeight(), initialAngle);
-        projectile.setDamage(30);
+        projectile.setDamage(30 * getDamageMultiplier());
         return projectile;
     }
 }
