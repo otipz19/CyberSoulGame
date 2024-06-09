@@ -44,6 +44,14 @@ public class Assets {
         public static final String BAT_WALK_SHEET = "enemies/bat_monster/Walk.png";
         public static final String BAT_HURT_SHEET = "enemies/bat_monster/Hurt.png";
 
+        public static final String BOSS_IDLE_SHEET = "enemies/boss/Idle.png";
+        public static final String BOSS_ATTACK1_SHEET = "enemies/boss/Attack1.png";
+        public static final String BOSS_ATTACK2_SHEET = "enemies/boss/Attack2.png";
+        public static final String BOSS_ATTACK3_SHEET = "enemies/boss/Attack3.png";
+        public static final String BOSS_DEATH_SHEET = "enemies/boss/Death.png";
+        public static final String BOSS_WALK_SHEET = "enemies/boss/Walk.png";
+        public static final String BOSS_HURT_SHEET = "enemies/boss/Hurt.png";
+
         public static final String CAR_IDLE_SHEET = "enemies/car_monster/Idle.png";
         public static final String CAR_ATTACK1_SHEET = "enemies/car_monster/Attack1.png";
         public static final String CAR_ATTACK2_SHEET = "enemies/car_monster/Attack2.png";
