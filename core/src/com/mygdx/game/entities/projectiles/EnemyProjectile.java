@@ -1,6 +1,7 @@
 package com.mygdx.game.entities.projectiles;
 
 import com.mygdx.game.entities.Entity;
+import com.mygdx.game.entities.MortalEntity;
 import com.mygdx.game.entities.enemies.Enemy;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.resources.AbsoluteInstantDamageEffect;
@@ -22,7 +23,7 @@ public abstract class EnemyProjectile extends Projectile {
 
     @Override
     protected void collideWith(Entity entity) {
-        if (entity instanceof Hero hero)
-            hero.addResourcesEffect(new AbsoluteInstantDamageEffect<>(damage));
+        if (entity instanceof MortalEntity mortalEntity)
+            mortalEntity.addResourcesEffect(new AbsoluteInstantDamageEffect<>(damage));
     }
 }

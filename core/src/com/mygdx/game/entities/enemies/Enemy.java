@@ -75,7 +75,8 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
         Vector2 playerPosition = player.getBody().getPosition();
         Vector2 enemyPosition = body.getPosition();
         float distanceToPlayer = playerPosition.dst(enemyPosition);
-        if (distanceToPlayer <= detectionRange)
+        float verticalDistance = Math.abs(playerPosition.y - body.getWorldCenter().y);
+        if (distanceToPlayer <= detectionRange && verticalDistance <= 1.5f)
             attemptAttack(playerPosition, distanceToPlayer);
         else
             movementController.patrol();

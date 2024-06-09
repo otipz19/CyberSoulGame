@@ -172,4 +172,8 @@ public abstract class GateObstacle extends Entity implements ICollisionListener,
             }
         }
     }
+
+    public boolean isOpened() {
+        return getCurrentState() == State.OPENED;
+    }
 }

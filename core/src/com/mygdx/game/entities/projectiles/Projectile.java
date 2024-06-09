@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.*;
+import com.mygdx.game.entities.obstacles.GateObstacle;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.BodyCreator;
 import com.mygdx.game.physics.ColliderCreator;

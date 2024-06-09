@@ -94,10 +94,10 @@ public class MapObjectsBinder {
                     enemy = new BatEnemy(level, enemyData, 1.25f, 1.75f);
                 }
                 case CAR -> {
-                    enemy = new BossEnemy(level, enemyData, 3f, 2.5f);
+                    enemy = new CarEnemy(level, enemyData, 3f, 2.5f);
                 }
                 case BOSS -> {
-                    enemy = new BossEnemy(level, enemyData, 1.25f, 1.50f);
+                    enemy = new BossEnemy(level, enemyData, 1.75f, 2.5f);
                 }
                 default -> throw new RuntimeException("Not supported enemy type!");
             }
