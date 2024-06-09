@@ -26,7 +26,12 @@ public class UpgradeUI extends UILayer {
         setBackground("background-menu");
 
         HeroResourcesManager resourcesManager = level.hero.getResourcesManager();
-        UpgradeBar healthUpgrade = new UpgradeBar(resourcesManager.getMaxHealth(), 10, 25, resourcesManager) {
+        HeroData defaultData = HeroData.getDefault();
+        UpgradeBar healthUpgrade = new UpgradeBar(defaultData.maxHealth,
+                resourcesManager.getMaxHealth(),
+                10,
+                1,
+                resourcesManager) {
             @Override
             public void upgrade() {
                 resourcesManager.setMaxHealth(currentValue);
@@ -39,7 +44,11 @@ public class UpgradeUI extends UILayer {
             }
         };
 
-        UpgradeBar shieldUpgrade = new UpgradeBar(resourcesManager.getMaxShield(), 25, 10, resourcesManager) {
+        UpgradeBar shieldUpgrade = new UpgradeBar(defaultData.maxShield,
+                resourcesManager.getMaxShield(),
+                25,
+                1,
+                resourcesManager) {
             @Override
             public void upgrade() {
                 resourcesManager.setMaxShield(currentValue);
@@ -52,7 +61,11 @@ public class UpgradeUI extends UILayer {
             }
         };
 
-        UpgradeBar energyUpgrade = new UpgradeBar(resourcesManager.getMaxEnergy(), 10, 15, resourcesManager) {
+        UpgradeBar energyUpgrade = new UpgradeBar(defaultData.maxEnergy,
+                resourcesManager.getMaxEnergy(),
+                10,
+                1,
+                resourcesManager) {
             @Override
             public void upgrade() {
                 resourcesManager.setMaxEnergy(currentValue);
@@ -65,7 +78,11 @@ public class UpgradeUI extends UILayer {
             }
         };
 
-        UpgradeBar damageUpgrade = new UpgradeBar(resourcesManager.getDamageMultiplier(), 0.1f, 20, resourcesManager) {
+        UpgradeBar damageUpgrade = new UpgradeBar(defaultData.damageMultiplier,
+                resourcesManager.getDamageMultiplier(),
+                0.1f,
+                1,
+                resourcesManager) {
             @Override
             public void upgrade() {
                 resourcesManager.setDamageMultiplier(currentValue);

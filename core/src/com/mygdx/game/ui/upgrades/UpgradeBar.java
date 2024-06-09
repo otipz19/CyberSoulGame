@@ -8,27 +8,34 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
 import com.mygdx.game.utils.Assets;
-import com.mygdx.game.utils.PlayerDataManager;
 
 public abstract class UpgradeBar {
+    private float defaultValue;
     protected float currentValue;
     protected Label valueLabel;
 
-    protected float step;
+    protected float valueStep;
     protected TextButton stepButton;
 
     protected int price;
+    private int priceStep;
     protected Label priceLabel;
 
     protected final HeroResourcesManager resourcesManager;
 
-    private final Array<IUpgradeTransaction> upgradeTransactions = new Array<>();
+    private final Array<UpgradeTransaction> upgradeTransactions = new Array<>();
 
-    public UpgradeBar(float currentValue, float step, int price, HeroResourcesManager resourcesManager) {
+    public UpgradeBar(float defaultValue, float currentValue, float valueStep, int priceStep, HeroResourcesManager resourcesManager) {
+        this.defaultValue = defaultValue;
         this.currentValue = currentValue;
-        this.step = step;
-        this.price = price;
+        this.valueStep = valueStep;
+        calcPrice();
+        this.priceStep = priceStep;
         this.resourcesManager = resourcesManager;
+    }
+
+    private void calcPrice() {
+        this.price = (int)((currentValue - defaultValue + valueStep) / valueStep);
     }
 
     public void createRow(Table table, String style) {
@@ -45,26 +52,28 @@ public abstract class UpgradeBar {
         valueLabel = new Label(String.format("%.1f", currentValue), skin);
         valueLabel.setAlignment(Align.center);
 
-        stepButton = new TextButton(String.format("+%.1f", step), skin);
+        stepButton = new TextButton(String.format("+%.1f", valueStep), skin);
         stepButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 if (resourcesManager.getSouls() >= price) {
-                    IUpgradeTransaction transaction = new IUpgradeTransaction() {
+                    UpgradeTransaction transaction = new UpgradeTransaction(price) {
                         @Override
                         public void commit() {
-                            currentValue += step;
-                            resourcesManager.changeSouls(-price);
+                            currentValue += valueStep;
+                            resourcesManager.changeSouls(-this.price);
                             upgrade();
                             updateValue();
+                            updatePrice();
                         }
 
                         @Override
                         public void undo() {
-                            currentValue -= step;
-                            resourcesManager.changeSouls(price);
+                            currentValue -= valueStep;
+                            resourcesManager.changeSouls(this.price);
                             revert();
                             updateValue();
+                            updatePrice();
                         }
                     };
                     upgradeTransactions.add(transaction);
@@ -103,8 +112,13 @@ public abstract class UpgradeBar {
         valueLabel.setText(String.format("%.1f", currentValue));
     }
 
+    private void updatePrice() {
+        calcPrice();
+        priceLabel.setText(String.format(" %d ", price));
+    }
+
     public void reset() {
-        upgradeTransactions.forEach(IUpgradeTransaction::undo);
+        upgradeTransactions.forEach(UpgradeTransaction::undo);
         upgradeTransactions.clear();
     }
 }

@@ -2,4 +2,4 @@
 "SAFE"
 "SAFE"
 "SAFE"
-{"health":100,"maxHealth":100,"maxShield":50,"shieldRestoreUnit":2,"maxEnergy":100,"energyRestorationUnit":1,"damageMultiplier":1}
+{"health":140,"maxHealth":120,"maxShield":75,"shieldRestoreUnit":2,"maxEnergy":120,"energyRestorationUnit":1,"souls":992,"damageMultiplier":1.1}
