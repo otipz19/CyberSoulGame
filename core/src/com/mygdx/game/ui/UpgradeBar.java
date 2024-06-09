@@ -10,10 +10,10 @@ import com.mygdx.game.utils.Assets;
 public abstract class UpgradeBar {
     protected float currentValue;
     protected float step;
-    protected float price;
+    protected int price;
     protected Label valueLabel;
 
-    public UpgradeBar(float currentValue, float step, float price) {
+    public UpgradeBar(float currentValue, float step, int price) {
         this.currentValue = currentValue;
         this.step = step;
         this.price = price;
@@ -42,7 +42,7 @@ public abstract class UpgradeBar {
             }
         });
 
-        Label priceLabel = new Label(String.format(" %.1f ", price), skin );
+        Label priceLabel = new Label(String.format(" %d ", price), skin );
         priceLabel.setAlignment(Align.center);
 
         Image soulIcon = new Image(skin,  "soul-icon");
