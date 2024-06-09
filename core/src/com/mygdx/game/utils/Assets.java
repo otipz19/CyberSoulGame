@@ -108,7 +108,7 @@ public class Assets {
         public static final String CAR_PROJECTILE_EXPLODING_SPRITESHEET = "projectiles/car-projectile-explosion.png";
 
         public static final String BOSS_PROJECTILE_FLYING_SPRITESHEET = "projectiles/boss-projectile.png";
-        public static final String BOSS_PROJECTILE_EXPLODING_SPRITESHEET = "projectiles/boss-projectile.png";
+        public static final String BOSS_PROJECTILE_EXPLODING_SPRITESHEET = "projectiles/boss-projectile-explosion.png";
 
         public static final String MONK_IDLE_SHEET = "npc/monk/Idle.png";
         public static final String MONK_INTERACT_SHEET = "npc/monk/Special.png";

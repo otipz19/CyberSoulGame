@@ -97,19 +97,24 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
     }
 
     protected void attack() {
+        attack(attack, attackAnimation, attackSound);
+    }
+
+    protected void attack(Attack attack, EnemyAnimator.State animation, String sound) {
         if (healthLossCount != 0)
             return;
 
         SideAttack sideAttack = (SideAttack)attack;
         if(player.getBody().getPosition().x > body.getPosition().x){
             animator.setDirection(Animator.Direction.RIGHT);
+            sideAttack.setDirection(true);
         }
-        else
+        else {
             animator.setDirection(Animator.Direction.LEFT);
-        animator.setState(attackAnimation);
-        SoundPlayer.getInstance().playSound(attackSound);
-        sideAttack.setDirection(player.getBody().getPosition().x > body.getPosition().x);
-
+            sideAttack.setDirection(false);
+        }
+        animator.setState(animation);
+        SoundPlayer.getInstance().playSound(sound);
         sideAttack.execute();
     }
 

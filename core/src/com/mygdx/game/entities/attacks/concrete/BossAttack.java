@@ -16,22 +16,22 @@ public class BossAttack extends SideProjectileAttack {
 
     @Override
     public float getAttackTime() {
-        return 1.6f;
-    }
-
-    @Override
-    public float getAttackDelay() {
-        return 0.25f;
-    }
-
-    @Override
-    public float getProjectileWidth() {
         return 0.6f;
     }
 
     @Override
-    public float getProjectileHeight() {
+    public float getAttackDelay() {
         return 0.3f;
+    }
+
+    @Override
+    public float getProjectileWidth() {
+        return 1.5f;
+    }
+
+    @Override
+    public float getProjectileHeight() {
+        return 0.75f;
     }
 
     @Override

@@ -19,12 +19,12 @@ public class BossAttackMelee extends SideMeleeAttack {
 
     @Override
     public float getAttackDelay() {
-        return 0.09f;
+        return 0.2f;
     }
 
     @Override
     public float getAttackWidth() {
-        return 0.3f;
+        return 0.5f;
     }
 
     @Override
