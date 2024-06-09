@@ -75,7 +75,6 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
         Vector2 playerPosition = player.getBody().getPosition();
         Vector2 enemyPosition = body.getPosition();
         float distanceToPlayer = playerPosition.dst(enemyPosition);
-
         if (distanceToPlayer <= detectionRange)
             attemptAttack(playerPosition, distanceToPlayer);
         else
@@ -85,7 +84,7 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
         animator.setDirection(movementController.isFacingRight() ? Animator.Direction.RIGHT : Animator.Direction.LEFT);
     }
 
-    private void attemptAttack(Vector2 playerPosition, float distanceToPlayer) {
+    protected void attemptAttack(Vector2 playerPosition, float distanceToPlayer) {
         if(!leftAttackRange.isHeroInRange() && !rightAttackRange.isHeroInRange()) {
             movementController.changeToAttackMode();
             movementController.tryMoveTo(playerPosition);
@@ -102,9 +101,15 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
             return;
 
         SideAttack sideAttack = (SideAttack)attack;
+        if(player.getBody().getPosition().x > body.getPosition().x){
+            animator.setDirection(Animator.Direction.RIGHT);
+        }
+        else
+            animator.setDirection(Animator.Direction.LEFT);
         animator.setState(attackAnimation);
         SoundPlayer.getInstance().playSound(attackSound);
-        sideAttack.setDirection(movementController.isFacingRight());
+        sideAttack.setDirection(player.getBody().getPosition().x > body.getPosition().x);
+
         sideAttack.execute();
     }
 

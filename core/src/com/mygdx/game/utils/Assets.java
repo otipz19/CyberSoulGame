@@ -106,6 +106,10 @@ public class Assets {
 
         public static final String CAR_PROJECTILE_FLYING_SPRITESHEET = "projectiles/car-projectile.png";
         public static final String CAR_PROJECTILE_EXPLODING_SPRITESHEET = "projectiles/car-projectile-explosion.png";
+
+        public static final String BOSS_PROJECTILE_FLYING_SPRITESHEET = "projectiles/boss-projectile.png";
+        public static final String BOSS_PROJECTILE_EXPLODING_SPRITESHEET = "projectiles/boss-projectile.png";
+
         public static final String MONK_IDLE_SHEET = "npc/monk/Idle.png";
         public static final String MONK_INTERACT_SHEET = "npc/monk/Special.png";
     }
@@ -167,14 +171,19 @@ public class Assets {
         public static final String PORTAL_CHARGING_SOUND = "music/portal-charging.ogg";
         public static final String RANGE_ATTACK_SOUND = "music/range_enemy_attack.ogg";
         public static final String NO_SOUND = "music/nosound.ogg";
-        public static final String MONSTER_ATTACK_SOUND = NO_SOUND;
-        public static final String MONSTER_HEALTH_LOSS_SOUND = NO_SOUND;
-        public static final String MONSTER_DEATH_SOUND = NO_SOUND;
-        public static final String CAR_ATTACK_SOUND = NO_SOUND;
-        public static final String CAR_HEALTH_LOSS_SOUND = NO_SOUND;
-        public static final String CAR_DEATH_SOUND = NO_SOUND;
-        public static final String BAT_ATTACK_SOUND = NO_SOUND;
-        public static final String BAT_HEALTH_LOSS_SOUND = NO_SOUND;
-        public static final String BAT_DEATH_SOUND = NO_SOUND;
+        public static final String MONSTER_ATTACK_SOUND = "music/monster-punch.ogg";
+        public static final String MONSTER_HEALTH_LOSS_SOUND = "music/monster_hurt.ogg";
+        public static final String MONSTER_DEATH_SOUND = "music/monster_death.wav";
+        public static final String CAR_ATTACK_SOUND = "music/range_enemy_attack.ogg";
+        public static final String CAR_HEALTH_LOSS_SOUND = "music/car_punched.ogg";
+        public static final String CAR_DEATH_SOUND = "music/car_death.ogg";
+        public static final String BAT_ATTACK_SOUND = "music/range_enemy_attack.ogg";
+        public static final String BAT_HEALTH_LOSS_SOUND = "music/bat_hurt.ogg";
+        public static final String BAT_DEATH_SOUND = "music/bat_death.ogg";
+        public static final String BOSS_ATTACK_SOUND = "music/boss_attack.ogg";
+        public static final String BOSS_RANGED_ATTACK_SOUND = "music/ball_throw.wav";
+        public static final String BOSS_HEALTH_LOSS_SOUND = "music/boss_hurt.ogg";
+        public static final String BOSS_DEATH_SOUND = "music/boss_death.ogg";
+
     }
 }
