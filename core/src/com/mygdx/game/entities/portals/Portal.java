@@ -17,10 +17,10 @@ import com.mygdx.game.utils.Assets;
 import com.mygdx.game.utils.PlayerDataManager;
 
 public abstract class Portal extends InteractableEntity {
-    private final PortalData portalData;
-    private boolean isEnabled;
+    protected final PortalData portalData;
+    protected boolean isEnabled;
 
-    private boolean hasActivated;
+    protected boolean hasActivated;
 
     public Portal(Level level, PortalData portalData, PortalAnimator animator) {
         this.level = level;

@@ -14,10 +14,7 @@ import com.mygdx.game.entities.npc.Npc;
 import com.mygdx.game.entities.obstacles.EntryObstacle;
 import com.mygdx.game.entities.obstacles.GateObstacle;
 import com.mygdx.game.entities.obstacles.HammerObstacle;
-import com.mygdx.game.entities.portals.FirstPortal;
-import com.mygdx.game.entities.portals.Portal;
-import com.mygdx.game.entities.portals.SecondPortal;
-import com.mygdx.game.entities.portals.ThirdPortal;
+import com.mygdx.game.entities.portals.*;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.map.data.PlayerSpawnData;
 import com.mygdx.game.physics.Collider;
@@ -112,6 +109,7 @@ public class MapObjectsBinder {
                 case FIRST -> portal = new FirstPortal(level, portalData);
                 case SECOND -> portal = new SecondPortal(level, portalData);
                 case THIRD -> portal = new ThirdPortal(level, portalData);
+                case LAST -> portal = new LastPortal(level, portalData);
                 default -> throw new RuntimeException("Not supported portal type! " + portalData.getType());
             }
             portals.add(portal);

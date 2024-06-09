@@ -7,7 +7,8 @@ public class PortalData {
     public enum Type {
         FIRST,
         SECOND,
-        THIRD
+        THIRD,
+        LAST
     }
 
     private final Rectangle bounds;

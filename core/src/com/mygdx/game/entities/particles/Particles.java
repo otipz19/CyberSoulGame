@@ -36,7 +36,7 @@ public abstract class Particles extends GameObject implements IRenderable {
             return;
 
         particleEffect.update(deltaTime);
-        particleEffect.draw(MyGdxGame.getInstance().batch, deltaTime);
+        particleEffect.draw(MyGdxGame.getInstance().batch);
         if (particleEffect.isComplete())
             complete();
     }

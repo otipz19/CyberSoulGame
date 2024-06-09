@@ -327,7 +327,7 @@
     <properties>
      <property name="destination" value="safe"/>
      <property name="isEnabled" value="true"/>
-     <property name="type" value="third"/>
+     <property name="type" value="last"/>
     </properties>
    </object>
   </objectgroup>

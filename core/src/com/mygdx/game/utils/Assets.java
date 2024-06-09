@@ -119,6 +119,7 @@ public class Assets {
 
     public static class ParticleEffects {
         public static final String SOUL_PARTICLES = "particles/soul.p";
+        public static final String FIREWORK_PARTICLES = "particles/firework.p";
 
     }
 

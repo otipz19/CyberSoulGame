@@ -1,5 +1,11 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	main-enormous: {
+		file: main-enormous.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
 	main-large: {
 		file: main-large.fnt
 		scaledSize: -1
@@ -95,6 +101,10 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		fontColor: text
 		background: background
 	}
+	win: {
+		font: main-enormous
+		fontColor: text
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
 	health: {
@@ -131,6 +141,10 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		fontColor: text
 		up: background
 		over: background-over
+	}
+	upgrade: {
+		font: main-medium
+		fontColor: text
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {

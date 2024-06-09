@@ -82,7 +82,7 @@ public class PauseUI extends UILayer {
         mainMenuButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                MyGdxGame.getInstance().showMainMenu();
+                MyGdxGame.getInstance().goToMainMenu();
             }
         });
         return mainMenuButton;

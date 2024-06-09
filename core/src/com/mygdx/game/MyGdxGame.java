@@ -8,6 +8,7 @@ import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.heroes.PunkHero;
 import com.mygdx.game.levels.*;
 import com.mygdx.game.ui.MainMenu;
+import com.mygdx.game.ui.WinScreen;
 import com.mygdx.game.utils.MyAssetManager;
 import com.mygdx.game.utils.PlayerDataManager;
 import com.mygdx.game.utils.PlayerPreferencesManager;
@@ -45,13 +46,30 @@ public class MyGdxGame extends Game {
         assetManager.loadAll();
     }
 
-    public void showMainMenu() {
+    public void goToMainMenu() {
+        levelChangeDelegate = this::showMainMenu;
+    }
+
+    private void showMainMenu() {
         if (getScreen() != null)
             getScreen().dispose();
         inputMultiplexer.clear();
         currentLevel = null;
         boolean hasAlreadyPlayed = PlayerDataManager.getInstance().getHero() != Heroes.NOT_SELECTED;
         setScreen(new MainMenu(hasAlreadyPlayed));
+    }
+
+    public void gameCompleted() {
+        PlayerDataManager.getInstance().setCurrentLevel(Levels.SAFE);
+        levelChangeDelegate = this::showWinScreen;
+    }
+
+    private void showWinScreen() {
+        if (getScreen() != null)
+            getScreen().dispose();
+        inputMultiplexer.clear();
+        currentLevel = null;
+        setScreen(new WinScreen());
     }
 
     public void goToNewLevel(Levels level) {
