@@ -7,6 +7,7 @@ public class EnemyData {
         MONSTER,
         CAR,
         BAT,
+        BOSS
     }
 
     private final Rectangle spawnPoint;

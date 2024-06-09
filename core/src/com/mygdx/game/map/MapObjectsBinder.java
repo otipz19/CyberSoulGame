@@ -7,6 +7,7 @@ import com.mygdx.game.entities.DeathZone;
 import com.mygdx.game.entities.Surface;
 import com.mygdx.game.entities.enemies.BatEnemy;
 import com.mygdx.game.entities.enemies.CarEnemy;
+import com.mygdx.game.entities.enemies.BossEnemy;
 import com.mygdx.game.entities.enemies.Enemy;
 import com.mygdx.game.entities.enemies.MonsterEnemy;
 import com.mygdx.game.entities.npc.Monk;
@@ -94,6 +95,9 @@ public class MapObjectsBinder {
                 }
                 case CAR -> {
                     enemy = new CarEnemy(level, enemyData, 3f, 2.5f);
+                }
+                case BOSS -> {
+                    enemy = new BossEnemy(level, enemyData, 1.25f, 1.50f);
                 }
                 default -> throw new RuntimeException("Not supported enemy type!");
             }
