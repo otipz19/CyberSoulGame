@@ -61,4 +61,14 @@ public class BossEnemy extends Enemy{
             }
         }
     }
+
+    @Override
+    public float getDeathDelay() {
+        return 0.61f;
+    }
+
+    @Override
+    public int getSouls() {
+        return 3;
+    }
 }

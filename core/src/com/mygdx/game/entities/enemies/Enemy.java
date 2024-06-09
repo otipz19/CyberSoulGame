@@ -127,10 +127,7 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
         new DelayedAction(0.4f, () -> healthLossCount--);
     }
 
-    @Override
-    public float getDeathDelay() {
-        return 0.55f;
-    }
+    public abstract int getSouls();
 
     @Override
     protected void onDeath() {
@@ -141,7 +138,7 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
         new DelayedAction(getDeathDelay(), () ->
             {
                 Vector2 middlePosition = getMiddlePosition();
-                new SoulParticles(level, middlePosition.x, middlePosition.y, 1);
+                new SoulParticles(level, middlePosition.x, middlePosition.y, getSouls());
                 level.world.destroyBody(body);
             });
     }

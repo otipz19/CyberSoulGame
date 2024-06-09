@@ -28,4 +28,14 @@ public class BatEnemy extends Enemy{
         this.healthLossSound = Assets.Sound.BAT_HEALTH_LOSS_SOUND;
         this.deathSound = Assets.Sound.BAT_DEATH_SOUND;
     }
+
+    @Override
+    public float getDeathDelay() {
+        return 0.61f;
+    }
+
+    @Override
+    public int getSouls() {
+        return 1;
+    }
 }

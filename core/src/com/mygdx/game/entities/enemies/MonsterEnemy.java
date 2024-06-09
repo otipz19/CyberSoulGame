@@ -28,4 +28,14 @@ public class MonsterEnemy extends Enemy{
         this.healthLossSound = Assets.Sound.MONSTER_HEALTH_LOSS_SOUND;
         this.deathSound = Assets.Sound.MONSTER_DEATH_SOUND;
     }
+
+    @Override
+    public float getDeathDelay() {
+        return 0.61f;
+    }
+
+    @Override
+    public int getSouls() {
+        return 1;
+    }
 }
