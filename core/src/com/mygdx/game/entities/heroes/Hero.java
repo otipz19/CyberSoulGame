@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.animation.base.Animator;
 import com.mygdx.game.animation.concrete.heroes.HeroAnimator;
 import com.mygdx.game.entities.MortalEntity;
 import com.mygdx.game.entities.attacks.base.Attack;
@@ -113,7 +114,7 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
             animator.setState(animation);
             new DelayedAction(sideAttack.getAttackDelay(), () -> SoundPlayer.getInstance().playSound(soundName));
             attackDelay = sideAttack.getAttackTime();
-            sideAttack.setDirection(movementController.isFacingRight());
+            sideAttack.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
             sideAttack.execute();
         }
     }
@@ -199,10 +200,6 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
                 !Gdx.input.isKeyPressed(Input.Keys.D) &&
                 !Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) &&
                 !Gdx.input.isKeyPressed(Input.Keys.SPACE);
-    }
-
-    public Vector2 getCameraPosition() {
-        return new Vector2(body.getPosition().x + width / 2, body.getPosition().y + height / 2);
     }
 
     public HeroData getData() {

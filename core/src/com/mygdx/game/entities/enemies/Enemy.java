@@ -72,10 +72,10 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
     }
 
     private void move() {
-        Vector2 playerPosition = player.getBody().getPosition();
-        Vector2 enemyPosition = body.getPosition();
+        Vector2 playerPosition = player.getCenter();
+        Vector2 enemyPosition = this.getCenter();
         float distanceToPlayer = playerPosition.dst(enemyPosition);
-        float verticalDistance = Math.abs(playerPosition.y - body.getWorldCenter().y);
+        float verticalDistance = Math.abs(playerPosition.y - enemyPosition.y);
         if (distanceToPlayer <= detectionRange && verticalDistance <= 1.5f)
             attemptAttack(playerPosition, distanceToPlayer);
         else
@@ -138,14 +138,10 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
         movementController.clearVelocityX();
         new DelayedAction(getDeathDelay(), () ->
             {
-                Vector2 middlePosition = getMiddlePosition();
+                Vector2 middlePosition = getCenter();
                 new SoulParticles(level, middlePosition.x, middlePosition.y, getSouls());
                 level.world.destroyBody(body);
             });
-    }
-
-    public Vector2 getMiddlePosition() {
-        return new Vector2(body.getPosition().x + width / 2, body.getPosition().y + height / 2);
     }
 
     public GroundEnemyMovementController getMovementController() {

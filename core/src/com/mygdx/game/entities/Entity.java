@@ -28,6 +28,9 @@ public abstract class Entity extends GameObject implements IRenderable {
     public Vector2 getPosition(){
         return body.getPosition();
     }
+    public Vector2 getCenter() {
+        return new Vector2(body.getPosition().x + width / 2, body.getPosition().y + height / 2);
+    }
 
     public void setPosition(float x, float y){
         body.getPosition().set(x, y);

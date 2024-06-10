@@ -17,7 +17,6 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.camera.CoordinatesProjector;
 import com.mygdx.game.camera.LevelCamera;
 import com.mygdx.game.entities.heroes.Hero;
-import com.mygdx.game.entities.heroes.PunkHero;
 import com.mygdx.game.entities.particles.Particles;
 import com.mygdx.game.entities.projectiles.Projectile;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
@@ -130,7 +129,7 @@ public abstract class Level implements Screen {
     protected void createHero() {
         Vector2 spawn = getPlayerSpawnInWorldCoordinates();
         hero = PlayerDataManager.getInstance().getHero().create(this, spawn.x, spawn.y, 0.95f, 0.95f);
-        camera.setPositionSharply(hero.getCameraPosition());
+        camera.setPositionSharply(hero.getCenter());
     }
 
     protected Vector2 getPlayerSpawnInWorldCoordinates() {
@@ -169,7 +168,7 @@ public abstract class Level implements Screen {
 
     protected void updateCamera(float delta) {
         if (delta != 0)
-            camera.setPositionSmoothly(hero.getCameraPosition());
+            camera.setPositionSmoothly(hero.getCenter());
         camera.update();
     }
 
