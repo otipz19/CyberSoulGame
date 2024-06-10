@@ -23,6 +23,11 @@ public class BossAttackMelee extends SideMeleeAttack {
     }
 
     @Override
+    public float getAttackInterval() {
+        return 0.3f;
+    }
+
+    @Override
     public float getAttackWidth() {
         return 0.5f;
     }

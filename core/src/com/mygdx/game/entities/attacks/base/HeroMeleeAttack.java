@@ -14,4 +14,9 @@ public abstract class HeroMeleeAttack extends SideMeleeAttack {
     protected float getDamageMultiplier() {
         return hero.getResourcesManager().getDamageMultiplier();
     }
+
+    @Override
+    public float getAttackInterval() {
+        return 0f;
+    }
 }

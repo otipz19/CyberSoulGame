@@ -50,13 +50,21 @@ public class BossEnemy extends Enemy{
             movementController.changeToAttackMode();
             movementController.tryMoveTo(playerPosition);
         }else {
+             if (attackInterval > 0){
+                 animator.setState(EnemyAnimator.State.IDLE);
+                 movementController.setFacingRight(player.getBody().getPosition().x > body.getPosition().x);
+                 return;
+             }
+
             movementController.clearVelocityX();
             if (leftMeleeAttackRange.isHeroInRange() || rightMeleeAttackRange.isHeroInRange()) {
                 attackDelay = attackMelee.getAttackTime() + 0.1f;
+                attackInterval = attackMelee.getAttackInterval() + attackDelay;
                 new DelayedAction(0.1f, () -> attack(attackMelee, attackAnimationMelee, attackSoundMelee));
             }
             else {
                 attackDelay = attack.getAttackTime() + 0.1f;
+                attackInterval = attack.getAttackInterval() + attackDelay;
                 new DelayedAction(0.1f, this::attack);
             }
         }

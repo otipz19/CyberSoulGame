@@ -53,6 +53,9 @@ public abstract class MovementController {
     public boolean isFacingRight() {
         return isFacingRight;
     }
+    public void setFacingRight(boolean facingRight) {
+        isFacingRight = facingRight;
+    }
 
     protected float updateTimer(float value, float delta) {
         return Math.max(0, value - delta);

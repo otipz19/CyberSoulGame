@@ -31,6 +31,7 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
     protected final GroundEnemyMovementController movementController;
     protected float detectionRange;
     protected float attackDelay;
+    protected float attackInterval;
     protected Attack attack;
     protected AttackRangeSensor leftAttackRange;
     protected AttackRangeSensor rightAttackRange;
@@ -65,6 +66,7 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
 
     public void render(float deltaTime) {
         attackDelay = Math.max(0, attackDelay - deltaTime);
+        attackInterval = Math.max(0, attackInterval - deltaTime);
         if (healthLossCount == 0 && attackDelay == 0)
             move();
         updateResourcesManager(deltaTime);
@@ -91,8 +93,15 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
             movementController.tryMoveTo(playerPosition);
         }
         else {
+            if (attackInterval > 0){
+                animator.setState(EnemyAnimator.State.IDLE);
+                movementController.setFacingRight(player.getBody().getPosition().x > body.getPosition().x);
+                return;
+            }
+
             movementController.clearVelocityX();
             attackDelay = attack.getAttackTime() + 0.1f;
+            attackInterval = attack.getAttackInterval() + attackDelay;
             new DelayedAction(0.1f, this::attack);
         }
     }

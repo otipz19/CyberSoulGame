@@ -14,4 +14,9 @@ public abstract class HeroRangeAttack extends SideProjectileAttack {
     protected float getDamageMultiplier() {
         return hero.getResourcesManager().getDamageMultiplier();
     }
+
+    @Override
+    public float getAttackInterval() {
+        return 0f;
+    }
 }

@@ -23,6 +23,11 @@ public class MonsterAttack extends SideMeleeAttack {
     }
 
     @Override
+    public float getAttackInterval() {
+        return 0.3f;
+    }
+
+    @Override
     public float getAttackWidth() {
         return 0.3f;
     }

@@ -24,6 +24,11 @@ public class CarAttack extends SideProjectileAttack {
     }
 
     @Override
+    public float getAttackInterval() {
+        return 0.8f;
+    }
+
+    @Override
     public float getProjectileWidth() {
         return 1.2f;
     }

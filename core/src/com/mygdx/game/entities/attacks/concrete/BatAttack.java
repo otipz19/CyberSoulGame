@@ -26,6 +26,11 @@ public class BatAttack extends SideProjectileAttack {
     }
 
     @Override
+    public float getAttackInterval() {
+        return 1f;
+    }
+
+    @Override
     public float getProjectileWidth() {
         return 1.2f;
     }
