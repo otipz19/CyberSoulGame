@@ -18,7 +18,7 @@ public class HeroData {
         heroData.maxHealth = 100;
         heroData.maxShield = 50;
         heroData.shieldRestoreUnit = 2;
-        heroData.souls = 0;
+        heroData.souls = 10;
         if(MyGdxGame.IS_DEBUG_MODE) {
             heroData.souls = 1000;
         }

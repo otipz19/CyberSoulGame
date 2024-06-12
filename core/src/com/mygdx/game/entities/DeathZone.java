@@ -19,6 +19,7 @@ public class DeathZone extends GameObject implements ITriggerListener {
     @Override
     public void onTriggerEnter(GameObject other) {
         if (other instanceof Hero hero) {
+            hero.getResourcesManager().setInvincible(false);
             var damageEffect = new RelativeInstantDamageEffect<HeroResourcesManager>(1);
             damageEffect.apply(hero.getResourcesManager(), 0);
         }

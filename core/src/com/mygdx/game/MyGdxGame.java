@@ -14,7 +14,7 @@ import com.mygdx.game.utils.PlayerDataManager;
 import com.mygdx.game.utils.PlayerPreferencesManager;
 
 public class MyGdxGame extends Game {
-    public static final boolean IS_DEV_MODE = true;
+    public static final boolean IS_DEV_MODE = false;
     public static final boolean IS_DEBUG_MODE = true;
 
     private static MyGdxGame instance;
