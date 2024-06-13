@@ -112,6 +112,12 @@ public class Assets {
 
         public static final String MONK_IDLE_SHEET = "npc/monk/Idle.png";
         public static final String MONK_INTERACT_SHEET = "npc/monk/Special.png";
+
+        public static final String GUIDE_RUN = "ui/guide/run-dash-use.png";
+        public static final String GUIDE_JUMP = "ui/guide/jump.png";
+        public static final String GUIDE_ATTACK = "ui/guide/attack.png";
+        public static final String GUIDE_LEFT_ARROW = "ui/guide/left_arrow.png";
+        public static final String GUIDE_RIGHT_ARROW = "ui/guide/right_arrow.png";
     }
 
     public static class TiledMaps {

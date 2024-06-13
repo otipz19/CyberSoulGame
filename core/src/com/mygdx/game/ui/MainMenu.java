@@ -15,6 +15,7 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.utils.Assets;
 import com.mygdx.game.utils.PlayerDataManager;
+import org.w3c.dom.Text;
 
 public class MainMenu implements Screen {
     private final Stage stage;
@@ -22,6 +23,7 @@ public class MainMenu implements Screen {
     private final HeroSelectionUI heroSelectionUI;
     private final SettingsUI settingsUI;
     private final CreditsUI creditsUI;
+    private final GuideUI guideUI;
 
     public MainMenu(boolean hasAlreadyPlayed) {
         stage = new Stage(new ScreenViewport());
@@ -49,11 +51,20 @@ public class MainMenu implements Screen {
         }
 
         TextButton startButton = getStartButton(skin);
+        TextButton guideBtn = getGuideButton(skin);
         TextButton optionsButton = getOptionsButton(skin);
         TextButton creditsButton = getCreditsButton(skin);
         TextButton exitButton = getExitButton(skin);
 
         menuButtons.add(startButton)
+                .minWidth(200)
+                .growX()
+                .pad(5, 50, 5, 0);
+        menuButtons.add()
+                .colspan(3)
+                .growX();
+        menuButtons.row();
+        menuButtons.add(guideBtn)
                 .minWidth(200)
                 .growX()
                 .pad(5, 50, 5, 0);
@@ -95,6 +106,9 @@ public class MainMenu implements Screen {
         creditsUI = new CreditsUI(stage);
         creditsUI.addOnHideAction(() -> { stage.addActor(menuButtons); SoundPlayer.getInstance().setBackgroundMusic(Assets.Music.MENU_MUSIC);});
 
+        guideUI = new GuideUI(stage);
+        guideUI.addOnHideAction(() -> stage.addActor(menuButtons));
+
         SoundPlayer.getInstance().setBackgroundMusic(Assets.Music.MENU_MUSIC);
     }
 
@@ -120,6 +134,17 @@ public class MainMenu implements Screen {
             }
         });
         return startButton;
+    }
+
+    private TextButton getGuideButton(Skin skin) {
+        TextButton guideBtn = new TextButton("How to Play", skin);
+        guideBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                stage.addActor(guideUI);
+            }
+        });
+        return guideBtn;
     }
 
     private TextButton getOptionsButton(Skin skin) {
