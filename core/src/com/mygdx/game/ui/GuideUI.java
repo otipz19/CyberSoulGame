@@ -11,6 +11,7 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.utils.Assets;
 
 import java.util.Arrays;
+import java.util.function.Function;
 
 public class GuideUI extends UILayer {
     private final Container<Image> imageContainer;
@@ -68,41 +69,27 @@ public class GuideUI extends UILayer {
     }
 
     private Button buildLeftBtn() {
-        Texture texture = MyGdxGame.getInstance().assetManager.get(Assets.Textures.GUIDE_LEFT_ARROW);
-        Button leftBtn = new ImageButton(new TextureRegionDrawable(texture));
-        leftBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                if(curImage > 0) {
-                    imageContainer.removeActor(images[curImage]);
-                    imageContainer.setActor(images[--curImage]);
-                    rightBtn.setDisabled(false);
-                    if(curImage == 0) {
-                        leftBtn.setDisabled(true);
-                    }
-                }
-            }
-        });
-        return leftBtn;
+        return buildShiftBtn(Assets.Textures.GUIDE_LEFT_ARROW, 0, i -> --i);
     }
 
     private Button buildRightBtn() {
-        Texture texture = MyGdxGame.getInstance().assetManager.get(Assets.Textures.GUIDE_RIGHT_ARROW);
-        Button rightBtn = new ImageButton(new TextureRegionDrawable(texture));
-        rightBtn.addListener(new ChangeListener() {
+        return buildShiftBtn(Assets.Textures.GUIDE_RIGHT_ARROW, images.length - 1, i -> ++i);
+    }
+
+    private Button buildShiftBtn(String asset, int constraint, Function<Integer, Integer> indexChanger) {
+        Texture texture = MyGdxGame.getInstance().assetManager.get(asset);
+        Button btn = new ImageButton(new TextureRegionDrawable(texture));
+        btn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(curImage < images.length - 1) {
+                if(curImage != constraint) {
                     imageContainer.removeActor(images[curImage]);
-                    imageContainer.setActor(images[++curImage]);
-                    leftBtn.setDisabled(false);
-                    if(curImage == images.length - 1) {
-                        rightBtn.setDisabled(true);
-                    }
+                    curImage = indexChanger.apply(curImage);
+                    imageContainer.setActor(images[curImage]);
                 }
             }
         });
-        return rightBtn;
+        return btn;
     }
 
     private Image[] loadImages() {
