@@ -11,7 +11,11 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.ui.upgrades.UpgradeUI;
 import com.mygdx.game.utils.PlayerDataManager;
-
+/**
+ * Represents the user interface for displaying and managing the in-game HUD and interactions during gameplay.
+ * This includes status bars for health, shield, and energy, a counter for collected souls, and functionality
+ * to manage pausing, upgrades, and displaying death UI.
+ */
 public class LevelUI extends Stage {
     private final Level level;
     private StatusBar healthBar;

@@ -22,8 +22,12 @@ import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.utils.Assets;
 import com.mygdx.game.utils.DelayedAction;
 import com.mygdx.game.utils.PlayerDataManager;
-
+/**
+ * Represents an abstract class defining the behavior and attributes of a Hero entity in the game.
+ * Extends {@link MortalEntity} and implements {@link ProjectileCollidable}.
+ */
 public abstract class Hero extends MortalEntity<HeroResourcesManager> implements ProjectileCollidable {
+
     protected final HeroMovementController movementController;
     protected Attack attack1;
     protected Attack attack2;
@@ -45,6 +49,16 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
     protected String hpLossSound;
     protected String deathSound;
 
+    /**
+     * Constructs a Hero object with the specified parameters.
+     *
+     * @param level The level in which the hero exists.
+     * @param heroData Data defining specific characteristics of this hero type.
+     * @param x The initial x-coordinate position of the hero.
+     * @param y The initial y-coordinate position of the hero.
+     * @param width The width of the hero.
+     * @param height The height of the hero.
+     */
     public Hero(Level level, HeroData heroData, float x, float y, float width, float height) {
         super(new HeroResourcesManager(heroData));
 
@@ -64,7 +78,7 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
 
         dashSound = Assets.Sound.HERO_DASH_SOUND;
         jumpSound = Assets.Sound.HERO_JUMP_SOUND;
-        shieldImpactSound= Assets.Sound.SHIELD_IMPACT_SOUND;
+        shieldImpactSound = Assets.Sound.SHIELD_IMPACT_SOUND;
 
         resourcesManager.addOnShieldChangeAction(delta -> {
             if (delta < 0)
@@ -73,6 +87,11 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         });
     }
 
+    /**
+     * Renders the hero in the game world.
+     *
+     * @param deltaTime Time passed since the last frame in seconds.
+     */
     public void render(float deltaTime) {
         if (deltaTime != 0) {
             movementController.update(deltaTime);
@@ -92,6 +111,9 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         animator.animate(MyGdxGame.getInstance().batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
     }
 
+    /**
+     * Handles the logic for executing attacks based on player input.
+     */
     protected void handleAttack() {
         if (groundTouchListener.isOnSurface()) {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
@@ -108,6 +130,13 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         }
     }
 
+    /**
+     * Executes a specific attack action with sound and animation.
+     *
+     * @param attack The attack to execute.
+     * @param soundName The name of the sound to play during the attack.
+     * @param animation The animation state to set during the attack.
+     */
     protected void attack(Attack attack, String soundName, HeroAnimator.State animation) {
         SideAttack sideAttack = (SideAttack)attack;
         if (resourcesManager.tryConsumeEnergy(attack.getEnergyConsumption())) {
@@ -119,11 +148,17 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         }
     }
 
+    /**
+     * Handles interactions based on player input.
+     */
     protected void handleInteraction() {
         if (Gdx.input.isKeyPressed(Input.Keys.E))
             interactionSensor.interact();
     }
 
+    /**
+     * Updates the facing direction of the hero based on player input.
+     */
     protected void updateDirection() {
         if (Gdx.input.isKeyPressed(Input.Keys.A))
             animator.setDirection(HeroAnimator.Direction.LEFT);
@@ -131,6 +166,9 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
             animator.setDirection(HeroAnimator.Direction.RIGHT);
     }
 
+    /**
+     * Handles running movement based on player input.
+     */
     protected void handeRunning() {
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             movementController.moveLeft();
@@ -143,6 +181,9 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         }
     }
 
+    /**
+     * Handles jumping mechanics based on player input.
+     */
     protected void handleJumping() {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             if (groundTouchListener.isOnSurface()) {
@@ -163,6 +204,9 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         }
     }
 
+    /**
+     * Handles falling mechanics and collision checks.
+     */
     protected void handleFalling() {
         if (!groundTouchListener.isOnSurface()) {
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
@@ -177,6 +221,9 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         }
     }
 
+    /**
+     * Handles dashing mechanics based on player input.
+     */
     protected void handleDashing() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) && resourcesManager.hasEnergy(attack4.getEnergyConsumption())) {
             boolean hasDashed = movementController.tryDash();
@@ -188,6 +235,9 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         }
     }
 
+    /**
+     * Handles transitioning to idle state when no input is detected.
+     */
     protected void handleIdle() {
         if (groundTouchListener.isOnSurface() && noInput() && movementController.isBodyEffectivelyIdle()) {
             body.setLinearVelocity(0, level.world.getGravity().y * 0.4f);
@@ -195,6 +245,11 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         }
     }
 
+    /**
+     * Checks if no directional input is detected.
+     *
+     * @return True if no directional input keys are pressed, false otherwise.
+     */
     protected boolean noInput() {
         return !Gdx.input.isKeyPressed(Input.Keys.A) &&
                 !Gdx.input.isKeyPressed(Input.Keys.D) &&
@@ -202,10 +257,19 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
                 !Gdx.input.isKeyPressed(Input.Keys.SPACE);
     }
 
+    /**
+     * Retrieves the data defining specific characteristics of this hero.
+     *
+     * @return The HeroData object associated with this hero.
+     */
     public HeroData getData() {
         return resourcesManager.getHeroData();
     }
 
+    /**
+     * Handles non-fatal health loss events.
+     * Overrides {@link MortalEntity#onNonKillingHealthLoss()}.
+     */
     @Override
     protected void onNonKillingHealthLoss() {
         animator.setState(HeroAnimator.State.HURT);
@@ -214,19 +278,35 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         new DelayedAction(0.3f, () -> healthLossCount--);
     }
 
+    /**
+     * Retrieves the delay before executing death-related actions.
+     * Overrides {@link MortalEntity#getDeathDelay()}.
+     *
+     * @return The delay time in seconds before executing death actions.
+     */
     @Override
     public float getDeathDelay() {
         return 0.6f;
     }
 
-    @Override
-    public void onDeath() {
-        SoundPlayer.getInstance().playSound(deathSound);
-        animator.setState(HeroAnimator.State.DEATH);
-        healthLossCount = Integer.MAX_VALUE;
-        PlayerDataManager.getInstance().resetData();
-    }
+/**
+ * Executes actions specific to
+ * Executes actions specific to the hero upon death.
+ * Overrides {@link MortalEntity#onDeath()}.
+ */
+@Override
+public void onDeath() {
+    SoundPlayer.getInstance().playSound(deathSound);
+    animator.setState(HeroAnimator.State.DEATH);
+    healthLossCount = Integer.MAX_VALUE;
+    PlayerDataManager.getInstance().resetData();
+}
 
+    /**
+     * Retrieves the movement controller responsible for controlling hero movement.
+     *
+     * @return The HeroMovementController instance associated with this hero.
+     */
     public HeroMovementController getMovementController() {
         return movementController;
     }

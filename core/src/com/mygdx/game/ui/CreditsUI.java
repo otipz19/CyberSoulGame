@@ -6,7 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.utils.Assets;
-
+/**
+ * Represents a user interface layer for displaying credits.
+ * This UI layer scrolls through a predefined set of credits and allows the user to exit with the ESCAPE key.
+ */
 public class CreditsUI extends UILayer {
 
     public static final String CREDITS =

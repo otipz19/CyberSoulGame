@@ -16,7 +16,10 @@ import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.utils.Assets;
 import com.mygdx.game.utils.PlayerDataManager;
 import org.w3c.dom.Text;
-
+/**
+ * Represents the main menu screen of the game, providing options for starting a new game,
+ * continuing from a saved state, accessing game settings, viewing credits, and exiting the game.
+ */
 public class MainMenu implements Screen {
     private final Stage stage;
     private final Table menuButtons;

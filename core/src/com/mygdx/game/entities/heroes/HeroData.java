@@ -2,6 +2,9 @@ package com.mygdx.game.entities.heroes;
 
 import com.mygdx.game.MyGdxGame;
 
+/**
+ * Represents the data associated with a hero character, including health, shield, energy, and other attributes.
+ */
 public class HeroData {
     public float health;
     public float maxHealth;
@@ -12,6 +15,12 @@ public class HeroData {
     public int souls;
     public float damageMultiplier;
 
+    /**
+     * Retrieves a default instance of HeroData with typical attribute values.
+     * Adjusts souls count in debug mode.
+     *
+     * @return A HeroData instance with default attribute values.
+     */
     public static HeroData getDefault() {
         HeroData heroData = new HeroData();
         heroData.health = 100;

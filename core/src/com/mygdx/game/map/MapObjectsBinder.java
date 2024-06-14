@@ -25,7 +25,11 @@ import com.mygdx.game.utils.RenderUtils;
 
 import java.util.stream.Stream;
 
+/**
+ * Binds objects parsed from a Tiled map file to corresponding game entities and colliders.
+ */
 public class MapObjectsBinder {
+
     private final Level level;
     private final XMLLevelObjectsParser objectsParser;
 
@@ -34,11 +38,21 @@ public class MapObjectsBinder {
     private final Array<Portal> portals = new Array<>();
     private final Array<Npc> npcList = new Array<>();
 
+    /**
+     * Constructs a MapObjectsBinder object.
+     *
+     * @param tileMapName The name of the Tiled map file (.tmx) to parse.
+     * @param level       The Level object associated with the parsed objects.
+     */
     public MapObjectsBinder(String tileMapName, Level level) {
         objectsParser = new XMLLevelObjectsParser(tileMapName);
         this.level = level;
     }
 
+    /**
+     * Creates colliders for shapes parsed from the Tiled map file.
+     * Each collider is associated with a Surface entity in the level.
+     */
     public void createColliders() {
         objectsParser.getColliders().forEach(shape -> {
             Collider collider;
@@ -53,10 +67,19 @@ public class MapObjectsBinder {
         });
     }
 
+    /**
+     * Retrieves player spawn points parsed from the Tiled map file.
+     *
+     * @return A stream of PlayerSpawnData objects representing player spawn points.
+     */
     public Stream<PlayerSpawnData> getPlayerSpawns() {
         return objectsParser.getPlayerSpawns();
     }
 
+    /**
+     * Creates death zones based on the bounds parsed from the Tiled map file.
+     * Each death zone is associated with the level.
+     */
     public void createEntities() {
         createDeathZones();
         createObstacles();
@@ -123,7 +146,7 @@ public class MapObjectsBinder {
     private void createNpc() {
         objectsParser.getNpcData().forEach(npcData -> {
             Npc npc;
-            switch(npcData.getType()) {
+            switch (npcData.getType()) {
                 case MONK -> npc = new Monk(level, npcData);
                 default -> throw new RuntimeException("Unsupported NPC type! " + npcData.getType());
             }
@@ -131,34 +154,74 @@ public class MapObjectsBinder {
         });
     }
 
+    /**
+     * Renders all obstacles associated with the level.
+     *
+     * @param delta The time in seconds since the last frame.
+     */
     public void renderObstacles(float delta) {
         RenderUtils.renderEntities(delta, obstacles);
     }
 
+    /**
+     * Renders all enemies associated with the level.
+     *
+     * @param delta The time in seconds since the last frame.
+     */
     public void renderEnemies(float delta) {
         RenderUtils.renderEntities(delta, enemies);
     }
 
+    /**
+     * Renders all portals associated with the level.
+     *
+     * @param delta The time in seconds since the last frame.
+     */
     public void renderPortals(float delta) {
         RenderUtils.renderEntities(delta, portals);
     }
 
+    /**
+     * Renders all NPCs associated with the level.
+     *
+     * @param delta The time in seconds since the last frame.
+     */
     public void renderAllNpc(float delta) {
         RenderUtils.renderEntities(delta, npcList);
     }
 
+    /**
+     * Retrieves the array of portals associated with the level.
+     *
+     * @return An array of Portal objects.
+     */
     public Array<Portal> getPortals() {
         return portals;
     }
 
+    /**
+     * Retrieves the array of obstacles associated with the level.
+     *
+     * @return An array of GateObstacle objects.
+     */
     public Array<GateObstacle> getObstacles() {
         return obstacles;
     }
 
+    /**
+     * Retrieves the array of enemies associated with the level.
+     *
+     * @return An array of Enemy objects.
+     */
     public Array<Enemy> getEnemies() {
         return enemies;
     }
 
+    /**
+     * Retrieves the array of NPCs associated with the level.
+     *
+     * @return An array of Npc objects.
+     */
     public Array<Npc> getNpcList() {
         return npcList;
     }

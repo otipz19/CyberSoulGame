@@ -3,7 +3,6 @@ package com.mygdx.game.ui.upgrades;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.heroes.HeroData;
 import com.mygdx.game.entities.resources.HeroResourcesManager;
@@ -13,7 +12,18 @@ import com.mygdx.game.ui.UILayer;
 import com.mygdx.game.utils.Assets;
 import com.mygdx.game.utils.PlayerDataManager;
 
+/**
+ * Represents the user interface for upgrading hero attributes.
+ * Allows the player to upgrade health, shield, energy, and damage attributes of the hero.
+ */
 public class UpgradeUI extends UILayer {
+
+    /**
+     * Constructs an UpgradeUI instance.
+     *
+     * @param levelUI The LevelUI instance associated with the current level.
+     * @param level   The Level instance representing the current game level.
+     */
     public UpgradeUI(LevelUI levelUI, Level level) {
         super(levelUI);
 
@@ -27,6 +37,8 @@ public class UpgradeUI extends UILayer {
 
         HeroResourcesManager resourcesManager = level.hero.getResourcesManager();
         HeroData defaultData = HeroData.getDefault();
+
+        // Initialize upgrade bars for health, shield, energy, and damage
         UpgradeBar healthUpgrade = new UpgradeBar(defaultData.maxHealth,
                 resourcesManager.getMaxHealth(),
                 10,
@@ -94,6 +106,7 @@ public class UpgradeUI extends UILayer {
             }
         };
 
+        // Button to confirm and save upgrades
         TextButton saveButton = new TextButton("Confirm", skin);
         saveButton.addListener(new ChangeListener() {
             @Override
@@ -103,6 +116,7 @@ public class UpgradeUI extends UILayer {
             }
         });
 
+        // Button to reset all upgrades
         TextButton resetButton = new TextButton("Reset", skin);
         resetButton.addListener(new ChangeListener() {
             @Override
@@ -118,6 +132,7 @@ public class UpgradeUI extends UILayer {
         shieldUpgrade.createRow(this, "shield");
         energyUpgrade.createRow(this, "energy");
         damageUpgrade.createRow(this, "damage");
+
         add(saveButton)
                 .colspan(3)
                 .width(Value.percentWidth(0.49f, this))

@@ -12,7 +12,10 @@ import com.mygdx.game.utils.Assets;
 
 import java.util.Arrays;
 import java.util.function.Function;
-
+/**
+ * Represents the user interface for displaying a guide on how to play the game.
+ * This UI includes navigation buttons to cycle through instructional images and a close button.
+ */
 public class GuideUI extends UILayer {
     private final Container<Image> imageContainer;
     private final Image[] images;

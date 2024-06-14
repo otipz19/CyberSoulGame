@@ -1,7 +1,9 @@
 package com.mygdx.game.map.data;
 
 import com.badlogic.gdx.math.Rectangle;
-
+/**
+ * Represents data about an obstacle in the game map, including its bounds and type.
+ */
 public class ObstacleData {
     public enum Type {
         ENTRY,

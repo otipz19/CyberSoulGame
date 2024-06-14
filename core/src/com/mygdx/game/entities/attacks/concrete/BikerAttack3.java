@@ -7,7 +7,10 @@ import com.mygdx.game.entities.enemies.Enemy;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.resources.AbsoluteInstantDamageEffect;
 import com.mygdx.game.entities.attacks.AttackZonePosition;
-
+/**
+ * BatAttack represents a specific ranged attack where a bat projectile is launched from an entity,
+ * targeting enemies within the game world.
+ */
 public class BikerAttack3 extends HeroMeleeAttack {
     public BikerAttack3(Hero hero){
         super(hero, AttackZonePosition.LEFT_BOTTOM, AttackZonePosition.RIGHT_BOTTOM);

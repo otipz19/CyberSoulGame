@@ -23,6 +23,12 @@ import com.mygdx.game.physics.ColliderCreator;
 import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.utils.DelayedAction;
 
+/**
+ * Abstract base class representing an enemy entity in the game.
+ * Extends {@link MortalEntity} and implements {@link ProjectileCollidable}.
+ * Provides common functionality and attributes for enemy entities,
+ * including movement, attack behaviors, and lifecycle management.
+ */
 public abstract class Enemy extends MortalEntity<ResourcesManager> implements ProjectileCollidable {
     //for 1x1 size
     private static final float BASE_DENSITY = 10f;
@@ -41,6 +47,15 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
     protected String deathSound;
     protected int healthLossCount;
 
+
+    /**
+     * Constructs an Enemy object with the specified parameters.
+     *
+     * @param level The level in which the enemy exists.
+     * @param enemyData Data defining specific characteristics of this enemy type.
+     * @param width The width of the enemy.
+     * @param height The height of the enemy.
+     */
     public Enemy(Level level, EnemyData enemyData, float width, float height) {
         super(new EnemyResourcesManager(100));
 
@@ -64,6 +79,11 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
         new DefaultEnemyHeadSensor(this);
     }
 
+    /**
+     * Updates the rendering of the enemy based on elapsed time.
+     *
+     * @param deltaTime Time elapsed since the last update.
+     */
     public void render(float deltaTime) {
         attackDelay = Math.max(0, attackDelay - deltaTime);
         attackInterval = Math.max(0, attackInterval - deltaTime);
@@ -73,6 +93,10 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
         animator.animate(MyGdxGame.getInstance().batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
     }
 
+    /**
+     * Initiates the movement behavior of the enemy.
+     * Determines whether to patrol or attempt an attack based on the player's position.
+     */
     private void move() {
         Vector2 playerPosition = player.getCenter();
         Vector2 enemyPosition = this.getCenter();
@@ -87,13 +111,19 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
         animator.setDirection(movementController.isFacingRight() ? Animator.Direction.RIGHT : Animator.Direction.LEFT);
     }
 
+    /**
+     * Attempts to execute an attack based on the player's position and distance.
+     * Handles both ranged and melee attacks based on attack range sensors.
+     *
+     * @param playerPosition The position of the player.
+     * @param distanceToPlayer The distance between the enemy and the player.
+     */
     protected void attemptAttack(Vector2 playerPosition, float distanceToPlayer) {
-        if(!leftAttackRange.isHeroInRange() && !rightAttackRange.isHeroInRange()) {
+        if (!leftAttackRange.isHeroInRange() && !rightAttackRange.isHeroInRange()) {
             movementController.changeToAttackMode();
             movementController.tryMoveTo(playerPosition);
-        }
-        else {
-            if (attackInterval > 0){
+        } else {
+            if (attackInterval > 0) {
                 animator.setState(EnemyAnimator.State.IDLE);
                 movementController.setFacingRight(player.getBody().getPosition().x > body.getPosition().x);
                 return;
@@ -106,20 +136,29 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
         }
     }
 
+    /**
+     * Initiates the default attack behavior of the enemy.
+     */
     protected void attack() {
         attack(attack, attackAnimation, attackSound);
     }
 
+    /**
+     * Executes a specific attack action with corresponding animation and sound.
+     *
+     * @param attack The attack to execute.
+     * @param animation The animation state to set during the attack.
+     * @param sound The sound to play during the attack.
+     */
     protected void attack(Attack attack, EnemyAnimator.State animation, String sound) {
         if (healthLossCount != 0)
             return;
 
-        SideAttack sideAttack = (SideAttack)attack;
-        if(player.getBody().getPosition().x > body.getPosition().x){
+        SideAttack sideAttack = (SideAttack) attack;
+        if (player.getBody().getPosition().x > body.getPosition().x) {
             animator.setDirection(Animator.Direction.RIGHT);
             sideAttack.setDirection(true);
-        }
-        else {
+        } else {
             animator.setDirection(Animator.Direction.LEFT);
             sideAttack.setDirection(false);
         }
@@ -128,6 +167,10 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
         sideAttack.execute();
     }
 
+    /**
+     * Handles actions to perform when the enemy suffers non-killing health loss.
+     * Plays a health loss sound and sets the enemy's state to hurt temporarily.
+     */
     @Override
     protected void onNonKillingHealthLoss() {
         animator.setState(EnemyAnimator.State.HURT);
@@ -137,22 +180,36 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
         new DelayedAction(0.4f, () -> healthLossCount--);
     }
 
+    /**
+     * Retrieves the number of souls or points awarded upon defeating the enemy.
+     *
+     * @return The number of souls awarded.
+     */
     public abstract int getSouls();
 
+    /**
+     * Handles actions to perform when the enemy dies.
+     * Plays a death sound, initiates death animation, spawns soul particles,
+     * and removes the enemy's body from the game world after a delay.
+     */
     @Override
     protected void onDeath() {
         animator.setState(EnemyAnimator.State.DEATH);
         SoundPlayer.getInstance().playSound(deathSound);
         healthLossCount = Integer.MAX_VALUE;
         movementController.clearVelocityX();
-        new DelayedAction(getDeathDelay(), () ->
-            {
-                Vector2 middlePosition = getCenter();
-                new SoulParticles(level, middlePosition.x, middlePosition.y, getSouls());
-                level.world.destroyBody(body);
-            });
+        new DelayedAction(getDeathDelay(), () -> {
+            Vector2 middlePosition = getCenter();
+            new SoulParticles(level, middlePosition.x, middlePosition.y, getSouls());
+            level.world.destroyBody(body);
+        });
     }
 
+    /**
+     * Retrieves the movement controller managing the enemy's movement behavior.
+     *
+     * @return The ground enemy movement controller.
+     */
     public GroundEnemyMovementController getMovementController() {
         return movementController;
     }

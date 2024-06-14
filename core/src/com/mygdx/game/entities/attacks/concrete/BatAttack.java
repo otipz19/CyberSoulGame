@@ -9,7 +9,10 @@ import com.mygdx.game.entities.enemies.Enemy;
 import com.mygdx.game.entities.heroes.Hero;
 import com.mygdx.game.entities.projectiles.*;
 import com.mygdx.game.entities.resources.AbsoluteInstantDamageEffect;
-
+/**
+ * BatAttack represents a specific ranged attack where a bat projectile is launched from an entity,
+ * targeting enemies within the game world.
+ */
 public class BatAttack extends SideProjectileAttack {
     public BatAttack(Entity attacker) {
         super(attacker, ProjectileSpawnPoint.MIDDLE_LEFT, ProjectileSpawnPoint.MIDDLE_RIGHT);

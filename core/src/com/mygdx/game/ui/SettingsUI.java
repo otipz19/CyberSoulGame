@@ -8,7 +8,10 @@ import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.utils.Assets;
 import com.mygdx.game.utils.PlayerPreferencesManager;
-
+/**
+ * Represents a user interface layer for displaying and managing game settings.
+ * Allows adjustment of full-screen mode, music volume, and sound effects volume.
+ */
 public class SettingsUI extends UILayer {
     public SettingsUI(Stage stage) {
         super(stage);

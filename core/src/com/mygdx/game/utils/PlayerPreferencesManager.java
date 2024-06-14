@@ -2,7 +2,9 @@ package com.mygdx.game.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-
+/**
+ * Manages player preferences for music volume, sound volume, and fullscreen mode.
+ */
 public class PlayerPreferencesManager {
     private static final String PREFERENCES_FILE = "preferences";
     private static PlayerPreferencesManager instance;
