@@ -2,26 +2,25 @@ package com.mygdx.game.entities.projectiles;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.*;
-import com.mygdx.game.entities.obstacles.GateObstacle;
-import com.mygdx.game.levels.Level;
 import com.mygdx.game.physics.BodyCreator;
 import com.mygdx.game.physics.ColliderCreator;
-import com.mygdx.game.utils.DelayedAction;
+
 /**
  * Abstract class representing a projectile entity in the game.
  * Extends the Entity class and implements ITriggerListener and IRenderable interfaces.
  */
 public abstract class Projectile extends Entity implements ITriggerListener, IRenderable {
+    public static final float TIME_TO_LIVE = 5f;
 
     protected Entity owner;
     protected final float initialSpeedX;
     protected final float initialSpeedY;
     protected Array<Runnable> onExplosionActions;
     protected boolean hasCollided;
+    protected float lifeDuration;
 
     /**
      * Constructs a Projectile object with the specified parameters.
@@ -43,14 +42,13 @@ public abstract class Projectile extends Entity implements ITriggerListener, IRe
         this.initialSpeedX = initialSpeed * MathUtils.cos(initialAngle);
         this.initialSpeedY = initialSpeed * MathUtils.sin(initialAngle);
 
-        body = BodyCreator.createProjectileBody(level.world, ColliderCreator.create(x, y, width, height), isAffectedByGravity);
+        body = BodyCreator.createProjectileBody(level.world, ColliderCreator.create(x, y, width, height), initialSpeedX, initialSpeedY, isAffectedByGravity);
         body.getFixtureList().first().setUserData(this);
 
         onExplosionActions = new Array<>();
         onExplosionActions.add(() -> level.addDelayedAction(getDestructionDelay(), this::destruct));
 
         level.addProjectile(this);
-        body.setLinearVelocity(initialSpeedX, initialSpeedY);
     }
 
     /**
@@ -60,8 +58,13 @@ public abstract class Projectile extends Entity implements ITriggerListener, IRe
      */
     @Override
     public void render(float deltaTime) {
-        if (hasCollided)
-            body.setActive(false);
+        lifeDuration += deltaTime;
+        if (lifeDuration > TIME_TO_LIVE)
+            explode();
+        Vector2 velocity = body.getLinearVelocity();
+        if (velocity.x == 0 && velocity.y == 0 && !hasCollided)
+            body.setLinearVelocity(initialSpeedX, initialSpeedY);
+        body.setActive(!hasCollided);
         animator.animate(MyGdxGame.getInstance().batch, body.getPosition().x, body.getPosition().y, width, height, deltaTime);
     }
 
@@ -124,10 +127,17 @@ public abstract class Projectile extends Entity implements ITriggerListener, IRe
         if (other instanceof ProjectileCollidable) {
             if (other instanceof Entity entity)
                 collideWith(entity);
-            hasCollided = true;
-            onExplosionActions.forEach(Runnable::run);
-            onExplosionActions.clear();
+            explode();
         }
+    }
+
+    /**
+     * Handles the explosion event.
+     */
+    protected void explode() {
+        hasCollided = true;
+        onExplosionActions.forEach(Runnable::run);
+        onExplosionActions.clear();
     }
 
     /**

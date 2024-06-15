@@ -103,15 +103,18 @@ public class BodyCreator {
      * @param isAffectedByGravity True if the projectile should be affected by gravity, false otherwise.
      * @return The created Box2D body.
      */
-    public static Body createProjectileBody(World world, Collider collider, boolean isAffectedByGravity) {
+    public static Body createProjectileBody(World world, Collider collider, float initialSpeedX, float initialSpeedY, boolean isAffectedByGravity) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.allowSleep = false;
+        bodyDef.linearDamping = 0;
+        bodyDef.linearVelocity.set(initialSpeedX, initialSpeedY);
         bodyDef.position.set(collider.getX(), collider.getY());
         if (!isAffectedByGravity)
             bodyDef.gravityScale = 0;
         bodyDef.bullet = true;
+        bodyDef.fixedRotation = true;
         Body body = world.createBody(bodyDef);
-        body.setFixedRotation(true);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = collider.getShape();
