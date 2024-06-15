@@ -132,7 +132,7 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
             movementController.clearVelocityX();
             attackDelay = attack.getAttackTime() + 0.1f;
             attackInterval = attack.getAttackInterval() + attackDelay;
-            new DelayedAction(0.1f, this::attack);
+            level.addDelayedAction(0.1f, this::attack);
         }
     }
 
@@ -177,7 +177,7 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
         SoundPlayer.getInstance().playSound(healthLossSound);
         healthLossCount++;
         movementController.clearVelocityX();
-        new DelayedAction(0.4f, () -> healthLossCount--);
+        level.addDelayedAction(0.4f, () -> healthLossCount--);
     }
 
     /**
@@ -198,7 +198,7 @@ public abstract class Enemy extends MortalEntity<ResourcesManager> implements Pr
         SoundPlayer.getInstance().playSound(deathSound);
         healthLossCount = Integer.MAX_VALUE;
         movementController.clearVelocityX();
-        new DelayedAction(getDeathDelay(), () -> {
+        level.addDelayedAction(getDeathDelay(), () -> {
             Vector2 middlePosition = getCenter();
             new SoulParticles(level, middlePosition.x, middlePosition.y, getSouls());
             level.world.destroyBody(body);

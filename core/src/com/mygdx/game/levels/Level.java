@@ -63,7 +63,7 @@ public abstract class Level implements Screen {
 
     private final Array<Particles> particles = new Array<>();
     private final Array<Projectile> projectiles = new Array<>();
-
+    private final Array<DelayedAction> delayedActions = new Array<>();
 
     public LevelUI ui;
     public SoundPlayer soundPlayer;
@@ -203,7 +203,7 @@ public abstract class Level implements Screen {
         ui = new LevelUI(this);
         hero.addOnDeathAction(() -> {
             ui.blockPausing();
-            new DelayedAction(hero.getDeathDelay(), ui::showDeathUI);
+            addDelayedAction(hero.getDeathDelay(), ui::showDeathUI);
         });
     }
 
@@ -226,6 +226,7 @@ public abstract class Level implements Screen {
         updateMusicSound();
         renderUI(delta);
         doPhysicsStep(delta);
+        updateDelayedActions(delta);
     }
 
     /**
@@ -254,7 +255,6 @@ public abstract class Level implements Screen {
 /**
  * Renders the Tiled map of the level.
  *
- * @param
  * @param delta Time elapsed since the last frame in seconds.
  */
 protected void renderMap(float delta) {
@@ -318,13 +318,26 @@ protected void renderMap(float delta) {
     }
 
     /**
+     * Updates states for all delayed actions registered on level
+     *
+     * @param delta Time elapsed since the last frame in seconds.
+     */
+    protected void updateDelayedActions(float delta) {
+        for (DelayedAction action : delayedActions) {
+            action.update(delta);
+            if (action.hasRun())
+                delayedActions.removeValue(action, true);
+        }
+    }
+
+    /**
      * Adds a particle effect to the level.
      *
      * @param particleEffect Particle effect to add.
      */
     public void addParticleEffect(Particles particleEffect) {
         particles.add(particleEffect);
-        particleEffect.addOnCompleteAction(() -> new DelayedAction(particleEffect.getDestructionDelay(), () -> particles.removeValue(particleEffect, true)));
+        particleEffect.addOnCompleteAction(() -> addDelayedAction(particleEffect.getDestructionDelay(), () -> particles.removeValue(particleEffect, true)));
     }
 
     /**
@@ -334,7 +347,26 @@ protected void renderMap(float delta) {
      */
     public void addProjectile(Projectile projectile) {
         projectiles.add(projectile);
-        projectile.addOnExplosionAction(() -> new DelayedAction(projectile.getDestructionDelay(), () -> projectiles.removeValue(projectile, true)));
+        projectile.addOnExplosionAction(() -> addDelayedAction(projectile.getDestructionDelay(), () -> projectiles.removeValue(projectile, true)));
+    }
+
+    /**
+     * Adds a delayed action to the level.
+     *
+     * @param delayedAction Delayed action to add.
+     */
+    public void addDelayedAction(DelayedAction delayedAction) {
+        delayedActions.add(delayedAction);
+    }
+
+    /**
+     * Adds a delayed action to the level.
+     *
+     * @param delay Delay
+     * @param action Delayed action to add.
+     */
+    public void addDelayedAction(float delay, Runnable action) {
+        delayedActions.add(new DelayedAction(delay, action));
     }
 
     /**

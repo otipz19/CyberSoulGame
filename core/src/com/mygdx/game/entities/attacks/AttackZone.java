@@ -75,7 +75,7 @@ public class AttackZone extends GameObject implements Disposable {
      */
     public void enable(float enabledTime) {
         enable();
-        new DelayedAction(enabledTime, this::disable);
+        level.addDelayedAction(enabledTime, this::disable);
     }
 
     /**

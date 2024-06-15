@@ -44,7 +44,7 @@ public abstract class SideMeleeAttack extends SideAttack implements MeleeAttack,
             attackZone = rightAttackZone;
         else
             attackZone = leftAttackZone;
-        new DelayedAction(getAttackDelay(), () -> attackZone.enable(getAttackTime() - getAttackDelay()));
+        attacker.getLevel().addDelayedAction(getAttackDelay(), () -> attackZone.enable(getAttackTime() - getAttackDelay()));
     }
 
     /**

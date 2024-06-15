@@ -46,7 +46,7 @@ public abstract class SideProjectileAttack extends SideAttack implements RangeAt
             spawn = leftSpawn.getPoint(attacker, getProjectileWidth(), getProjectileHeight());
             angle = MathUtils.PI;
         }
-        new DelayedAction(getAttackDelay(), () -> createProjectile(attacker, spawn.x, spawn.y, angle));
+        attacker.getLevel().addDelayedAction(getAttackDelay(), () -> createProjectile(attacker, spawn.x, spawn.y, angle));
     }
 
     /**

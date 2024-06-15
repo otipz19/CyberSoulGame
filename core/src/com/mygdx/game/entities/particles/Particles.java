@@ -49,7 +49,7 @@ public abstract class Particles extends GameObject implements IRenderable {
         particleEffect.start();
 
         onCompleteActions = new Array<>();
-        onCompleteActions.add(() -> new DelayedAction(getDestructionDelay(), this::destruct));
+        onCompleteActions.add(() -> level.addDelayedAction(getDestructionDelay(), this::destruct));
 
         level.addParticleEffect(this);
     }

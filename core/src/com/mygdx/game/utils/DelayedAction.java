@@ -7,8 +7,9 @@ import com.mygdx.game.MyGdxGame;
  * Represents a delayed action that will execute after a specified delay period.
  */
 public class DelayedAction {
-    private final float delayInSeconds;
+    private float delayInSeconds;
     private final Runnable action;
+    private boolean hasRun;
 
     /**
      * Constructs a DelayedAction object with the specified delay and action to execute.
@@ -19,21 +20,30 @@ public class DelayedAction {
     public DelayedAction(float delay, Runnable action) {
         this.delayInSeconds = delay;
         this.action = action;
-        new Thread(this::delay).start();
     }
 
     /**
-     * Delays the execution of the action thread for the specified delay time.
+     * Updates state of the delayed action.
+     *
+     * @param deltaTime time that has passed since the last update
      */
-    private void delay() {
-        try {
-            int oldScreenId = MyGdxGame.getInstance().getScreenId();
-            long delayInMilliseconds = (long)(delayInSeconds * 1000);
-            Thread.sleep(delayInMilliseconds);
-            if (MyGdxGame.getInstance().getScreenId() == oldScreenId)
-                Gdx.app.postRunnable(action);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+    public void update(float deltaTime) {
+        if (hasRun)
+            return;
+
+        delayInSeconds = Math.max(0, delayInSeconds - deltaTime);
+        if (delayInSeconds == 0) {
+            action.run();
+            hasRun = true;
         }
+    }
+
+    /**
+     * Reports state of the delayed action
+     *
+     * @return boolean value that indicates whether action has already been completed
+     */
+    public boolean hasRun() {
+        return hasRun;
     }
 }

@@ -141,7 +141,7 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         SideAttack sideAttack = (SideAttack)attack;
         if (resourcesManager.tryConsumeEnergy(attack.getEnergyConsumption())) {
             animator.setState(animation);
-            new DelayedAction(sideAttack.getAttackDelay(), () -> SoundPlayer.getInstance().playSound(soundName));
+            level.addDelayedAction(sideAttack.getAttackDelay(), () -> SoundPlayer.getInstance().playSound(soundName));
             attackDelay = sideAttack.getAttackTime();
             sideAttack.setDirection(animator.getDirection() == Animator.Direction.RIGHT);
             sideAttack.execute();
@@ -229,7 +229,7 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
             boolean hasDashed = movementController.tryDash();
             if (hasDashed) {
                 resourcesManager.setInvincible(true);
-                new DelayedAction(attack4.getAttackTime(), () -> resourcesManager.setInvincible(false));
+                level.addDelayedAction(attack4.getAttackTime(), () -> resourcesManager.setInvincible(false));
                 attack(attack4, dashSound, HeroAnimator.State.DASH);
             }
         }
@@ -275,7 +275,7 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         animator.setState(HeroAnimator.State.HURT);
         SoundPlayer.getInstance().playSound(hpLossSound);
         healthLossCount++;
-        new DelayedAction(0.3f, () -> healthLossCount--);
+        level.addDelayedAction(0.3f, () -> healthLossCount--);
     }
 
     /**
@@ -289,18 +289,18 @@ public abstract class Hero extends MortalEntity<HeroResourcesManager> implements
         return 0.6f;
     }
 
-/**
- * Executes actions specific to
- * Executes actions specific to the hero upon death.
- * Overrides {@link MortalEntity#onDeath()}.
- */
-@Override
-public void onDeath() {
-    SoundPlayer.getInstance().playSound(deathSound);
-    animator.setState(HeroAnimator.State.DEATH);
-    healthLossCount = Integer.MAX_VALUE;
-    PlayerDataManager.getInstance().resetData();
-}
+    /**
+     * Executes actions specific to
+     * Executes actions specific to the hero upon death.
+     * Overrides {@link MortalEntity#onDeath()}.
+     */
+    @Override
+    public void onDeath() {
+        SoundPlayer.getInstance().playSound(deathSound);
+        animator.setState(HeroAnimator.State.DEATH);
+        healthLossCount = Integer.MAX_VALUE;
+        PlayerDataManager.getInstance().resetData();
+    }
 
     /**
      * Retrieves the movement controller responsible for controlling hero movement.

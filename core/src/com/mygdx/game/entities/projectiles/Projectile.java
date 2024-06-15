@@ -47,7 +47,7 @@ public abstract class Projectile extends Entity implements ITriggerListener, IRe
         body.getFixtureList().first().setUserData(this);
 
         onExplosionActions = new Array<>();
-        onExplosionActions.add(() -> new DelayedAction(getDestructionDelay(), this::destruct));
+        onExplosionActions.add(() -> level.addDelayedAction(getDestructionDelay(), this::destruct));
 
         level.addProjectile(this);
         body.setLinearVelocity(initialSpeedX, initialSpeedY);

@@ -22,7 +22,7 @@ import com.mygdx.game.utils.PlayerPreferencesManager;
  * player preferences, and game state.
  */
 public class MyGdxGame extends Game {
-    public static final boolean IS_DEV_MODE = false;
+    public static final boolean IS_DEV_MODE = true;
     public static final boolean IS_DEBUG_MODE = true;
 
     private static MyGdxGame instance;
@@ -31,7 +31,6 @@ public class MyGdxGame extends Game {
     public MyAssetManager assetManager;
     public SpriteBatch batch;
     private LevelChangeDelegate levelChangeDelegate;
-    private int screenId;
 
     /**
      * Retrieves the singleton instance of MyGdxGame.
@@ -162,17 +161,7 @@ public class MyGdxGame extends Game {
 
     @Override
     public void setScreen(Screen screen) {
-        screenId++;
         super.setScreen(screen);
-    }
-
-    /**
-     * Retrieves the current screen ID.
-     *
-     * @return The current screen ID.
-     */
-    public int getScreenId() {
-        return screenId;
     }
 
     /**

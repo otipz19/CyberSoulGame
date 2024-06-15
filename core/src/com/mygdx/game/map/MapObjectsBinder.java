@@ -125,7 +125,7 @@ public class MapObjectsBinder {
                 default -> throw new RuntimeException("Not supported enemy type!");
             }
             enemies.add(enemy);
-            enemy.addOnDeathAction(() -> new DelayedAction(enemy.getDeathDelay(), () -> enemies.removeValue(enemy, true)));
+            enemy.addOnDeathAction(() -> level.addDelayedAction(enemy.getDeathDelay(), () -> enemies.removeValue(enemy, true)));
         });
     }
 

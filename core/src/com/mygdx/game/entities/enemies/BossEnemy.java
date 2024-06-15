@@ -106,11 +106,11 @@ public class BossEnemy extends Enemy {
             if (leftMeleeAttackRange.isHeroInRange() || rightMeleeAttackRange.isHeroInRange()) {
                 attackDelay = attackMelee.getAttackTime() + 0.1f;
                 attackInterval = attackMelee.getAttackInterval() + attackDelay;
-                new DelayedAction(0.1f, () -> attack(attackMelee, attackAnimationMelee, attackSoundMelee));
+                level.addDelayedAction(0.1f, () -> attack(attackMelee, attackAnimationMelee, attackSoundMelee));
             } else {
                 attackDelay = attack.getAttackTime() + 0.1f;
                 attackInterval = attack.getAttackInterval() + attackDelay;
-                new DelayedAction(0.1f, this::attack);
+                level.addDelayedAction(0.1f, this::attack);
             }
         }
     }
