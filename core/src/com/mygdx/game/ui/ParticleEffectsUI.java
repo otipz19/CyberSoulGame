@@ -6,7 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.utils.Assets;
-
+/**
+ * Represents a particle effect UI element that can be drawn on screen.
+ * This class manages a {@link ParticleEffect} instance and its position offsets relative to the screen size.
+ */
 public class ParticleEffectsUI implements Disposable {
     private final ParticleEffect effect;
     private final float offsetX;

@@ -2,7 +2,9 @@ package com.mygdx.game.map.data;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.game.MyGdxGame;
-
+/**
+ * Represents data about a portal in the game map, including its bounds, type, destination level, and enabled status.
+ */
 public class PortalData {
     public enum Type {
         FIRST,

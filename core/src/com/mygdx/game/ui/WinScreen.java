@@ -4,16 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
-import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -23,14 +17,20 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.sound.SoundPlayer;
 import com.mygdx.game.utils.Assets;
-import com.mygdx.game.utils.PlayerDataManager;
-
+/**
+ * Represents the screen displayed when the player wins the game. It shows a congratulatory message,
+ * plays winning music, displays particle effects, and allows the player to return to the main menu
+ * by clicking on the screen after a certain delay.
+ */
 public class WinScreen implements Screen {
     private final Stage stage;
     private final Table table;
     private final Array<ParticleEffectsUI> particleEffects;
     private boolean canLeave;
 
+    /**
+     * Constructs the WinScreen with necessary UI elements and initializes particle effects.
+     */
     public WinScreen() {
         stage = new Stage(new ScreenViewport());
         ((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(stage);
@@ -75,6 +75,13 @@ public class WinScreen implements Screen {
         particleEffects.add(createFireworkEffect(0.85f, 0.65f));
     }
 
+    /**
+     * Adds a label to the table with specified appearance delay and blinking effect.
+     *
+     * @param label The label to add.
+     * @param appearanceDelay The delay before the label appears.
+     * @param blinking Whether the label should blink.
+     */
     private void addLabel(Label label, float appearanceDelay, boolean blinking) {
         label.setVisible(false);
         label.addAction(
@@ -84,13 +91,13 @@ public class WinScreen implements Screen {
                         Actions.run(() -> label.setVisible(true)),
                         Actions.fadeIn(0.5f),
                         !blinking ? Actions.run(() -> {}) :
-                                    Actions.forever(
-                                           Actions.sequence(
-                                                   Actions.delay(0.5f),
-                                                   Actions.fadeOut(1.f),
-                                                   Actions.fadeIn(1.f)
-                                           )
-                                    )
+                                Actions.forever(
+                                        Actions.sequence(
+                                                Actions.delay(0.5f),
+                                                Actions.fadeOut(1.f),
+                                                Actions.fadeIn(1.f)
+                                        )
+                                )
                 )
         );
         table.add(label)
@@ -99,13 +106,20 @@ public class WinScreen implements Screen {
         table.row();
     }
 
+    /**
+     * Creates a firework particle effect at the specified screen position.
+     *
+     * @param offsetX The horizontal offset as a percentage of screen width.
+     * @param offsetY The vertical offset as a percentage of screen height.
+     * @return The ParticleEffectsUI instance representing the created firework effect.
+     */
     private ParticleEffectsUI createFireworkEffect(float offsetX, float offsetY){
         return new ParticleEffectsUI(Assets.ParticleEffects.FIREWORK_PARTICLES, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), offsetX, offsetY);
     }
 
     @Override
     public void show() {
-
+        // Not used in this implementation
     }
 
     @Override
@@ -128,17 +142,17 @@ public class WinScreen implements Screen {
 
     @Override
     public void pause() {
-
+        // Not used in this implementation
     }
 
     @Override
     public void resume() {
-
+        // Not used in this implementation
     }
 
     @Override
     public void hide() {
-
+        // Not used in this implementation
     }
 
     @Override

@@ -13,7 +13,9 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import java.util.Arrays;
-
+/**
+ * Extends AssetManager to provide custom loading functionalities for game assets.
+ */
 public class MyAssetManager extends AssetManager {
     public MyAssetManager() {
         setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));

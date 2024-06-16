@@ -9,7 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.utils.Assets;
-
+/**
+ * Represents the user interface shown upon player death in the game.
+ * This class manages the display of a message indicating death and allows
+ * the player to continue upon clicking.
+ */
 public class DeathUI extends UILayer {
     private boolean canLeave;
 

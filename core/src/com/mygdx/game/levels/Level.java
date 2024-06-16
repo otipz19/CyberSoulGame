@@ -1,3 +1,7 @@
+/**
+ * Abstract class representing a game level.
+ * Implements the Screen interface for rendering and lifecycle management.
+ */
 package com.mygdx.game.levels;
 
 import com.badlogic.gdx.Screen;
@@ -29,7 +33,11 @@ import com.mygdx.game.utils.DelayedAction;
 import com.mygdx.game.utils.PlayerDataManager;
 import com.mygdx.game.utils.RenderUtils;
 
+/**
+ * Abstract class representing a game level with physics and entities.
+ */
 public abstract class Level implements Screen {
+
     protected MyGdxGame game;
     protected LevelCamera camera;
     protected ScreenViewport viewport;
@@ -61,10 +69,20 @@ public abstract class Level implements Screen {
     public SoundPlayer soundPlayer;
     private boolean isPaused;
 
+    /**
+     * Getter for the pause state of the level.
+     *
+     * @return true if the level is currently paused, false otherwise.
+     */
     public boolean isPaused() {
         return isPaused;
     }
 
+    /**
+     * Setter for the pause state of the level.
+     *
+     * @param value true to pause the level, false to resume.
+     */
     public void setPaused(boolean value) {
         isPaused = value;
         if (isPaused)
@@ -73,10 +91,18 @@ public abstract class Level implements Screen {
             soundPlayer.unpauseSounds();
     }
 
+    /**
+     * Toggles the pause state of the level.
+     */
     public void togglePause() {
         setPaused(!isPaused);
     }
 
+    /**
+     * Constructor for creating a new level instance.
+     *
+     * @param tileMapName Name of the Tiled map file to load.
+     */
     public Level(String tileMapName) {
         this.game = MyGdxGame.getInstance();
         this.tileMapName = tileMapName;
@@ -93,10 +119,16 @@ public abstract class Level implements Screen {
         }
     }
 
+    /**
+     * Initializes the map binder to bind entities and objects to the map.
+     */
     protected void initMapBinder() {
         mapBinder = new MapObjectsBinder(tileMapName, this);
     }
 
+    /**
+     * Creates the Tiled map and sets up the Box2D world for physics simulation.
+     */
     protected void createMap() {
         world = new World(new Vector2(0, -10), true);
         world.setContactListener(new ContactListener());
@@ -116,6 +148,9 @@ public abstract class Level implements Screen {
         mapBinder.createColliders();
     }
 
+    /**
+     * Creates the camera used for rendering the level.
+     */
     protected void createCamera() {
         camera = new LevelCamera(levelWidth, levelHeight);
         camera.zoom = 0.5f;
@@ -126,30 +161,57 @@ public abstract class Level implements Screen {
         camera.update();
     }
 
+    /**
+     * Creates the player's hero character and initializes its position.
+     */
     protected void createHero() {
         Vector2 spawn = getPlayerSpawnInWorldCoordinates();
         hero = PlayerDataManager.getInstance().getHero().create(this, spawn.x, spawn.y, 0.95f, 0.95f);
         camera.setPositionSharply(hero.getCenter());
     }
 
+    /**
+     * Retrieves the spawn coordinates for the player from the map.
+     *
+     * @return Spawn coordinates for the player in world units.
+     */
     protected Vector2 getPlayerSpawnInWorldCoordinates() {
         Rectangle bounds = mapBinder.getPlayerSpawns()
                 .findFirst().orElseThrow().getBounds();
         return coordinatesProjector.unproject(bounds.x, bounds.y + bounds.height);
     }
 
+    /**
+     * Abstract method to be implemented by subclasses for creating the parallax background.
+     *
+     * @return Parallax background specific to the level.
+     */
     protected abstract ParallaxBackground createBackground();
 
+    /**
+     * Initializes the sound player and starts playing background music.
+     */
     protected void createMusicSound() {
         soundPlayer = SoundPlayer.getInstance();
         soundPlayer.unpauseAll();
     }
 
+    /**
+     * Creates the user interface for the level, including UI elements and event handling.
+     */
     protected void createUI() {
         ui = new LevelUI(this);
-        hero.addOnDeathAction(() -> {ui.blockPausing(); new DelayedAction(hero.getDeathDelay(), ui::showDeathUI);});
+        hero.addOnDeathAction(() -> {
+            ui.blockPausing();
+            new DelayedAction(hero.getDeathDelay(), ui::showDeathUI);
+        });
     }
 
+    /**
+     * Renders the level including background, map, entities, and UI.
+     *
+     * @param delta Time elapsed since the last frame in seconds.
+     */
     public final void render(float delta) {
         if (isPaused)
             delta = 0;
@@ -166,12 +228,22 @@ public abstract class Level implements Screen {
         doPhysicsStep(delta);
     }
 
+    /**
+     * Updates the camera position based on the player's movement.
+     *
+     * @param delta Time elapsed since the last frame in seconds.
+     */
     protected void updateCamera(float delta) {
         if (delta != 0)
             camera.setPositionSmoothly(hero.getCenter());
         camera.update();
     }
 
+    /**
+     * Renders the parallax background of the level.
+     *
+     * @param delta Time elapsed since the last frame in seconds.
+     */
     protected void renderBackground(float delta) {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
@@ -179,11 +251,22 @@ public abstract class Level implements Screen {
         game.batch.end();
     }
 
-    protected void renderMap(float delta) {
-        mapRenderer.setView(camera);
-        mapRenderer.render();
-    }
+/**
+ * Renders the Tiled map of the level.
+ *
+ * @param
+ * @param delta Time elapsed since the last frame in seconds.
+ */
+protected void renderMap(float delta) {
+    mapRenderer.setView(camera);
+    mapRenderer.render();
+}
 
+    /**
+     * Renders all entities in the level including portals, enemies, projectiles, particles, and obstacles.
+     *
+     * @param delta Time elapsed since the last frame in seconds.
+     */
     protected void renderEntities(float delta) {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
@@ -197,17 +280,34 @@ public abstract class Level implements Screen {
         game.batch.end();
     }
 
+    /**
+     * Updates the state of the background music and sound effects.
+     */
     protected void updateMusicSound() {
         soundPlayer.update();
     }
 
+    /**
+     * Renders the user interface of the level, including health, shield, energy, and other statistics.
+     *
+     * @param delta Time elapsed since the last frame in seconds.
+     */
     protected void renderUI(float delta) {
         HeroResourcesManager resourcesManager = hero.getResourcesManager();
-        ui.updateStatistics(resourcesManager.getHealthPercent(), resourcesManager.getShieldPercent(), resourcesManager.getEnergyPercent(), resourcesManager.getSouls());
+        ui.updateStatistics(
+                resourcesManager.getHealthPercent(),
+                resourcesManager.getShieldPercent(),
+                resourcesManager.getEnergyPercent(),
+                resourcesManager.getSouls());
         ui.act(delta);
         ui.draw();
     }
 
+    /**
+     * Performs a physics step for the Box2D world simulation.
+     *
+     * @param delta Time elapsed since the last frame in seconds.
+     */
     protected void doPhysicsStep(float delta) {
         float frameTime = Math.min(delta, 0.25f);
         accumulator += frameTime;
@@ -217,16 +317,32 @@ public abstract class Level implements Screen {
         }
     }
 
+    /**
+     * Adds a particle effect to the level.
+     *
+     * @param particleEffect Particle effect to add.
+     */
     public void addParticleEffect(Particles particleEffect) {
         particles.add(particleEffect);
         particleEffect.addOnCompleteAction(() -> new DelayedAction(particleEffect.getDestructionDelay(), () -> particles.removeValue(particleEffect, true)));
     }
 
+    /**
+     * Adds a projectile to the level.
+     *
+     * @param projectile Projectile to add.
+     */
     public void addProjectile(Projectile projectile) {
         projectiles.add(projectile);
         projectile.addOnExplosionAction(() -> new DelayedAction(projectile.getDestructionDelay(), () -> projectiles.removeValue(projectile, true)));
     }
 
+    /**
+     * Handles screen resizing events by updating the viewport and background.
+     *
+     * @param width  New width of the screen.
+     * @param height New height of the screen.
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
@@ -234,6 +350,9 @@ public abstract class Level implements Screen {
         parallaxBackground = createBackground();
     }
 
+    /**
+     * Disposes of resources used by the level, including the Box2D world, hero, UI, sound player, map renderer, and debug renderer if in developer mode.
+     */
     @Override
     public void dispose() {
         world.dispose();
@@ -247,26 +366,52 @@ public abstract class Level implements Screen {
         }
     }
 
+    /**
+     * Lifecycle method called when the screen is shown.
+     * Currently not implemented.
+     */
     @Override
     public void show() {
     }
 
+    /**
+     * Lifecycle method called when the game is paused.
+     * Currently not implemented.
+     */
     @Override
     public void pause() {
     }
 
+    /**
+     * Lifecycle method called when the game is resumed from pause.
+     * Currently not implemented.
+     */
     @Override
     public void resume() {
     }
 
+    /**
+     * Lifecycle method called when the screen is hidden.
+     * Currently not implemented.
+     */
     @Override
     public void hide() {
     }
 
+    /**
+     * Retrieves the coordinates projector used for converting coordinates between different systems.
+     *
+     * @return Coordinates projector instance.
+     */
     public CoordinatesProjector getCoordinatesProjector() {
         return coordinatesProjector;
     }
 
+    /**
+     * Retrieves the hero character of the level.
+     *
+     * @return Hero character instance.
+     */
     public Hero getHero() {
         return hero;
     }

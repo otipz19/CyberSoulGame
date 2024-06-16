@@ -6,7 +6,11 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
-
+/**
+ * Abstract base class for UI layers that extend LibGDX's Table and implement InputProcessor.
+ * Provides methods to manage input processing, register actions to execute when the layer is hidden,
+ * and handle input events.
+ */
 public abstract class UILayer extends Table implements InputProcessor {
     protected final Stage stage;
     private final Array<Runnable> onHideActions;

@@ -9,7 +9,10 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.utils.Assets;
 import com.mygdx.game.utils.PlayerDataManager;
 import com.mygdx.game.utils.PlayerPreferencesManager;
-
+/**
+ * Represents the user interface for selecting a hero character before starting the game.
+ * Allows the player to choose between different hero options (e.g., biker, punk).
+ */
 public class HeroSelectionUI extends UILayer {
     public HeroSelectionUI(Stage stage) {
         super(stage);

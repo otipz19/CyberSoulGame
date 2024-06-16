@@ -2,7 +2,11 @@ package com.mygdx.game.physics;
 
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Disposable;
-
+/**
+ * Represents a collider used for defining shapes in Box2D physics.
+ * This class encapsulates position (x, y) and the shape itself.
+ * Implements Disposable to properly dispose of the Box2D shape when no longer needed.
+ */
 public class Collider implements Disposable {
     private float x;
     private float y;

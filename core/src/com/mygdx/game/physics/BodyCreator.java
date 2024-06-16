@@ -4,10 +4,25 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.entities.GameObject;
-import com.mygdx.game.physics.Collider;
 
+/**
+ * Utility class for creating Box2D bodies with fixtures based on provided colliders.
+ * Each method creates a Box2D body of a specific type (static, dynamic, sensor, or projectile),
+ * attaches a fixture defined by the collider, and disposes of the collider afterward.
+ */
 public class BodyCreator {
-    public static Body createStaticBody(World world, Collider collider, float friction, float density, float restitution){
+
+    /**
+     * Creates a static Box2D body with a fixture from the provided collider.
+     *
+     * @param world      The Box2D world where the body will be created.
+     * @param collider   The Collider defining the shape and position of the fixture.
+     * @param friction   The friction coefficient of the fixture.
+     * @param density    The density of the fixture.
+     * @param restitution The restitution (bounciness) of the fixture.
+     * @return The created Box2D body.
+     */
+    public static Body createStaticBody(World world, Collider collider, float friction, float density, float restitution) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(collider.getX(), collider.getY());
@@ -25,7 +40,17 @@ public class BodyCreator {
         return body;
     }
 
-    public static Body createDynamicBody(World world, Collider collider, float friction, float density, float restitution){
+    /**
+     * Creates a dynamic Box2D body with a fixture from the provided collider.
+     *
+     * @param world      The Box2D world where the body will be created.
+     * @param collider   The Collider defining the shape and position of the fixture.
+     * @param friction   The friction coefficient of the fixture.
+     * @param density    The density of the fixture.
+     * @param restitution The restitution (bounciness) of the fixture.
+     * @return The created Box2D body.
+     */
+    public static Body createDynamicBody(World world, Collider collider, float friction, float density, float restitution) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(collider.getX(), collider.getY());
@@ -43,7 +68,15 @@ public class BodyCreator {
         return body;
     }
 
-    public static Body createSensorBody(World world, Collider collider, GameObject userData){
+    /**
+     * Creates a static Box2D body with a sensor fixture from the provided collider and attaches user data to the fixture.
+     *
+     * @param world    The Box2D world where the body will be created.
+     * @param collider The Collider defining the shape and position of the fixture.
+     * @param userData The user data to attach to the fixture.
+     * @return The created Box2D body.
+     */
+    public static Body createSensorBody(World world, Collider collider, GameObject userData) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(collider.getX(), collider.getY());
@@ -61,7 +94,16 @@ public class BodyCreator {
         return body;
     }
 
-    public static Body createProjectileBody(World world, Collider collider, boolean isAffectedByGravity){
+    /**
+     * Creates a dynamic Box2D body with a sensor fixture from the provided collider.
+     * This method allows controlling whether the projectile is affected by gravity.
+     *
+     * @param world             The Box2D world where the body will be created.
+     * @param collider          The Collider defining the shape and position of the fixture.
+     * @param isAffectedByGravity True if the projectile should be affected by gravity, false otherwise.
+     * @return The created Box2D body.
+     */
+    public static Body createProjectileBody(World world, Collider collider, boolean isAffectedByGravity) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(collider.getX(), collider.getY());

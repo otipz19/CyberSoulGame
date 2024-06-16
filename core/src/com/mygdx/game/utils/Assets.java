@@ -1,5 +1,8 @@
 package com.mygdx.game.utils;
-
+/**
+ * Utility class containing static inner classes that define paths to various game assets
+ * such as textures, tiled maps, texture atlases, skins, particle effects, music, and sounds.
+ */
 public class Assets {
     public static class Textures {
         public static final String BIKER_RUN_SHEET = "heroes/biker/Biker_run.png";

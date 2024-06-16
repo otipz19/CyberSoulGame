@@ -24,7 +24,17 @@ import com.mygdx.game.physics.Collider;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a gate obstacle in the game, providing functionality to animate, damage entities,
+ * and control passage through it.
+ * Extends the Entity class and implements ICollisionListener and ProjectileCollidable interfaces.
+ */
 public abstract class GateObstacle extends Entity implements ICollisionListener, ProjectileCollidable {
+
+    /**
+     * Enumeration representing different states of the gate obstacle.
+     * States include CLOSED, OPENING, OPENED, and CLOSING.
+     */
     private enum State {
         CLOSED,
         OPENING,
@@ -48,6 +58,13 @@ public abstract class GateObstacle extends Entity implements ICollisionListener,
     private final Fixture mainFixture;
     private final Array<MortalEntity<ResourcesManager>> entitiesToDamage = new Array<>();
 
+    /**
+     * Constructs a GateObstacle object.
+     *
+     * @param level        The level where the obstacle is located.
+     * @param collider     The collider defining the physical boundaries of the obstacle.
+     * @param obstacleData Data specific to this obstacle, such as its dimensions and position.
+     */
     public GateObstacle(Level level, Collider collider, ObstacleData obstacleData) {
         this.level = level;
         this.body = new Surface(level, collider).getBody();
@@ -57,8 +74,17 @@ public abstract class GateObstacle extends Entity implements ICollisionListener,
         createDamageFixture();
     }
 
+    /**
+     * Creates and returns the animator specific to this gate obstacle.
+     * Subclasses must implement this method to provide a specific animator instance.
+     *
+     * @return The animator object for animating this gate obstacle.
+     */
     protected abstract Animator createAnimator();
 
+    /**
+     * Creates a sensor fixture for detecting entities inside the gate obstacle's area.
+     */
     private void createDamageFixture() {
         Shape colliderShape = SensorPosition.SLIM_INSIDE.getColliderShape(width, height);
 
@@ -72,18 +98,36 @@ public abstract class GateObstacle extends Entity implements ICollisionListener,
         colliderShape.dispose();
     }
 
+    /**
+     * Sets up the size of the gate obstacle based on the provided obstacle data and projector.
+     *
+     * @param obstacleData Data defining the dimensions and position of the obstacle.
+     * @param projector    Coordinates projector for converting between world and screen coordinates.
+     */
     private void setupSize(ObstacleData obstacleData, CoordinatesProjector projector) {
         Vector2 worldSize = projector.toWorldSize(obstacleData.getBounds());
         this.width = worldSize.x;
         this.height = worldSize.y;
     }
 
+    /**
+     * Updates the gate obstacle's state and animation.
+     *
+     * @param deltaTime Time elapsed since the last update.
+     */
     @Override
     public void render(float deltaTime) {
         updateState(deltaTime, this::onStateChanged);
         animate(deltaTime);
     }
 
+    /**
+     * Updates the state of the gate obstacle based on elapsed time and invokes the specified action
+     * when the state changes.
+     *
+     * @param deltaTime     Time elapsed since the last update.
+     * @param onStateChanged Action to perform when the state changes.
+     */
     private void updateState(float deltaTime, Runnable onStateChanged) {
         elapsedTime += deltaTime;
         if (elapsedTime > period) {
@@ -94,10 +138,18 @@ public abstract class GateObstacle extends Entity implements ICollisionListener,
         }
     }
 
+    /**
+     * Retrieves the current state of the gate obstacle based on the state index.
+     *
+     * @return The current state of the gate obstacle.
+     */
     private State getCurrentState() {
         return STATES[stateIndex % STATES.length];
     }
 
+    /**
+     * Handles actions to perform when the gate obstacle's state changes.
+     */
     private void onStateChanged() {
         switch (state) {
             case CLOSED -> {
@@ -123,56 +175,92 @@ public abstract class GateObstacle extends Entity implements ICollisionListener,
         }
     }
 
+    /**
+     * Sets whether entities can pass through the gate obstacle.
+     *
+     * @param allow True to allow passage, false otherwise.
+     */
     private void allowPass(boolean allow) {
         mainFixture.setSensor(allow);
     }
 
+    /**
+     * Sets the period for static states of the gate obstacle.
+     */
     private void setStaticPeriod() {
         period = STATIC_STATES_PERIOD;
     }
 
+    /**
+     * Sets the period for animated states of the gate obstacle based on the current animation duration.
+     */
     private void setAnimationPeriod() {
         period = animator.getCurrentAnimationDuration();
     }
 
+    /**
+     * Damages entities currently inside the gate obstacle.
+     */
     private void damageEntitiesInside() {
-        entitiesToDamage.forEach(e -> { e.getResourcesManager().setInvincible(false); e.addResourcesEffect(new RelativeInstantDamageEffect<>(1)); });
+        entitiesToDamage.forEach(e -> {
+            e.getResourcesManager().setInvincible(false);
+            e.addResourcesEffect(new RelativeInstantDamageEffect<>(1));
+        });
     }
 
+    /**
+     * Freezes entities currently inside the gate obstacle.
+     */
     private void freezeEntitiesInside() {
         entitiesToDamage.forEach(e -> e.getBody().setType(BodyDef.BodyType.StaticBody));
     }
 
+    /**
+     * Updates the current animation state of the gate obstacle.
+     */
     private void updateAnimation() {
         animator.setState(objectToAnimatorState.get(state));
     }
 
+    /**
+     * Handles collision events when another entity collides with the gate obstacle.
+     *
+     * @param other The entity that collided with the gate obstacle.
+     */
     @Override
     public void onCollisionEnter(Entity other) {
         if (other instanceof MortalEntity) {
             try {
-                // can't replace with instanceof check for some reason
                 var entity = (MortalEntity<ResourcesManager>) other;
                 entitiesToDamage.add(entity);
             } catch (Exception e) {
-                //do nothing
+                // Handle exception
             }
         }
     }
 
+    /**
+     * Handles collision exit events when another entity exits collision with the gate obstacle.
+     *
+     * @param other The entity that exited collision with the gate obstacle.
+     */
     @Override
     public void onCollisionExit(Entity other) {
         if (other instanceof MortalEntity) {
             try {
-                // can't replace with instanceof check for some reason
                 var entity = (MortalEntity<ResourcesManager>) other;
                 entitiesToDamage.removeValue(entity, true);
             } catch (Exception e) {
-                //do nothing
+                // Handle exception
             }
         }
     }
 
+    /**
+     * Checks if the gate obstacle is currently in the OPENED state.
+     *
+     * @return True if the gate obstacle is opened, false otherwise.
+     */
     public boolean isOpened() {
         return getCurrentState() == State.OPENED;
     }

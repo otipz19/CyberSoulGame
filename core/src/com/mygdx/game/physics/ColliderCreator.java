@@ -6,7 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mygdx.game.camera.CoordinatesProjector;
-
+/**
+ * Utility class for creating Box2D colliders from various shapes and coordinates.
+ */
 public class ColliderCreator {
     /**
      *  It is expected that coordinates of rectangle are x and y of bottom-left corner in world space

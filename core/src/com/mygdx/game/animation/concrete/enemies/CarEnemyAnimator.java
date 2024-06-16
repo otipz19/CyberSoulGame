@@ -5,7 +5,17 @@ import com.mygdx.game.animation.base.AnimationBuilder;
 import com.mygdx.game.animation.base.AnimationsMap;
 import com.mygdx.game.utils.Assets;
 
-public class CarEnemyAnimator extends EnemyAnimator{
+/**
+ * Animator for the Car enemy. Creates and manages animations for different states of the Car enemy.
+ */
+public class CarEnemyAnimator extends EnemyAnimator {
+
+    /**
+     * Creates and returns an AnimationsMap containing all the animations for the Car enemy.
+     * Initializes the animations for various states such as IDLE, ATTACK_1, ATTACK_2, ATTACK_3, HURT, DEATH, and WALK.
+     *
+     * @return the AnimationsMap with the Car enemy animations
+     */
     protected AnimationsMap createAnimationsMap() {
         AnimationsMap animations = new AnimationsMap();
         animations.put(EnemyAnimator.State.IDLE, new AnimationBuilder(Assets.Textures.CAR_IDLE_SHEET)

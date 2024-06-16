@@ -2,7 +2,9 @@ package com.mygdx.game.map.data;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-
+/**
+ * Represents data about an NPC (Non-Player Character) in the game, including its type and bounding rectangle.
+ */
 public class NpcData {
     public enum Type {
         MONK,

@@ -1,3 +1,6 @@
+/**
+ * Main class representing the game application.
+ */
 package com.mygdx.game;
 
 import com.badlogic.gdx.*;
@@ -13,6 +16,11 @@ import com.mygdx.game.utils.MyAssetManager;
 import com.mygdx.game.utils.PlayerDataManager;
 import com.mygdx.game.utils.PlayerPreferencesManager;
 
+/**
+ * The main class of the game, extending from the LibGDX Game class.
+ * Manages game initialization, asset loading, level management, screen transitions,
+ * player preferences, and game state.
+ */
 public class MyGdxGame extends Game {
     public static final boolean IS_DEV_MODE = false;
     public static final boolean IS_DEBUG_MODE = true;
@@ -25,6 +33,11 @@ public class MyGdxGame extends Game {
     private LevelChangeDelegate levelChangeDelegate;
     private int screenId;
 
+    /**
+     * Retrieves the singleton instance of MyGdxGame.
+     *
+     * @return The singleton instance of MyGdxGame.
+     */
     public static MyGdxGame getInstance() {
         return instance;
     }
@@ -46,6 +59,9 @@ public class MyGdxGame extends Game {
         assetManager.loadAll();
     }
 
+    /**
+     * Transition to the main menu screen.
+     */
     public void goToMainMenu() {
         levelChangeDelegate = this::showMainMenu;
     }
@@ -59,6 +75,9 @@ public class MyGdxGame extends Game {
         setScreen(new MainMenu(hasAlreadyPlayed));
     }
 
+    /**
+     * Triggered when the game is completed, transition to the win screen.
+     */
     public void gameCompleted() {
         PlayerDataManager.getInstance().setCurrentLevel(Levels.SAFE);
         levelChangeDelegate = this::showWinScreen;
@@ -72,14 +91,25 @@ public class MyGdxGame extends Game {
         setScreen(new WinScreen());
     }
 
+    /**
+     * Transition to a new game level.
+     *
+     * @param level The level to transition to.
+     */
     public void goToNewLevel(Levels level) {
         levelChangeDelegate = () -> changeLevel(level);
     }
 
+    /**
+     * Triggered when the player fails a level, transition back to the main menu.
+     */
     public void levelFailed() {
         levelChangeDelegate = this::showMainMenu;
     }
 
+    /**
+     * Restart the current level.
+     */
     public void restartCurrentLevel() {
         changeLevel(PlayerDataManager.getInstance().getCurrentLevel());
     }
@@ -92,6 +122,9 @@ public class MyGdxGame extends Game {
         setScreen(currentLevel);
     }
 
+    /**
+     * Adjust display mode based on player preferences (fullscreen or windowed).
+     */
     public void changeDisplayMode() {
         if (PlayerPreferencesManager.getInstance().isFullScreen()) {
             Graphics.Monitor currMonitor = Gdx.graphics.getMonitor();
@@ -102,6 +135,9 @@ public class MyGdxGame extends Game {
         }
     }
 
+    /**
+     * Exit the game.
+     */
     public void exit() {
         Gdx.app.exit();
     }
@@ -130,10 +166,18 @@ public class MyGdxGame extends Game {
         super.setScreen(screen);
     }
 
+    /**
+     * Retrieves the current screen ID.
+     *
+     * @return The current screen ID.
+     */
     public int getScreenId() {
         return screenId;
     }
 
+    /**
+     * Enum representing different game levels.
+     */
     public enum Levels {
         SAFE {
             public Level create() {
@@ -164,11 +208,14 @@ public class MyGdxGame extends Game {
         void changeLevel();
     }
 
+    /**
+     * Enum representing different hero types in the game.
+     */
     public enum Heroes {
         NOT_SELECTED {
             @Override
             public Hero create(Level level, float x, float y, float width, float height) {
-                throw new RuntimeException("Can not create a hero without player selection");
+                throw new RuntimeException("Cannot create a hero without player selection");
             }
         },
         BIKER {
@@ -184,6 +231,16 @@ public class MyGdxGame extends Game {
             }
         };
 
+        /**
+         * Abstract method to create a hero instance.
+         *
+         * @param level  The level where the hero will be created.
+         * @param x      The x-coordinate of the hero's initial position.
+         * @param y      The y-coordinate of the hero's initial position.
+         * @param width  The width of the hero.
+         * @param height The height of the hero.
+         * @return The created Hero instance.
+         */
         public abstract Hero create(Level level, float x, float y, float width, float height);
     }
 }

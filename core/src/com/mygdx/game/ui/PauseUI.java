@@ -9,7 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.levels.Level;
 import com.mygdx.game.utils.Assets;
-
+/**
+ * Represents a user interface layer for pausing the game and displaying pause menu options.
+ * Provides functionality to resume gameplay, restart the current level, return to the main menu,
+ * adjust game settings, and exit the game.
+ */
 public class PauseUI extends UILayer {
     private final Level level;
     private final SettingsUI settingsUI;

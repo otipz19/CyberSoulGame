@@ -1,7 +1,9 @@
 package com.mygdx.game.map.data;
 
 import com.badlogic.gdx.math.Rectangle;
-
+/**
+ * Represents data about an enemy in the game, including its spawn point, travel area, and type.
+ */
 public class EnemyData {
     public enum Type {
         MONSTER,
