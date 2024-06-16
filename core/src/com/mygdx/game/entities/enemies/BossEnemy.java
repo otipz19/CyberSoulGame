@@ -31,11 +31,6 @@ public class BossEnemy extends Enemy {
     protected AttackRangeSensor rightMeleeAttackRange;
 
     /**
-     * The ranged attack of the boss enemy.
-     */
-    protected Attack attack;
-
-    /**
      * The melee attack of the boss enemy.
      */
     protected Attack attackMelee;
